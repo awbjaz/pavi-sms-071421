@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_journal_voucher">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page mt32" style="max-width: 1110px;">
+                        <div class="row mt32">
+                            <div class="col-4 offset-8  text-right">
+                                No. <t t-esc="doc.name"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 offset-8 text-right">
+                                Date: <u><span t-field="doc.date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'/></u>
+                            </div>
+                        </div>
+                        <div>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th class="col-3 text-center text-uppercase border-right-0">
+                                       Account Name 
+                                    </th>
+                                    <th class="col-3 text-center text-uppercase border-left-0">
+                                       Account Code
+                                    </th>
+                                    <th class="col-3 text-uppercase text-center">
+                                       Debit
+                                    </th>
+                                    <th class="col-3 text-uppercase text-center">
+                                       Credit
+                                    </th>
+                                </tr>
+                                <t t-set="total_debit" t-value="0"/>
+                                <t t-set="total_credit" t-value="0"/>
+                                <t t-foreach="doc.line_ids" t-as="item">
+                                    <tr>
+                                        <td class="border-top-0 border-bottom-0 border-right-0">
+                                            <span t-field="item.account_id.name"/>
+                                        </td>
+                                        <td  class="text-center border-top-0 border-bottom-0 border-left-0">
+                                            <span t-esc="item.account_id.code"/>
+                                        </td>
+                                        <td class="text-right border-top-0 border-bottom-0">
+                                            <span t-esc="'{0:,.2f}'.format(item.debit)"/>
+                                        </td>
+                                        <td class="text-right border-top-0 border-bottom-0">
+                                            <span t-esc="'{0:,.2f}'.format(item.credit)"/>
+                                        </td>
+                                        <t t-set="total_debit" t-value="total_debit+item.debit"/>
+                                        <t t-set="total_credit" t-value="total_credit+item.credit"/>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <td class="border-right-0 border-top-0 border-bottom-0">Nothing Follows ...</td>
+                                    <td class="text-right text-uppercase border-top-0 border-bottom-0 border-left-0">
+                                        <strong>Total:</strong>
+                                    </td>
+                                    <td class="text-right border-top-0 border-bottom-0">
+                                        <strong><u><t t-esc="'{0:,.2f}'.format(total_debit)"/></u></strong>
+                                    </td>
+                                    <td class="text-right border-top-0 border-bottom-0">
+                                        <strong><u><t t-esc="'{0:,.2f}'.format(total_credit)"/></u></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="col-6 text-uppercase text-center" colspan="2">
+                                       Particular
+                                    </th>
+                                    <th class="col-3 text-uppercase text-center">
+                                       ACCT.CODE
+                                    </th>
+                                    <th class="col-3 text-uppercase text-center">
+                                       AMOUNT
+                                    </th>
+                                </tr>
+                                <t t-set="total" t-value="0"/>
+                                <t t-foreach="doc.line_ids" t-as="item">
+                                    <tr>
+                                        <td class="border-top-0 border-bottom-0" colspan="2">
+                                            <span t-field="item.name"/>
+                                        </td>
+                                        <td  class="text-center border-top-0 border-bottom-0">
+                                            <span t-esc="item.account_id.code"/>
+                                        </td>
+                                        <td class="text-right border-top-0 border-bottom-0">
+                                            <t t-if="item.debit>0">
+                                                <span t-esc="'{0:,.2f}'.format(item.debit)"/>
+                                            </t>
+                                            <t t-if="item.credit>0">
+                                                (<span t-esc="'{0:,.2f}'.format(item.credit)"/>)
+                                            </t>
+                                        </td>
+                                        <t t-set="total" t-value="total_debit+item.debit-item.credit"/>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <td class="border-top-0 border-bottom-0" colspan="2">Nothing Follows ...</td>
+                                    <td class="text-right text-uppercase border-top-0 border-bottom-0">
+                                        <strong>Total:</strong>
+                                    </td>
+                                    <td class="text-right border-top-0 border-bottom-0">
+                                        <strong><u><t t-esc="'{0:,.2f}'.format(total)"/></u></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-6">
+                                    Prepared By: <u><t t-esc="doc.create_uid.name"/></u>
+                                </div>
+                                <div class="col-6">
+                                    Reviewed By: <u><t t-esc="doc.reviewed_by.name"/></u>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    Date: <u><span t-field="doc.create_date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'/></u>
+                                </div>
+                                <div class="col-6">
+                                    Approved By: <u><span t-esc="doc.approved_by.name"/></u>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
