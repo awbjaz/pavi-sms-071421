@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_a5" model="report.paperformat">
+        <field name="name">A5</field>
+        <field name="default"/>
+        <field name="format">custom</field>
+        <field name="page_height">148</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">3</field>
+        <field name="margin_bottom">3</field>
+        <field name="margin_left">3</field>
+        <field name="margin_right">3</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">3</field>
+        <field name="dpi">80</field>
+    </record>
+
+    <record id="report_account_payment_official_receipt" model="ir.actions.report">
+        <field name="name">Official Receipt</field>
+        <field name="model">account.payment</field>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list,form</field>
+        <field name="binding_model_id" ref="account.model_account_payment"/>
+        <field name="paperformat_id" ref="streamtech_or_print.paperformat_a5"/>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">streamtech_or_print.report_official_receipt</field>
+        <field name="report_file">streamtech_or_print.report_official_receipt</field>
+        <field name="print_report_name">'Official Receipt - %s' % object.name</field>
+    </record>
+</odoo>
