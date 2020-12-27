@@ -15,32 +15,36 @@
                                         <span t-field="doc.payment_date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'/>
                                         <span>&amp;nbsp;</span>
                                     </div>
-                                    <div style="margin: 5mm 0 0 20mm;">
+                                    <div style="margin: 5mm 0 0 27mm;">
                                         <span>&amp;nbsp;</span>
                                         <span t-field="doc.partner_id.name"/>
                                     </div>
-                                    <div style="margin: 5mm 0 0 15mm;">
+                                    <div style="margin: 2mm 0 0 20mm;">
                                         <span>&amp;nbsp;</span>
                                         <span t-field="doc.partner_id.street"/>
                                         <span t-field="doc.partner_id.street2"/>
                                         <span t-field="doc.partner_id.city"/>
                                         <span t-field="doc.partner_id.state_id.name"/>
                                     </div>
-                                    <div style="margin: 5mm 0 0 40mm;">
+                                    <div style="margin: 2mm 0 0 40mm;">
                                         <span>&amp;nbsp;</span>
-                                        <span t-field="doc.partner_id.industry_id.name"/>
-                                        <span t-field="doc.partner_id.vat"/>
+                                        <div style="display: inline;">
+                                            <span t-field="doc.partner_id.industry_id.name"/>
+                                        </div>
+                                        <div style="display: inline; position: fixed; right: 10mm;">
+                                            <span t-field="doc.partner_id.vat"/>
+                                        </div>
                                     </div>
-                                    <div style="margin: 5mm 0 0 15mm;">
+                                    <div style="margin: 2mm 0 0 20mm; height: 10mm;">
                                         <div>
                                             <span>&amp;nbsp;</span>
                                             <span t-esc="doc.amount_to_text(doc.amount, doc.currency_id)"/>
                                         </div>
+                                        <div style="position: fixed; right: 10mm; top: 83mm;">
+                                            <span t-field="doc.amount" t-field-options='{"widget": False}'/>
+                                        </div>
                                     </div>
-                                    <div style="position: fixed; right: 10mm; top: 100mm;">
-                                        <span t-field="doc.amount" t-field-options='{"widget": False}'/>
-                                    </div>
-                                    <div style="margin: 5mm 0 0 20mm;">
+                                    <div style="margin: 2mm 0 0 20mm;">
                                         <span>&amp;nbsp;</span>
                                         <span t-field="doc.communication"/>
                                     </div>
