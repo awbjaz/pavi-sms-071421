@@ -3,15 +3,15 @@
     <template id="report_official_receipt">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <div class="page mt32">
+                <div class="page mt32" style="font-size: 3mm;">
                     <table>
                         <tr>
-                            <td style="width: 35%;">
+                            <td style="width: 25%;">
                                 <span>&amp;nbsp;</span>
                             </td>
                             <td>
-                                <div style="margin: 40mm 0 0 0;">
-                                    <div style="margin-left: 90mm;">
+                                <div style="margin: 25mm 0 0 0;font-size: 3.5mm;">
+                                    <div style="margin-left: 80mm;">
                                         <span t-field="doc.payment_date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'/>
                                         <span>&amp;nbsp;</span>
                                     </div>
@@ -19,14 +19,14 @@
                                         <span>&amp;nbsp;</span>
                                         <span t-field="doc.partner_id.name"/>
                                     </div>
-                                    <div style="margin: 2mm 0 0 20mm;">
+                                    <div style="margin: 5mm 0 0 20mm;">
                                         <span>&amp;nbsp;</span>
                                         <span t-field="doc.partner_id.street"/>
                                         <span t-field="doc.partner_id.street2"/>
                                         <span t-field="doc.partner_id.city"/>
                                         <span t-field="doc.partner_id.state_id.name"/>
                                     </div>
-                                    <div style="margin: 2mm 0 0 40mm;">
+                                    <div style="margin: 5mm 0 0 40mm;">
                                         <span>&amp;nbsp;</span>
                                         <div style="display: inline;">
                                             <span t-field="doc.partner_id.industry_id.name"/>
@@ -35,16 +35,16 @@
                                             <span t-field="doc.partner_id.vat"/>
                                         </div>
                                     </div>
-                                    <div style="margin: 2mm 0 0 20mm; height: 10mm;">
+                                    <div style="margin: 5mm 0 0 20mm; height: 10mm;">
                                         <div>
                                             <span>&amp;nbsp;</span>
                                             <span t-esc="doc.amount_to_text(doc.amount, doc.currency_id)"/>
                                         </div>
-                                        <div style="position: fixed; right: 10mm; top: 83mm;">
+                                        <div style="position: fixed; right: 10mm; top: 70mm;">
                                             <span t-field="doc.amount" t-field-options='{"widget": False}'/>
                                         </div>
                                     </div>
-                                    <div style="margin: 2mm 0 0 20mm;">
+                                    <div style="margin: 5mm 0 0 27mm;">
                                         <span>&amp;nbsp;</span>
                                         <span t-field="doc.communication"/>
                                     </div>
