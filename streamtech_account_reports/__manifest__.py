@@ -18,7 +18,7 @@
     'version': '13.0.1.0.0',
     'depends': ['account_accountant'],
     'data': [
-        
+        'views/account_move_views.xml'
     ],
     'installable': True,
     'application': False,
