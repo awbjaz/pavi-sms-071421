@@ -5,30 +5,36 @@
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.external_layout">
                     <div class="page mt32" style="max-width: 1110px; font-size: 10pt;">
+                        <div class="col-12">
+                            <br/>
+                            <div style="font-size:20px;">
+                                <center><strong><span>JOURNAL VOUCHER</span></strong></center>
+                            </div>
+                        </div>
                         <div class="row mt32">
                             <div class="col-4 offset-8  text-right">
-                                No. <t t-esc="doc.name"/>
+                                <b>No.</b> <t t-esc="doc.name"/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4 offset-8 text-right">
-                                Date: <u><span t-field="doc.date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'/></u>
+                                <b>Date:</b> <u><span t-field="doc.date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'/></u>
                             </div>
                         </div>
                         <div class="mt-3">
                             <table class="table table-bordered">
                                 <tr>
                                     <th class="pt-0 pb-0 col-3 text-center text-uppercase border-right-0">
-                                       Account Name 
+                                       <b>Account Name</b>
                                     </th>
-                                    <th class="p-0 col-3 text-center text-uppercase border-left-0">
-                                       Account Code
-                                    </th>
-                                    <th class="pt-0 pb-0 col-3 text-uppercase text-center">
-                                       Debit
+                                    <th style="white-space: nowrap;" class="p-0 col-3 text-center text-uppercase border-left-0">
+                                       <b>Account Code</b>
                                     </th>
                                     <th class="pt-0 pb-0 col-3 text-uppercase text-center">
-                                       Credit
+                                       <b>Debit</b>
+                                    </th>
+                                    <th class="pt-0 pb-0 col-3 text-uppercase text-center">
+                                       <b>Credit</b>
                                     </th>
                                 </tr>
                                 <t t-set="total_debit" t-value="0"/>
@@ -52,7 +58,7 @@
                                     </tr>
                                 </t>
                                 <tr>
-                                    <td class="pt-0 pb-0 border-right-0 border-top-0 border-bottom-0">Nothing Follows ...</td>
+                                    <td class="pt-0 pb-0 border-right-0 border-top-0 border-bottom-0">Nothing Follows...</td>
                                     <td class="pt-0 pb-0 text-right text-uppercase border-top-0 border-bottom-0 border-left-0">
                                         <strong>Total:</strong>
                                     </td>
@@ -65,13 +71,13 @@
                                 </tr>
                                 <tr>
                                     <th class="col-6 pt-0 pb-0 text-uppercase text-center" colspan="2">
-                                       Particular
+                                       <b>Particular</b>
+                                    </th>
+                                    <th style="white-space: nowrap;" class="col-3 pt-0 pb-0 text-uppercase text-center">
+                                       <b>ACCT. CODE</b>
                                     </th>
                                     <th class="col-3 pt-0 pb-0 text-uppercase text-center">
-                                       ACCT.CODE
-                                    </th>
-                                    <th class="col-3 pt-0 pb-0 text-uppercase text-center">
-                                       AMOUNT
+                                       <b>AMOUNT</b>
                                     </th>
                                 </tr>
                                 <t t-set="total" t-value="0"/>
@@ -95,7 +101,7 @@
                                     </tr>
                                 </t>
                                 <tr>
-                                    <td class="pt-0 pb-0 border-top-0 border-bottom-0" colspan="2">Nothing Follows ...</td>
+                                    <td class="pt-0 pb-0 border-top-0 border-bottom-0" colspan="2">Nothing Follows...</td>
                                     <td class="pt-0 pb-0 text-right text-uppercase border-top-0 border-bottom-0">
                                         <strong>Total:</strong>
                                     </td>
