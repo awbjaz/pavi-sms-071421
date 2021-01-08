@@ -19,6 +19,10 @@ class AccountConsolidationTrialBalanceReport(models.AbstractModel):
     def _get_options(self, previous_options=None):
         _logger.debug(f'Previous options: {previous_options}')
         current_options = super()._get_options(previous_options)
+        if 'analytic_accounts' not in current_options.keys():
+            current_options['analytic_accounts'] = []
+        if 'analytic_tags' not in current_options.keys():
+            current_options['analytic_tags'] = []
         _logger.debug(f'Current options: {current_options}')
         return current_options
 

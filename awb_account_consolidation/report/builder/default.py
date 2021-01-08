@@ -10,8 +10,8 @@ class DefaultBuilder(DefaultBuilder):
     def _get_params(self, period_ids: list, options: dict, line_id: str = None) -> dict:
         params = super()._get_params(period_ids, options, line_id)
         params.update({
-            'analytic_accounts': options.get('analytic_accounts'),
-            'analytic_tags': options.get('analytic_tags'),
+            'analytic_accounts': options.get('analytic_accounts', []),
+            'analytic_tags': options.get('analytic_tags', []),
         })
         _logger.debug(f'Params: {params} {options}')
         return params
