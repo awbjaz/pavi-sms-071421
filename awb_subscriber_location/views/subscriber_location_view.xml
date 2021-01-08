@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="subscriber_location_form" model="ir.ui.view">
+            <field name="name">subscriber.location.form</field>
+            <field name="model">subscriber.location</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Location">
+                    <sheet>
+                        <div class="oe_title">
+                            <span class="o_form_label oe_edit_only">Location Name</span>
+                            <h1>
+                                <field name="name" readonly="0"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="location_id"/>
+                                <field name="location_type" widget="radio" options="{'horizontal': true}"/>
+                                <field name="active"/>
+                            </group>
+
+                            <group>
+                                <field name="analytic_account_id" groups="account.group_account_manager"/>
+                            </group>
+                            
+                        </group>
+                        <notebook>
+                            <page string="Child Locations">
+                                <field name="location_ids" widget="many2many">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="analytic_account_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Other Informations">
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+               </form>
+            </field>
+        </record>
+
+        <record id= "subscriber_location_tree" model= "ir.ui.view">
+            <field name= "name">subscriber.location.tree</field>
+            <field name= "model">subscriber.location</field>
+            <field name="type">tree</field>
+            <field name= "arch" type= "xml">
+                <tree string="Location" >
+                    <field name="name"/>
+                    <field name="location_type"/>
+                    <field name="analytic_account_id" groups="account.group_account_manager"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- accounting -->
+        <record id="action_subscriber_location" model="ir.actions.act_window">
+            <field name="name">Locations</field>
+            <field name="res_model">subscriber.location</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="subscriber_location_tree"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a Location
+              </p><p>
+                Create location for subscriber.
+              </p>
+            </field>
+        </record>
+
+         <!-- accounting -->
+        <menuitem
+            name="Location"
+            action="action_subscriber_location"
+            id="menu_subscriber_location"
+            parent="menu_segmentation" sequence="10"/>
+
+        <menuitem 
+            name="Segmentation"
+            id="menu_segmentation"
+            parent="account.menu_analytic_accounting" 
+            groups="account.group_account_manager"
+            sequence="120"/>
+
+
+        <!-- sale -->
+        <record id="action_subscriber_location_sale" model="ir.actions.act_window">
+            <field name="name">Locations</field>
+            <field name="res_model">subscriber.location</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="subscriber_location_tree"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a Location
+              </p><p>
+                Create location for subscriber.
+              </p>
+            </field>
+        </record>
+
+        <!-- sale -->
+        <menuitem
+            name="Location"
+            action="action_subscriber_location_sale"
+            id="menu_subscriber_location_sale"
+            parent="menu_segmentation_sale" 
+            groups="sales_team.group_sale_manager"
+            sequence="10"/>
+
+        <menuitem 
+            name="Segmentation"
+            id="menu_segmentation_sale"
+            parent="sale.menu_sale_config" sequence="20"/>
+
+        
+        <!-- project -->
+        <record id="action_subscriber_location_project" model="ir.actions.act_window">
+            <field name="name">Locations</field>
+            <field name="res_model">subscriber.location</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="subscriber_location_tree"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a Location
+              </p><p>
+                Create location for subscriber.
+              </p>
+            </field>
+        </record>
+
+        <!-- project -->
+        <menuitem
+            name="Location"
+            action="action_subscriber_location_project"
+            id="menu_subscriber_location_project"
+            parent="menu_segmentation_project" sequence="10"/>
+
+        <menuitem 
+            name="Segmentation"
+            id="menu_segmentation_project"
+            parent="project.menu_project_config" 
+            groups="project.group_project_manager"
+            sequence="20"/>
+
+    </data>
+</odoo>
