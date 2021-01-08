@@ -9,27 +9,27 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-30 02:40+0000\n"
-"PO-Revision-Date: 2020-05-06 14:19+0000\n"
-"Last-Translator: Maria Sparenberg <maria.sparenberg@gmx.net>\n"
+"PO-Revision-Date: 2018-10-10 10:24+0000\n"
+"Last-Translator: Rudolf Schnapka <rs@techno-flex.de>\n"
 "Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 3.1.1\n"
 
 #. module: account_analytic_parent
-#: code:addons/account_analytic_parent/models/account_analytic_account.py:150
+#: code:addons/account_analytic_parent/models/account_analytic_account.py:0
 #, python-format
 msgid "%(name)s - %(partner)s"
-msgstr "%(name)s - %(partner)s"
+msgstr ""
 
 #. module: account_analytic_parent
-#: code:addons/account_analytic_parent/models/account_analytic_account.py:113
+#: code:addons/account_analytic_parent/models/account_analytic_account.py:0
 #, python-format
 msgid "%(parent)s / %(own)s"
-msgstr "%(parent)s / %(own)s"
+msgstr ""
 
 #. module: account_analytic_parent
 #: model:ir.model,name:account_analytic_parent.model_account_analytic_account
@@ -39,17 +39,17 @@ msgstr "Kostenstelle"
 #. module: account_analytic_parent
 #: model:ir.model.fields,field_description:account_analytic_parent.field_account_analytic_account__child_ids
 msgid "Child Accounts"
-msgstr "Untergeordnete Kostenstellen"
+msgstr "Unterkonten"
 
 #. module: account_analytic_parent
 #: model:ir.model.fields,field_description:account_analytic_parent.field_account_analytic_account__complete_name
 msgid "Complete Name"
-msgstr "Vollständige Bezeichnung"
+msgstr ""
 
 #. module: account_analytic_parent
 #: model_terms:ir.ui.view,arch_db:account_analytic_parent.view_account_analytic_account_list
 msgid "Name"
-msgstr "Bezeichnung"
+msgstr ""
 
 #. module: account_analytic_parent
 #: model:ir.model.fields,field_description:account_analytic_parent.field_account_analytic_account__parent_id
@@ -60,22 +60,22 @@ msgstr "Übergeordnete Kostenstelle"
 #. module: account_analytic_parent
 #: model:ir.model.fields,field_description:account_analytic_parent.field_account_analytic_account__parent_path
 msgid "Parent Path"
-msgstr "Pfad zur übergeordneten Kostenstelle"
+msgstr ""
 
 #. module: account_analytic_parent
-#: code:addons/account_analytic_parent/models/account_analytic_account.py:128
+#: code:addons/account_analytic_parent/models/account_analytic_account.py:0
 #, python-format
 msgid "Please activate first parent account %s"
-msgstr "Die übergeordnete Kostenstelle %s muss zuerst aktiviert werden."
+msgstr ""
 
 #. module: account_analytic_parent
-#: code:addons/account_analytic_parent/models/account_analytic_account.py:99
+#: code:addons/account_analytic_parent/models/account_analytic_account.py:0
 #, python-format
 msgid "You can not create recursive analytic accounts."
 msgstr "Sie dürfen Kostenstellen nicht rekursiv anlegen."
 
 #. module: account_analytic_parent
-#: code:addons/account_analytic_parent/models/account_analytic_account.py:145
+#: code:addons/account_analytic_parent/models/account_analytic_account.py:0
 #, python-format
 msgid "[%(code)s] %(name)s"
-msgstr "[%(code)s] %(name)s"
+msgstr ""
