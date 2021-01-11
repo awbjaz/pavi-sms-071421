@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_move_line_cost_alloc_form_ext">
+            <field name="inherit_id" ref="account.view_move_line_form"/>
+            <field name="name">account.move.line.form.ext</field>
+            <field name="model">account.move.line</field>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[1]/group[1]/group[1]" position="after">
+                    <group string="Cost Allocation">
+                        <field name="cost_allocation_id" invisible="1"/>
+                        <field name="values"/>
+                        <field name="share"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>
