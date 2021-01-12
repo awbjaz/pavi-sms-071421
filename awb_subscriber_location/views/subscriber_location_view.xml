@@ -77,18 +77,20 @@
         </record>
 
          <!-- accounting -->
-        <menuitem
-            name="Location"
-            action="action_subscriber_location"
-            id="menu_subscriber_location"
-            parent="menu_segmentation" sequence="10"/>
-
         <menuitem 
             name="Segmentation"
             id="menu_segmentation"
             parent="account.menu_analytic_accounting" 
             groups="account.group_account_manager"
             sequence="120"/>
+
+        <menuitem
+            name="Location"
+            action="action_subscriber_location"
+            id="menu_subscriber_location"
+            parent="menu_segmentation" sequence="10"/>
+
+        
 
 
         <!-- sale -->
@@ -107,6 +109,11 @@
         </record>
 
         <!-- sale -->
+        <menuitem 
+            name="Segmentation"
+            id="menu_segmentation_sale"
+            parent="sale.menu_sale_config" sequence="20"/>
+
         <menuitem
             name="Location"
             action="action_subscriber_location_sale"
@@ -114,12 +121,6 @@
             parent="menu_segmentation_sale" 
             groups="sales_team.group_sale_manager"
             sequence="10"/>
-
-        <menuitem 
-            name="Segmentation"
-            id="menu_segmentation_sale"
-            parent="sale.menu_sale_config" sequence="20"/>
-
         
         <!-- project -->
         <record id="action_subscriber_location_project" model="ir.actions.act_window">
@@ -137,18 +138,18 @@
         </record>
 
         <!-- project -->
-        <menuitem
-            name="Location"
-            action="action_subscriber_location_project"
-            id="menu_subscriber_location_project"
-            parent="menu_segmentation_project" sequence="10"/>
-
         <menuitem 
             name="Segmentation"
             id="menu_segmentation_project"
             parent="project.menu_project_config" 
             groups="project.group_project_manager"
             sequence="20"/>
+
+        <menuitem
+            name="Location"
+            action="action_subscriber_location_project"
+            id="menu_subscriber_location_project"
+            parent="menu_segmentation_project" sequence="10"/>
 
     </data>
 </odoo>
