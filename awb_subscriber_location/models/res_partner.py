@@ -5,7 +5,10 @@
 #
 ##############################################################################
 
-from . import project
-from . import res_city
-from . import res_partner
-from . import subscriber_location
+from odoo import api, fields, models
+
+
+class Partner(models.Model):
+    _inherit = "res.partner"
+
+    subscriber_location_id = fields.Many2one('subscriber.location', string='Location')

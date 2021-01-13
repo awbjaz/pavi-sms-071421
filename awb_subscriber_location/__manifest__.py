@@ -29,6 +29,7 @@
         'security/ir.model.access.csv',
         'views/project_view.xml',
         'views/res_city_view.xml',
+        'views/res_partner_view.xml',
         'views/sale_view.xml',
         'views/subscriber_location_view.xml',
     ],
