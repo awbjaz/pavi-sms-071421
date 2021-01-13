@@ -11,7 +11,7 @@ var QWeb = core.qweb;
 var _t = core._t;
 
 // INHERITED FROM account_reports.account_report
-var M2MFilters2 = Widget.extend(StandaloneFieldManagerMixin, {
+var M2MFilters = Widget.extend(StandaloneFieldManagerMixin, {
     /**
      * @constructor
      * @param {Object} fields
@@ -111,7 +111,6 @@ var M2MFilters2 = Widget.extend(StandaloneFieldManagerMixin, {
 var accountReportsWidgetFilter = accountReportsWidget.include({
   custom_events: {
       'value_changed': function(ev) {
-          console.log(ev);
           var self = this;
           self.report_options.partner_ids = ev.data.partner_ids;
           self.report_options.partner_categories = ev.data.partner_categories;
@@ -119,13 +118,42 @@ var accountReportsWidgetFilter = accountReportsWidget.include({
           self.report_options.analytic_tags = ev.data.analytic_tags;
           self.report_options.account_accounts = ev.data.account_accounts;
           return self.reload().then(function () {
-              self.$searchview_buttons.find('.account_partner_filter').click();
-              self.$searchview_buttons.find('.account_analytic_filter').click();
+              if (ev.data.partner_categories || ev.data.partner_ids){
+                self.$searchview_buttons.find('.account_partner_filter').click();
+              } else if (ev.data.analytic_accounts || ev.data.analytic_tags || ev.data.account_accounts) {
+                self.$searchview_buttons.find('.account_analytic_filter').click();
+              }
           });
        },
   },
   render_searchview_buttons: function (){
     this._super.apply(this, arguments);
+    if (this.report_options.partner) {
+        if (!this.M2MFilters) {
+            var fields = {};
+            if ('partner_ids' in this.report_options) {
+                fields['partner_ids'] = {
+                    label: _t('Partners'),
+                    modelName: 'res.partner',
+                    value: this.report_options.partner_ids.map(Number),
+                };
+            }
+            if ('partner_categories' in this.report_options) {
+                fields['partner_categories'] = {
+                    label: _t('Tags'),
+                    modelName: 'res.partner.category',
+                    value: this.report_options.partner_categories.map(Number),
+                };
+            }
+            if (!_.isEmpty(fields)) {
+                this.M2MFilters = new M2MFilters(this, fields);
+                this.M2MFilters.appendTo(this.$searchview_buttons.find('.js_account_partner_m2m'));
+            }
+        } else {
+            this.$searchview_buttons.find('.js_account_partner_m2m').append(this.M2MFilters.$el);
+        }
+    }
+
     if (this.report_options.analytic) {
       if (!this.AnalyticFilters) {
         var fields = {};
@@ -151,11 +179,11 @@ var accountReportsWidgetFilter = accountReportsWidget.include({
             };
         }
         if (!_.isEmpty(fields)) {
-            this.AnalyticFilters = new M2MFilters2(this, fields);
+            this.AnalyticFilters = new M2MFilters(this, fields);
             this.AnalyticFilters.appendTo(this.$searchview_buttons.find('.js_account_analytic_m2m'));
         }
       } else {
-        this.$searchview_buttons.find('.js_account_analytic_m2m').append(this.AnalyticFilters.$el);
+        this.$searchview_buttons.find('.js_account_analytic_m2m').html(this.AnalyticFilters.$el);
       }
     }
   }
