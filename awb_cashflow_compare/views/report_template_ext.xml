@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="internal_layout_ext" inherit_id="web.internal_layout">
+        <xpath expr="div[@class='header']/div[@class='row']/div[@class='col-2 offset-2 text-center']" position="attributes">
+            <attribute name="class">col-7 text-center</attribute>
+        </xpath>
+        <xpath expr="div[@class='header']/div[@class='row']/div[@class='col-2 offset-3 text-right']" position="attributes">
+            <attribute name="class">col-2 text-right</attribute>
+        </xpath>
+    </template>
+</odoo>
