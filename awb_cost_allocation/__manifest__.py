@@ -23,12 +23,12 @@
 
     'version': '13.0.1.0.0',
 
-    'depends': ['account_accountant', 'sale_subscription'],
+    'depends': ['account_accountant', 'sale_subscription', 'awb_subscriber_location'],
 
     'data': [
-        'security/ir.model.access.csv',
         'data/cost_allocation_sequence.xml',
-        'views/account_move_line_view_ext.xml',
+        'security/ir.model.access.csv',
+        'views/product_view_ext.xml',
         'views/cost_allocation_view.xml',
     ],
     # only loaded in demonstration mode
@@ -36,7 +36,7 @@
         # 'demo/demo.xml',
     ],
     'installable': True,
-    'application': True,
+    'application': False,
     'auto_install': False
 
 }
