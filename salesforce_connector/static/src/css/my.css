@@ -1,0 +1,9 @@
+.my_class[data-id="sync_date"]{
+    width: 100px;
+}
+.my_class[data-id="no_of_orders_sync"]{
+    width: 100px;
+}
+.my_class[data-id="no_of_products_sync"]{
+    width: 100px;
+}

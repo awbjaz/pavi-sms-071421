@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_salesforce_connector,access.salesforce.connector,model_salesforce_connector,base.group_user,1,1,1,1
+access_sync_history,access.sync.history,model_sync_history,base.group_user,1,1,1,1
+access_product_family,access.product.family,model_product_family,base.group_user,1,1,1,1
+access_sale_contract,access.sale.contract,model_sale_contract,base.group_user,1,1,1,1
+
+
+
+
