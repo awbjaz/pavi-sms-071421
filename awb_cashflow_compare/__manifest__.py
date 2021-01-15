@@ -10,15 +10,14 @@
         AWB Cash Flow Comparison
         """,
     'description': """
-        AWB Cash Flow Comparison
-    """,
+        AWB Cash Flow Comparison """,
     'author': "Achieve Without Borders, Inc",
     'website': "http://www.achievewithoutborders.com",
     'category': 'Report',
     'version': '13.0.1.0.0',
-    'depends': ['account_reports'],
+    'depends': ['account_reports', 'web'],
     'data': [
-
+        'views/report_template_ext.xml',
     ],
     'installable': True,
     'application': False,
