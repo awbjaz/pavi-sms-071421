@@ -10,24 +10,24 @@
                 <xpath expr="//form/sheet" position="before">
                     <header>
 
-                        <button name="button_reset_to_draft"
+                        <button name="action_reset_to_draft"
                                 type="object"
                                 attrs="{'invisible': [('state', 'in', ['draft','approved'])]}"
                                 string="Reset to Draft"/>
 
-                        <button name="button_for_approval"
+                        <button name="action_for_approval"
                                 type="object"
                                 class="oe_highlight"
                                 attrs="{'invisible': [('state', 'not in', ['draft','approved'])]}"
                                 string="For Approval"/>
 
-                        <button name="button_approve"
+                        <button name="action_approve"
                                 type="object"
                                 class="oe_highlight"
                                 attrs="{'invisible': [('state', '!=', 'for_approval')]}"
                                 string="Approve"/>
 
-                        <button name="button_deprecated"
+                        <button name="action_deprecated"
                                 type="object"
                                 class="oe_highlight"
                                 attrs="{'invisible': [('state', '!=', 'approved')]}"
