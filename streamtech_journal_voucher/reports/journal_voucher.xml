@@ -28,7 +28,7 @@
                                        <b>Account Name</b>
                                     </th>
                                     <th style="white-space: nowrap;" class="p-0 col-3 text-center text-uppercase border-left-0">
-                                       <b>Account Code</b>
+                                       <b>Account Code <![CDATA[&nbsp;]]></b>
                                     </th>
                                     <th class="pt-0 pb-0 col-3 text-uppercase text-center">
                                        <b>Debit</b>
