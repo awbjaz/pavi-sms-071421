@@ -93,7 +93,6 @@ class CostAllocation(models.Model):
         self.update({"cost_allocation_line": None})
 
         if application == 'internet':
-            _logger.debug(f'COMPUTE INTERNET')
             journal_item = []
             debit_line_dict = {}
             credit_line_dict = {}
@@ -128,7 +127,6 @@ class CostAllocation(models.Model):
                     journal_item.append((0, 0, item))
 
         elif application == 'program_cost':
-            _logger.debug(f'COMPUTE PROGRAM COST')
             journal_item = []
             debit_line_dict = {}
             credit_line_dict = {}
@@ -163,7 +161,6 @@ class CostAllocation(models.Model):
                     journal_item.append((0, 0, item))
 
         elif application == 'salaries':
-            _logger.debug(f'COMPUTE SALARIES')
             journal_item = []
             debit_line_dict = {}
             credit_line_dict = {}
@@ -199,7 +196,8 @@ class CostAllocation(models.Model):
                 debit_line_dict[debit_subscriber_id.id]['values'] += len(invoices)
                 credit_value += len(invoices)
             for key, item in debit_line_dict.items():
-                journal_item.append((0, 0, item))
+                if item['values'] != 0:
+                    journal_item.append((0, 0, item))
 
         elif application == 'others':
             _logger.debug(f'COMPUTE OTHERS')
@@ -270,7 +268,8 @@ class CostAllocation(models.Model):
         share = 0
         amount = 0
         for record in self.cost_allocation_line:
-            share = record.values / factor
+            if factor != 0:
+                share = record.values / factor
             amount = basis * share
             if record.line_type == 'debit':
                 record.write({"share": share, "debit": amount})
