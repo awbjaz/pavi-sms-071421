@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_subscriber_users,subcriber.location,model_subscriber_location,,1,1,1,1
+access_project_brand,project.brand,model_project_brand,project.group_project_manager,1,1,1,1
 

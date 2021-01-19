@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="project_brand_form" model="ir.ui.view">
+            <field name="name">project.brand.form</field>
+            <field name="model">project.brand</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Brand">
+                    <sheet>
+                        <div class="oe_title">
+                            <span class="o_form_label oe_edit_only">Brand Name</span>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+               </form>
+            </field>
+        </record>
+
+        <record id= "project_brand_tree" model= "ir.ui.view">
+            <field name= "name">project.brand.tree</field>
+            <field name= "model">project.brand</field>
+            <field name="type">tree</field>
+            <field name= "arch" type= "xml">
+                <tree string="Location" >
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- project -->
+        <record id="action_project_brand" model="ir.actions.act_window">
+            <field name="name">Brands</field>
+            <field name="res_model">project.brand</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="project_brand_tree"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a Brand
+              </p>
+            </field>
+        </record>
+
+        <menuitem
+            name="Brand"
+            action="action_project_brand"
+            id="menu_project_brand"
+            parent="awb_subscriber_location.menu_segmentation_project" sequence="20"/>
+
+    </data>
+</odoo>

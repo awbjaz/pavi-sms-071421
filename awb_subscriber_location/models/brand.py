@@ -8,8 +8,9 @@
 from odoo import api, fields, models
 
 
-class Project(models.Model):
-    _inherit = "project.project"
+class ProjectBrand(models.Model):
+    _name = "project.brand"
+    _description = "Brand"
 
-    subscriber_location_id = fields.Many2one('subscriber.location', string='Location')
-    
+    name = fields.Char(string="Name", required=True)
+    description = fields.Text(string="Description")

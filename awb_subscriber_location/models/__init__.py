@@ -5,6 +5,7 @@
 #
 ##############################################################################
 
+from . import brand
 from . import project
 from . import res_city
 from . import res_partner

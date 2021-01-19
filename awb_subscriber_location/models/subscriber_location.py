@@ -13,7 +13,7 @@ class SubscriberLocation(models.Model):
     _description = "Subscriber Location"
     _inherit = ['mail.thread']
 
-    name = fields.Char(string="Name", required=True)
+    name = fields.Char(string="Location Name", required=True)
     code = fields.Char(string="Code")
     location_id = fields.Many2one('subscriber.location', string="Parent Location")
     location_type = fields.Selection([('head', 'Head'),
@@ -24,3 +24,5 @@ class SubscriberLocation(models.Model):
     analytic_account_id = fields.Many2one('account.analytic.account', string="Analytic Account")
     location_ids = fields.One2many('subscriber.location', 'location_id', string="Child Location")
     description = fields.Text(string="Description")
+
+    cluster_head = fields.Many2one('hr.employee', string="Cluster Head")
