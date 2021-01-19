@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Sequences cost_allocation -->
+        <record id="seq_account_asset" model="ir.sequence">
+            <field name="name">Account Asset</field>
+            <field name="code">account.asset.sequence.code</field>
+            <field name="prefix">AS-</field>
+            <field name="padding">4</field>
+            <field name="number_next_actual">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>
