@@ -167,6 +167,7 @@
         name="Cost Allocation"
         parent="account.menu_finance_entries_management"
         sequence="200"
-        action="view_cost_allocation_action"/>
+        action="view_cost_allocation_action"
+        groups="account.group_account_user"/>
   </data>
 </odoo>

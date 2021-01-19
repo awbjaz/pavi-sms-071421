@@ -1,3 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_cost_allocation,Cost Allocation,model_cost_allocation,base.group_system,1,1,1,1
-access_cost_allocation_line,Cost Allocation Line,model_cost_allocation_line,base.group_system,1,1,1,1
+access_cost_allocation,Cost Allocation – Accountant,model_cost_allocation,account.group_account_user,1,1,1,1
+access_cost_allocation_line,Cost Allocation Line – Accountant,model_cost_allocation_line,account.group_account_user,1,1,1,1
