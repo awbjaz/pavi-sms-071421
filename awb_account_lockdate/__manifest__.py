@@ -26,6 +26,7 @@
     'depends': ['account', 'account_accountant'],
 
     'data': [
+        'views/account_view.xml',
         'wizard/account_change_lock_date.xml',
     ],
     # only loaded in demonstration mode
