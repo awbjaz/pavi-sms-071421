@@ -262,6 +262,6 @@ class ReportAgedPartnerBalance(models.AbstractModel):
                 values['name'] = _('Unknown Partner')
                 values['trust'] = False
 
-            if at_least_one_amount or (self._context.get('include_nullified_amount') and lines[partner['partner_id']]):
+            if at_least_one_amount or (self._context.get('include_nullified_amount') and partner['partner_id'] and lines[partner['partner_id']]):
                 res.append(values)
         return res, total, lines
