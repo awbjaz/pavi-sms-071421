@@ -14,7 +14,7 @@ class report_account_aged_partner(models.AbstractModel):
     def _get_options(self, previous_options=None):
         _logger.debug(f'Prev Options: {previous_options}')
         options = super(report_account_aged_partner, self)._get_options(previous_options)
-        if 'account_accounts' not in previous_options.keys():
+        if previous_options and 'account_accounts' not in previous_options.keys():
             options['account_accounts'] = []
 
         if options.get('account_accounts') is not None:
