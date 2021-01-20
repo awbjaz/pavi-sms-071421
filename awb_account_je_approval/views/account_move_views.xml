@@ -11,7 +11,7 @@
           </xpath>
           <xpath expr="//header">
             <button name="action_approve" string="Approve" class="oe_highlight"
-                                type="object" groups="account.group_account_invoice"
+                                type="object" groups="account.group_account_user"
                                 attrs="{'invisible': [('state', '!=', 'draft')]}"/>
           </xpath>
           <xpath expr="//button[@name='action_post']" position="attributes">
