@@ -24,7 +24,9 @@
           <xpath expr="//form[1]/sheet[1]/notebook[1]/page[2]" position="attributes">
             <attribute name="groups">account.group_account_user,account.group_account_invoice</attribute>
           </xpath>
-
+          <xpath expr="//field[@name='journal_id']" position="attributes">
+            <attribute name="groups">account.group_account_user,account.group_account_invoice</attribute>
+          </xpath>
           <xpath expr="//group[@name='misc_group']">
             <field name="create_uid" attrs="{'invisible': [('type', '!=', 'entry')]}" readonly="1"/>
           </xpath>
