@@ -12,5 +12,5 @@ class ProjectBrand(models.Model):
     _name = "project.brand"
     _description = "Brand"
 
-    name = fields.Char(string="Name", required=True)
+    name = fields.Char(string="Brand Name", required=True)
     description = fields.Text(string="Description")

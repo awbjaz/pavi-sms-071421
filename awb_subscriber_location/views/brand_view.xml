@@ -28,7 +28,7 @@
             <field name="type">tree</field>
             <field name= "arch" type= "xml">
                 <tree string="Location" >
-                    <field name="name"/>
+                    <field name="name" string="Name"/>
                     <field name="description"/>
                 </tree>
             </field>
@@ -52,6 +52,26 @@
             action="action_project_brand"
             id="menu_project_brand"
             parent="awb_subscriber_location.menu_segmentation_project" sequence="20"/>
+
+
+         <!-- sale -->
+        <record id="action_sale_brand" model="ir.actions.act_window">
+            <field name="name">Brands</field>
+            <field name="res_model">project.brand</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="project_brand_tree"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a Brand
+              </p>
+            </field>
+        </record>
+        
+        <menuitem
+            name="Brand"
+            action="action_sale_brand"
+            id="menu_sale_brand"
+            parent="awb_subscriber_location.menu_segmentation_sale" sequence="20"/>
 
     </data>
 </odoo>
