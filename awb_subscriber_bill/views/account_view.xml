@@ -7,7 +7,9 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='currency_id']" position="after">
                 <field name="atm_ref"/>
-                <field name="period_covered"/>
+                <field name="start_date" invisible="1"/>
+                <field name="end_date" invisible="1"/>
+                <field name="period_covered" widget="daterange" options="{'related_start_date': 'start_date', 'related_end_date': 'end_date'}"/>
                 <field name="total_statement_balance"/>
             </xpath>
             <xpath expr="//page[@name='other_info']" position="after">

@@ -18,7 +18,9 @@ class AccountMove(models.Model):
 
     statement_line_ids = fields.One2many('account.statement.line', 'move_id', string="Statement Line")
     atm_ref = fields.Char(string="ATM Reference")
-    period_covered = fields.Datetime(string="Period Covered")
+    start_date = fields.Date(string="Start Date")
+    end_date = fields.Date(string="End Date")
+    period_covered = fields.Date(string="Period Covered")
     total_statement_balance = fields.Float(string="Total Statement Balance", compute='_compute_statement_balance')
     is_subscription = fields.Boolean(string="Is Subscribtion", compute="_compute_is_subscription")
 
@@ -62,7 +64,7 @@ class AccountMove(models.Model):
                 code = rec.partner_id.subscriber_location_id.code + '-'
             
             if rec.invoice_date_due:
-                ref_date = '-' + rec.invoice_date_due.strftime('%m%y')
+                ref_date = '-' + rec.invoice_date_due.strftime('%m%d')
             else:
                 ref_date = ''
 
@@ -79,7 +81,7 @@ class AccountMove(models.Model):
             # taxes
             for line in rec.line_ids:
                 if line.tax_line_id:
-                    data = {'name': line.name}
+                    data = {'name': "Value Added Tax"}
                     if line.tax_line_id.type_tax_use == 'sale':
                         data['amount'] = line.credit
                     elif line.tax_line_id.type_tax_use == 'purchase':
