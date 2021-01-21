@@ -16,25 +16,21 @@ _logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    statement_line_ids = fields.One2many(
-        'account.statement.line', 'move_id', string="Statement Line")
+    statement_line_ids = fields.One2many('account.statement.line', 'move_id', string="Statement Line")
     atm_ref = fields.Char(string="ATM Reference")
     period_covered = fields.Datetime(string="Period Covered")
-    total_statement_balance = fields.Float(
-        string="Total Statement Balance", compute='_compute_statement_balance')
-    is_subscription = fields.Boolean(
-        string="Is Subscribtion", compute="_compute_is_subscription")
+    total_statement_balance = fields.Float(string="Total Statement Balance", compute='_compute_statement_balance')
+    is_subscription = fields.Boolean(string="Is Subscribtion", compute="_compute_is_subscription")
 
     @api.depends('invoice_line_ids')
     def _compute_is_subscription(self):
         for rec in self:
+            rec.is_subscription = False
             if rec.invoice_line_ids:
                 for line in rec.invoice_line_ids:
                     if line.subscription_id:
                         rec.is_subscription = True
-                    else:
-                        rec.is_subscription = False
-
+                    
     @api.depends('statement_line_ids')
     def _compute_statement_balance(self):
         for rec in self:
@@ -42,8 +38,7 @@ class AccountMove(models.Model):
                 rec.statement_line_ids.mapped('amount'))
 
     def action_cron_generate(self):
-        records = self.env['account.move'].search(
-            [('type', 'in', ['out_invoice', 'in_invoice'])])
+        records = self.env['account.move'].search([('type', 'in', ['out_invoice', 'in_invoice'])])
         _logger.debug(f'Record Invoice and Bill {records}')
 
         for rec in records:
@@ -65,7 +60,7 @@ class AccountMove(models.Model):
             code = ''
             if rec.partner_id.subscriber_location_id.code:
                 code = rec.partner_id.subscriber_location_id.code + '-'
-
+            
             if rec.invoice_date_due:
                 ref_date = '-' + rec.invoice_date_due.strftime('%m%y')
             else:
