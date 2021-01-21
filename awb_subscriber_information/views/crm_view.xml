@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_crm_lead_form" model="ir.ui.view">
+        <field name="name">view.crm.lead.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[1]/group[2]/field[@name='partner_id']" position="before">
+                <field name="account_identification" readonly="1"/>
+            </xpath>
+
+            <xpath expr="//group[@name='lead_priority']" position="after">
+                <group name="plan_package" string="Plan + Package Details">
+                    <field name ="contract_start_date"/>
+                    <field name ="contract_end_date"/>
+                    <field name ="plan"/>
+                    <field name ="promo"/>
+                    <field name ="device" widget="many2many_tags"/>
+                    <field name ="internet_speed"/>
+                    <field name ="cable"/>
+                    <field name ="no_tv"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//page[@name='lead']" position="after">
+                <page name="other_info" string="Other Information">
+                    <group>
+                        <group string="Documents">
+                            <field name="has_id"/>
+                            <field name="has_proof_bill"/>
+                            <field name="has_lease_contract"/>
+                            <field name="others"/>
+                        </group>
+                        <group string="Payment">
+                            <field name="initial_payment"/>
+                            <field name="or_number"/>
+                            <field name="payment_date"/>
+                            <field name="billing_type"/>
+                        </group>
+                    </group>
+                    
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

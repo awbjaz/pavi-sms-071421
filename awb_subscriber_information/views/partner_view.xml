@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cus_sale_form" model="ir.ui.view">
+        <field name="name">view.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="attrs">{'required' : [('type', '=', 'contact')], 'readonly': [('is_company', '!=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='type']" position="before">
+                <field name="last_name"  attrs="{'invisible': [('is_company', '=', True)]}"/>
+                <field name="first_name"  attrs="{'invisible': [('is_company', '=', True)]}"/>
+                <field name="middle_name"  attrs="{'invisible': [('is_company', '=', True)]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='function']" position="before">
+                <field name="birthday" attrs="{'invisible': [('is_company', '=', True)]}"/>
+                <field name="age" attrs="{'invisible': [('is_company', '=', True)]}"/>
+                <field name="civil_status" attrs="{'invisible': [('is_company', '=', True)]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="home_ownership"/>
+            </xpath>
+
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page name="subscription" string="Subscription">
+                    <group>
+                        <group>
+                            <field name="account_type"/>
+                            <field name="subscriber_type"/>
+                            <field name="brand"/>
+                            <field name="expiration_notice"/>
+                            <field name="service_provider"/>
+                        </group>
+                        <group string="Location">
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+    
+        </field>
+    </record>
+
+</odoo>
