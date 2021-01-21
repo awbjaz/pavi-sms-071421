@@ -30,7 +30,7 @@
                         <field name="description" placeholder="Description" nolabel="1"/>
                     </group>
                     <group string="Assets">
-                        <field name="asset_id" nolabel="1"/>
+                        <field name="asset_id" nolabel="1" context="{'default_asset_type' : 'purchase'}"/>
                     </group>
                 </sheet>
             </form>
