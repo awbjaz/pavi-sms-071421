@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sale_subscription_form" model="ir.ui.view">
+        <field name="name">view.sale.subscription.form</field>
+        <field name="model">sale.subscription</field>
+        <field name="inherit_id" ref="sale_subscription.sale_subscription_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="account_identification"/>
+            </xpath>
+          
+            <xpath expr="//field[@name='date_start']" position="before">
+                <field name="subscription_status"/>
+                <field name="opportunity_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

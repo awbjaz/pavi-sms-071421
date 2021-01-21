@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_crm_lead_form_auto" model="ir.ui.view">
+        <field name="name">view.crm.lead.form.auto</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='lead_priority']" position="after">
+                <group name="status">
+                    <field name="job_order_status"/>
+                    <field name="subscription_status"/>
+                    <field name="outside_source" invisible="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="view_crm_stage_form" model="ir.ui.view">
+        <field name="name">view.crm.stage.form</field>
+        <field name="model">crm.stage</field>
+        <field name="inherit_id" ref="crm.crm_stage_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='is_won']" position="after">
+                <field name="is_auto_quotation"/>
+            </xpath>
+        </field>
+    </record>
+    
+
+</odoo>
