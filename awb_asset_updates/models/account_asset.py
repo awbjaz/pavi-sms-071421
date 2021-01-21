@@ -12,9 +12,10 @@ class AccountAsset(models.Model):
     asset_category_id = fields.Many2one('account.asset.category', string="Asset Category")
 
     def validate(self):
+        res = super(AccountAsset, self).validate()
         account_reference = self.env['ir.sequence'].next_by_code('account.asset.sequence.code')
-        self.write({"asset_number": account_reference, 'asset_type': 'purchase'})
-        return super(AccountAsset, self).validate()
+        self.write({"asset_number": account_reference})
+        return res
 
     def name_get(self):
         data = []
