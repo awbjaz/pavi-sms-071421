@@ -13,4 +13,4 @@ class Partner(models.Model):
 
     check_limit = fields.Boolean(string="Check Limit")
     notification_type = fields.Selection(NOTIFICATION_TYPE, string="Notification Type", default="purchase_order")
-    notification_message = fields.Text(string="Notification Message")
+    notification_message = fields.Text(string="Notification Message", default="You've reached the credit limit for this vendor")
