@@ -30,14 +30,14 @@ class CRMLead(models.Model):
                               ('analog', 'Analog'),
                               ('digital', 'Digital')], string="Cable")
     promo = fields.Boolean(string="Promo")
-    has_id = fields.Boolean(string="ID")
+    has_id = fields.Boolean(string="Has ID")
     has_proof_bill = fields.Boolean(string="Proof of Blling")
     has_lease_contract = fields.Boolean(string="Lease Contract")
     others = fields.Text(string="Others")
     initial_payment = fields.Float(string="Initial Payment")
-    or_number = fields.Text(string="OR Number")
+    or_number = fields.Char(string="OR Number")
     payment_date = fields.Date(string="Date of Payment")
-    billing_type = fields.Text(string="Billing Type")
+    billing_type = fields.Char(string="Billing Type")
     job_order_status = fields.Selection([('new', 'New'),
                                          ('installation', 'Installation'),
                                          ('activation', 'Activation'),
