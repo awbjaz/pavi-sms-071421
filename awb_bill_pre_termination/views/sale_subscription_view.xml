@@ -7,13 +7,14 @@
         <field name="inherit_id" ref="sale_subscription.sale_subscription_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='code']" position="after">
-                <field name="paid_security_deposit" widget="monetary"/>
-                <field name="remaining_months" force_save="1"/>
-                <field name="rebates" widget="monetary"/>
-                <field name="promo" widget="monetary"/>
-                <field name="baseline_amount" widget="monetary"/>
-                <field name="pre_termination_charge" force_save="1"/>
-                <field name="termination_item"/>
+                <field name="paid_security_deposit" widget="monetary" attrs="{'invisible': [('subscription_status', '!=', 'pre-termination')]}"/>
+                <field name="remaining_months" force_save="1" readonly="1" attrs="{'invisible': [('subscription_status', '!=', 'pre-termination')]}"/>
+                <field name="rebates" widget="monetary" attrs="{'invisible': [('subscription_status', '!=', 'pre-termination')]}"/>
+                <field name="promo" widget="monetary" attrs="{'invisible': [('subscription_status', '!=', 'pre-termination')]}"/>
+                <field name="baseline_amount" widget="monetary" attrs="{'invisible': [('subscription_status', '!=', 'pre-termination')]}"/>
+                <field name="discount" widget="monetary" attrs="{'invisible': [('subscription_status', '!=', 'pre-termination')]}"/>
+                <field name="pre_termination_charge" force_save="1" attrs="{'invisible': [('subscription_status', '!=', 'pre-termination')], 'required': [('subscription_status', '=', 'pre-termination')]}"/>
+                <field name="termination_item" attrs="{'invisible': [('subscription_status', '!=', 'pre-termination')], 'required': [('subscription_status', '=', 'pre-termination')]}"/>
             </xpath>
         </field>
     </record>
