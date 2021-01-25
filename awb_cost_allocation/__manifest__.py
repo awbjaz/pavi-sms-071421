@@ -28,7 +28,6 @@
     'data': [
         'data/cost_allocation_sequence.xml',
         'security/ir.model.access.csv',
-        'views/product_view_ext.xml',
         'views/cost_allocation_view.xml',
     ],
     # only loaded in demonstration mode

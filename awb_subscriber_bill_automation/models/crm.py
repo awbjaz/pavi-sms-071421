@@ -16,22 +16,6 @@ _logger = logging.getLogger(__name__)
 class CRMLead(models.Model):
     _inherit = "crm.lead"
 
-    account_identification = fields.Char(string="Account ID")
-    is_auto_quotation = fields.Boolean(string="Is auto Quotation")
-    outside_source = fields.Boolean(string="Outside Source")
-    job_order_status = fields.Selection([('new', 'New'),
-                                         ('installation', 'Installation'),
-                                         ('activation', 'Activation'),
-                                         ('completed', 'Completed')], string="Job Order Status")
-    subscription_status = fields.Selection([('new', 'New'),
-                                            ('upgrade', 'Upgrade'),
-                                            ('convert', 'Convert'),
-                                            ('downgrade', 'Downgrade'),
-                                            ('re-contract', 'Re-contract'),
-                                            ('pre-termination', 'Pre-Termination'),
-                                            ('disconnection', 'Disconnection'),
-                                            ('reconnection', 'Reconnection')], default='new', string="Subscription Status")
-
     def action_new_quotation(self):
         result = super(CRMLead, self).action_new_quotation()
         result['context'].update({
@@ -134,9 +118,3 @@ class CRMLead(models.Model):
 
         _logger.debug(f'Values {values}')
         return super(CRMLead, self).write(values)
-
-
-class CRMStage(models.Model):
-    _inherit = "crm.stage"
-
-    is_auto_quotation = fields.Boolean(string='Automatic Quotation')
