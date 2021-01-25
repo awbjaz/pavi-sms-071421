@@ -5,14 +5,14 @@
 #
 ##############################################################################
 {
-    'name': "AWB Subscriber Information",
+    'name': "AWB Subscriber and Product Information",
 
     'summary': """
-        Subscriber Information.
+        AWB Subscriber and Product Information for Streamtech
         """,
 
     'description': """
-        Extension Odoo Apps
+        AWB Subscriber and Product Information for Streamtech
     """,
 
     'author': "Achieve Without Borders",
@@ -23,17 +23,14 @@
 
     'version': '13.0.1.0.0',
 
-    'depends': ['crm', 'sale_management', 'awb_subscriber_location'],
+    'depends': ['crm', 'sale_management'],
 
     'data': [
-        'security/ir.model.access.csv',
-        'views/crm_view.xml',
-        'views/partner_view.xml',
         'views/sale_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
-        # 'demo/demo.xml',
+
     ],
     'installable': True,
     'application': False,

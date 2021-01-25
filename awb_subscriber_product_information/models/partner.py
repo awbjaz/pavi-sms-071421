@@ -15,6 +15,7 @@ _logger = logging.getLogger(__name__)
 
 class PartnerAccountClassification(models.Model):
     _name = 'partner.classification'
+    _description = 'Partner Classification'
 
     name = fields.Char('Name', required=True)
     description = fields.Text('Description')
@@ -22,6 +23,15 @@ class PartnerAccountClassification(models.Model):
 
 class PartnerServiceProvider(models.Model):
     _name = 'partner.service.provider'
+    _description = 'Service Provider'
+
+    name = fields.Char('Name', required=True)
+    description = fields.Text('Description')
+
+
+class ZoneSubType(models.Model):
+    _name = 'zone.subtype'
+    _description = 'Zone Subtype'
 
     name = fields.Char('Name', required=True)
     description = fields.Text('Description')
@@ -35,13 +45,15 @@ class Partner(models.Model):
     middle_name = fields.Char(string="Middle Name")
     birthday = fields.Date(string="Birthday")
     age = fields.Char(string="Age", compute="_compute_age")
+    gender = fields.Selection([('male', 'Male'),
+                               ('female', 'Female'),
+                               ('others', 'Others')])
     civil_status = fields.Selection([('single', 'Single'),
                                      ('married', 'Married'),
                                      ('separated', 'Legally Separated')], string="Civil Status")
     home_ownership = fields.Selection([('owned', 'Owned'),
                                        ('rented', 'Rented'),
-                                       ('living_relatives',
-                                        'Living with Relatives'),
+                                       ('living_relatives', 'Living with Relatives'),
                                        ('company_provide', 'Company Provided'),
                                        ('mortgaged', 'Mortgaged')], string="Home Ownership")
     account_classification = fields.Selection([('internal', 'Affiliate / Internal'),
@@ -59,6 +71,7 @@ class Partner(models.Model):
     brand = fields.Many2one('project.brand', string="Brand")
     service_provider = fields.Many2one('partner.service.provider', string="Service Provider")
     expiration_notice = fields.Many2one('sale.expiration_notice', string="Expiration Notice")
+    outside_sourced = fields.Boolean('Outside Source', default=False)
 
     @api.onchange('last_name', 'first_name', 'middle_name')
     def _onchange_name(self):

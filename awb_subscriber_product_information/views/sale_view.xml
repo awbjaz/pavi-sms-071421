@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="before">
                 <field name="account_identification" readonly="1"/>
+                <field name="outside_sourced" readonly="1"/>
             </xpath>
         </field>
     </record>
