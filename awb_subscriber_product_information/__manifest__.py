@@ -23,7 +23,7 @@
 
     'version': '13.0.1.0.0',
 
-    'depends': ['crm', 'sale_management', 'sale_subscription'],
+    'depends': ['crm', 'sale_management', 'sale_subscription', 'awb_subscriber_location'],
 
     'data': [
         'security/ir.model.access.csv',
