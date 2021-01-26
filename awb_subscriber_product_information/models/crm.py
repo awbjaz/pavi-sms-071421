@@ -13,6 +13,17 @@ class CRMStage(models.Model):
     is_auto_quotation = fields.Boolean(string='Automatic Quotation')
 
 
+class CRMProductLine(models.Model):
+    _name = 'crm.lead.productline'
+    _description = 'Opportunity Products'
+
+    opportunity_id = fields.Many2one('crm.lead', string='Opportunity')
+    product_id = fields.Many2one('product.template', string='Product')
+    quantity = fields.Float('Quantity')
+    unit_price = fields.Float('Unit Price')
+    total_price = fields.Float('Total Price')
+
+
 class CRMLead(models.Model):
     _inherit = 'crm.lead'
 
@@ -41,7 +52,8 @@ class CRMLead(models.Model):
     job_order_status = fields.Selection([('new', 'New'),
                                          ('installation', 'Installation'),
                                          ('activation', 'Activation'),
-                                         ('completed', 'Completed')], string="Job Order Status")
+                                         ('completed', 'Completed'),
+                                         ('cancel', 'Cancelled')], string="Job Order Status")
     subscription_status = fields.Selection([('new', 'New'),
                                             ('upgrade', 'Upgrade'),
                                             ('convert', 'Convert'),
@@ -50,3 +62,4 @@ class CRMLead(models.Model):
                                             ('pre-termination', 'Pre-Termination'),
                                             ('disconnection', 'Disconnection'),
                                             ('reconnection', 'Reconnection')], default='new', string="Subscription Status")
+    product_lines = fields.One2many('crm.lead.productline', 'opportunity_id', string='Products')

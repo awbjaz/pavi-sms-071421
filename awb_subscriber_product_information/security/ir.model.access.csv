@@ -7,3 +7,4 @@ access_sale_zone_subtype,sale.zone_subtype,model_zone_subtype,sales_team.group_s
 access_sale_zone_subtype_manager,sale.zone_subtype manager,model_zone_subtype,sales_team.group_sale_manager,1,1,1,1
 access_sale_partner_classification,sale.partner_classification,model_partner_classification,sales_team.group_sale_salesman,1,0,0,0
 access_sale_partner_classification_manager,sale.partner_classification manager,model_partner_classification,sales_team.group_sale_manager,1,1,1,1
+access_crm_lead_product,crm.lead.product,model_crm_lead_productline,sales_team.group_sale_salesman,1,1,1,1

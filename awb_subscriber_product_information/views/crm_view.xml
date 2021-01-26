@@ -34,6 +34,16 @@
             </xpath>
 
             <xpath expr="//page[@name='lead']" position="after">
+                <page name="line_items" string="Items">
+                    <field name="product_lines">
+                        <tree editable="bottom">
+                            <field name="product_id"/>
+                            <field name="quantity"/>
+                            <field name="unit_price"/>
+                            <field name="total_price"/>
+                        </tree>
+                    </field>
+                </page>
                 <page name="other_info" string="Other Information">
                     <group>
                         <group string="Documents">
