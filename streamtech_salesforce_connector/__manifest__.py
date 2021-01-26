@@ -16,7 +16,7 @@
     'website': "http://www.achievewithoutborders.com",
     'category': 'Sales',
     'version': '13.0.1.0.0',
-    'depends': ['salesforce_connector'],
+    'depends': ['salesforce_connector', 'awb_subscriber_product_information'],
     'data': [
     ],
     'installable': True,

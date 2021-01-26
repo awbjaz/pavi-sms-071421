@@ -19,11 +19,20 @@ class SalesForceImporterOpportunities(models.Model):
 
             # Field/s removed due to errors found with usage with PAVI SalesForce: 
             #  ExpectedRevenue
-            query = """SELECT 
-                    Id, name, AccountId, Amount, CloseDate,  Description, LastMOdifiedDate, 
-                    HasOpenActivity, IsDeleted, IsWon, OwnerId, Probability, 
-                    LastActivityDate, StageName, type, leadSource, CampaignId 
-                    FROM opportunity"""
+            query = """
+                    SELECT 
+                        Id, name, AccountId, Amount, CloseDate,  Description, LastMOdifiedDate, 
+                        HasOpenActivity, IsDeleted, IsWon, OwnerId, Probability, 
+                        LastActivityDate, StageName, type, leadSource, CampaignId,
+                        Preferred_Speed_Bandwidth__c,
+                        Product_Sub_Type__c,
+                        Product_Type__c,
+                        Payment_OR_No__c,
+                        Device_Fee__c,
+                        Proof_of_Billing_Electricity_or_Water__c
+                    FROM opportunity
+                    WHERE StageName = 'Closed Won'
+                    """
 
             if not Auto:
                 if not self.from_date and not self.to_date:
@@ -33,11 +42,11 @@ class SalesForceImporterOpportunities(models.Model):
                     raise osv.except_osv("Warning!", "Sorry; invalid operation, please select From Date")
 
                 elif self.from_date and not self.to_date:
-                    from_date_query = " WHERE CreatedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+                    from_date_query = " AND CreatedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
                     query = query + from_date_query 
 
                 elif self.from_date and self.to_date:
-                    from_date_query = " WHERE CreatedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+                    from_date_query = " AND CreatedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
                     to_date_query = " AND createdDate<=" + self.to_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
 
                     query = query + from_date_query + to_date_query
@@ -45,7 +54,7 @@ class SalesForceImporterOpportunities(models.Model):
             else:
                 today = datetime.date.today()
                 yesterday = today - datetime.timedelta(days=1)
-                from_date_query = " WHERE CreatedDate>=" + yesterday.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+                from_date_query = " AND CreatedDate>=" + yesterday.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
                 to_date_query = " AND createdDate<=" + today.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
 
                 query = query + from_date_query + to_date_query
@@ -100,22 +109,42 @@ class SalesForceImporterOpportunities(models.Model):
     def _find_and_link_opportunity_products(self, opportunity):
         _logger.info('----------------- STREAMTECH _find_and_link_opportunity_products(')
         query = """
-        SELECT 
-            oli.OpportunityId,
-            oli.PricebookEntryId,
-            oli.Product2Id,
-            oli.ProductCode,
-            oli.Name,
-            oli.Quantity,
-            oli.TotalPrice,
-            oli.UnitPrice
-        FROM 
-            OpportunityLineItem AS oli
-        WHERE
-            oli.OpportunityId = '%s'
-        """  % (opportunity['salesforce_id'])
+            SELECT 
+                oli.OpportunityId,
+                oli.PricebookEntryId,
+                oli.Product2Id,
+                oli.ProductCode,
+                oli.Name,
+                oli.Quantity,
+                oli.TotalPrice,
+                oli.UnitPrice
+            FROM 
+                OpportunityLineItem AS oli
+            WHERE
+                oli.OpportunityId = '%s'
+            """  % (opportunity['salesforce_id'])
         rows = self.sales_force.query(query)['records']
-        # TODO: loop and populate line items of Odoo opportunites
+
+        # TODO: add code to process product entries
+
+    def _process_opportunity_job_orders(self, opportunity):
+        _logger.info('----------------- STREAMTECH _process_opportunity_job_orders(')
+        query = """
+            SELECT 
+                jo.Id,
+                jo.Name,
+                jo.Job_Order_Number__c,
+                jo.JO_Status__c,
+                jo.Opportunity_Name__c
+            FROM 
+                Job_Order__c AS jo
+            WHERE
+                jo.Opportunity_Name__c = '%s'
+            """  % (opportunity['salesforce_id'])
+        rows = self.sales_force.query(query)['records']
+        
+        # TODO: add code to process job order entries
+
 
     def creating_opportunities(self, opportunities):
         _logger.info('----------------- STREAMTECH creating_opportunities')

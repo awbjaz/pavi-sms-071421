@@ -11,81 +11,84 @@ class SalesForceImporterProducts(models.Model):
     _inherit = 'salesforce.connector'
 
     def creating_products(self, products):
-        try:
-            salesforce_ids = []
-            for product in products:
-                odoo_product = self.env['product.template'].search([('salesforce_id', '=', product['Product2']['Id'])])
-                category = self.env['product.category'].search([('name', '=', 'All')])
-                if product['Product2']['Family']:
-                    category_name = product['Product2']['Family']
-                    category = self.env['product.category'].search([('name', '=', category_name)])
-                    if not category:
-                        category = self.env['product.category'].create({
-                            'name': category_name,
-                            'parent_id': category.id
-                        })
-                        self.env.cr.commit()
-
-                if product['Product2'].get('Type__c'):
-                    category_name = product['Product2']['Type__c']
-                    sub_category = self.env['product.category'].search([('name', '=', category_name)])
-                    if not sub_category:
-                        category = self.env['product.category'].create({
-                            'name': category_name,
-                            'parent_id': category.id
-                        })
-                        self.env.cr.commit()
-                    else:
-                        category = sub_category
-
-                if product['Product2'].get('Facility_Type__c'):
-                    category_name = product['Product2']['Facility_Type__c']
-                    sub_category = self.env['product.category'].search([('name', '=', category_name)])
-                    if not sub_category:
-                        category = self.env['product.category'].create({
-                            'name': category_name,
-                            'parent_id': category.id
-                        })
-                        self.env.cr.commit()
-                    else:
-                        category = sub_category
-
-                bandwidth = product['Product2'].get('Bandwidth__c', '0').lower().replace(' mbps', '')
-                data = {
-                    'salesforce_id': product['Product2']['Id'],
-                    'name': product['Product2']['Name'],
-                    'description': product['Product2']['Description'],
-                    'list_price': product['UnitPrice'] if product['UnitPrice'] else None,
-                    'internet_usage': bandwidth,
-                    'default_code': product['Product2']['ProductCode'],
-                    'last_modified': product['LastModifiedDate'],
-                    'categ_id': category.id,
-                    'active': product['Product2'].get('IsActive', True)
-                }
-
-                if not odoo_product:
-                    data['location'] = 'SalesForce Product'
-                    new_product_template = self.env['product.template'].create(data)
-                    domain = [('product_tmpl_id', '=', new_product_template.id)]
-                    product_product = self.env['product.product'].search(domain)
-                    if not product_product:
-                        self.env['product.product'].create({
-                            'product_tmpl_id': new_product_template.id
-                        })
-                    else:
-                        product_product.write({
-                            'product_tmpl_id': new_product_template.id
-                        })
+        _logger.info(f'Creating Products {len(products)}')
+        salesforce_ids = []
+        for idx, product in enumerate(products):
+            _logger.debug(f'Processing Products: {idx} out of {len(products)}')
+            odoo_product = self.env['product.template'].search([('salesforce_id', '=', product['Product2']['Id'])])
+            category = self.env['product.category'].search([('name', '=', 'All')])
+            if product['Product2']['Family']:
+                category_name = product['Product2']['Family']
+                category = self.env['product.category'].search([('name', '=', category_name)])
+                if not category:
+                    category = self.env['product.category'].create({
+                        'name': category_name,
+                        'parent_id': category.id
+                    })
                     self.env.cr.commit()
-                elif odoo_product.last_modified != product['LastModifiedDate']:
-                    odoo_product.write(data)
+
+            if product['Product2'].get('Type__c'):
+                category_name = product['Product2']['Type__c']
+                sub_category = self.env['product.category'].search([('name', '=', category_name)])
+                if not sub_category:
+                    category = self.env['product.category'].create({
+                        'name': category_name,
+                        'parent_id': category.id
+                    })
                     self.env.cr.commit()
-                salesforce_ids.append(product['Product2']['Id'])
+                else:
+                    category = sub_category
 
-            return salesforce_ids
+            if product['Product2'].get('Facility_Type__c'):
+                category_name = product['Product2']['Facility_Type__c']
+                sub_category = self.env['product.category'].search([('name', '=', category_name)])
+                if not sub_category:
+                    category = self.env['product.category'].create({
+                        'name': category_name,
+                        'parent_id': category.id
+                    })
+                    self.env.cr.commit()
+                else:
+                    category = sub_category
 
-        except Exception as e:
-            raise osv.except_osv("Error Details!", e)
+            bandwidth = product['Product2'].get('Bandwidth__c', '0')
+            if bandwidth:
+                bandwidth = bandwidth.lower().replace(' mbps', '')
+            else:
+                bandwidth = '0'
+
+            data = {
+                'salesforce_id': product['Product2']['Id'],
+                'name': product['Product2']['Name'],
+                'description': product['Product2']['Description'],
+                'list_price': product['UnitPrice'] if product['UnitPrice'] else None,
+                'internet_usage': bandwidth,
+                'default_code': product['Product2']['ProductCode'],
+                'last_modified': product['LastModifiedDate'],
+                'categ_id': category.id,
+                'active': product['Product2'].get('IsActive', True)
+            }
+
+            if not odoo_product:
+                data['location'] = 'SalesForce Product'
+                new_product_template = self.env['product.template'].create(data)
+                domain = [('product_tmpl_id', '=', new_product_template.id)]
+                product_product = self.env['product.product'].search(domain)
+                if not product_product:
+                    self.env['product.product'].create({
+                        'product_tmpl_id': new_product_template.id
+                    })
+                else:
+                    product_product.write({
+                        'product_tmpl_id': new_product_template.id
+                    })
+                self.env.cr.commit()
+            elif odoo_product.last_modified != product['LastModifiedDate']:
+                odoo_product.write(data)
+                self.env.cr.commit()
+            salesforce_ids.append(product['Product2']['Id'])
+
+        return salesforce_ids
 
     def import_products(self, Auto):
         _logger.info(f'Import Products {Auto}')
@@ -94,7 +97,7 @@ class SalesForceImporterProducts(models.Model):
                 ", UnitPrice " \
                 ", Product2.CreatedDate, LastMOdifiedDate " \
                 " from PriceBookEntry" \
-                " limit 10"
+                # " limit 10"
         _logger.info(f'Query {query}')
         try:
             if not self.sales_force:
