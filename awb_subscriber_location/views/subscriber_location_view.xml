@@ -25,6 +25,7 @@
                             <group>
                                 <field name="analytic_account_id" groups="account.group_account_manager"/>
                                 <field name="cluster_head"/>
+                                <field name="billing_day" groups="sales_team.group_sale_manager"/>
                                 <field name="subscription_count"/>
                             </group>
                             
@@ -41,8 +42,8 @@
                             <page string="Subscriptions">
                                 <field name="subscription_ids" readonly="1"/>
                             </page>
-                            <page string="Projects">
-                                <field name="project_ids" readonly="1"/>
+                            <page string="Projects" groups="project.group_project_manager">
+                                <field name="project_ids" readonly="1" groups="project.group_project_manager"/>
                             </page>
                             <page string="Other Informations">
                                 <field name="description"/>

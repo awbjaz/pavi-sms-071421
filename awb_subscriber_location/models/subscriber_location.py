@@ -5,7 +5,8 @@
 #
 ##############################################################################
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import Warning, UserError, ValidationError
 
 
 class SubscriberLocation(models.Model):
@@ -15,6 +16,7 @@ class SubscriberLocation(models.Model):
 
     name = fields.Char(string="Location Name", required=True)
     code = fields.Char(string="Code")
+    billing_day = fields.Integer(string="Billing Day")
     location_id = fields.Many2one('subscriber.location', string="Parent Location")
     location_type = fields.Selection([('head', 'Head'),
                                       ('cluster', 'Cluster'),
@@ -29,6 +31,11 @@ class SubscriberLocation(models.Model):
     description = fields.Text(string="Description")
 
     cluster_head = fields.Many2one('hr.employee', string="Cluster Head")
+
+    @api.onchange('billing_day')
+    def _onchange_billing_day(self):
+        if self.billing_day > 31:
+            raise UserError(_('Billing Day cannot be exceed the Calendar Day'))
 
     @api.depends('subscription_ids')
     def _compute_subscription(self):
