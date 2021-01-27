@@ -15,7 +15,9 @@ class SalesForceImporterProducts(models.Model):
         salesforce_ids = []
         for idx, product in enumerate(products):
             _logger.debug(f'Processing Products: {idx} out of {len(products)}')
-            odoo_product = self.env['product.template'].search([('salesforce_id', '=', product['Product2']['Id'])])
+            domain = [('salesforce_id', '=', product['Product2']['Id']),
+                      ('active', 'in', (True, False))]
+            odoo_product = self.env['product.template'].search(domain)
             category = self.env['product.category'].search([('name', '=', 'All')])
             if product['Product2']['Family']:
                 category_name = product['Product2']['Family']
