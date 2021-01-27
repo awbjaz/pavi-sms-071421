@@ -23,6 +23,14 @@ class SubscriberLocation(models.Model):
     active = fields.Boolean(string="Active", default=True)
     analytic_account_id = fields.Many2one('account.analytic.account', string="Analytic Account")
     location_ids = fields.One2many('subscriber.location', 'location_id', string="Child Location")
+    project_ids = fields.One2many('project.project', 'subscriber_location_id', string="Project")
+    subscription_ids = fields.One2many('sale.subscription', 'subscriber_location_id', string="Subscription")
+    subscription_count = fields.Integer(string="Number of Subscription", compute='_compute_subscription')
     description = fields.Text(string="Description")
 
     cluster_head = fields.Many2one('hr.employee', string="Cluster Head")
+
+    @api.depends('subscription_ids')
+    def _compute_subscription(self):
+        for rec in self:
+            rec.subscription_count = len(rec.subscription_ids)

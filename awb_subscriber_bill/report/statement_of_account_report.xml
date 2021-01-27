@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="report_subscriber_statement_of_account">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-name="report_document">
+                        <div class="page">
+                            <link rel="stylesheet" type="text/scss" href="/awb_subscriber_bill/static/src/css/soa.css"/>
+                            <div class="row" id="statement_of_account_header">
+                                <table style="width:100%;">
+                                    <tr>
+                                        <td style="width:45%; padding-top: 5px; padding-bottom: 5px; padding-left: 2px;">
+                                            <img src="/awb_subscriber_bill/static/src/img/STREAMTECH-logo.jpg" width="100%"/>
+                                        </td>
+                                        <td style="width:55%; padding-left: 2px;">
+                                            <div style="text-align: right; line-height: 95%;">
+                                                <!-- company -->
+                                                <span style="font-weight:900; font-size:20px;" t-field="res_company.name"/> 
+                                                <br/> 
+                                                <span class="font-address"> 2F, Vistamall Daanghari, Molino, Bacoor, Cavite </span>
+                                                <br/> 
+                                                <span class="font-address"> Hotlines: (02) 8808-2323|0919-057-8888 </span>
+                                                <br/>
+                                                <span class="font-address"> VAT Reg. TIN: XXXXXXXXXXXXXXX </span>
+                                               
+                                            </div>
+                                            
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br/>
+                            <div class="text-center">
+                                <h4 style="font-weight:900; font-size:22px">STATEMENT OF ACCOUNT</h4>
+                            </div>
+                            <div class="row" id="statement_of_account_body_1">
+                                <table style="border: 2px solid black; width:100%;">
+                                    <tr style="border: 2px solid black; height:15px;">
+                                        <th rowspan="4" style="border: 2px solid black;text-align: left; width:40%">
+                                            <h3 class="pl-10">
+                                                <span t-field="doc.partner_id.name"/>
+                                            </h3>
+                                            <span class="pl-10" t-field="doc.partner_id.street"/>
+                                        </th>
+                                        <th style="border: 2px solid black; text-align: center;width:30%">
+                                            <span>Account Number</span>
+                                        </th>
+                                        <th style="border: 2px solid black; text-align: center; width:30%">
+                                            <span>ATM Ref. Number</span>
+                                        </th>
+                                    </tr>
+                                    <tr style="height:15px;">
+                                        <td style="border: 2px solid black;text-align: center;">
+                                            <span>xxxxxx</span>
+                                        </td>
+                                        <td style="border: 2px solid black;text-align: center;">
+                                            <span t-field="doc.atm_ref"/>
+                                        </td>
+                                    </tr>
+                                    <tr style="height:15px;">
+                                        <th style="border: 2px solid black;text-align: center;">
+                                            <span>Bill Number</span>
+                                        </th>
+                                        <th style="border: 2px solid black;text-align: center;">
+                                            <span>Billing Period</span>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 2px solid black;text-align: center;">
+                                            <span>xxxxxx</span>
+                                        </td>
+                                        <td style="border: 2px solid black;text-align: center;">
+                                            <span>xxxxxx</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br/>
+                            <div class="row" id="statement_of_account_body_2">
+                                <table width="100%">
+                                    <tr>
+                                        <th style="width:25%; border: 2px solid black; text-align: center;">
+                                            <span>Minimum Date</span>
+                                        </th>
+                                        <th style="width:25%; border: 2px solid black; text-align: center;">
+                                            <span>Total Amount</span>
+                                        </th>
+                                        <th style="width:25%; border: 2px solid black; text-align: center;">
+                                            <span>Due Date</span>
+                                        </th>
+                                        <th style="width:25%; border: 2px solid black; text-align: center;">
+                                            <span>Plan</span>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:25%; border: 2px solid black; text-align: center;">
+                                            <span>xxxxxx</span>
+                                        </td>
+                                        <td style="width:25%; border: 2px solid black; text-align: center;">
+                                            <span>xxxxxx</span>
+                                        </td>
+                                        <td style="width:25%; border: 2px solid black; text-align: center;">
+                                            <span t-field="doc.invoice_date_due"/>
+                                        </td>
+                                        <td style="width:25%; border: 2px solid black; text-align: center;">
+                                            <span>xxxxxx</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br/>
+
+                            <div class="row" id="statement_of_account_body_3">
+                                <table width="100%" style="font-size:14px">
+                                    <tr>
+                                        <th style="width:40%;">PREVIOUS CHARGES:</th>
+                                        <td style="width:20%;"/>
+                                        <td style="width:10%;"/>
+                                        <td style="width:20%;"/>
+                                        <td style="width:10%;" rowspan="12"/>
+                                        <!-- <td rowspan="5" class="rotate"> -->
+                                        <!-- <td rowspan="10" style="white-space: nowrap; -webkit-transform: rotate(-90deg); position: absolute; top: 0; left: 0;">
+                                            NOT VALID AS RECEIPT
+                                        </td> -->
+                                    </tr>
+                                    <tr>
+                                        <td>Previous Bill balance</td>
+                                        <td style="text-align:right;">PHP <span>1,624.00</span></td>
+                                        <td colspan="2"/>
+                                    </tr>
+                                    <tr>
+                                        <td>Previous received</td>
+                                        <td style="text-align:right;"><span>1,624.00</span></td>
+                                        <td colspan="2"/>
+                                    </tr>
+                                    <tr>
+                                        <td>Add adjustment</td>
+                                        <td style="text-align:right;"><span>0.00</span></td>
+                                        <td colspan="2"/>
+                                    </tr>
+                                    <tr>
+                                        <th>CURRENT CHARGES:</th>
+                                        <td style="border-top: 2px solid black;"/>
+                                        <td colspan="3"/>
+                                    </tr>
+                                    <tr>
+                                        <td>Monthly Subscription Fee</td>
+                                        <td style="text-align:right;"><span>xxxx.xx</span></td>
+                                        <td colspan="2"/>
+                                    </tr>
+                                     <tr>
+                                        <td>Device Fee</td>
+                                        <td style="text-align:right;"><span>xxxx.xx</span></td>
+                                        <td colspan="2"/>
+                                    </tr>
+                                    <tr>
+                                        <td>Others</td>
+                                        <td style="text-align:right;"><span>xxxx.xx</span></td>
+                                        <td colspan="2"/>
+                                    </tr>
+                                    <tr>
+                                        <td>VAT</td>
+                                        <td style="text-align:right;"><span>xxxx.xx</span></td>
+                                        <td colspan="2"/>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Current Charges</td>
+                                        <td style="border-top: 2px solid black;"/>
+                                        <td colspan="1"/>
+                                        <td style="text-align:right;"><span>xxxx.xx</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"/>
+                                        <td style="border-top: 2px solid black;"/>
+                                    </tr>
+                                    <tr>
+                                        <th>TOTAL AMOUNT DUE:</th>
+                                        <td colspan="2"/>
+                                        <td style="text-align:right;"><span>xxxx.xx</span></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <br/>
+                            <div class="row" id="statement_of_account_body_4">
+                                <table width="100%">
+                                    <tr>
+                                        <th style="border: 1px solid black; text-align: left;">
+                                            <h3 style="font-weight:900; font-size:22px" class="pl-10">IMPORTANT REMINDERS</h3>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid black; text-align: left;">
+                                            <p class="pl-10">
+                                                Thank you very much for settling your Streamtech monthly bill on time. We acknowledge your timely update, and would like you to know that this helps us at Streamtech to constantly provide you with quality internet service for your home. Should there be any billing discrepancies in your statement of account, kindly coordinate with our Billing Department within 15 days from statement date, or this statement of account would be considered accurate.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br/>
+                            <div class="text-center" id="statement_of_account_body_5">
+                                <p style="border-top: 2px dotted black;">
+                                    Please attach this billing stub when making payments
+                                </p>
+                            </div>
+                            <br/>
+                            <div class="row" id="statement_of_account_body_6">
+                                <table width="100%">
+                                    <tr>
+                                        <th style="width:50%;">
+                                            <span>Account Number:</span>
+                                        </th>
+                                        <th style="width:50%;">
+                                            <span>Due Date:</span>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%;">
+                                            <span>Name:</span>
+                                        </th>
+                                        <th style="width:50%;">
+                                            <span>Total Amount Due:</span>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%;">
+                                        </th>
+                                        <th style="width:50%;">
+                                            <span>ATM Ref. Number:</span>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:50%;">
+                                            <span>
+                                                xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                                            </span>
+                                        </td>
+                                        <th style="width:50%;">
+                                            <span>Contact Number:</span>
+                                        </th>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br/>
+                            <div class="text-center" id="statement_of_account_body_7">
+                                <p style="border-top: 2px dotted black;">
+                                </p>
+                            </div>
+                            <div class="row" id="statement_of_account_body_8">
+                                <table width="100%" style="font-size: 14px">
+                                    <tr>
+                                        <th style="width:50%;">
+                                            <span>ATM Ref. Number:</span>
+                                        </th>
+                                        <th style="width:50%;">
+                                            <span>Due Date:</span>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%">
+                                            <span>Customer Name:</span>
+                                        </th>
+                                        <td width="50%">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br/>
+                            <div class="row" id="statement_of_account_body_9">
+                                <table width="100%" style="font-size: 14px">
+                                    <tr>
+                                        <td style="width:20%; text-align:left;">
+                                            <span>Received by:</span>
+                                        </td>
+                                        <td style="width:4%;">
+                                        </td>
+                                        <td style="width:30%; border-bottom: 2px solid black;text-align:center;">
+                                            <span t-field="doc.partner_id.name"/>
+                                        </td>
+                                        <td style="width:8%;">
+                                        </td>
+                                        <td style="width:30%; border-bottom: 2px solid black;text-align:center;">
+                                            01/01/2021 08:08:00
+                                        </td>
+                                        <td style="width:8%;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:25%;">
+                                        </td>
+                                        <td colspan="3" style="text-align:center;">
+                                            <span>
+                                                Signature over Printed Name
+                                            </span>
+                                        </td>
+                                        <td  colspan="2" style="text-align:center;">
+                                            <span>
+                                                Date and Time
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+            id="action_report_subscriber_statement_of_account"
+            model="account.move"
+            string="(SOA) - Statement of Account"
+            report_type="qweb-pdf"
+            name="awb_subscriber_bill.report_subscriber_statement_of_account"
+            file="awb_subscriber_bill.report_subscriber_statement_of_account"
+        />
+        <record id="subscriber_soa_template_paper" model="report.paperformat">
+            <field name="header_line" eval="False"/>
+            <field name="default" eval="False"/>
+            <field name="print_page_width">210</field>
+            <field name="dpi">90</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">12.50</field>
+            <field name="margin_right">32.50</field>
+            <field name="margin_left">32.50</field>
+            <field name="print_page_height">297</field>
+            <field name="page_height" eval="False"/>
+            <field name="header_spacing">15</field>
+            <field name="name">Subscriber SOA Template A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="format">A4</field>
+        </record>
+        <record id="action_report_subscriber_statement_of_account" model="ir.actions.report">
+            <field name="paperformat_id" ref="awb_subscriber_bill.subscriber_soa_template_paper" />
+        </record>
+    </data>
+</odoo>

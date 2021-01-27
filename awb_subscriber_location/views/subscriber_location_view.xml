@@ -25,6 +25,7 @@
                             <group>
                                 <field name="analytic_account_id" groups="account.group_account_manager"/>
                                 <field name="cluster_head"/>
+                                <field name="subscription_count"/>
                             </group>
                             
                         </group>
@@ -33,9 +34,15 @@
                                 <field name="location_ids" widget="many2many">
                                     <tree>
                                         <field name="name" string="Name"/>
-                                        <field name="analytic_account_id"/>
+                                        <field name="analytic_account_id" groups="account.group_account_manager"/>
                                     </tree>
                                 </field>
+                            </page>
+                            <page string="Subscriptions">
+                                <field name="subscription_ids" readonly="1"/>
+                            </page>
+                            <page string="Projects">
+                                <field name="project_ids" readonly="1"/>
                             </page>
                             <page string="Other Informations">
                                 <field name="description"/>

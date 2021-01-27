@@ -12,4 +12,5 @@ class Project(models.Model):
     _inherit = "project.project"
 
     subscriber_location_id = fields.Many2one('subscriber.location', string='Location')
+    subscription_count = fields.Integer(related='subscriber_location_id.subscription_count',string="Number of Subscription")
     

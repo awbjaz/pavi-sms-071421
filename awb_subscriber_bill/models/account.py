@@ -97,7 +97,7 @@ class AccountMove(models.Model):
                     total_amount += line.amount
 
                 data = {
-                    'name': 'Payments',
+                    'name': 'Payment',
                     'amount': total_amount * -1,
                 }
 
