@@ -5,6 +5,11 @@
         <field name="model">stock.overprocessed.transfer</field>
         <field name="inherit_id" ref="stock.view_overprocessed_transfer"/>
         <field name="arch" type="xml">
+            <xpath expr="//form/p[1]" position="replace">
+                <p>
+                    The received quantities are greater than the demand quantity.
+                </p>
+            </xpath>
             <xpath expr="//form/p[2]" position="replace"/>
             <xpath expr="//form/footer" position="replace">
                 <footer>
@@ -13,5 +18,4 @@
         </field>
     </record>
 </odoo>
-
 
