@@ -24,6 +24,7 @@
                 <group name="plan_package" string="Plan + Package Details">
                     <field name ="contract_start_date"/>
                     <field name ="contract_end_date"/>
+                    <field name ="contract_term"/>
                     <field name ="plan"/>
                     <field name ="promo"/>
                     <field name ="device" widget="many2many_tags"/>

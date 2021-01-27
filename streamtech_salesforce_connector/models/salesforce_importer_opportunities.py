@@ -31,6 +31,7 @@ class SalesForceImporterOpportunities(models.Model):
                     Valid_ID__c,
                     Proof_of_Billing_Electricity_or_Water__c,
                     Sum_of_Installation_Cost__c,
+                    Contract_Term__c,
                     Sub_Stages__c
                 FROM opportunity
                 WHERE (StageName = 'Closed Won' AND Sub_Stages__c in ('Completed Activation'))
@@ -128,6 +129,7 @@ class SalesForceImporterOpportunities(models.Model):
             'outside_source': True,
             # 'contract_start_date': '',
             # 'contract_end_date': '',
+            'contract_term': lead.get('Contract_Term__c', 0),
             # 'no_tv': ,
             # 'plan': # Mapping
             'internet_speed': speed,
@@ -181,6 +183,7 @@ class SalesForceImporterOpportunities(models.Model):
             }
             items.append((0, 0, data))
 
+        opportunity.update({'product_lines': [(5, 0, 0)]})
         opportunity.update({'product_lines': items})
 
     def _find_and_link_opportunity_products(self, opportunity, op_data):

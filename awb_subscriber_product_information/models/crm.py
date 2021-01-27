@@ -33,6 +33,7 @@ class CRMLead(models.Model):
     contract_start_date = fields.Date(
         string="Contract Start Date", required=True)
     contract_end_date = fields.Date(string="Contract End Date", required=True)
+    contract_term = fields.Integer(string="Contract Term")
     plan = fields.Many2one('sale.order.template', string="Plan")
     no_tv = fields.Integer(string="Number of TV")
     internet_speed = fields.Integer(string="Internet Speed")
