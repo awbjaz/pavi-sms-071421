@@ -24,12 +24,13 @@ class SalesForceImporterOpportunities(models.Model):
                     HasOpenActivity, IsDeleted, IsWon, OwnerId, Probability, 
                     LastActivityDate, StageName, Type, leadSource, CampaignId,
                     Preferred_Speed_Bandwidth__c,
-                    Product_Sub_Type__c,
                     Product_Type__c,
+                    Product_Sub_Type__c,
                     Payment_OR_No__c,
                     Device_Fee__c,
                     Valid_ID__c,
                     Proof_of_Billing_Electricity_or_Water__c,
+                    Total_Discount_AMount__c,
                     Sum_of_Installation_Cost__c,
                     Contract_Term__c,
                     Sub_Stages__c
@@ -72,6 +73,7 @@ class SalesForceImporterOpportunities(models.Model):
         #     raise osv.except_osv("Error Details!", e)
 
     def _create_lead_data(self, lead, lead_stage, campaign, medium, source):
+        _logger.debug(f'Lead: {lead}')
         substage = lead.get('Sub_Stages__c', '')
         if substage == '':
             substage = 'new'
@@ -106,6 +108,22 @@ class SalesForceImporterOpportunities(models.Model):
         else:
             subscription_status = ''
 
+        cable = lead.get('Product_Sub_Type__c', '')
+        if 'digital' in cable.lower():
+            cable = 'digital'
+        elif 'analog' in cable:
+            cable = 'analog'
+        else:
+            cable = 'none'
+
+        promo = lead.get('Total_Discount_AMount__c', 0)
+        if promo and promo > 0:
+            promo = True
+        else:
+            promo = False
+
+        has_id = lead.get('Valid_ID__c', False)
+
         speed = lead.get('Preferred_Speed_Bandwidth__c', '0')
         if speed:
             speed = int(speed)
@@ -134,12 +152,12 @@ class SalesForceImporterOpportunities(models.Model):
             # 'plan': # Mapping
             'internet_speed': speed,
             # 'device': '', # Mapping
-            # 'cable': '',
-            # 'promo': '',
-            'has_id': lead.get('Valid_ID__c', False),
+            'cable': cable,
+            'promo': promo,
+            'has_id': has_id,
             'has_proof_bill': lead.get('Proof_of_Billing_Electricity_or_Water__c', False),
-            # 'has_lease_contract': '',
-            # 'others': '',
+            'has_lease_contract': '',
+            'others': '',
             'initial_payment': lead.get('Sum_of_Installation_Cost__c', 0.0),
             'or_number': lead.get('Payment_OR_No__c', ''),
             # 'payment_date': '',
@@ -349,7 +367,7 @@ class SalesForceImporterOpportunities(models.Model):
                         lead_data['location'] = 'SalesForce'
                         lead_data['partner_id'] = lead_partner.id
                         self.env['crm.lead'].create(lead_data)
-                        self._find_and_link_opportunity_products(lead_data)
+                        self._find_and_link_opportunity_products(odoo_lead, lead_data)
                         self.env.cr.commit()
                     else:
                         lead_stage = self.env['crm.stage'].search([('name', '=', lead['StageName'])])
@@ -361,7 +379,7 @@ class SalesForceImporterOpportunities(models.Model):
                         lead_data = self._create_lead_data(lead, lead_stage, campaign, medium, source)
                         lead_data['location'] = 'SalesForce'
                         self.env['crm.lead'].create(lead_data)
-                        self._find_and_link_opportunity_products(lead_data)
+                        self._find_and_link_opportunity_products(odoo_lead, lead_data)
                         self.env.cr.commit()
                 salesforce_ids.append(lead['Id'])
 

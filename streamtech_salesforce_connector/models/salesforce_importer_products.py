@@ -99,31 +99,28 @@ class SalesForceImporterProducts(models.Model):
                 ", UnitPrice " \
                 ", Product2.CreatedDate, LastMOdifiedDate " \
                 " from PriceBookEntry" \
-                # " limit 10"
+                " limit 1000"
         _logger.info(f'Query {query}')
-        try:
-            if not self.sales_force:
-                self.connect_to_salesforce()
 
-            if not Auto:
-                if not self.from_date and self.to_date:
-                    raise osv.except_osv("Warning!", "Sorry; invalid operation, please select From Date")
+        if not self.sales_force:
+            self.connect_to_salesforce()
 
-                if self.from_date:
-                    query += " where Product2.CreatedDate>=" + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+        if not Auto:
+            if not self.from_date and self.to_date:
+                raise osv.except_osv("Warning!", "Sorry; invalid operation, please select From Date")
 
-                if self.to_date:
-                    to_date_query = " and Product2.CreatedDate<=" + self.to_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
-                    query += to_date_query
-            else:
-                today = datetime.date.today()
-                yesterday = today - datetime.timedelta(days=1)
-                from_date_query = " where Product2.CreatedDate>= " + yesterday.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
-                to_date_query = " and Product2.CreatedDate<=" + today.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
-                query += from_date_query + to_date_query
+            if self.from_date:
+                query += " where Product2.CreatedDate>=" + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
 
-            products = self.sales_force.bulk.PriceBookEntry.query(query)
-            return self.creating_products(products)
+            if self.to_date:
+                to_date_query = " and Product2.CreatedDate<=" + self.to_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+                query += to_date_query
+        else:
+            today = datetime.date.today()
+            yesterday = today - datetime.timedelta(days=1)
+            from_date_query = " where Product2.CreatedDate>= " + yesterday.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+            to_date_query = " and Product2.CreatedDate<=" + today.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+            query += from_date_query + to_date_query
 
-        except Exception as e:
-            raise osv.except_osv("Error Details!", e)
+        products = self.sales_force.query(query)['records']
+        return self.creating_products(products)
