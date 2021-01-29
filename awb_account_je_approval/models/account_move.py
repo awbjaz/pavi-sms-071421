@@ -1,12 +1,23 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, _
+from odoo.exceptions import Warning, UserError, ValidationError
+
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    state = fields.Selection(selection_add=[('reviewed', 'Reviewed')])
+    state = fields.Selection(selection=[
+        ('draft', 'Draft'),
+        ('reviewed', 'Reviewed'),
+        ('posted', 'Posted'),
+        ('cancel', 'Cancelled'),
+    ], string='Status', required=True, readonly=True, copy=False, tracking=True,
+        default='draft')
     reviewed_by = fields.Many2one('res.users', string='Reviewed By',
                                   copy=False, tracking=True, readonly=True)
     approved_by = fields.Many2one('res.users', string='Approved By',
@@ -27,3 +38,13 @@ class AccountMove(models.Model):
     def action_post(self):
         super(AccountMove, self).action_post()
         self.approved_by = self.env.user.id
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = super(AccountMove, self).create(vals_list)
+        _logger.debug(f"Result {res['type']}")
+        _logger.debug(f"Result 2{res['line_ids']}")
+        if res['type'] == 'entry':
+            if len(res['line_ids']) == 0:
+                raise UserError(_('Journal Items must have atleast 1 record'))
+        return res

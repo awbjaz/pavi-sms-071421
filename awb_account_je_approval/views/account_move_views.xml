@@ -30,6 +30,9 @@
           <xpath expr="//group[@name='misc_group']">
             <field name="create_uid" attrs="{'invisible': [('type', '!=', 'entry')]}" readonly="1"/>
           </xpath>
+          <xpath expr="//field[@name='ref']" position="attributes">
+            <attribute name="attrs">{'required': [('type', '=', 'entry')]}</attribute> 
+          </xpath>
         </field>
       </record>
     </data>
