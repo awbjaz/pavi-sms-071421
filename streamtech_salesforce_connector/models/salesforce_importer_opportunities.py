@@ -16,12 +16,12 @@ class SalesForceImporterOpportunities(models.Model):
         if not self.sales_force:
             self.connect_to_salesforce()
 
-        # Field/s removed due to errors found with usage with PAVI SalesForce: 
+        # Field/s removed due to errors found with usage with PAVI SalesForce:
         #  ExpectedRevenue
         query = """
-                SELECT 
-                    Id, name, AccountId, Amount, CloseDate,  Description, LastMOdifiedDate, 
-                    HasOpenActivity, IsDeleted, IsWon, OwnerId, Probability, 
+                SELECT
+                    Id, name, AccountId, Amount, CloseDate,  Description, LastMOdifiedDate,
+                    HasOpenActivity, IsDeleted, IsWon, OwnerId, Probability,
                     LastActivityDate, StageName, Type, leadSource, CampaignId,
                     Preferred_Speed_Bandwidth__c,
                     Product_Type__c,
@@ -48,7 +48,7 @@ class SalesForceImporterOpportunities(models.Model):
 
             elif self.from_date and not self.to_date:
                 from_date_query = " AND CreatedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
-                query = query + from_date_query 
+                query = query + from_date_query
 
             elif self.from_date and self.to_date:
                 from_date_query = " AND CreatedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
@@ -197,7 +197,8 @@ class SalesForceImporterOpportunities(models.Model):
                 'product_id': odoo_product.id,
                 'quantity': product['Quantity'],
                 'unit_price': product['UnitPrice'],
-                'total_price': product['TotalPrice']
+                'total_price': product['Total_Cash_Out__c'],
+                'device_fee': product['Device_Fee__c']
             }
             items.append((0, 0, data))
 
@@ -213,8 +214,9 @@ class SalesForceImporterOpportunities(models.Model):
                 oli.Product2Id,
                 oli.ProductCode,
                 oli.Name,
+                oli.Device_Fee__c,
                 oli.Quantity,
-                oli.TotalPrice,
+                oli.Total_Cash_Out__c,
                 oli.UnitPrice
             FROM
                 OpportunityLineItem AS oli
@@ -230,19 +232,19 @@ class SalesForceImporterOpportunities(models.Model):
     def _process_opportunity_job_orders(self, opportunity):
         _logger.info('----------------- STREAMTECH _process_opportunity_job_orders(')
         query = """
-            SELECT 
+            SELECT
                 jo.Id,
                 jo.Name,
                 jo.Job_Order_Number__c,
                 jo.JO_Status__c,
                 jo.Opportunity_Name__c
-            FROM 
+            FROM
                 Job_Order__c AS jo
             WHERE
                 jo.Opportunity_Name__c = '%s'
-            """  % (opportunity['salesforce_id'])
+            """ % (opportunity['salesforce_id'])
         rows = self.sales_force.query(query)['records']
-        
+
         # TODO: add code to process job order entries
 
     def creating_opportunities(self, opportunities):

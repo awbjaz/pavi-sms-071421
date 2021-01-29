@@ -66,8 +66,13 @@ class Partner(models.Model):
     account_group = fields.Selection([('vista', 'Vista'),
                                      ('non-vista', 'Non-Vista')], string='Account Group')
     account_type = fields.Selection([('corporate', 'Corporate'),
-                                     ('mail_tenant', 'Mail-Tenant'),
+                                     ('mall_tenant', 'Mall-Tenant'),
                                      ('sme', 'SME')], string='Type')
+    zone_type = fields.Selection([('vista', 'Vista'),
+                                  ('non-vista', 'Non-vista')], string='Zone Type')
+    zone_subtype = fields.Many2one('zone.subtype', string='Zone Subtype')
+    category = fields.Selection([('new', 'New'),
+                                  ('existing', 'Existing')], string='Category')
     brand = fields.Many2one('project.brand', string="Brand")
     service_provider = fields.Many2one('partner.service.provider', string="Service Provider")
     expiration_notice = fields.Many2one('sale.expiration_notice', string="Expiration Notice")

@@ -41,6 +41,7 @@
                             <field name="product_id"/>
                             <field name="quantity"/>
                             <field name="unit_price"/>
+                            <field name="device_fee"/>
                             <field name="total_price"/>
                         </tree>
                     </field>

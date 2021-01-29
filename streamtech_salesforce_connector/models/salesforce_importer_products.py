@@ -68,6 +68,7 @@ class SalesForceImporterProducts(models.Model):
                 'default_code': product['Product2']['ProductCode'],
                 'last_modified': product['LastModifiedDate'],
                 'categ_id': category.id,
+                'device_fee': product['Product2'].get('Device_Fee__c', 0),
                 'active': product['Product2'].get('IsActive', True)
             }
 

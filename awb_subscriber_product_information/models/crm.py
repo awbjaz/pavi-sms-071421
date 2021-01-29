@@ -20,6 +20,7 @@ class CRMProductLine(models.Model):
     opportunity_id = fields.Many2one('crm.lead', string='Opportunity')
     product_id = fields.Many2one('product.template', string='Product')
     quantity = fields.Float('Quantity')
+    device_fee = fields.Float(string="Device Fee", default=0)
     unit_price = fields.Float('Unit Price')
     total_price = fields.Float('Total Price')
 
