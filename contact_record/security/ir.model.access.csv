@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_res_province,access_res_province,model_res_province,base.group_partner_manager,1,1,1,1
+access_res_province_group_all,access_res_province_group_all,model_res_province,,1,0,0,0
+
