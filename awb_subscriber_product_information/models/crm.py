@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from odoo import fields, models
-
+from odoo import fields, models, _
+from odoo.exceptions import UserError
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -65,3 +65,15 @@ class CRMLead(models.Model):
                                             ('disconnection', 'Disconnection'),
                                             ('reconnection', 'Reconnection')], default='new', string="Subscription Status")
     product_lines = fields.One2many('crm.lead.productline', 'opportunity_id', string='Products')
+    zone = fields.Many2one('subscriber.location', domain=[('location_type', '=', 'zone')])
+
+    def write(self, vals):
+        is_completed = self.env.ref('awb_subscriber_product_information.stage_completed')
+        _logger.debug(f'stage {is_completed} current {self.stage_id} {vals}')
+        if 'stage_id' in vals and vals["stage_id"] == is_completed.id:
+            if not self.zone:
+                raise UserError(_('Please specify zone.'))
+
+        write_result = super(CRMLead, self).write(vals)
+
+        return write_result
