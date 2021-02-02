@@ -22,7 +22,7 @@ class CRMLead(models.Model):
             'default_account_identification': self.account_identification,
             'default_sale_order_template_id': self.plan.id,
             'default_date_order': self.contract_start_date,
-            'default_outside_source': self.outside_source,
+            'default_outside_sourced': self.outside_source,
         })
         _logger.debug(f'Result {result}')
         return result
@@ -46,7 +46,7 @@ class CRMLead(models.Model):
                     'account_identification': self.account_identification,
                     'sale_order_template_id': self.plan.id,
                     'date_order': self.contract_start_date,
-                    'outside_source': self.outside_source,
+                    'outside_sourced': self.outside_source,
                     'opportunity_id': self._origin.id,
                     'partner_id': self.partner_id.id,
                     'team_id': self.team_id.id,
@@ -108,9 +108,11 @@ class CRMLead(models.Model):
                             for line in order.order_line:
                                 if line.subscription_id:
                                     if line.subscription_id.id not in subscription:
-                                        subscription.append(line.subscription_id.id)
+                                        subscription.append(
+                                            line.subscription_id.id)
 
-                subscription_id = self.env['sale.subscription'].search([('id', 'in', subscription)])
+                subscription_id = self.env['sale.subscription'].search(
+                    [('id', 'in', subscription)])
                 for subs_id in subscription_id:
                     subs_id.update({'to_renew': True})
                     subs_id.prepare_renewal_order()
