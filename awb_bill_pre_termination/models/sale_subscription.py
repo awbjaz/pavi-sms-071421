@@ -15,7 +15,7 @@ class SaleSubscription(models.Model):
     rebates = fields.Float(string="Rebates")
     promo = fields.Float(string="Promo")
     baseline_amount = fields.Float(string="Baseline Amount")
-    discount = fields.Float(string="Discount")
+    discount = fields.Float(string="Discount Amount")
     termination_item = fields.Many2one('product.product', string="Termination Item")
     pre_termination_charge = fields.Float(string="Pre-Termination Charge", compute='compute_pre_termination_charge')
 
