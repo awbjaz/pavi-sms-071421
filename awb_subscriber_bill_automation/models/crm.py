@@ -114,9 +114,9 @@ class CRMLead(models.Model):
                 subscription_id = self.env['sale.subscription'].search(
                     [('id', 'in', subscription)])
                 for subs_id in subscription_id:
-                    subs_id.update({'to_renew': True})
                     subs_id.prepare_renewal_order()
-                    _logger.debug(f'Subs ID {subs_id}')
+                    subs_id.write({'to_renew': True})
+                    _logger.debug(f'Subs ID {subs_id.to_renew}')
 
         _logger.debug(f'Values {values}')
         return super(CRMLead, self).write(values)
