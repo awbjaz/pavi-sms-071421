@@ -17,11 +17,12 @@
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//group[1]/group[2]/field[@name='partner_id']" position="before">
+                <field name="company_type" readonly="1"/>
                 <field name="account_identification" readonly="1"/>
             </xpath>
 
             <xpath expr="//field[@name='team_id']" position="after">
-                <field name="zone" required="1"/>
+                <field name="zone" required="1" attrs="{'invisbile': [('company_type', '=', 'company')]}"/>
             </xpath>
 
             <xpath expr="//group[@name='lead_priority']" position="after">

@@ -18,6 +18,8 @@ class PartnerAccountClassification(models.Model):
     _description = 'Partner Classification'
 
     name = fields.Char('Name', required=True)
+    account_classification = fields.Selection([('internal', 'Affiliate / Internal'),
+                                               ('external', 'External')], string="Account Classification")
     description = fields.Text('Description')
 
 
@@ -34,6 +36,8 @@ class ZoneSubType(models.Model):
     _description = 'Zone Subtype'
 
     name = fields.Char('Name', required=True)
+    zone_type = fields.Selection([('vista', 'Vista'),
+                                  ('non-vista', 'Non-Vista')], string='Zone Type')
     description = fields.Text('Description')
 
 
@@ -71,9 +75,6 @@ class Partner(models.Model):
     zone_type = fields.Selection([('vista', 'Vista'),
                                   ('non-vista', 'Non-vista')], string='Zone Type')
     zone_subtype = fields.Many2one('zone.subtype', string='Zone Subtype')
-    category = fields.Selection([('new', 'New'),
-                                  ('existing', 'Existing')], string='Category')
-    brand = fields.Many2one('project.brand', string="Brand")
     service_provider = fields.Many2one('partner.service.provider', string="Service Provider")
     expiration_notice = fields.Many2one('sale.expiration_notice', string="Expiration Notice")
     outside_sourced = fields.Boolean('Outside Source', default=False)

@@ -46,7 +46,11 @@
                                 <field name="project_ids" readonly="1" groups="project.group_project_manager"/>
                             </page>
                             <page string="Other Informations">
-                                <field name="description"/>
+                                <group>
+                                    <field name="date_started"/>
+                                    <field name="category"/>
+                                    <field name="description"/>
+                                </group>
                             </page>
                         </notebook>
                     </sheet>

@@ -22,26 +22,27 @@
             </xpath>
 
             <xpath expr="//field[@name='vat']" position="after">
-                <field name="home_ownership"/>
+                <field name="home_ownership" attrs="{'invisible': [('is_company', '=', False)]}"/>
             </xpath>
 
             <xpath expr="//page[@name='internal_notes']" position="before">
                 <page name="subscription" string="Subscription">
                     <group>
                         <group>
-                            <field name="account_classification" widget="radio" options="{'horizontal': True}"/>
-                            <field name="account_subclassification"/>
-                            <field name="account_group" widget="radio" options="{'horizontal': True}"/>
-                            <field name="account_type" widget="radio"/>
-                            <field name="subscriber_type" widget="radio"/>
-                            <field name="brand"/>
+                            <field name="account_classification" widget="radio" options="{'horizontal': True}" attrs="{'invisible': [('is_company', '=', False)]}"/>
+                            <field name="account_subclassification" attrs="{'invisible': [('is_company', '=', False)]}"/>
+                            <field name="subscriber_type" widget="radio" attrs="{'invisible': [('is_company', '=', False)]}"/>
+                            <field name="account_type" widget="radio" attrs="{'invisible': [('is_company', '=', False)]}"/>
+
+                            <field name="account_group" widget="radio" options="{'horizontal': True}" attrs="{'invisible': [('is_company', '=', True)]}"/>
                             <field name="expiration_notice"/>
                             <field name="service_provider"/>
                         </group>
                         <group string="Location">
                             <field name="zone_type" widget="radio" options="{'horizontal': True}"/>
                             <field name="zone_subtype"/>
-                            <field name="category" widget="radio" options="{'horizontal': True}"/>
+                            <field name="subscriber_location_id"/>
+                            <field name="category" widget="radio" readonly="1"/>
                         </group>
                     </group>
                 </page>

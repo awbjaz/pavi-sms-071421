@@ -201,23 +201,6 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="Partner_form_inherit">
-            <field name="name">partner.form.inherit</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="arch" type="xml">
-                <field name="vat" position="after">
-                    <field name="customer_rank" invisible="1"/>
-                    <field name="first_name" attrs="{'invisible':[('customer_rank', '=', True)],'required':[('customer_rank', '!=', True)]}"/>
-                    <field name="last_name" attrs="{'invisible':[('customer_rank', '=', True)],'required':[('customer_rank', '!=', True)]}"/>
-                    <field name="salesforce_id" readonly="1"/>
-                </field>
-                <field name="email" position="after">
-                    <field name="location"/>
-                </field>
-            </field>
-        </record>
-
         <record model="ir.ui.view" id="partner_user_kanban_view">
             <field name="name">partner.salesforce</field>
             <field name="model">res.partner</field>

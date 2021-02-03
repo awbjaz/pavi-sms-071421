@@ -29,6 +29,7 @@ class CRMLead(models.Model):
     _inherit = 'crm.lead'
 
     account_identification = fields.Char(string="Account ID")
+    company_type = fields.Selection(related="partner_id.company_type", string="Account Type")
     is_auto_quotation = fields.Boolean(string="Is auto Quotation")
     outside_source = fields.Boolean(string="Outside Source", default=False)
     contract_start_date = fields.Date(
@@ -65,7 +66,8 @@ class CRMLead(models.Model):
                                             ('disconnection', 'Disconnection'),
                                             ('reconnection', 'Reconnection')], default='new', string="Subscription Status")
     product_lines = fields.One2many('crm.lead.productline', 'opportunity_id', string='Products')
-    zone = fields.Many2one('subscriber.location', domain=[('location_type', '=', 'zone')])
+    zone = fields.Many2one('subscriber.location', domain=[('location_type', '=', 'zone')], string="Zone")
+    category = fields.Selection(related='zone.category', string="Category")
 
     def write(self, vals):
         is_completed = self.env.ref('awb_subscriber_product_information.stage_completed')

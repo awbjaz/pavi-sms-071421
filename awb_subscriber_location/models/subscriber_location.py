@@ -29,7 +29,9 @@ class SubscriberLocation(models.Model):
     subscription_ids = fields.One2many('sale.subscription', 'subscriber_location_id', string="Subscription")
     subscription_count = fields.Integer(string="Number of Subscription", compute='_compute_subscription')
     description = fields.Text(string="Description")
-
+    date_started = fields.Date('Launch Date')
+    category = fields.Selection([('new', 'New'),
+                                 ('existing', 'Existing')], string="Category")
     cluster_head = fields.Many2one('hr.employee', string="Cluster Head")
 
     @api.onchange('billing_day')
