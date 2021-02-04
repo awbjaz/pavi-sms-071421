@@ -27,11 +27,11 @@
 
     'data': [
         'security/ir.model.access.csv',
+        'views/subscriber_location_view.xml',
         'views/project_view.xml',
         'views/city_view.xml',
         'views/sale_subscription_view.xml',
         'views/sale_view.xml',
-        'views/subscriber_location_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
