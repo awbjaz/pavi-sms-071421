@@ -5,7 +5,6 @@
 #
 ##############################################################################
 
-from . import brand
 from . import project
 from . import city
 from . import partner

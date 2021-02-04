@@ -27,7 +27,6 @@
 
     'data': [
         'security/ir.model.access.csv',
-        'views/brand_view.xml',
         'views/project_view.xml',
         'views/city_view.xml',
         'views/sale_subscription_view.xml',
