@@ -1,5 +1,6 @@
 import logging
 import datetime
+import unicodedata
 from dateutil.relativedelta import relativedelta
 
 from odoo import models, fields
@@ -18,7 +19,47 @@ class SalesForceImporterOpportunities(models.Model):
 
         # Field/s removed due to errors found with usage with PAVI SalesForce:
         #  ExpectedRevenue
-        query = """
+        account_query = """
+                    Account.Id, Account.IsPersonAccount,
+                    Account.Name, Account.FirstName, Account.MiddleName, Account.LastName,
+                    Account.Gender__c, Account.Birth_Date__c, Account.Civil_Status__c,
+                    Account.Home_Ownership__c,
+                    Account.Account_Classification__c, Account.Account_Sub_Classification__c,
+                    Account.Customer_Type__c,
+                    Account.Type, Account.Zone_Type_Acc__c, Account.Zone_Sub_Type_Acc__c,
+
+                    Account.PersonMobilePhone, Account.Mobile_Phone__c,
+                    Account.Person_Secondary_Mobile_Number__c, Account.Secondary_Mobile_Number__pc,
+                    Account.Phone, Account.Person_Secondary_Phone__c, Account.PersonOtherPhone,
+
+                    Account.Area_Code_BillingAddress__c,
+                    Account.Barangay_BillingAddress__c,
+                    Account.NameBldg_NoFloor_No_BillingAddress__c,
+                    Account.Street_BillingAddress__c,
+                    Account.City_BillingAddress__c,
+                    Account.Province_BillingAddress__c,
+                    Account.Region_BillingAddress__c,
+
+                    Account.Area_Code_BusinessAddress__c,
+                    Account.Barangay_BusinessAddress__c,
+                    Account.NameBldg_NoFloor_No_BusinessAddress__c,
+                    Account.Street_BusinessAddress__c,
+                    Account.City_BusinessAddress__c,
+                    Account.Province_BusinessAddress__c,
+                    Account.Region_BusinessAddress__c,
+
+                    Account.House_No_BL_Phase__c,
+                    Account.Barangay_Subdivision_Name__c,
+                    Account.City__c,
+                    Account.Province__c,
+                    Account.Region__c,
+                    Account.Person_Contact_Name__c,
+
+                    Account.PersonEmail,
+                    Account.Person_Secondary_Email_Address__c,
+                    Account.Secondary_Email_Address__pc
+                """
+        query = f"""
                 SELECT
                     Id, name, AccountId, Amount, CloseDate,  Description, LastMOdifiedDate,
                     HasOpenActivity, IsDeleted, IsWon, OwnerId, Probability,
@@ -36,10 +77,18 @@ class SalesForceImporterOpportunities(models.Model):
                     Contract_Term__c,
                     Sub_Stages__c,
                     Initial_Payment_Date__c,
-                    (SELECT SLA_Activation_Actual_End_Date__c FROM opportunity.Job_Orders__r)
+                    (SELECT SLA_Activation_Actual_End_Date__c FROM opportunity.Job_Orders__r),
+                    (SELECT
+                        PricebookEntryId, Product2Id, ProductCode,
+                        Name, Device_Fee__c, Quantity,
+                        Total_Cash_Out__c, UnitPrice
+                    FROM
+                        opportunity.OpportunityLineItems),
+                    {account_query}
                 FROM opportunity
                 WHERE (StageName = 'Closed Won' AND Sub_Stages__c in ('Completed Activation'))
                 OR StageName = 'Closed Lost'
+                LIMIT 1000
                 """
 
         if not Auto:
@@ -110,6 +159,11 @@ class SalesForceImporterOpportunities(models.Model):
             subscription_status = ''
 
         cable = lead.get('Product_Sub_Type__c', '')
+        if cable:
+            cable = cable.lower()
+        else:
+            cable = ''
+
         if 'digital' in cable.lower():
             cable = 'digital'
         elif 'analog' in cable:
@@ -194,7 +248,7 @@ class SalesForceImporterOpportunities(models.Model):
         return lead
 
     def _create_lead_partner_data(self, partner, lead_partner):
-        _logger.debug(f'Account: {partner}')
+        _logger.debug(f'Account: {dict(partner)}')
         data = {
             'salesforce_id': partner['Id'],
             'name': partner['Name'],
@@ -205,7 +259,7 @@ class SalesForceImporterOpportunities(models.Model):
             'last_name': '',
             'first_name': '',
             'middle_name': '',
-            'birthday': '',
+            'birthday': False,
             'gender': '',
             'subscriber_type': '',
             'account_classification': '',
@@ -255,11 +309,13 @@ class SalesForceImporterOpportunities(models.Model):
             province_id = False
             province_name = partner['Province__c']
             if province_name:
+                province_name = province_name.replace('\xa0', ' ')
                 province_id = self.env['res.country.state'].search([('name', '=', province_name)])
 
             city_id = False
             city_name = partner['City__c']
             if city_name:
+                city_name = city_name.replace('\xa0', ' ')
                 city_id = self.env['res.city'].search([('name', '=', city_name), ('state_id', '=?', province_id.id)])
 
             data.update({
@@ -271,8 +327,8 @@ class SalesForceImporterOpportunities(models.Model):
                 # 'civil_status': ,
                 'street': street1,
                 'street2': street2,
-                'city_id': city_id,
-                'state_id': province_id,
+                'city_id': city_id.id,
+                'state_id': province_id.id,
                 'region_id': province_id.region_id.id if province_id and province_id.region_id else False,
                 'country_id': province_id.country_id.id if province_id and province_id.country_id else False
             })
@@ -316,11 +372,14 @@ class SalesForceImporterOpportunities(models.Model):
             data.update({
                 'street': street1,
                 'street2': street2,
-                'city_id': city_id,
-                'state_id': province_id,
+                'city_id': city_id.id,
+                'state_id': province_id.id,
                 'region_id': province_id.region_id.id if province_id and province_id.region_id else False,
                 'country_id': province_id.country_id.id if province_id and province_id.country_id else False
                 })
+
+        if len(city_id) > 1:
+            _logger.error(f'Multiple Cities: {data["salesforce_id"]} {city_name}:{city_id} {province_name}:{province_id}')
 
         if lead_partner:
             lead_partner.write(data)
@@ -333,6 +392,10 @@ class SalesForceImporterOpportunities(models.Model):
         items = []
         for product in products:
             odoo_product = self.env['product.template'].search([('salesforce_id', '=', product['Product2Id'])])
+            if not odoo_product:
+                self.import_products(False, product['Product2Id'])
+                odoo_product = self.env['product.template'].search([('salesforce_id', '=', product['Product2Id'])])
+
             data = {
                 'product_id': odoo_product.id,
                 'quantity': product['Quantity'],
@@ -345,86 +408,15 @@ class SalesForceImporterOpportunities(models.Model):
         opportunity.update({'product_lines': [(5, 0, 0)]})
         opportunity.update({'product_lines': items})
 
-    def _find_and_link_opportunity_products(self, opportunity, op_data):
-        _logger.info('----------------- STREAMTECH _find_and_link_opportunity_products(')
-        query = """
-            SELECT
-                oli.OpportunityId,
-                oli.PricebookEntryId,
-                oli.Product2Id,
-                oli.ProductCode,
-                oli.Name,
-                oli.Device_Fee__c,
-                oli.Quantity,
-                oli.Total_Cash_Out__c,
-                oli.UnitPrice
-            FROM
-                OpportunityLineItem AS oli
-            WHERE
-                oli.OpportunityId = '%s'
-            """ % (op_data['salesforce_id'])
-        rows = self.sales_force.query(query)['records']
-
-        # TODO: add code to process product entries
-        self._create_lead_product_data(opportunity, rows)
-
     def _get_partner_data(self, lead):
         lead_partner = self.env['res.partner'].search([('salesforce_id', '=', lead['AccountId'])])
-        # if not lead_partner:
-        # if not lead_partner:
-        # Field/s removed due to errors found with usage with PAVI SalesForce: 
-        #  fax
-        query = """
-                SELECT
-                    Id, IsPersonAccount,
-                    Name, FirstName, MiddleName, LastName,
-                    Gender__c, Birth_Date__c, Civil_Status__c,
-                    Home_Ownership__c,
-                    Account_Classification__c, Account_Sub_Classification__c,
-                    Customer_Type__c,
-                    Type, Zone_Type_Acc__c, Zone_Sub_Type_Acc__c,
-
-                    PersonMobilePhone, Mobile_Phone__c,
-                    Person_Secondary_Mobile_Number__c, Secondary_Mobile_Number__pc,
-                    Phone, Person_Secondary_Phone__c, PersonOtherPhone,
-
-                    Area_Code_BillingAddress__c,
-                    Barangay_BillingAddress__c,
-                    NameBldg_NoFloor_No_BillingAddress__c,
-                    Street_BillingAddress__c,
-                    City_BillingAddress__c,
-                    Province_BillingAddress__c,
-                    Region_BillingAddress__c,
-
-                    Area_Code_BusinessAddress__c,
-                    Barangay_BusinessAddress__c,
-                    NameBldg_NoFloor_No_BusinessAddress__c,
-                    Street_BusinessAddress__c,
-                    City_BusinessAddress__c,
-                    Province_BusinessAddress__c,
-                    Region_BusinessAddress__c,
-
-                    House_No_BL_Phase__c,
-                    Barangay_Subdivision_Name__c,
-                    City__c,
-                    Province__c,
-                    Region__c,
-                    Person_Contact_Name__c,
-
-                    PersonEmail,
-                    Person_Secondary_Email_Address__c,
-                    Secondary_Email_Address__pc
-                FROM Account
-                """
-
-        extend_query = " where id='" + lead['AccountId'] + "'"
-        partner = self.sales_force.query(query + extend_query)["records"][0]
+        partner = lead['Account']
         lead_partner = self._create_lead_partner_data(partner, lead_partner)
 
         return lead_partner
 
     def creating_opportunities(self, opportunities):
-        _logger.info('----------------- STREAMTECH creating_opportunities')
+        _logger.info(f'----------------- STREAMTECH creating_opportunities {len(opportunities)}')
 
         try:
             salesforce_ids = []
@@ -432,7 +424,14 @@ class SalesForceImporterOpportunities(models.Model):
             medium = None
             source = None
 
-            for lead in opportunities:
+            for idx, lead in enumerate(opportunities):
+                _logger.debug(f'Lead: {idx}')
+                products = lead['OpportunityLineItems']
+                if products:
+                    products = products['records']
+                else:
+                    products = []
+
                 odoo_lead = self.env['crm.lead'].search([('salesforce_id', '=', lead['Id'])])
                 if odoo_lead:
                     if lead['CampaignId']:
@@ -470,8 +469,8 @@ class SalesForceImporterOpportunities(models.Model):
                         lead_partner = self._get_partner_data(lead)
                         lead_data['partner_id'] = lead_partner.id
 
+                    self._create_lead_product_data(odoo_lead, products)
                     odoo_lead.write(lead_data)
-                    self._find_and_link_opportunity_products(odoo_lead, lead_data)
                     self.env.cr.commit()
                 else:
                     if lead['CampaignId']:
@@ -511,7 +510,7 @@ class SalesForceImporterOpportunities(models.Model):
                         lead_data['partner_id'] = lead_partner.id
 
                     self.env['crm.lead'].create(lead_data)
-                    self._find_and_link_opportunity_products(odoo_lead, lead_data)
+                    self._create_lead_product_data(odoo_lead, products)
                     self.env.cr.commit()
 
                 salesforce_ids.append(lead['Id'])

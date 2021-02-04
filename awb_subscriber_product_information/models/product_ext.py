@@ -12,3 +12,4 @@ class ProductTemplateExt(models.Model):
     _description = 'Product Template'
 
     internet_usage = fields.Float(string="Internet Usage", required=True)
+    device_fee = fields.Float(string='Device Fee')

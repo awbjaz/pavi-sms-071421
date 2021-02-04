@@ -54,7 +54,8 @@ class Partner(models.Model):
                                ('others', 'Others')])
     civil_status = fields.Selection([('single', 'Single'),
                                      ('married', 'Married'),
-                                     ('separated', 'Legally Separated')], string="Civil Status")
+                                     ('separated', 'Legally Separated'),
+                                     ('others', 'Others')], string="Civil Status")
     home_ownership = fields.Selection([('owned', 'Owned'),
                                        ('rented', 'Rented'),
                                        ('living_relatives', 'Living with Relatives'),
@@ -73,7 +74,7 @@ class Partner(models.Model):
                                      ('mall_tenant', 'Mall-Tenant'),
                                      ('sme', 'SME')], string='Type')
     zone_type = fields.Selection([('vista', 'Vista'),
-                                  ('non-vista', 'Non-vista')], string='Zone Type')
+                                  ('non-vista', 'Non-Vista')], string='Zone Type')
     zone_subtype = fields.Many2one('zone.subtype', string='Zone Subtype')
     service_provider = fields.Many2one('partner.service.provider', string="Service Provider")
     expiration_notice = fields.Many2one('sale.expiration_notice', string="Expiration Notice")
@@ -81,8 +82,20 @@ class Partner(models.Model):
 
     @api.onchange('last_name', 'first_name', 'middle_name')
     def _onchange_name(self):
-        self.name = (self.first_name or '') + ' ' + \
-            (self.middle_name or '') + ' ' + str(self.last_name or '')
+        vals = {}
+        if self.company_type == 'person':
+            name = ''
+            if self.first_name:
+                name += self.first_name + ' '
+            if self.middle_name:
+                name += self.middle_name + ' '
+            if self.last_name:
+                name += self.last_name
+
+            vals.update({'name': name})
+
+        self.write(vals)
+
 
     def _compute_age(self):
         age = 0

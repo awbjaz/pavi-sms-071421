@@ -93,20 +93,21 @@ class SalesForceImporterProducts(models.Model):
 
         return salesforce_ids
 
-    def import_products(self, Auto):
+    def import_products(self, Auto, id=None):
         _logger.info(f'Import Products {Auto}')
         query = "SELECT Product2.Id, Product2.Name, Product2.ProductCode, Product2.Description" \
                 ", Product2.Family, Product2.IsActive, Product2.Type__c, Product2.Facility_Type__c, Product2.Bandwidth__c" \
                 ", UnitPrice " \
                 ", Product2.CreatedDate, LastMOdifiedDate " \
-                " from PriceBookEntry" \
-                " limit 1000"
+                " from PriceBookEntry"
         _logger.info(f'Query {query}')
 
         if not self.sales_force:
             self.connect_to_salesforce()
 
-        if not Auto:
+        if id:
+            query += " where id ='" + id + "'"
+        elif not Auto:
             if not self.from_date and self.to_date:
                 raise osv.except_osv("Warning!", "Sorry; invalid operation, please select From Date")
 
