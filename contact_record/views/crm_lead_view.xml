@@ -4,11 +4,8 @@
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//group/group[1]/div/field[@name='country_id']" position="before">
-                <field name="province_id" placeholder="Province"/>
-            </xpath>
-            <xpath expr="//notebook/page[@name='lead']/group/group[1]/div/field[@name='country_id']" position="before">
-                <field name="province_id" placeholder="Province"/>
+            <xpath expr="//field[@name='country_id']" position="before">
+                <field name="region_id" placeholder="Region"/>
             </xpath>
         </field>
     </record>
@@ -18,13 +15,11 @@
         <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='city']" position="after">
-                <field name="province_id" filter_domain="[('province_id.name', 'ilike', self)]"/>
-                <field name="state_id" string="Region" filter_domain="[('state_id.name', 'ilike', self)]"/>
+                <field name="region_id" filter_domain="[('region_id.name', 'ilike', self)]"/>
             </xpath>
 
             <xpath expr="//filter[@name='city']" position="after">
-                <filter name="group_province" string="Province" context="{'group_by': 'province_id'}"/> 
-                <filter name="group_region" string="Region" context="{'group_by': 'state_id'}"/>
+                <filter name="group_region" string="Region" context="{'group_by': 'region_id'}"/>
             </xpath>
 
         </field>
@@ -35,13 +30,11 @@
         <field name="inherit_id" ref="crm.view_crm_case_leads_filter"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='city']" position="after">
-                <field name="province_id" filter_domain="[('province_id.name', 'ilike', self)]"/>
-                <field name="state_id" string="Region" filter_domain="[('state_id.name', 'ilike', self)]"/>
+                <field name="region_id" filter_domain="[('region_id.name', 'ilike', self)]"/>
             </xpath>
 
             <xpath expr="//filter[@name='city']" position="after">
-                <filter name="group_province" string="Province" context="{'group_by': 'province_id'}"/> 
-                <filter name="group_region" string="Region" context="{'group_by': 'state_id'}"/>
+                <filter name="group_region" string="Region" context="{'group_by': 'region_id'}"/>
             </xpath>
 
         </field>

@@ -9,7 +9,7 @@
             </xpath>
 
             <xpath expr="//field[@name='country_id']" position="before">
-                <field name="province_id" required="1" placeholder="Province"/>
+                <field name="region_id" required="1" placeholder="Region"/>
             </xpath>
             
             <xpath expr="//field[@name='image_1920']" position="before">
@@ -42,14 +42,14 @@
         <field name="inherit_id" ref="base.view_res_partner_filter"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='user_id']" position="after">
-                <field name="province_id" filter_domain="[('province_id.name', 'ilike', self)]"/>
+                <field name="region_id" filter_domain="[('region_id.name', 'ilike', self)]"/>
                 <field name="state_id" string="Region" filter_domain="[('state_id.name', 'ilike', self)]"/>
                 <field name="city_id" filter_domain="[('city_id.name', 'ilike', self)]"/>
             </xpath>
 
             <xpath expr="//filter[@name='group_country']" position="after">
-                <filter name="group_province" string="Province" context="{'group_by': 'province_id'}"/> 
-                <filter name="group_region" string="Region" context="{'group_by': 'state_id'}"/>
+                <filter name="group_region" string="Region" context="{'group_by': 'region_id'}"/>
+                <filter name="group_province" string="Province" context="{'group_by': 'state_id'}"/> 
                 <filter name="group_city" string="City" context="{'group_by': 'city_id'}"/> 
             </xpath>
         </field>

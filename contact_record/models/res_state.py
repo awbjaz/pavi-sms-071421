@@ -4,11 +4,9 @@
 #   ACHIEVE WITHOUT BORDERS
 #
 ##############################################################################
-
 from odoo import api, fields, models, _
 
+class State(models.Model):
+    _inherit = "res.country.state"
 
-class City(models.Model):
-    _inherit = "res.city"
-
-    state_id = fields.Many2one('res.country.state', 'Province', domain="[('country_id', '=', country_id)]")
+    region_id = fields.Many2one('res.region', string="Region", required=True)

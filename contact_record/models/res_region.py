@@ -6,9 +6,9 @@
 ##############################################################################
 from odoo import api, fields, models, _
 
-class Province(models.Model):
-    _name = "res.province"
+class Region(models.Model):
+    _name = "res.region"
 
-    name = fields.Char(string='Province', required=True)
+    name = fields.Char(string='Region', required=True)
     country_id = fields.Many2one('res.country', string="Country", required=True)
-    region_id = fields.Many2one('res.country.state', string="Region", required=True)
+    state_ids = fields.One2many('res.country.state', 'region_id', string="Provinces", required=True)
