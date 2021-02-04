@@ -6,6 +6,7 @@
 ##############################################################################
 from odoo import api, fields, models, _
 
+
 class Region(models.Model):
     _name = "res.region"
 

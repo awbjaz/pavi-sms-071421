@@ -249,6 +249,19 @@ class SalesForceImporterOpportunities(models.Model):
 
                 data['zone_subtype'] = zone_sub.id
 
+            street1 = partner['House_No_BL_Phase__c']
+            street2 = partner['Barangay_Subdivision_Name__c']
+
+            province_id = False
+            province_name = partner['Province__c']
+            if province_name:
+                province_id = self.env['res.country.state'].search([('name', '=', province_name)])
+
+            city_id = False
+            city_name = partner['City__c']
+            if city_name:
+                city_id = self.env['res.city'].search([('name', '=', city_name), ('state_id', '=?', province_id.id)])
+
             data.update({
                 'last_name': partner['LastName'],
                 'first_name': partner['FirstName'],
@@ -256,6 +269,12 @@ class SalesForceImporterOpportunities(models.Model):
                 'birthday': partner['Birth_Date__c'],
                 'gender': gender,
                 # 'civil_status': ,
+                'street': street1,
+                'street2': street2,
+                'city_id': city_id,
+                'state_id': province_id,
+                'region_id': province_id.region_id.id if province_id and province_id.region_id else False,
+                'country_id': province_id.country_id.id if province_id and province_id.country_id else False
             })
         else:
             data['is_company'] = True
@@ -276,6 +295,32 @@ class SalesForceImporterOpportunities(models.Model):
                     sub_class = self.env['partner.classification'].create({'name': sub_classification, 'account_classification': classification})
 
                 data['account_subclassification'] = sub_class.id
+
+            bldg_billing = partner.get('NameBldg_NoFloor_No_BillingAddress__c')
+            street_billing = partner.get('Street_BillingAddress__c')
+            brgy_billing = partner.get('Barangay_BillingAddress__c')
+
+            province_id = False
+            province_name = partner.get('Province_BillingAddress__c')
+            if province_name:
+                province_id = self.env['res.country.state'].search([('name', '=', province_name)])
+
+            city_id = False
+            city_name = partner.get('City_BillingAddress__c')
+            if city_name:
+                city_id = self.env['res.city'].search([('name', '=', city_name), ('state_id', '=?', province_id.id)])
+
+            street1 = f'{bldg_billing} {street_billing}'
+            street2 = brgy_billing
+
+            data.update({
+                'street': street1,
+                'street2': street2,
+                'city_id': city_id,
+                'state_id': province_id,
+                'region_id': province_id.region_id.id if province_id and province_id.region_id else False,
+                'country_id': province_id.country_id.id if province_id and province_id.country_id else False
+                })
 
         if lead_partner:
             lead_partner.write(data)

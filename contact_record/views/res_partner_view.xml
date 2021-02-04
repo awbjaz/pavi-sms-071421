@@ -12,6 +12,10 @@
                 <field name="region_id" required="1" placeholder="Region"/>
             </xpath>
             
+            <xpath expr="//field[@name='state_id']" position="attributes">
+                <attribute name="context">{'default_country_id': country_id, 'default_region_id': region_id}</attribute>
+            </xpath>
+
             <xpath expr="//field[@name='image_1920']" position="before">
                 <widget name="web_ribbon" 
                     title="Validated" 

@@ -37,7 +37,7 @@
     <record id="action_region" model="ir.actions.act_window">
         <field name="name">Region</field>
         <field name="res_model">res.region</field>
-        <field name="view_mode">tree.form</field>
+        <field name="view_mode">tree,form</field>
         <field name="view_id" ref="res_region_tree"/>
     </record>
 

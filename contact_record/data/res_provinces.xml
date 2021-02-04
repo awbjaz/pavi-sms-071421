@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+        <record id="res_province_012800000" model="res.country.state">
+            <field name="code">012800000</field>
+            <field name="name">Ilocos Norte</field>
+            <field name="region_id" ref="res_region_010000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_012900000" model="res.country.state">
+            <field name="code">012900000</field>
+            <field name="name">Ilocos Sur</field>
+            <field name="region_id" ref="res_region_010000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_130000000" model="res.country.state">
+            <field name="code">130000000</field>
+            <field name="name">National Capital Region (NCR)</field>
+            <field name="region_id" ref="res_region_130000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_013300000" model="res.country.state">
+            <field name="code">013300000</field>
+            <field name="name">La Union</field>
+            <field name="region_id" ref="res_region_010000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_015500000" model="res.country.state">
+            <field name="code">015500000</field>
+            <field name="name">Pangasinan</field>
+            <field name="region_id" ref="res_region_010000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_020900000" model="res.country.state">
+            <field name="code">020900000</field>
+            <field name="name">Batanes</field>
+            <field name="region_id" ref="res_region_020000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_021500000" model="res.country.state">
+            <field name="code">021500000</field>
+            <field name="name">Cagayan</field>
+            <field name="region_id" ref="res_region_020000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_023100000" model="res.country.state">
+            <field name="code">023100000</field>
+            <field name="name">Isabela</field>
+            <field name="region_id" ref="res_region_020000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_025000000" model="res.country.state">
+            <field name="code">025000000</field>
+            <field name="name">Nueva Vizcaya</field>
+            <field name="region_id" ref="res_region_020000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_025700000" model="res.country.state">
+            <field name="code">025700000</field>
+            <field name="name">Quirino</field>
+            <field name="region_id" ref="res_region_020000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_030800000" model="res.country.state">
+            <field name="code">030800000</field>
+            <field name="name">Bataan</field>
+            <field name="region_id" ref="res_region_030000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_031400000" model="res.country.state">
+            <field name="code">031400000</field>
+            <field name="name">Bulacan</field>
+            <field name="region_id" ref="res_region_030000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_034900000" model="res.country.state">
+            <field name="code">034900000</field>
+            <field name="name">Nueva Ecija</field>
+            <field name="region_id" ref="res_region_030000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_035400000" model="res.country.state">
+            <field name="code">035400000</field>
+            <field name="name">Pampanga</field>
+            <field name="region_id" ref="res_region_030000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_036900000" model="res.country.state">
+            <field name="code">036900000</field>
+            <field name="name">Tarlac</field>
+            <field name="region_id" ref="res_region_030000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_037100000" model="res.country.state">
+            <field name="code">037100000</field>
+            <field name="name">Zambales</field>
+            <field name="region_id" ref="res_region_030000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_037700000" model="res.country.state">
+            <field name="code">037700000</field>
+            <field name="name">Aurora</field>
+            <field name="region_id" ref="res_region_030000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_041000000" model="res.country.state">
+            <field name="code">041000000</field>
+            <field name="name">Batangas</field>
+            <field name="region_id" ref="res_region_040000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_042100000" model="res.country.state">
+            <field name="code">042100000</field>
+            <field name="name">Cavite</field>
+            <field name="region_id" ref="res_region_040000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_043400000" model="res.country.state">
+            <field name="code">043400000</field>
+            <field name="name">Laguna</field>
+            <field name="region_id" ref="res_region_040000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_045600000" model="res.country.state">
+            <field name="code">045600000</field>
+            <field name="name">Quezon</field>
+            <field name="region_id" ref="res_region_040000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_045800000" model="res.country.state">
+            <field name="code">045800000</field>
+            <field name="name">Rizal</field>
+            <field name="region_id" ref="res_region_040000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_174000000" model="res.country.state">
+            <field name="code">174000000</field>
+            <field name="name">Marinduque</field>
+            <field name="region_id" ref="res_region_170000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_175100000" model="res.country.state">
+            <field name="code">175100000</field>
+            <field name="name">Occidental Mindoro</field>
+            <field name="region_id" ref="res_region_170000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_175200000" model="res.country.state">
+            <field name="code">175200000</field>
+            <field name="name">Oriental Mindoro</field>
+            <field name="region_id" ref="res_region_170000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_175300000" model="res.country.state">
+            <field name="code">175300000</field>
+            <field name="name">Palawan</field>
+            <field name="region_id" ref="res_region_170000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_175900000" model="res.country.state">
+            <field name="code">175900000</field>
+            <field name="name">Romblon</field>
+            <field name="region_id" ref="res_region_170000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_050500000" model="res.country.state">
+            <field name="code">050500000</field>
+            <field name="name">Albay</field>
+            <field name="region_id" ref="res_region_050000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_051600000" model="res.country.state">
+            <field name="code">051600000</field>
+            <field name="name">Camarines Norte</field>
+            <field name="region_id" ref="res_region_050000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_051700000" model="res.country.state">
+            <field name="code">051700000</field>
+            <field name="name">Camarines Sur</field>
+            <field name="region_id" ref="res_region_050000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_052000000" model="res.country.state">
+            <field name="code">052000000</field>
+            <field name="name">Catanduanes</field>
+            <field name="region_id" ref="res_region_050000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_054100000" model="res.country.state">
+            <field name="code">054100000</field>
+            <field name="name">Masbate</field>
+            <field name="region_id" ref="res_region_050000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_056200000" model="res.country.state">
+            <field name="code">056200000</field>
+            <field name="name">Sorsogon</field>
+            <field name="region_id" ref="res_region_050000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_060400000" model="res.country.state">
+            <field name="code">060400000</field>
+            <field name="name">Aklan</field>
+            <field name="region_id" ref="res_region_060000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_060600000" model="res.country.state">
+            <field name="code">060600000</field>
+            <field name="name">Antique</field>
+            <field name="region_id" ref="res_region_060000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_061900000" model="res.country.state">
+            <field name="code">061900000</field>
+            <field name="name">Capiz</field>
+            <field name="region_id" ref="res_region_060000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_063000000" model="res.country.state">
+            <field name="code">063000000</field>
+            <field name="name">Iloilo</field>
+            <field name="region_id" ref="res_region_060000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_064500000" model="res.country.state">
+            <field name="code">064500000</field>
+            <field name="name">Negros Occidental</field>
+            <field name="region_id" ref="res_region_060000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_067900000" model="res.country.state">
+            <field name="code">067900000</field>
+            <field name="name">Guimaras</field>
+            <field name="region_id" ref="res_region_060000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_071200000" model="res.country.state">
+            <field name="code">071200000</field>
+            <field name="name">Bohol</field>
+            <field name="region_id" ref="res_region_070000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_072200000" model="res.country.state">
+            <field name="code">072200000</field>
+            <field name="name">Cebu</field>
+            <field name="region_id" ref="res_region_070000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_074600000" model="res.country.state">
+            <field name="code">074600000</field>
+            <field name="name">Negros Oriental</field>
+            <field name="region_id" ref="res_region_070000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_076100000" model="res.country.state">
+            <field name="code">076100000</field>
+            <field name="name">Siquijor</field>
+            <field name="region_id" ref="res_region_070000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_082600000" model="res.country.state">
+            <field name="code">082600000</field>
+            <field name="name">Eastern Samar</field>
+            <field name="region_id" ref="res_region_080000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_083700000" model="res.country.state">
+            <field name="code">083700000</field>
+            <field name="name">Leyte</field>
+            <field name="region_id" ref="res_region_080000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_084800000" model="res.country.state">
+            <field name="code">084800000</field>
+            <field name="name">Northern Samar</field>
+            <field name="region_id" ref="res_region_080000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_086000000" model="res.country.state">
+            <field name="code">086000000</field>
+            <field name="name">Samar</field>
+            <field name="region_id" ref="res_region_080000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_086400000" model="res.country.state">
+            <field name="code">086400000</field>
+            <field name="name">Southern Leyte</field>
+            <field name="region_id" ref="res_region_080000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_087800000" model="res.country.state">
+            <field name="code">087800000</field>
+            <field name="name">Biliran</field>
+            <field name="region_id" ref="res_region_080000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_097200000" model="res.country.state">
+            <field name="code">097200000</field>
+            <field name="name">Zamboanga del Norte</field>
+            <field name="region_id" ref="res_region_090000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_097300000" model="res.country.state">
+            <field name="code">097300000</field>
+            <field name="name">Zamboanga del Sur</field>
+            <field name="region_id" ref="res_region_090000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_098300000" model="res.country.state">
+            <field name="code">098300000</field>
+            <field name="name">Zamboanga Sibugay</field>
+            <field name="region_id" ref="res_region_090000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_101300000" model="res.country.state">
+            <field name="code">101300000</field>
+            <field name="name">Bukidnon</field>
+            <field name="region_id" ref="res_region_100000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_101800000" model="res.country.state">
+            <field name="code">101800000</field>
+            <field name="name">Camiguin</field>
+            <field name="region_id" ref="res_region_100000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_103500000" model="res.country.state">
+            <field name="code">103500000</field>
+            <field name="name">Lanao del Norte</field>
+            <field name="region_id" ref="res_region_100000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_104200000" model="res.country.state">
+            <field name="code">104200000</field>
+            <field name="name">Misamis Occidental</field>
+            <field name="region_id" ref="res_region_100000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_104300000" model="res.country.state">
+            <field name="code">104300000</field>
+            <field name="name">Misamis Oriental</field>
+            <field name="region_id" ref="res_region_100000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_112300000" model="res.country.state">
+            <field name="code">112300000</field>
+            <field name="name">Davao del Norte</field>
+            <field name="region_id" ref="res_region_110000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_112400000" model="res.country.state">
+            <field name="code">112400000</field>
+            <field name="name">Davao del Sur</field>
+            <field name="region_id" ref="res_region_110000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_112500000" model="res.country.state">
+            <field name="code">112500000</field>
+            <field name="name">Davao Oriental</field>
+            <field name="region_id" ref="res_region_110000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_118200000" model="res.country.state">
+            <field name="code">118200000</field>
+            <field name="name">Davao de Oro</field>
+            <field name="region_id" ref="res_region_110000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_118600000" model="res.country.state">
+            <field name="code">118600000</field>
+            <field name="name">Davao Occidental</field>
+            <field name="region_id" ref="res_region_110000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_124700000" model="res.country.state">
+            <field name="code">124700000</field>
+            <field name="name">Cotabato</field>
+            <field name="region_id" ref="res_region_120000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_126300000" model="res.country.state">
+            <field name="code">126300000</field>
+            <field name="name">South Cotabato</field>
+            <field name="region_id" ref="res_region_120000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_126500000" model="res.country.state">
+            <field name="code">126500000</field>
+            <field name="name">Sultan Kudarat</field>
+            <field name="region_id" ref="res_region_120000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_128000000" model="res.country.state">
+            <field name="code">128000000</field>
+            <field name="name">Sarangani</field>
+            <field name="region_id" ref="res_region_120000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_140100000" model="res.country.state">
+            <field name="code">140100000</field>
+            <field name="name">Abra</field>
+            <field name="region_id" ref="res_region_140000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_141100000" model="res.country.state">
+            <field name="code">141100000</field>
+            <field name="name">Benguet</field>
+            <field name="region_id" ref="res_region_140000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_142700000" model="res.country.state">
+            <field name="code">142700000</field>
+            <field name="name">Ifugao</field>
+            <field name="region_id" ref="res_region_140000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_143200000" model="res.country.state">
+            <field name="code">143200000</field>
+            <field name="name">Kalinga</field>
+            <field name="region_id" ref="res_region_140000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_144400000" model="res.country.state">
+            <field name="code">144400000</field>
+            <field name="name">Mountain Province</field>
+            <field name="region_id" ref="res_region_140000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_148100000" model="res.country.state">
+            <field name="code">148100000</field>
+            <field name="name">Apayao</field>
+            <field name="region_id" ref="res_region_140000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_150700000" model="res.country.state">
+            <field name="code">150700000</field>
+            <field name="name">Basilan</field>
+            <field name="region_id" ref="res_region_150000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_153600000" model="res.country.state">
+            <field name="code">153600000</field>
+            <field name="name">Lanao del Sur</field>
+            <field name="region_id" ref="res_region_150000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_153800000" model="res.country.state">
+            <field name="code">153800000</field>
+            <field name="name">Maguindanao</field>
+            <field name="region_id" ref="res_region_150000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_156600000" model="res.country.state">
+            <field name="code">156600000</field>
+            <field name="name">Sulu</field>
+            <field name="region_id" ref="res_region_150000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_157000000" model="res.country.state">
+            <field name="code">157000000</field>
+            <field name="name">Tawi-Tawi</field>
+            <field name="region_id" ref="res_region_150000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_160200000" model="res.country.state">
+            <field name="code">160200000</field>
+            <field name="name">Agusan del Norte</field>
+            <field name="region_id" ref="res_region_160000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_160300000" model="res.country.state">
+            <field name="code">160300000</field>
+            <field name="name">Agusan del Sur</field>
+            <field name="region_id" ref="res_region_160000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_166700000" model="res.country.state">
+            <field name="code">166700000</field>
+            <field name="name">Surigao del Norte</field>
+            <field name="region_id" ref="res_region_160000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_166800000" model="res.country.state">
+            <field name="code">166800000</field>
+            <field name="name">Surigao del Sur</field>
+            <field name="region_id" ref="res_region_160000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_province_168500000" model="res.country.state">
+            <field name="code">168500000</field>
+            <field name="name">Dinagat Islands</field>
+            <field name="region_id" ref="res_region_160000000"/>    
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+</odoo>

@@ -1,0 +1,1001 @@
+Attaching to odoo13_web_1
+[36mweb_1  |[0m 2021-02-04 13:37:45,149 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_street_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,150 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_street2_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,152 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_zip_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,153 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_city_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,158 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_state_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,161 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_country_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,162 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_lang_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,163 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_phone_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,164 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_mobile_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,165 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_function_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,165 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_title_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,171 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_won_status_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,171 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_days_to_convert_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,175 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_days_exceeding_closing_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,176 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_campaign_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,177 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_source_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,179 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_medium_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,182 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_email_cc_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,186 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_message_bounce_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,188 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_email_normalized_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,191 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_region_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,193 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_create_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,195 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_create_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,197 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_write_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,199 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_write_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,214 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_partner_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,216 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_login_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,217 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_signature_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,220 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_active_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,222 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_action_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,229 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_share_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,230 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_company_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,233 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_alias_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,235 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_notification_type_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,241 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_out_of_office_message_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,243 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_sale_team_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,245 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_target_sales_won_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,247 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_target_sales_done_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,249 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_create_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,251 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_create_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,252 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_write_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,253 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_write_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:45,782 1 INFO test odoo.modules.loading: loading contact_record/data/res_regions.xml 
+[36mweb_1  |[0m 2021-02-04 13:37:45,929 1 INFO test odoo.modules.loading: loading contact_record/data/res_provinces.xml 
+[36mweb_1  |[0m 2021-02-04 13:37:46,232 1 INFO test odoo.modules.loading: loading contact_record/data/res_cities.xml 
+[36mweb_1  |[0m 2021-02-04 13:37:53,079 1 INFO test odoo.modules.loading: loading contact_record/security/ir.model.access.csv 
+[36mweb_1  |[0m 2021-02-04 13:37:53,152 1 INFO test odoo.modules.loading: loading contact_record/views/res_region_view.xml 
+[36mweb_1  |[0m 2021-02-04 13:37:53,308 1 INFO test odoo.modules.loading: loading contact_record/views/res_province_view.xml 
+[36mweb_1  |[0m 2021-02-04 13:37:53,354 1 INFO test odoo.addons.base.models.ir_ui_view: Invalid position attribute: 'attribute'
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Error context:
+[36mweb_1  |[0m View `res.province.tree`
+[36mweb_1  |[0m [view_id: 987, xml_id: contact_record.res_province_tree, model: res.country.state, parent_id: 141] 
+[36mweb_1  |[0m 2021-02-04 13:37:53,362 1 WARNING test odoo.modules.loading: Transient module states were reset 
+[36mweb_1  |[0m 2021-02-04 13:37:53,364 1 ERROR test odoo.modules.registry: Failed to load registry 
+[36mweb_1  |[0m Traceback (most recent call last):
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/registry.py", line 60, in __new__
+[36mweb_1  |[0m     return cls.registries[db_name]
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/func.py", line 69, in wrapper
+[36mweb_1  |[0m     return func(self, *args, **kwargs)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/lru.py", line 44, in __getitem__
+[36mweb_1  |[0m     a = self.d[obj].me
+[36mweb_1  |[0m KeyError: 'test'
+[36mweb_1  |[0m 
+[36mweb_1  |[0m During handling of the above exception, another exception occurred:
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Traceback (most recent call last):
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 671, in apply_inheritance_specs
+[36mweb_1  |[0m     pre_locate=pre_locate)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/template_inheritance.py", line 219, in apply_inheritance_specs
+[36mweb_1  |[0m     pos
+[36mweb_1  |[0m ValueError: Invalid position attribute: 'attribute'
+[36mweb_1  |[0m 
+[36mweb_1  |[0m During handling of the above exception, another exception occurred:
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Traceback (most recent call last):
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 712, in parse
+[36mweb_1  |[0m     self._tag_root(de)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 674, in _tag_root
+[36mweb_1  |[0m     f(rec)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 577, in _tag_record
+[36mweb_1  |[0m     record = model._load_records([data], self.mode == 'update')
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 4119, in _load_records
+[36mweb_1  |[0m     data['record']._load_records_write(data['values'])
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 1388, in _load_records_write
+[36mweb_1  |[0m     super(View, self)._load_records_write(values)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 4057, in _load_records_write
+[36mweb_1  |[0m     self.write(values)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/studio_mixin.py", line 28, in write
+[36mweb_1  |[0m     res = super(StudioMixin, self).write(vals)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 493, in write
+[36mweb_1  |[0m     res = super(View, self).write(self._compute_defaults(vals))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 3615, in write
+[36mweb_1  |[0m     fields[0].determine_inverse(real_recs)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1122, in determine_inverse
+[36mweb_1  |[0m     getattr(records, self.inverse)()
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 299, in _inverse_arch
+[36mweb_1  |[0m     view.write(data)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/studio_mixin.py", line 28, in write
+[36mweb_1  |[0m     res = super(StudioMixin, self).write(vals)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 493, in write
+[36mweb_1  |[0m     res = super(View, self).write(self._compute_defaults(vals))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 3610, in write
+[36mweb_1  |[0m     real_recs._validate_fields(set(vals) - set(inverse_fields))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 1201, in _validate_fields
+[36mweb_1  |[0m     check(self)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 387, in _check_xml
+[36mweb_1  |[0m     view_def = view.read_combined(['arch'])
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 745, in read_combined
+[36mweb_1  |[0m     arch = self.apply_view_inheritance(arch_tree, root.id, self.model)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 694, in apply_view_inheritance
+[36mweb_1  |[0m     source = self.apply_inheritance_specs(source, specs_tree, view_id)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/ir_ui_view.py", line 154, in apply_inheritance_specs
+[36mweb_1  |[0m     pre_locate=pre_locate)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 673, in apply_inheritance_specs
+[36mweb_1  |[0m     self.raise_view_error(str(e), inherit_id)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 614, in raise_view_error
+[36mweb_1  |[0m     raise ValueError(message)
+[36mweb_1  |[0m ValueError: Invalid position attribute: 'attribute'
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Error context:
+[36mweb_1  |[0m View `res.province.tree`
+[36mweb_1  |[0m [view_id: 987, xml_id: contact_record.res_province_tree, model: res.country.state, parent_id: 141]
+[36mweb_1  |[0m 
+[36mweb_1  |[0m During handling of the above exception, another exception occurred:
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Traceback (most recent call last):
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/registry.py", line 86, in new
+[36mweb_1  |[0m     odoo.modules.load_modules(registry._db, force_demo, status, update_module)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 419, in load_modules
+[36mweb_1  |[0m     force, status, report, loaded_modules, update_module, models_to_check)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 315, in load_marked_modules
+[36mweb_1  |[0m     perform_checks=perform_checks, models_to_check=models_to_check
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 225, in load_module_graph
+[36mweb_1  |[0m     load_data(cr, idref, mode, kind='data', package=package, report=report)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 68, in load_data
+[36mweb_1  |[0m     tools.convert_file(cr, package.name, filename, idref, mode, noupdate, kind, report)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 736, in convert_file
+[36mweb_1  |[0m     convert_xml_import(cr, module, fp, idref, mode, noupdate, report)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 803, in convert_xml_import
+[36mweb_1  |[0m     obj.parse(doc.getroot())
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 721, in parse
+[36mweb_1  |[0m     exc_info[2]
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/pycompat.py", line 13, in reraise
+[36mweb_1  |[0m     raise value.with_traceback(tb)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 712, in parse
+[36mweb_1  |[0m     self._tag_root(de)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 674, in _tag_root
+[36mweb_1  |[0m     f(rec)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 577, in _tag_record
+[36mweb_1  |[0m     record = model._load_records([data], self.mode == 'update')
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 4119, in _load_records
+[36mweb_1  |[0m     data['record']._load_records_write(data['values'])
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 1388, in _load_records_write
+[36mweb_1  |[0m     super(View, self)._load_records_write(values)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 4057, in _load_records_write
+[36mweb_1  |[0m     self.write(values)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/studio_mixin.py", line 28, in write
+[36mweb_1  |[0m     res = super(StudioMixin, self).write(vals)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 493, in write
+[36mweb_1  |[0m     res = super(View, self).write(self._compute_defaults(vals))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 3615, in write
+[36mweb_1  |[0m     fields[0].determine_inverse(real_recs)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1122, in determine_inverse
+[36mweb_1  |[0m     getattr(records, self.inverse)()
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 299, in _inverse_arch
+[36mweb_1  |[0m     view.write(data)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/studio_mixin.py", line 28, in write
+[36mweb_1  |[0m     res = super(StudioMixin, self).write(vals)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 493, in write
+[36mweb_1  |[0m     res = super(View, self).write(self._compute_defaults(vals))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 3610, in write
+[36mweb_1  |[0m     real_recs._validate_fields(set(vals) - set(inverse_fields))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 1201, in _validate_fields
+[36mweb_1  |[0m     check(self)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 387, in _check_xml
+[36mweb_1  |[0m     view_def = view.read_combined(['arch'])
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 745, in read_combined
+[36mweb_1  |[0m     arch = self.apply_view_inheritance(arch_tree, root.id, self.model)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 694, in apply_view_inheritance
+[36mweb_1  |[0m     source = self.apply_inheritance_specs(source, specs_tree, view_id)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/ir_ui_view.py", line 154, in apply_inheritance_specs
+[36mweb_1  |[0m     pre_locate=pre_locate)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 673, in apply_inheritance_specs
+[36mweb_1  |[0m     self.raise_view_error(str(e), inherit_id)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 614, in raise_view_error
+[36mweb_1  |[0m     raise ValueError(message)
+[36mweb_1  |[0m odoo.tools.convert.ParseError: "Invalid position attribute: 'attribute'
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Error context:
+[36mweb_1  |[0m View `res.province.tree`
+[36mweb_1  |[0m [view_id: 987, xml_id: contact_record.res_province_tree, model: res.country.state, parent_id: 141]" while parsing /mnt/extra-addons/contact_record/views/res_province_view.xml:2, near
+[36mweb_1  |[0m <odoo>
+[36mweb_1  |[0m    <!--  <record id="res_province_form" model="ir.ui.view">
+[36mweb_1  |[0m         <field name="name">res.province.form</field>
+[36mweb_1  |[0m         <field name="model">res.country.state</field>
+[36mweb_1  |[0m         <field name="arch" type="xml">
+[36mweb_1  |[0m             <form string="Province">
+[36mweb_1  |[0m             <sheet>
+[36mweb_1  |[0m                 <div class="oe_title">
+[36mweb_1  |[0m                     <label for="name" string="Province name" class="oe_edit_only"/>
+[36mweb_1  |[0m                     <h1><field name="name"/></h1>
+[36mweb_1  |[0m                 </div>
+[36mweb_1  |[0m                 <group>
+[36mweb_1  |[0m                     <group>
+[36mweb_1  |[0m                         <field name="country_id"/>
+[36mweb_1  |[0m                         <field name="region_id"/>
+[36mweb_1  |[0m                     </group>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m                     <group>
+[36mweb_1  |[0m                     </group>
+[36mweb_1  |[0m                 </group> 
+[36mweb_1  |[0m             </sheet> 
+[36mweb_1  |[0m             </form>
+[36mweb_1  |[0m         </field>
+[36mweb_1  |[0m     </record>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m     -->
+[36mweb_1  |[0m 
+[36mweb_1  |[0m     <record id="res_province_tree" model="ir.ui.view">
+[36mweb_1  |[0m         <field name="name">res.province.tree</field>
+[36mweb_1  |[0m         <field name="model">res.country.state</field>
+[36mweb_1  |[0m         <field name="inherit_id" ref="base.view_country_state_tree"/>
+[36mweb_1  |[0m         <field name="arch" type="xml">
+[36mweb_1  |[0m             <xpath expr="//tree" position="attribute">
+[36mweb_1  |[0m                 <attr name="string">Province</attr>
+[36mweb_1  |[0m             </xpath>
+[36mweb_1  |[0m         </field>
+[36mweb_1  |[0m     </record>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m 
+[36mweb_1  |[0m 
+[36mweb_1  |[0m     <record model="ir.ui.menu" id="contacts.menu_country_state_partner">
+[36mweb_1  |[0m         <field name="name">Provinces</field>
+[36mweb_1  |[0m     </record>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m </odoo>
+[36mweb_1  |[0m 2021-02-04 13:37:53,394 1 DEBUG test odoo.modules.registry: Multiprocess load registry signaling: [Registry: 4] [Cache: 4] 
+[36mweb_1  |[0m 2021-02-04 13:37:53,420 1 INFO test odoo.modules.loading: loading 1 modules... 
+[36mweb_1  |[0m 2021-02-04 13:37:53,420 1 DEBUG test odoo.modules.loading: loading module base (1/1) 
+[36mweb_1  |[0m 2021-02-04 13:37:53,455 1 INFO test odoo.modules.loading: 1 modules loaded in 0.03s, 0 queries 
+[36mweb_1  |[0m 2021-02-04 13:37:53,825 1 DEBUG test odoo.modules.loading: Updating graph with 72 more modules 
+[36mweb_1  |[0m 2021-02-04 13:37:53,856 1 INFO test odoo.modules.loading: loading 73 modules... 
+[36mweb_1  |[0m 2021-02-04 13:37:53,856 1 DEBUG test odoo.modules.loading: loading module base_address_city (2/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:53,856 1 DEBUG test odoo.modules.loading: loading module uom (3/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:53,857 1 DEBUG test odoo.modules.loading: loading module web (4/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:53,880 1 DEBUG test odoo.modules.loading: loading module base_import (5/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:53,910 1 DEBUG test odoo.modules.loading: loading module base_import_module (6/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:53,913 1 DEBUG test odoo.modules.loading: loading module base_setup (7/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:53,914 1 DEBUG test odoo.modules.loading: loading module bus (8/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:53,924 1 DEBUG test odoo.modules.loading: loading module http_routing (9/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:53,927 1 DEBUG test odoo.modules.loading: loading module odoo_referral (10/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:53,928 1 DEBUG test odoo.modules.loading: loading module resource (11/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:53,932 1 DEBUG test odoo.modules.loading: loading module utm (12/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:53,942 1 DEBUG test odoo.modules.loading: loading module web_cohort (13/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:53,972 1 DEBUG test odoo.modules.loading: loading module web_dashboard (14/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:53,995 1 DEBUG test odoo.modules.loading: loading module web_diagram (15/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:53,995 1 DEBUG test odoo.modules.loading: loading module web_editor (16/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,008 1 DEBUG test odoo.modules.loading: loading module web_enterprise (17/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,011 1 DEBUG test odoo.modules.loading: loading module web_gantt (18/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,039 1 DEBUG test odoo.modules.loading: loading module web_grid (19/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,064 1 DEBUG test odoo.modules.loading: loading module web_kanban_gauge (20/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,065 1 DEBUG test odoo.modules.loading: loading module web_tour (21/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,073 1 DEBUG test odoo.modules.loading: loading module iap (22/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,075 1 DEBUG test odoo.modules.loading: loading module mail (23/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,128 1 DEBUG test odoo.modules.loading: loading module web_map (24/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,197 1 DEBUG test odoo.modules.loading: loading module web_mobile (25/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,199 1 DEBUG test odoo.modules.loading: loading module web_unsplash (26/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,207 1 DEBUG test odoo.modules.loading: loading module analytic (27/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,209 1 DEBUG test odoo.modules.loading: loading module auth_signup (28/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,212 1 DEBUG test odoo.modules.loading: loading module base_automation (29/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,214 1 DEBUG test odoo.modules.loading: loading module calendar (30/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,222 1 DEBUG test odoo.modules.loading: loading module contacts (31/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,223 1 DEBUG test odoo.modules.loading: loading module fetchmail (32/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,225 1 DEBUG test odoo.modules.loading: loading module mail_enterprise (33/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,225 1 DEBUG test odoo.modules.loading: loading module partner_autocomplete (34/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,228 1 DEBUG test odoo.modules.loading: loading module phone_validation (35/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,232 1 DEBUG test odoo.modules.loading: loading module product (36/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,241 1 DEBUG test odoo.modules.loading: loading module sales_team (37/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,244 1 DEBUG test odoo.modules.loading: loading module snailmail (38/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,248 1 DEBUG test odoo.modules.loading: loading module contacts_enterprise (39/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,248 1 DEBUG test odoo.modules.loading: loading module portal (40/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,258 1 DEBUG test odoo.modules.loading: loading module sms (41/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,272 1 DEBUG test odoo.modules.loading: loading module web_studio (42/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,328 1 DEBUG test odoo.modules.loading: loading module calendar_sms (43/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,331 1 DEBUG test odoo.modules.loading: loading module digest (44/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,333 1 DEBUG test odoo.modules.loading: loading module account (45/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,361 1 DEBUG test odoo.modules.loading: loading module crm (46/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,372 1 DEBUG test odoo.modules.loading: loading module account_bank_statement_import (47/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,374 1 DEBUG test odoo.modules.loading: loading module account_facturx (48/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,376 1 DEBUG test odoo.modules.loading: loading module account_invoice_extract (49/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,379 1 DEBUG test odoo.modules.loading: loading module account_online_sync (50/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,386 1 DEBUG test odoo.modules.loading: loading module analytic_enterprise (51/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,387 1 DEBUG test odoo.modules.loading: loading module crm_enterprise (52/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,389 1 DEBUG test odoo.modules.loading: loading module crm_sms (53/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,390 1 DEBUG test odoo.modules.loading: loading module currency_rate_live (54/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,393 1 DEBUG test odoo.modules.loading: loading module l10n_generic_coa (55/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,393 1 DEBUG test odoo.modules.loading: loading module payment (56/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,402 1 DEBUG test odoo.modules.loading: loading module purchase (57/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,407 1 DEBUG test odoo.modules.loading: loading module snailmail_account (58/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,410 1 DEBUG test odoo.modules.loading: loading module account_bank_statement_import_camt (59/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,412 1 DEBUG test odoo.modules.loading: loading module account_bank_statement_import_csv (60/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,414 1 DEBUG test odoo.modules.loading: loading module account_bank_statement_import_ofx (61/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,418 1 DEBUG test odoo.modules.loading: loading module account_invoice_extract_purchase (62/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,421 1 DEBUG test odoo.modules.loading: loading module account_plaid (63/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,422 1 DEBUG test odoo.modules.loading: loading module account_ponto (64/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,424 1 DEBUG test odoo.modules.loading: loading module account_yodlee (65/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,426 1 DEBUG test odoo.modules.loading: loading module payment_transfer (66/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,427 1 DEBUG test odoo.modules.loading: loading module purchase_enterprise (67/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,428 1 DEBUG test odoo.modules.loading: loading module sale (68/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,441 1 DEBUG test odoo.modules.loading: loading module sale_enterprise (69/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,442 1 DEBUG test odoo.modules.loading: loading module sale_management (70/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,446 1 DEBUG test odoo.modules.loading: loading module sale_purchase (71/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,449 1 DEBUG test odoo.modules.loading: loading module contact_record (72/73) 
+[36mweb_1  |[0m 2021-02-04 13:37:54,742 1 WARNING test odoo.models: The model res.region has no _description 
+[36mweb_1  |[0m 2021-02-04 13:37:55,126 1 INFO test odoo.modules.registry: module contact_record: creating or updating database tables 
+[36mweb_1  |[0m 2021-02-04 13:37:55,145 1 DEBUG test odoo.schema: Table 'res_country_state': dropped index 'res_country_state_country_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,147 1 DEBUG test odoo.schema: Table 'res_country_state': dropped index 'res_country_state_name_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,234 1 DEBUG test odoo.schema: Table 'res_country_state': dropped index 'res_country_state_code_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,239 1 DEBUG test odoo.schema: Table 'res_country_state': dropped index 'res_country_state_create_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,242 1 DEBUG test odoo.schema: Table 'res_country_state': dropped index 'res_country_state_create_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,244 1 DEBUG test odoo.schema: Table 'res_country_state': dropped index 'res_country_state_write_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,245 1 DEBUG test odoo.schema: Table 'res_country_state': dropped index 'res_country_state_write_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,249 1 INFO test odoo.schema: Table 'res_country_state': unable to set NOT NULL on column 'region_id' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,249 1 DEBUG test odoo.schema: Table 'res_country_state': dropped index 'res_country_state_region_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,262 1 DEBUG test odoo.schema: Table 'res_region': dropped index 'res_region_name_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,264 1 DEBUG test odoo.schema: Table 'res_region': dropped index 'res_region_country_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,266 1 DEBUG test odoo.schema: Table 'res_region': dropped index 'res_region_create_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,267 1 DEBUG test odoo.schema: Table 'res_region': dropped index 'res_region_create_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,272 1 DEBUG test odoo.schema: Table 'res_region': dropped index 'res_region_write_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,274 1 DEBUG test odoo.schema: Table 'res_region': dropped index 'res_region_write_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,299 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_title_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,312 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_lang_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,314 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_tz_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,317 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_website_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,325 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_comment_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,328 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_credit_limit_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,331 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_active_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,333 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_employee_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,343 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_function_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,345 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_type_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,348 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_street_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,349 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_street2_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,356 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_zip_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,358 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_city_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,360 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_state_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,361 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_country_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,364 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_partner_latitude_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,365 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_partner_longitude_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,367 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_email_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,368 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_phone_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,376 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_mobile_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,377 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_is_company_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,379 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_industry_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,382 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_color_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,384 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_partner_share_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,393 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_commercial_company_name_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,395 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_company_name_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,399 1 INFO test odoo.schema: Table 'res_partner': unable to set NOT NULL on column 'city_id' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,407 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_city_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,410 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_email_normalized_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,412 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_message_bounce_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,415 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_user_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,416 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_contact_address_complete_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,417 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_signup_token_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,426 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_signup_type_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,427 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_signup_expiration_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,429 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_calendar_last_notif_ack_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,431 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_partner_gid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,433 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_additional_info_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,440 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_phone_sanitized_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,441 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_debit_limit_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,444 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_last_time_entries_checked_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,446 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_invoice_warn_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,448 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_invoice_warn_msg_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,450 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_supplier_rank_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,458 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_customer_rank_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,459 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_team_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,463 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_online_partner_vendor_name_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,465 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_online_partner_bank_account_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,466 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_purchase_warn_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,476 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_purchase_warn_msg_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,477 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_sale_warn_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,480 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_sale_warn_msg_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,482 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_create_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,484 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_create_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,492 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_write_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,494 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_write_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,496 1 INFO test odoo.schema: Table 'res_partner': unable to set NOT NULL on column 'region_id' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,496 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_region_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,497 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_province_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,497 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_accredited_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,497 1 DEBUG test odoo.schema: Table 'res_partner': dropped index 'res_partner_validated_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,510 1 DEBUG test odoo.schema: Table 'res_city': dropped index 'res_city_name_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,511 1 DEBUG test odoo.schema: Table 'res_city': dropped index 'res_city_zipcode_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,511 1 DEBUG test odoo.schema: Table 'res_city': dropped index 'res_city_country_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,513 1 DEBUG test odoo.schema: Table 'res_city': dropped index 'res_city_state_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,513 1 DEBUG test odoo.schema: Table 'res_city': dropped index 'res_city_create_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,515 1 DEBUG test odoo.schema: Table 'res_city': dropped index 'res_city_create_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,515 1 DEBUG test odoo.schema: Table 'res_city': dropped index 'res_city_write_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,516 1 DEBUG test odoo.schema: Table 'res_city': dropped index 'res_city_write_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,528 1 DEBUG test odoo.schema: Table 'res_country': dropped index 'res_country_name_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,530 1 DEBUG test odoo.schema: Table 'res_country': dropped index 'res_country_code_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,531 1 DEBUG test odoo.schema: Table 'res_country': dropped index 'res_country_address_format_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,531 1 DEBUG test odoo.schema: Table 'res_country': dropped index 'res_country_address_view_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,533 1 DEBUG test odoo.schema: Table 'res_country': dropped index 'res_country_currency_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,533 1 DEBUG test odoo.schema: Table 'res_country': dropped index 'res_country_phone_code_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,542 1 DEBUG test odoo.schema: Table 'res_country': dropped index 'res_country_name_position_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,546 1 DEBUG test odoo.schema: Table 'res_country': dropped index 'res_country_vat_label_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,546 1 DEBUG test odoo.schema: Table 'res_country': dropped index 'res_country_enforce_cities_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,547 1 DEBUG test odoo.schema: Table 'res_country': dropped index 'res_country_create_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,547 1 DEBUG test odoo.schema: Table 'res_country': dropped index 'res_country_create_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,547 1 DEBUG test odoo.schema: Table 'res_country': dropped index 'res_country_write_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,548 1 DEBUG test odoo.schema: Table 'res_country': dropped index 'res_country_write_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,574 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_active_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,575 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_date_action_last_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,590 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_description_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,593 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_contact_name_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,608 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_date_closed_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,615 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_referred_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,617 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_date_open_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,625 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_day_open_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,626 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_day_close_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,631 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_date_conversion_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,633 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_probability_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,640 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_automated_probability_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,642 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_phone_state_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,645 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_email_state_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,647 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_planned_revenue_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,649 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_expected_revenue_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,657 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_date_deadline_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,659 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_color_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,662 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_street_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,664 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_street2_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,666 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_zip_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,674 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_city_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,675 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_state_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,677 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_country_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,679 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_lang_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,681 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_phone_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,683 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_mobile_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,693 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_function_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,696 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_title_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,710 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_won_status_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,712 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_days_to_convert_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,714 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_days_exceeding_closing_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,716 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_campaign_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,722 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_source_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,724 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_medium_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,726 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_email_cc_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,729 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_message_bounce_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,731 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_email_normalized_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,735 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_create_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,738 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_create_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,739 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_write_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,743 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_write_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,744 1 DEBUG test odoo.schema: Table 'crm_lead': dropped index 'crm_lead_region_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,761 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_partner_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,763 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_login_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,766 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_signature_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,767 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_active_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,773 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_action_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,778 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_share_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,782 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_company_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,788 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_alias_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,791 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_notification_type_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,794 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_out_of_office_message_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,796 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_sale_team_id_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,799 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_target_sales_won_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,808 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_target_sales_done_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,810 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_create_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,812 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_create_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,813 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_write_uid_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:55,816 1 DEBUG test odoo.schema: Table 'res_users': dropped index 'res_users_write_date_index' 
+[36mweb_1  |[0m 2021-02-04 13:37:56,259 1 INFO test odoo.modules.loading: loading contact_record/data/res_regions.xml 
+[36mweb_1  |[0m 2021-02-04 13:37:56,346 1 INFO test odoo.modules.loading: loading contact_record/data/res_provinces.xml 
+[36mweb_1  |[0m 2021-02-04 13:37:56,779 1 INFO test odoo.modules.loading: loading contact_record/data/res_cities.xml 
+[36mweb_1  |[0m 2021-02-04 13:38:03,257 1 INFO test odoo.modules.loading: loading contact_record/security/ir.model.access.csv 
+[36mweb_1  |[0m 2021-02-04 13:38:03,348 1 INFO test odoo.modules.loading: loading contact_record/views/res_region_view.xml 
+[36mweb_1  |[0m 2021-02-04 13:38:03,425 1 INFO test odoo.modules.loading: loading contact_record/views/res_province_view.xml 
+[36mweb_1  |[0m 2021-02-04 13:38:03,466 1 DEBUG test odoo.tools.translate: translation went wrong for ""Invalid position attribute: '%s'"", skipped 
+[36mweb_1  |[0m 2021-02-04 13:38:03,479 1 INFO test odoo.addons.base.models.ir_ui_view: Invalid position attribute: 'attribute'
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Error context:
+[36mweb_1  |[0m View `res.province.tree`
+[36mweb_1  |[0m [view_id: 987, xml_id: contact_record.res_province_tree, model: res.country.state, parent_id: 141] 
+[36mweb_1  |[0m 2021-02-04 13:38:03,485 1 WARNING test odoo.modules.loading: Transient module states were reset 
+[36mweb_1  |[0m 2021-02-04 13:38:03,487 1 ERROR test odoo.modules.registry: Failed to load registry 
+[36mweb_1  |[0m Traceback (most recent call last):
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/registry.py", line 60, in __new__
+[36mweb_1  |[0m     return cls.registries[db_name]
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/func.py", line 69, in wrapper
+[36mweb_1  |[0m     return func(self, *args, **kwargs)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/lru.py", line 44, in __getitem__
+[36mweb_1  |[0m     a = self.d[obj].me
+[36mweb_1  |[0m KeyError: 'test'
+[36mweb_1  |[0m 
+[36mweb_1  |[0m During handling of the above exception, another exception occurred:
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Traceback (most recent call last):
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 671, in apply_inheritance_specs
+[36mweb_1  |[0m     pre_locate=pre_locate)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/template_inheritance.py", line 219, in apply_inheritance_specs
+[36mweb_1  |[0m     pos
+[36mweb_1  |[0m ValueError: Invalid position attribute: 'attribute'
+[36mweb_1  |[0m 
+[36mweb_1  |[0m During handling of the above exception, another exception occurred:
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Traceback (most recent call last):
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 712, in parse
+[36mweb_1  |[0m     self._tag_root(de)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 674, in _tag_root
+[36mweb_1  |[0m     f(rec)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 577, in _tag_record
+[36mweb_1  |[0m     record = model._load_records([data], self.mode == 'update')
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 4119, in _load_records
+[36mweb_1  |[0m     data['record']._load_records_write(data['values'])
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 1388, in _load_records_write
+[36mweb_1  |[0m     super(View, self)._load_records_write(values)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 4057, in _load_records_write
+[36mweb_1  |[0m     self.write(values)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/studio_mixin.py", line 28, in write
+[36mweb_1  |[0m     res = super(StudioMixin, self).write(vals)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 493, in write
+[36mweb_1  |[0m     res = super(View, self).write(self._compute_defaults(vals))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 3615, in write
+[36mweb_1  |[0m     fields[0].determine_inverse(real_recs)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1122, in determine_inverse
+[36mweb_1  |[0m     getattr(records, self.inverse)()
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 299, in _inverse_arch
+[36mweb_1  |[0m     view.write(data)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/studio_mixin.py", line 28, in write
+[36mweb_1  |[0m     res = super(StudioMixin, self).write(vals)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 493, in write
+[36mweb_1  |[0m     res = super(View, self).write(self._compute_defaults(vals))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 3610, in write
+[36mweb_1  |[0m     real_recs._validate_fields(set(vals) - set(inverse_fields))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 1201, in _validate_fields
+[36mweb_1  |[0m     check(self)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 387, in _check_xml
+[36mweb_1  |[0m     view_def = view.read_combined(['arch'])
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 745, in read_combined
+[36mweb_1  |[0m     arch = self.apply_view_inheritance(arch_tree, root.id, self.model)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 694, in apply_view_inheritance
+[36mweb_1  |[0m     source = self.apply_inheritance_specs(source, specs_tree, view_id)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/ir_ui_view.py", line 154, in apply_inheritance_specs
+[36mweb_1  |[0m     pre_locate=pre_locate)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 673, in apply_inheritance_specs
+[36mweb_1  |[0m     self.raise_view_error(str(e), inherit_id)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 614, in raise_view_error
+[36mweb_1  |[0m     raise ValueError(message)
+[36mweb_1  |[0m ValueError: Invalid position attribute: 'attribute'
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Error context:
+[36mweb_1  |[0m View `res.province.tree`
+[36mweb_1  |[0m [view_id: 987, xml_id: contact_record.res_province_tree, model: res.country.state, parent_id: 141]
+[36mweb_1  |[0m 
+[36mweb_1  |[0m During handling of the above exception, another exception occurred:
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Traceback (most recent call last):
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/http.py", line 1439, in dispatch
+[36mweb_1  |[0m     odoo.registry(db).check_signaling()
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/__init__.py", line 104, in registry
+[36mweb_1  |[0m     return modules.registry.Registry(database_name)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/registry.py", line 62, in __new__
+[36mweb_1  |[0m     return cls.new(db_name)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/registry.py", line 86, in new
+[36mweb_1  |[0m     odoo.modules.load_modules(registry._db, force_demo, status, update_module)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 419, in load_modules
+[36mweb_1  |[0m     force, status, report, loaded_modules, update_module, models_to_check)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 315, in load_marked_modules
+[36mweb_1  |[0m     perform_checks=perform_checks, models_to_check=models_to_check
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 225, in load_module_graph
+[36mweb_1  |[0m     load_data(cr, idref, mode, kind='data', package=package, report=report)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 68, in load_data
+[36mweb_1  |[0m     tools.convert_file(cr, package.name, filename, idref, mode, noupdate, kind, report)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 736, in convert_file
+[36mweb_1  |[0m     convert_xml_import(cr, module, fp, idref, mode, noupdate, report)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 803, in convert_xml_import
+[36mweb_1  |[0m     obj.parse(doc.getroot())
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 721, in parse
+[36mweb_1  |[0m     exc_info[2]
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/pycompat.py", line 13, in reraise
+[36mweb_1  |[0m     raise value.with_traceback(tb)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 712, in parse
+[36mweb_1  |[0m     self._tag_root(de)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 674, in _tag_root
+[36mweb_1  |[0m     f(rec)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 577, in _tag_record
+[36mweb_1  |[0m     record = model._load_records([data], self.mode == 'update')
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 4119, in _load_records
+[36mweb_1  |[0m     data['record']._load_records_write(data['values'])
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 1388, in _load_records_write
+[36mweb_1  |[0m     super(View, self)._load_records_write(values)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 4057, in _load_records_write
+[36mweb_1  |[0m     self.write(values)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/studio_mixin.py", line 28, in write
+[36mweb_1  |[0m     res = super(StudioMixin, self).write(vals)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 493, in write
+[36mweb_1  |[0m     res = super(View, self).write(self._compute_defaults(vals))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 3615, in write
+[36mweb_1  |[0m     fields[0].determine_inverse(real_recs)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1122, in determine_inverse
+[36mweb_1  |[0m     getattr(records, self.inverse)()
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 299, in _inverse_arch
+[36mweb_1  |[0m     view.write(data)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/studio_mixin.py", line 28, in write
+[36mweb_1  |[0m     res = super(StudioMixin, self).write(vals)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 493, in write
+[36mweb_1  |[0m     res = super(View, self).write(self._compute_defaults(vals))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 3610, in write
+[36mweb_1  |[0m     real_recs._validate_fields(set(vals) - set(inverse_fields))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 1201, in _validate_fields
+[36mweb_1  |[0m     check(self)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 387, in _check_xml
+[36mweb_1  |[0m     view_def = view.read_combined(['arch'])
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 745, in read_combined
+[36mweb_1  |[0m     arch = self.apply_view_inheritance(arch_tree, root.id, self.model)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 694, in apply_view_inheritance
+[36mweb_1  |[0m     source = self.apply_inheritance_specs(source, specs_tree, view_id)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/ir_ui_view.py", line 154, in apply_inheritance_specs
+[36mweb_1  |[0m     pre_locate=pre_locate)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 673, in apply_inheritance_specs
+[36mweb_1  |[0m     self.raise_view_error(str(e), inherit_id)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 614, in raise_view_error
+[36mweb_1  |[0m     raise ValueError(message)
+[36mweb_1  |[0m odoo.tools.convert.ParseError: "Invalid position attribute: 'attribute'
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Error context:
+[36mweb_1  |[0m View `res.province.tree`
+[36mweb_1  |[0m [view_id: 987, xml_id: contact_record.res_province_tree, model: res.country.state, parent_id: 141]" while parsing /mnt/extra-addons/contact_record/views/res_province_view.xml:2, near
+[36mweb_1  |[0m <odoo>
+[36mweb_1  |[0m    <!--  <record id="res_province_form" model="ir.ui.view">
+[36mweb_1  |[0m         <field name="name">res.province.form</field>
+[36mweb_1  |[0m         <field name="model">res.country.state</field>
+[36mweb_1  |[0m         <field name="arch" type="xml">
+[36mweb_1  |[0m             <form string="Province">
+[36mweb_1  |[0m             <sheet>
+[36mweb_1  |[0m                 <div class="oe_title">
+[36mweb_1  |[0m                     <label for="name" string="Province name" class="oe_edit_only"/>
+[36mweb_1  |[0m                     <h1><field name="name"/></h1>
+[36mweb_1  |[0m                 </div>
+[36mweb_1  |[0m                 <group>
+[36mweb_1  |[0m                     <group>
+[36mweb_1  |[0m                         <field name="country_id"/>
+[36mweb_1  |[0m                         <field name="region_id"/>
+[36mweb_1  |[0m                     </group>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m                     <group>
+[36mweb_1  |[0m                     </group>
+[36mweb_1  |[0m                 </group> 
+[36mweb_1  |[0m             </sheet> 
+[36mweb_1  |[0m             </form>
+[36mweb_1  |[0m         </field>
+[36mweb_1  |[0m     </record>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m     -->
+[36mweb_1  |[0m 
+[36mweb_1  |[0m     <record id="res_province_tree" model="ir.ui.view">
+[36mweb_1  |[0m         <field name="name">res.province.tree</field>
+[36mweb_1  |[0m         <field name="model">res.country.state</field>
+[36mweb_1  |[0m         <field name="inherit_id" ref="base.view_country_state_tree"/>
+[36mweb_1  |[0m         <field name="arch" type="xml">
+[36mweb_1  |[0m             <xpath expr="//tree" position="attribute">
+[36mweb_1  |[0m                 <attr name="string">Province</attr>
+[36mweb_1  |[0m             </xpath>
+[36mweb_1  |[0m         </field>
+[36mweb_1  |[0m     </record>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m 
+[36mweb_1  |[0m 
+[36mweb_1  |[0m     <record model="ir.ui.menu" id="contacts.menu_country_state_partner">
+[36mweb_1  |[0m         <field name="name">Provinces</field>
+[36mweb_1  |[0m     </record>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m </odoo>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m During handling of the above exception, another exception occurred:
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Traceback (most recent call last):
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/registry.py", line 60, in __new__
+[36mweb_1  |[0m     return cls.registries[db_name]
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/func.py", line 69, in wrapper
+[36mweb_1  |[0m     return func(self, *args, **kwargs)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/lru.py", line 44, in __getitem__
+[36mweb_1  |[0m     a = self.d[obj].me
+[36mweb_1  |[0m KeyError: 'test'
+[36mweb_1  |[0m 
+[36mweb_1  |[0m During handling of the above exception, another exception occurred:
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Traceback (most recent call last):
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 671, in apply_inheritance_specs
+[36mweb_1  |[0m     pre_locate=pre_locate)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/template_inheritance.py", line 219, in apply_inheritance_specs
+[36mweb_1  |[0m     pos
+[36mweb_1  |[0m ValueError: Invalid position attribute: 'attribute'
+[36mweb_1  |[0m 
+[36mweb_1  |[0m During handling of the above exception, another exception occurred:
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Traceback (most recent call last):
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 712, in parse
+[36mweb_1  |[0m     self._tag_root(de)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 674, in _tag_root
+[36mweb_1  |[0m     f(rec)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 577, in _tag_record
+[36mweb_1  |[0m     record = model._load_records([data], self.mode == 'update')
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 4119, in _load_records
+[36mweb_1  |[0m     data['record']._load_records_write(data['values'])
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 1388, in _load_records_write
+[36mweb_1  |[0m     super(View, self)._load_records_write(values)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 4057, in _load_records_write
+[36mweb_1  |[0m     self.write(values)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/studio_mixin.py", line 28, in write
+[36mweb_1  |[0m     res = super(StudioMixin, self).write(vals)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 493, in write
+[36mweb_1  |[0m     res = super(View, self).write(self._compute_defaults(vals))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 3615, in write
+[36mweb_1  |[0m     fields[0].determine_inverse(real_recs)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1122, in determine_inverse
+[36mweb_1  |[0m     getattr(records, self.inverse)()
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 299, in _inverse_arch
+[36mweb_1  |[0m     view.write(data)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/studio_mixin.py", line 28, in write
+[36mweb_1  |[0m     res = super(StudioMixin, self).write(vals)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 493, in write
+[36mweb_1  |[0m     res = super(View, self).write(self._compute_defaults(vals))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 3610, in write
+[36mweb_1  |[0m     real_recs._validate_fields(set(vals) - set(inverse_fields))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 1201, in _validate_fields
+[36mweb_1  |[0m     check(self)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 387, in _check_xml
+[36mweb_1  |[0m     view_def = view.read_combined(['arch'])
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 745, in read_combined
+[36mweb_1  |[0m     arch = self.apply_view_inheritance(arch_tree, root.id, self.model)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 694, in apply_view_inheritance
+[36mweb_1  |[0m     source = self.apply_inheritance_specs(source, specs_tree, view_id)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/ir_ui_view.py", line 154, in apply_inheritance_specs
+[36mweb_1  |[0m     pre_locate=pre_locate)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 673, in apply_inheritance_specs
+[36mweb_1  |[0m     self.raise_view_error(str(e), inherit_id)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 614, in raise_view_error
+[36mweb_1  |[0m     raise ValueError(message)
+[36mweb_1  |[0m ValueError: Invalid position attribute: 'attribute'
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Error context:
+[36mweb_1  |[0m View `res.province.tree`
+[36mweb_1  |[0m [view_id: 987, xml_id: contact_record.res_province_tree, model: res.country.state, parent_id: 141]
+[36mweb_1  |[0m 
+[36mweb_1  |[0m During handling of the above exception, another exception occurred:
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Traceback (most recent call last):
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/registry.py", line 86, in new
+[36mweb_1  |[0m     odoo.modules.load_modules(registry._db, force_demo, status, update_module)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 419, in load_modules
+[36mweb_1  |[0m     force, status, report, loaded_modules, update_module, models_to_check)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 315, in load_marked_modules
+[36mweb_1  |[0m     perform_checks=perform_checks, models_to_check=models_to_check
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 225, in load_module_graph
+[36mweb_1  |[0m     load_data(cr, idref, mode, kind='data', package=package, report=report)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 68, in load_data
+[36mweb_1  |[0m     tools.convert_file(cr, package.name, filename, idref, mode, noupdate, kind, report)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 736, in convert_file
+[36mweb_1  |[0m     convert_xml_import(cr, module, fp, idref, mode, noupdate, report)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 803, in convert_xml_import
+[36mweb_1  |[0m     obj.parse(doc.getroot())
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 721, in parse
+[36mweb_1  |[0m     exc_info[2]
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/pycompat.py", line 13, in reraise
+[36mweb_1  |[0m     raise value.with_traceback(tb)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 712, in parse
+[36mweb_1  |[0m     self._tag_root(de)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 674, in _tag_root
+[36mweb_1  |[0m     f(rec)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 577, in _tag_record
+[36mweb_1  |[0m     record = model._load_records([data], self.mode == 'update')
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 4119, in _load_records
+[36mweb_1  |[0m     data['record']._load_records_write(data['values'])
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 1388, in _load_records_write
+[36mweb_1  |[0m     super(View, self)._load_records_write(values)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 4057, in _load_records_write
+[36mweb_1  |[0m     self.write(values)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/studio_mixin.py", line 28, in write
+[36mweb_1  |[0m     res = super(StudioMixin, self).write(vals)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 493, in write
+[36mweb_1  |[0m     res = super(View, self).write(self._compute_defaults(vals))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 3615, in write
+[36mweb_1  |[0m     fields[0].determine_inverse(real_recs)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1122, in determine_inverse
+[36mweb_1  |[0m     getattr(records, self.inverse)()
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 299, in _inverse_arch
+[36mweb_1  |[0m     view.write(data)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/studio_mixin.py", line 28, in write
+[36mweb_1  |[0m     res = super(StudioMixin, self).write(vals)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 493, in write
+[36mweb_1  |[0m     res = super(View, self).write(self._compute_defaults(vals))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 3610, in write
+[36mweb_1  |[0m     real_recs._validate_fields(set(vals) - set(inverse_fields))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 1201, in _validate_fields
+[36mweb_1  |[0m     check(self)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 387, in _check_xml
+[36mweb_1  |[0m     view_def = view.read_combined(['arch'])
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 745, in read_combined
+[36mweb_1  |[0m     arch = self.apply_view_inheritance(arch_tree, root.id, self.model)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 694, in apply_view_inheritance
+[36mweb_1  |[0m     source = self.apply_inheritance_specs(source, specs_tree, view_id)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/ir_ui_view.py", line 154, in apply_inheritance_specs
+[36mweb_1  |[0m     pre_locate=pre_locate)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 673, in apply_inheritance_specs
+[36mweb_1  |[0m     self.raise_view_error(str(e), inherit_id)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 614, in raise_view_error
+[36mweb_1  |[0m     raise ValueError(message)
+[36mweb_1  |[0m odoo.tools.convert.ParseError: "Invalid position attribute: 'attribute'
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Error context:
+[36mweb_1  |[0m View `res.province.tree`
+[36mweb_1  |[0m [view_id: 987, xml_id: contact_record.res_province_tree, model: res.country.state, parent_id: 141]" while parsing /mnt/extra-addons/contact_record/views/res_province_view.xml:2, near
+[36mweb_1  |[0m <odoo>
+[36mweb_1  |[0m    <!--  <record id="res_province_form" model="ir.ui.view">
+[36mweb_1  |[0m         <field name="name">res.province.form</field>
+[36mweb_1  |[0m         <field name="model">res.country.state</field>
+[36mweb_1  |[0m         <field name="arch" type="xml">
+[36mweb_1  |[0m             <form string="Province">
+[36mweb_1  |[0m             <sheet>
+[36mweb_1  |[0m                 <div class="oe_title">
+[36mweb_1  |[0m                     <label for="name" string="Province name" class="oe_edit_only"/>
+[36mweb_1  |[0m                     <h1><field name="name"/></h1>
+[36mweb_1  |[0m                 </div>
+[36mweb_1  |[0m                 <group>
+[36mweb_1  |[0m                     <group>
+[36mweb_1  |[0m                         <field name="country_id"/>
+[36mweb_1  |[0m                         <field name="region_id"/>
+[36mweb_1  |[0m                     </group>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m                     <group>
+[36mweb_1  |[0m                     </group>
+[36mweb_1  |[0m                 </group> 
+[36mweb_1  |[0m             </sheet> 
+[36mweb_1  |[0m             </form>
+[36mweb_1  |[0m         </field>
+[36mweb_1  |[0m     </record>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m     -->
+[36mweb_1  |[0m 
+[36mweb_1  |[0m     <record id="res_province_tree" model="ir.ui.view">
+[36mweb_1  |[0m         <field name="name">res.province.tree</field>
+[36mweb_1  |[0m         <field name="model">res.country.state</field>
+[36mweb_1  |[0m         <field name="inherit_id" ref="base.view_country_state_tree"/>
+[36mweb_1  |[0m         <field name="arch" type="xml">
+[36mweb_1  |[0m             <xpath expr="//tree" position="attribute">
+[36mweb_1  |[0m                 <attr name="string">Province</attr>
+[36mweb_1  |[0m             </xpath>
+[36mweb_1  |[0m         </field>
+[36mweb_1  |[0m     </record>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m 
+[36mweb_1  |[0m 
+[36mweb_1  |[0m     <record model="ir.ui.menu" id="contacts.menu_country_state_partner">
+[36mweb_1  |[0m         <field name="name">Provinces</field>
+[36mweb_1  |[0m     </record>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m </odoo>
+[36mweb_1  |[0m 2021-02-04 13:38:03,504 1 INFO test werkzeug: 172.20.0.1 - - [04/Feb/2021 13:38:03] "GET /favicon.ico HTTP/1.1" 500 - 11649 11.681 8.383
+[36mweb_1  |[0m 2021-02-04 13:38:03,564 1 ERROR test werkzeug: Error on request:
+[36mweb_1  |[0m Traceback (most recent call last):
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/werkzeug/serving.py", line 270, in run_wsgi
+[36mweb_1  |[0m     execute(self.server.app)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/werkzeug/serving.py", line 258, in execute
+[36mweb_1  |[0m     application_iter = app(environ, start_response)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/service/server.py", line 439, in app
+[36mweb_1  |[0m     return self.app(e, s)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/service/wsgi_server.py", line 142, in application
+[36mweb_1  |[0m     return application_unproxied(environ, start_response)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/service/wsgi_server.py", line 117, in application_unproxied
+[36mweb_1  |[0m     result = odoo.http.root(environ, start_response)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/http.py", line 1287, in __call__
+[36mweb_1  |[0m     return self.dispatch(environ, start_response)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/http.py", line 1257, in __call__
+[36mweb_1  |[0m     return self.app(environ, start_wrapped)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/werkzeug/wsgi.py", line 766, in __call__
+[36mweb_1  |[0m     return self.app(environ, start_response)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/http.py", line 1461, in dispatch
+[36mweb_1  |[0m     response = self.get_response(httprequest, result, explicit_session)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/http.py", line 284, in __exit__
+[36mweb_1  |[0m     elif self.registry:
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/http.py", line 368, in registry
+[36mweb_1  |[0m     return odoo.registry(self.db)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/__init__.py", line 104, in registry
+[36mweb_1  |[0m     return modules.registry.Registry(database_name)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/registry.py", line 62, in __new__
+[36mweb_1  |[0m     return cls.new(db_name)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/registry.py", line 86, in new
+[36mweb_1  |[0m     odoo.modules.load_modules(registry._db, force_demo, status, update_module)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 419, in load_modules
+[36mweb_1  |[0m     force, status, report, loaded_modules, update_module, models_to_check)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 315, in load_marked_modules
+[36mweb_1  |[0m     perform_checks=perform_checks, models_to_check=models_to_check
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 225, in load_module_graph
+[36mweb_1  |[0m     load_data(cr, idref, mode, kind='data', package=package, report=report)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 68, in load_data
+[36mweb_1  |[0m     tools.convert_file(cr, package.name, filename, idref, mode, noupdate, kind, report)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 736, in convert_file
+[36mweb_1  |[0m     convert_xml_import(cr, module, fp, idref, mode, noupdate, report)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 803, in convert_xml_import
+[36mweb_1  |[0m     obj.parse(doc.getroot())
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 721, in parse
+[36mweb_1  |[0m     exc_info[2]
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/pycompat.py", line 13, in reraise
+[36mweb_1  |[0m     raise value.with_traceback(tb)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 712, in parse
+[36mweb_1  |[0m     self._tag_root(de)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 674, in _tag_root
+[36mweb_1  |[0m     f(rec)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 577, in _tag_record
+[36mweb_1  |[0m     record = model._load_records([data], self.mode == 'update')
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 4119, in _load_records
+[36mweb_1  |[0m     data['record']._load_records_write(data['values'])
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 1388, in _load_records_write
+[36mweb_1  |[0m     super(View, self)._load_records_write(values)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 4057, in _load_records_write
+[36mweb_1  |[0m     self.write(values)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/studio_mixin.py", line 28, in write
+[36mweb_1  |[0m     res = super(StudioMixin, self).write(vals)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 493, in write
+[36mweb_1  |[0m     res = super(View, self).write(self._compute_defaults(vals))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 3615, in write
+[36mweb_1  |[0m     fields[0].determine_inverse(real_recs)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1122, in determine_inverse
+[36mweb_1  |[0m     getattr(records, self.inverse)()
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 299, in _inverse_arch
+[36mweb_1  |[0m     view.write(data)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/studio_mixin.py", line 28, in write
+[36mweb_1  |[0m     res = super(StudioMixin, self).write(vals)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 493, in write
+[36mweb_1  |[0m     res = super(View, self).write(self._compute_defaults(vals))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 3610, in write
+[36mweb_1  |[0m     real_recs._validate_fields(set(vals) - set(inverse_fields))
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/models.py", line 1201, in _validate_fields
+[36mweb_1  |[0m     check(self)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 387, in _check_xml
+[36mweb_1  |[0m     view_def = view.read_combined(['arch'])
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 745, in read_combined
+[36mweb_1  |[0m     arch = self.apply_view_inheritance(arch_tree, root.id, self.model)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 694, in apply_view_inheritance
+[36mweb_1  |[0m     source = self.apply_inheritance_specs(source, specs_tree, view_id)
+[36mweb_1  |[0m   File "/mnt/enterprise/web_studio/models/ir_ui_view.py", line 154, in apply_inheritance_specs
+[36mweb_1  |[0m     pre_locate=pre_locate)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 673, in apply_inheritance_specs
+[36mweb_1  |[0m     self.raise_view_error(str(e), inherit_id)
+[36mweb_1  |[0m   File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 614, in raise_view_error
+[36mweb_1  |[0m     raise ValueError(message)
+[36mweb_1  |[0m odoo.tools.convert.ParseError: "Invalid position attribute: 'attribute'
+[36mweb_1  |[0m 
+[36mweb_1  |[0m Error context:
+[36mweb_1  |[0m View `res.province.tree`
+[36mweb_1  |[0m [view_id: 987, xml_id: contact_record.res_province_tree, model: res.country.state, parent_id: 141]" while parsing /mnt/extra-addons/contact_record/views/res_province_view.xml:2, near
+[36mweb_1  |[0m <odoo>
+[36mweb_1  |[0m    <!--  <record id="res_province_form" model="ir.ui.view">
+[36mweb_1  |[0m         <field name="name">res.province.form</field>
+[36mweb_1  |[0m         <field name="model">res.country.state</field>
+[36mweb_1  |[0m         <field name="arch" type="xml">
+[36mweb_1  |[0m             <form string="Province">
+[36mweb_1  |[0m             <sheet>
+[36mweb_1  |[0m                 <div class="oe_title">
+[36mweb_1  |[0m                     <label for="name" string="Province name" class="oe_edit_only"/>
+[36mweb_1  |[0m                     <h1><field name="name"/></h1>
+[36mweb_1  |[0m                 </div>
+[36mweb_1  |[0m                 <group>
+[36mweb_1  |[0m                     <group>
+[36mweb_1  |[0m                         <field name="country_id"/>
+[36mweb_1  |[0m                         <field name="region_id"/>
+[36mweb_1  |[0m                     </group>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m                     <group>
+[36mweb_1  |[0m                     </group>
+[36mweb_1  |[0m                 </group> 
+[36mweb_1  |[0m             </sheet> 
+[36mweb_1  |[0m             </form>
+[36mweb_1  |[0m         </field>
+[36mweb_1  |[0m     </record>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m     -->
+[36mweb_1  |[0m 
+[36mweb_1  |[0m     <record id="res_province_tree" model="ir.ui.view">
+[36mweb_1  |[0m         <field name="name">res.province.tree</field>
+[36mweb_1  |[0m         <field name="model">res.country.state</field>
+[36mweb_1  |[0m         <field name="inherit_id" ref="base.view_country_state_tree"/>
+[36mweb_1  |[0m         <field name="arch" type="xml">
+[36mweb_1  |[0m             <xpath expr="//tree" position="attribute">
+[36mweb_1  |[0m                 <attr name="string">Province</attr>
+[36mweb_1  |[0m             </xpath>
+[36mweb_1  |[0m         </field>
+[36mweb_1  |[0m     </record>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m 
+[36mweb_1  |[0m 
+[36mweb_1  |[0m     <record model="ir.ui.menu" id="contacts.menu_country_state_partner">
+[36mweb_1  |[0m         <field name="name">Provinces</field>
+[36mweb_1  |[0m     </record>
+[36mweb_1  |[0m 
+[36mweb_1  |[0m </odoo> - - -

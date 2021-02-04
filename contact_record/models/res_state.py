@@ -6,7 +6,11 @@
 ##############################################################################
 from odoo import api, fields, models, _
 
+
 class State(models.Model):
     _inherit = "res.country.state"
+    _description = "Province"
 
-    region_id = fields.Many2one('res.region', string="Region", required=True)
+    name = fields.Char(string="Province")
+    code = fields.Char(string="Province Code")
+    region_id = fields.Many2one('res.region', string="Region")
