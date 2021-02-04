@@ -248,7 +248,6 @@ class SalesForceImporterOpportunities(models.Model):
         return lead
 
     def _create_lead_partner_data(self, partner, lead_partner):
-        _logger.debug(f'Account: {dict(partner)}')
         data = {
             'salesforce_id': partner['Id'],
             'name': partner['Name'],
@@ -287,6 +286,10 @@ class SalesForceImporterOpportunities(models.Model):
             home_ownership = partner['Home_Ownership__c']
             if home_ownership:
                 home_ownership = home_ownership.lower()
+                if home_ownership == 'living with relatives':
+                    home_ownership = 'living_relatives'
+                elif home_ownership == 'company provided':
+                    home_ownership = 'company_provided'
                 data['home_ownership'] = home_ownership
 
             account_group = partner['Zone_Type_Acc__c']
@@ -306,32 +309,8 @@ class SalesForceImporterOpportunities(models.Model):
             street1 = partner['House_No_BL_Phase__c']
             street2 = partner['Barangay_Subdivision_Name__c']
 
-            province_id = False
             province_name = partner['Province__c']
-            if province_name:
-                province_name = province_name.replace('\xa0', ' ')
-                province_id = self.env['res.country.state'].search([('name', '=', province_name)])
-
-            city_id = False
             city_name = partner['City__c']
-            if city_name:
-                city_name = city_name.replace('\xa0', ' ')
-                city_id = self.env['res.city'].search([('name', '=', city_name), ('state_id', '=?', province_id.id)])
-
-            data.update({
-                'last_name': partner['LastName'],
-                'first_name': partner['FirstName'],
-                'middle_name': partner['MiddleName'],
-                'birthday': partner['Birth_Date__c'],
-                'gender': gender,
-                # 'civil_status': ,
-                'street': street1,
-                'street2': street2,
-                'city_id': city_id.id,
-                'state_id': province_id.id,
-                'region_id': province_id.region_id.id if province_id and province_id.region_id else False,
-                'country_id': province_id.country_id.id if province_id and province_id.country_id else False
-            })
         else:
             data['is_company'] = True
             subscriber_type = partner.get('Customer_Type__c')
@@ -356,30 +335,33 @@ class SalesForceImporterOpportunities(models.Model):
             street_billing = partner.get('Street_BillingAddress__c')
             brgy_billing = partner.get('Barangay_BillingAddress__c')
 
-            province_id = False
             province_name = partner.get('Province_BillingAddress__c')
-            if province_name:
-                province_id = self.env['res.country.state'].search([('name', '=', province_name)])
-
-            city_id = False
             city_name = partner.get('City_BillingAddress__c')
-            if city_name:
-                city_id = self.env['res.city'].search([('name', '=', city_name), ('state_id', '=?', province_id.id)])
 
             street1 = f'{bldg_billing} {street_billing}'
             street2 = brgy_billing
 
-            data.update({
-                'street': street1,
-                'street2': street2,
-                'city_id': city_id.id,
-                'state_id': province_id.id,
-                'region_id': province_id.region_id.id if province_id and province_id.region_id else False,
-                'country_id': province_id.country_id.id if province_id and province_id.country_id else False
-                })
+        province_id = False
+        if province_name:
+            province_name = province_name.replace('\xa0', ' ')
+            province_id = self.env['res.country.state'].search([('name', '=', province_name)])
 
-        if len(city_id) > 1:
+        city_id = False
+        if city_name:
+            city_name = city_name.replace('\xa0', ' ')
+            city_id = self.env['res.city'].search([('name', '=', city_name), ('state_id', '=?', province_id.id)])
+
+        if not city_id or len(city_id) > 1:
             _logger.error(f'Multiple Cities: {data["salesforce_id"]} {city_name}:{city_id} {province_name}:{province_id}')
+
+        data.update({
+            'street': street1,
+            'street2': street2,
+            'city_id': city_id.id if city_id else False,
+            'state_id': province_id.id if province_id else False,
+            'region_id': province_id.region_id.id if province_id and province_id.region_id else False,
+            'country_id': province_id.country_id.id if province_id and province_id.country_id else False
+            })
 
         if lead_partner:
             lead_partner.write(data)

@@ -32,9 +32,8 @@ class CRMLead(models.Model):
     company_type = fields.Selection(related="partner_id.company_type", string="Account Type")
     is_auto_quotation = fields.Boolean(string="Is auto Quotation")
     outside_source = fields.Boolean(string="Outside Source", default=False)
-    contract_start_date = fields.Date(
-        string="Contract Start Date", required=True)
-    contract_end_date = fields.Date(string="Contract End Date", required=True)
+    contract_start_date = fields.Date(string="Contract Start Date", required=False)
+    contract_end_date = fields.Date(string="Contract End Date", required=False)
     contract_term = fields.Integer(string="Contract Term")
     plan = fields.Many2one('sale.order.template', string="Plan")
     no_tv = fields.Integer(string="Number of TV")

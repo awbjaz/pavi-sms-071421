@@ -59,7 +59,7 @@ class Partner(models.Model):
     home_ownership = fields.Selection([('owned', 'Owned'),
                                        ('rented', 'Rented'),
                                        ('living_relatives', 'Living with Relatives'),
-                                       ('company_provide', 'Company Provided'),
+                                       ('company_provided', 'Company Provided'),
                                        ('mortgaged', 'Mortgaged')], string="Home Ownership")
     account_classification = fields.Selection([('internal', 'Affiliate / Internal'),
                                                ('external', 'External')], string="Account Classification")
