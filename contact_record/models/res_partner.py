@@ -18,7 +18,6 @@ class ResPartner(models.Model):
                                domain="[('country_id', '=?', country_id)]")
     city_id = fields.Many2one('res.city',
                               string='City of Address',
-                              required=True,
                               domain="[('country_id', '=?', country_id)]")
     accredited = fields.Boolean(string='Accredited')
     validated = fields.Boolean(string='Validated')

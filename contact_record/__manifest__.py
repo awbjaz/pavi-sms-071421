@@ -38,6 +38,7 @@
         'security/ir.model.access.csv',
         'views/res_region_view.xml',
         'views/res_province_view.xml',
+        'views/res_city_view.xml',
         'views/crm_lead_view.xml',
         'views/res_partner_view.xml',
     ],
