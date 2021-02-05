@@ -61,7 +61,7 @@ class SalesForceImporterOpportunities(models.Model):
                 """
         query = f"""
                 SELECT
-                    Id, name, AccountId, Amount, CloseDate,  Description, LastMOdifiedDate,
+                    Id, Opportunity_Number__c, name, AccountId, Amount, CloseDate,  Description, LastMOdifiedDate,
                     HasOpenActivity, IsDeleted, IsWon, OwnerId, Probability,
                     LastActivityDate, StageName, Type, leadSource, CampaignId,
                     Old_Customer_Number__c,
@@ -71,6 +71,7 @@ class SalesForceImporterOpportunities(models.Model):
                     Payment_OR_No__c,
                     Device_Fee__c,
                     Valid_ID__c,
+                    Valid_ID_of_Homeowner__c,
                     Proof_of_Billing_Electricity_or_Water__c,
                     Total_Discount_AMount__c,
                     Sum_of_Installation_Cost__c,
@@ -177,7 +178,7 @@ class SalesForceImporterOpportunities(models.Model):
         else:
             promo = False
 
-        has_id = lead.get('Valid_ID__c', False)
+        has_id = lead.get('Valid_ID__c', False) or lead['Valid_ID_of_Homeowner__c']
 
         speed = lead.get('Preferred_Speed_Bandwidth__c', '0')
         if speed:
@@ -205,6 +206,7 @@ class SalesForceImporterOpportunities(models.Model):
         lead = {
             'salesforce_id': lead['Id'],
             'name': lead['Name'],
+            'opportunity_number': lead['Opportunity_Number__c'],
             'account_identification': lead.get('Old_Customer_Number__c'),
             'planned_revenue': lead['Amount'] if lead['Amount'] else None,
             'probability': lead['Probability'] if lead['Probability'] else None,
@@ -263,7 +265,7 @@ class SalesForceImporterOpportunities(models.Model):
             'subscriber_type': '',
             'account_classification': '',
             'account_subclassification': None,
-            'type': ''
+            'type': '',
         }
 
         type_data = partner['Type']
@@ -306,6 +308,19 @@ class SalesForceImporterOpportunities(models.Model):
 
                 data['zone_subtype'] = zone_sub.id
 
+            email = partner['PersonEmail']
+            if email:
+                data['email'] = email
+
+            mobile = partner['Mobile_Phone__c']
+
+            data.update({
+                'first_name': partner['FirstName'],
+                'middle_name': partner['MiddleName'],
+                'last_name': partner['LastName'],
+                'mobile': mobile
+                })
+
             street1 = partner['House_No_BL_Phase__c']
             street2 = partner['Barangay_Subdivision_Name__c']
 
@@ -321,6 +336,8 @@ class SalesForceImporterOpportunities(models.Model):
             classification = partner['Account_Classification__c']
             if classification:
                 classification = classification.lower()
+                if classification == 'affiliate/internal':
+                    classification = 'internal'
                 data['account_classification'] = classification
 
             sub_classification = partner.get('Account_Sub_Classification__c')
@@ -398,109 +415,113 @@ class SalesForceImporterOpportunities(models.Model):
         return lead_partner
 
     def creating_opportunities(self, opportunities):
-        _logger.info(f'----------------- STREAMTECH creating_opportunities {len(opportunities)}')
+        salesforce_ids = []
+        campaign = None
+        medium = None
+        source = None
 
-        try:
-            salesforce_ids = []
-            campaign = None
-            medium = None
-            source = None
+        for idx, lead in enumerate(opportunities):
+            _logger.info(f'----------------- STREAMTECH creating_opportunities Lead: {idx} of {len(opportunities)}')
+            products = lead['OpportunityLineItems']
+            if products:
+                products = products['records']
+            else:
+                products = []
 
-            for idx, lead in enumerate(opportunities):
-                _logger.debug(f'Lead: {idx}')
-                products = lead['OpportunityLineItems']
-                if products:
-                    products = products['records']
-                else:
-                    products = []
-
-                odoo_lead = self.env['crm.lead'].search([('salesforce_id', '=', lead['Id'])])
-                if odoo_lead:
-                    if lead['CampaignId']:
-                        campaign = self.env['utm.campaign'].search([('salesforce_id', '=', lead['CampaignId'])])
-                        if not campaign:
-                            query = "select id,name,type,status,StartDate,EndDate from campaign " \
-                                    "where id='%s'" % str(lead['CampaignId'])
-                            sf_campaign = self.sales_force.query(query)['records'][0]
-                            campaign = self.env['utm.campaign'].create({
-                                'salesforce_id': sf_campaign['Id'],
+            odoo_lead = self.env['crm.lead'].search([('salesforce_id', '=', lead['Id'])])
+            if odoo_lead:
+                if lead['CampaignId']:
+                    campaign = self.env['utm.campaign'].search([('salesforce_id', '=', lead['CampaignId'])])
+                    if not campaign:
+                        query = "select id,name,type,status,StartDate,EndDate from campaign " \
+                                "where id='%s'" % str(lead['CampaignId'])
+                        sf_campaign = self.sales_force.query(query)['records'][0]
+                        campaign = self.env['utm.campaign'].create({
+                            'salesforce_id': sf_campaign['Id'],
+                            'name': sf_campaign['Name'],
+                        })
+                        medium = self.env['utm.campaign'].search([('name', '=', sf_campaign['Type'])])
+                        if not medium:
+                            medium = self.env['utm.medium'].create({
                                 'name': sf_campaign['Name'],
                             })
-                            medium = self.env['utm.campaign'].search([('name', '=', sf_campaign['Type'])])
-                            if not medium:
-                                medium = self.env['utm.medium'].create({
-                                    'name': sf_campaign['Name'],
-                                })
-                            self.env.cr.commit()
-                    if lead['LeadSource']:
-                        source = self.env['utm.source'].search([('name', '=', lead['LeadSource'])])
-                        if not source:
-                            source = self.env['utm.source'].create({
-                                'name': lead['LeadSource'],
-                            })
-                            self.env.cr.commit()
-
-                    lead_stage = self.env['crm.stage'].search([('name', '=', lead['StageName'])])
-                    if not lead_stage:
-                        lead_stage = self.env['crm.stage'].create({
-                            'name': lead['StageName'],
+                        self.env.cr.commit()
+                if lead['LeadSource']:
+                    source = self.env['utm.source'].search([('name', '=', lead['LeadSource'])])
+                    if not source:
+                        source = self.env['utm.source'].create({
+                            'name': lead['LeadSource'],
                         })
+                        self.env.cr.commit()
 
-                    lead_data = self._create_lead_data(lead, lead_stage, campaign, medium, source)
-                    if lead['AccountId']:
-                        lead_partner = self._get_partner_data(lead)
-                        lead_data['partner_id'] = lead_partner.id
+                lead_stage = self.env['crm.stage'].search([('name', '=', lead['StageName'])])
+                if not lead_stage:
+                    lead_stage = self.env['crm.stage'].create({
+                        'name': lead['StageName'],
+                    })
 
-                    self._create_lead_product_data(odoo_lead, products)
+                lead_data = self._create_lead_data(lead, lead_stage, campaign, medium, source)
+                if lead['AccountId']:
+                    lead_partner = self._get_partner_data(lead)
+                    lead_data['partner_id'] = lead_partner.id
+
+                _logger.debug(f'Create Product')
+                self._create_lead_product_data(odoo_lead, products)
+                _logger.debug(f'Created Product')
+                _logger.debug(f'Updating data: {odoo_lead.id}: {lead_data}')
+                try:
                     odoo_lead.write(lead_data)
                     self.env.cr.commit()
-                else:
-                    if lead['CampaignId']:
-                        campaign = self.env['utm.campaign'].search([('salesforce_id', '=', lead['CampaignId'])])
-                        if not campaign:
-                            query = "select id,name,type,status,StartDate,EndDate from campaign " \
-                                    "where id='%s'" % str(lead['CampaignId'])
-                            sf_campaign = self.sales_force.query(query)['records'][0]
-                            campaign = self.env['utm.campaign'].create({
-                                'salesforce_id': sf_campaign['Id'],
+                except Exception as e:
+                    _logger.debug(f'Error: {e}')
+            else:
+                if lead['CampaignId']:
+                    campaign = self.env['utm.campaign'].search([('salesforce_id', '=', lead['CampaignId'])])
+                    if not campaign:
+                        query = "select id,name,type,status,StartDate,EndDate from campaign " \
+                                "where id='%s'" % str(lead['CampaignId'])
+                        sf_campaign = self.sales_force.query(query)['records'][0]
+                        campaign = self.env['utm.campaign'].create({
+                            'salesforce_id': sf_campaign['Id'],
+                            'name': sf_campaign['Name'],
+                        })
+                        medium = self.env['utm.campaign'].search([('name', '=', sf_campaign['Type'])])
+                        if not medium:
+                            medium = self.env['utm.medium'].create({
                                 'name': sf_campaign['Name'],
                             })
-                            medium = self.env['utm.campaign'].search([('name', '=', sf_campaign['Type'])])
-                            if not medium:
-                                medium = self.env['utm.medium'].create({
-                                    'name': sf_campaign['Name'],
-                                })
-                            self.env.cr.commit()
-                    if lead['LeadSource']:
-                        source = self.env['utm.source'].search([('name', '=', lead['LeadSource'])])
-                        if not source:
-                            source = self.env['utm.source'].create({
-                                'name': lead['LeadSource'],
-                            })
-                            self.env.cr.commit()
-                    lead_stage = self.env['crm.stage'].search([('name', '=', lead['StageName'])])
-                    if not lead_stage:
-                        lead_stage = self.env['crm.stage'].create({
-                            'name': lead['StageName'],
+                        self.env.cr.commit()
+                if lead['LeadSource']:
+                    source = self.env['utm.source'].search([('name', '=', lead['LeadSource'])])
+                    if not source:
+                        source = self.env['utm.source'].create({
+                            'name': lead['LeadSource'],
                         })
+                        self.env.cr.commit()
+                lead_stage = self.env['crm.stage'].search([('name', '=', lead['StageName'])])
+                if not lead_stage:
+                    lead_stage = self.env['crm.stage'].create({
+                        'name': lead['StageName'],
+                    })
 
-                    lead_data = self._create_lead_data(lead, lead_stage, campaign, medium, source)
-                    lead_data['location'] = 'SalesForce'
+                lead_data = self._create_lead_data(lead, lead_stage, campaign, medium, source)
+                lead_data['location'] = 'SalesForce'
 
-                    if lead['AccountId']:
-                        lead_partner = self._get_partner_data(lead)
-                        lead_data['partner_id'] = lead_partner.id
+                if lead['AccountId']:
+                    lead_partner = self._get_partner_data(lead)
+                    lead_data['partner_id'] = lead_partner.id
 
+                try:
                     self.env['crm.lead'].create(lead_data)
+                    _logger.debug(f'Create Product')
                     self._create_lead_product_data(odoo_lead, products)
+                    _logger.debug(f'Created Product')
+                    _logger.debug(f'Creating data: {lead_data}')
                     self.env.cr.commit()
+                except Exception as e:
+                    _logger.debug(f'Error: {e}')
 
-                salesforce_ids.append(lead['Id'])
+            _logger.info(f'STREAMTECH creating_opportunities Lead: {idx} of {len(opportunities)} ----------------- ')
+            salesforce_ids.append(lead['Id'])
 
-            # TODO; uncomment
-            return salesforce_ids
-            # TODO; remove
-            # return []
-
-        except Exception as e:
-            raise osv.except_osv("Error Details!", e)
+        return salesforce_ids

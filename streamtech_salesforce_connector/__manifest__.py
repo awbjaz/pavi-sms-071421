@@ -18,6 +18,7 @@
     'version': '13.0.1.0.0',
     'depends': ['salesforce_connector', 'awb_subscriber_product_information'],
     'data': [
+        'views/crm_view.xml'
     ],
     'installable': True,
     'application': False,

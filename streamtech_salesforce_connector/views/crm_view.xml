@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_crm_lead_form" model="ir.ui.view">
+      <field name="name">view.crm.lead.form</field>
+      <field name="model">crm.lead</field>
+      <field name="inherit_id" ref="awb_subscriber_product_information.view_crm_lead_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//page[@name='other_info']//group" position="after">
+          <group>
+            <group string="Salesforce">
+              <field name="salesforce_id"/>
+              <field name="opportunity_number"/>
+            </group>
+          </group>
+        </xpath>
+      </field>
+  </record>
+</odoo>
