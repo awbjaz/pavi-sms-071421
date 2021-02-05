@@ -23,7 +23,7 @@
 
     'version': '13.0.1.0.0',
 
-    'depends': ['account_accountant', 'base_address_city', 'contacts', 'hr', 'mail', 'project', 'sale_management', 'sale_subscription'],
+    'depends': ['account_accountant', 'base_address_city', 'contact_record', 'contacts', 'hr', 'mail', 'project', 'sale_management', 'sale_subscription'],
 
     'data': [
         'security/ir.model.access.csv',
