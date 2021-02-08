@@ -87,8 +87,8 @@ class SalesForceImporterOpportunities(models.Model):
                         opportunity.OpportunityLineItems),
                     {account_query}
                 FROM opportunity
-                WHERE (StageName = 'Closed Won' AND Sub_Stages__c in ('Completed Activation'))
-                OR StageName = 'Closed Lost'
+                WHERE ((StageName = 'Closed Won' AND Sub_Stages__c in ('Completed Activation'))
+                OR StageName = 'Closed Lost')
                 LIMIT 1000
                 """
 
@@ -209,7 +209,7 @@ class SalesForceImporterOpportunities(models.Model):
             'opportunity_number': lead['Opportunity_Number__c'],
             'account_identification': lead.get('Old_Customer_Number__c'),
             'planned_revenue': lead['Amount'] if lead['Amount'] else None,
-            'probability': lead['Probability'] if lead['Probability'] else None,
+            'probability': lead['Probability'] if lead['Probability'] else 0,
             'type': 'opportunity',
             'date_closed': lead['CloseDate'] if lead['CloseDate'] else None,
             'stage_id': lead_stage.id,
@@ -389,6 +389,7 @@ class SalesForceImporterOpportunities(models.Model):
 
     def _create_lead_product_data(self, opportunity, products):
         items = []
+        _logger.debug(f'Adding Products {len(products)}')
         for product in products:
             odoo_product = self.env['product.template'].search([('salesforce_id', '=', product['Product2Id'])])
             if not odoo_product:
@@ -405,7 +406,9 @@ class SalesForceImporterOpportunities(models.Model):
             items.append((0, 0, data))
 
         opportunity.update({'product_lines': [(5, 0, 0)]})
-        opportunity.update({'product_lines': items})
+        _logger.debug(f'Adding Items {len(items)}')
+        if len(items):
+            opportunity.update({'product_lines': items})
 
     def _get_partner_data(self, lead):
         lead_partner = self.env['res.partner'].search([('salesforce_id', '=', lead['AccountId'])])
@@ -421,7 +424,7 @@ class SalesForceImporterOpportunities(models.Model):
         source = None
 
         for idx, lead in enumerate(opportunities):
-            _logger.info(f'----------------- STREAMTECH creating_opportunities Lead: {idx} of {len(opportunities)}')
+            _logger.info(f'----------------- STREAMTECH creating_opportunities Lead[{lead["Opportunity_Number__c"]}]: {idx} of {len(opportunities)}')
             products = lead['OpportunityLineItems']
             if products:
                 products = products['records']
@@ -469,11 +472,11 @@ class SalesForceImporterOpportunities(models.Model):
                 self._create_lead_product_data(odoo_lead, products)
                 _logger.debug(f'Created Product')
                 _logger.debug(f'Updating data: {odoo_lead.id}: {lead_data}')
-                try:
-                    odoo_lead.write(lead_data)
-                    self.env.cr.commit()
-                except Exception as e:
-                    _logger.debug(f'Error: {e}')
+                # try:
+                odoo_lead.write(lead_data)
+                self.env.cr.commit()
+                # except Exception as e:
+                #     _logger.debug(f'Error: {e}')
             else:
                 if lead['CampaignId']:
                     campaign = self.env['utm.campaign'].search([('salesforce_id', '=', lead['CampaignId'])])
@@ -511,15 +514,15 @@ class SalesForceImporterOpportunities(models.Model):
                     lead_partner = self._get_partner_data(lead)
                     lead_data['partner_id'] = lead_partner.id
 
-                try:
-                    self.env['crm.lead'].create(lead_data)
-                    _logger.debug(f'Create Product')
-                    self._create_lead_product_data(odoo_lead, products)
-                    _logger.debug(f'Created Product')
-                    _logger.debug(f'Creating data: {lead_data}')
-                    self.env.cr.commit()
-                except Exception as e:
-                    _logger.debug(f'Error: {e}')
+                # try:
+                self.env['crm.lead'].create(lead_data)
+                _logger.debug(f'Create Product')
+                self._create_lead_product_data(odoo_lead, products)
+                _logger.debug(f'Created Product')
+                _logger.debug(f'Creating data: {lead_data}')
+                self.env.cr.commit()
+                # except Exception as e:
+                #     _logger.debug(f'Error: {e}')
 
             _logger.info(f'STREAMTECH creating_opportunities Lead: {idx} of {len(opportunities)} ----------------- ')
             salesforce_ids.append(lead['Id'])
