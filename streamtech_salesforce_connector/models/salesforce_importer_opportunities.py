@@ -393,6 +393,7 @@ class SalesForceImporterOpportunities(models.Model):
         for product in products:
             odoo_product = self.env['product.template'].search([('salesforce_id', '=', product['Product2Id'])])
             if not odoo_product:
+                _logger.debug(f'Import Product: {product}')
                 self.import_products(False, product['Product2Id'])
                 odoo_product = self.env['product.template'].search([('salesforce_id', '=', product['Product2Id'])])
 

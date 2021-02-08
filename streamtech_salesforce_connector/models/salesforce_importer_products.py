@@ -100,13 +100,12 @@ class SalesForceImporterProducts(models.Model):
                 ", UnitPrice " \
                 ", Product2.CreatedDate, LastMOdifiedDate " \
                 " from PriceBookEntry"
-        _logger.info(f'Query {query}')
 
         if not self.sales_force:
             self.connect_to_salesforce()
 
         if id:
-            query += " where id ='" + id + "'"
+            query += " where Product2.Id ='" + id + "'"
         elif not Auto:
             if not self.from_date and self.to_date:
                 raise osv.except_osv("Warning!", "Sorry; invalid operation, please select From Date")
@@ -124,5 +123,6 @@ class SalesForceImporterProducts(models.Model):
             to_date_query = " and Product2.CreatedDate<=" + today.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
             query += from_date_query + to_date_query
 
+        _logger.info(f'Query {query}')
         products = self.sales_force.query(query)['records']
         return self.creating_products(products)
