@@ -39,7 +39,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Subscriptions">
+                            <page string="Subscriptions" groups="sale_subscription.group_sale_subscription_view">
                                 <field name="subscription_ids" readonly="1"/>
                             </page>
                             <page string="Projects" groups="project.group_project_manager">
