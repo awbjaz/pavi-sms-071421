@@ -124,5 +124,6 @@ class SalesForceImporterProducts(models.Model):
             query += from_date_query + to_date_query
 
         _logger.info(f'Query {query}')
-        products = self.sales_force.query(query)['records']
+        # products = self.sales_force.query(query)['records']
+        products = self.sales_force.bulk.PriceBookEntry.query(query)
         return self.creating_products(products)

@@ -89,7 +89,7 @@ class SalesForceImporterOpportunities(models.Model):
                 FROM opportunity
                 WHERE ((StageName = 'Closed Won' AND Sub_Stages__c in ('Completed Activation'))
                 OR StageName = 'Closed Lost')
-                LIMIT 1000
+                AND Opportunity_In_Effect__c = true
                 """
 
         if not Auto:
@@ -117,7 +117,8 @@ class SalesForceImporterOpportunities(models.Model):
 
             query = query + from_date_query + to_date_query
 
-        opportunities = self.sales_force.query(query)['records']
+        query += " LIMIT 1000 "
+        opportunities = self.sales_force.bulk.Opportunity.query(query)
         return self.creating_opportunities(opportunities)
 
         # except Exception as e:
@@ -197,7 +198,11 @@ class SalesForceImporterOpportunities(models.Model):
             for jo in job_orders.get('records', []):
                 contract_start_date = jo.get('SLA_Activation_Actual_End_Date__c', None)
                 if contract_start_date and contract_term:
-                    contract_start_date = datetime.datetime.strptime(contract_start_date, "%Y-%m-%dT%H:%M:%S.000+0000")
+                    if isinstance(contract_start_date, int):
+                        contract_start_date = datetime.datetime.fromtimestamp(contract_start_date/1000)
+                    else:
+                        contract_start_date = datetime.datetime.strptime(contract_start_date, "%Y-%m-%dT%H:%M:%S.000+0000")
+
                     contract_end_date = contract_start_date + relativedelta(months=contract_term)
 
                     contract_start_date = contract_start_date.strftime("%Y-%m-%dT%H:%M:%S")
