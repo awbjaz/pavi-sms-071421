@@ -549,7 +549,7 @@ class SalesForceImporterOpportunities(models.Model):
                     lead_data['partner_id'] = lead_partner.id
 
                 # try:
-                self.env['crm.lead'].create(lead_data)
+                odoo_lead = self.env['crm.lead'].create(lead_data)
                 _logger.debug(f'Create Product')
                 self._create_lead_product_data(odoo_lead, products)
                 _logger.debug(f'Created Product')
