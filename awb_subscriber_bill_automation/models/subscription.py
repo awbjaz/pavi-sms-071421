@@ -5,7 +5,7 @@
 #
 ##############################################################################
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 
 import logging
 
@@ -25,33 +25,40 @@ class SaleSubscription(models.Model):
                                             ('disconnection', 'Disconnection'),
                                             ('reconnection', 'Reconnection')], default='new', string="Subscription Status")
 
-    opportunity_id = fields.Many2one('crm.lead', string="Opportunity")
-
-    def _prepare_renewal_order_values(self):
-        res = super(SaleSubscription, self)._prepare_renewal_order_values()
-        if self.opportunity_id:
-            plan = []
-            for line in self.opportunity_id.plan.sale_order_template_line_ids:
-                data = {
-                    'product_id': line.product_id.id,
-                    'name': line.name,
-                    'product_uom_qty': line.product_uom_qty,
-                    'price_unit': line.price_unit,
-                }
-                plan.append((0, 0, data))
-            res[self.id].update({
-                'opportunity_id': self.opportunity_id.id,
-                'sale_order_template_id': self.opportunity_id.plan.id,
-                'order_line': plan,
-            })
-        _logger.debug(f'Result {res}')
+    def _prepare_renewal_values(self, product_lines, opportunity_id):
+        res = dict()
+        for subscription in self:
+            fpos_id = self.env['account.fiscal.position'].with_context(
+                force_company=subscription.company_id.id).get_fiscal_position(subscription.partner_id.id)
+            addr = subscription.partner_id.address_get(['delivery', 'invoice'])
+            sale_order = subscription.env['sale.order'].search(
+                [('order_line.subscription_id', '=', subscription.id)],
+                order="id desc", limit=1)
+            res[subscription.id] = {
+                'pricelist_id': subscription.pricelist_id.id,
+                'partner_id': subscription.partner_id.id,
+                'partner_invoice_id': addr['invoice'],
+                'partner_shipping_id': addr['delivery'],
+                'currency_id': subscription.pricelist_id.currency_id.id,
+                'order_line': product_lines,
+                'analytic_account_id': subscription.analytic_account_id.id,
+                'subscription_management': 'renew',
+                'origin': subscription.code,
+                'note': subscription.description,
+                'fiscal_position_id': fpos_id,
+                'user_id': subscription.user_id.id,
+                'payment_term_id': sale_order.payment_term_id.id if sale_order else subscription.partner_id.property_payment_term_id.id,
+                'company_id': subscription.company_id.id,
+                'opportunity_id': opportunity_id,
+            }
         return res
 
-    def prepare_renewal_order(self):
-        res = super(SaleSubscription, self).prepare_renewal_order()
-        if self.opportunity_id:
-            order = self.env['sale.order'].search([('id', '=', res['res_id'])])
-            order.action_confirm()
-        _logger.debug(f"Result Order {res['res_id']}")
-        _logger.debug(f'Result Renewal {res}')
-        return res
+    def prepare_renewal(self, product_lines, opportunity_id):
+        self.ensure_one()
+        values = self._prepare_renewal_values(product_lines, opportunity_id)
+        order = self.env['sale.order'].create(values[self.id])
+        order.message_post(body=(_("This renewal order has been created from the subscription ") +
+                                 " <a href=# data-oe-model=sale.subscription data-oe-id=%d>%s</a>" % (self.id, self.display_name)))
+        order.order_line._compute_tax_id()
+        _logger.debug(f'Order pro {order}')
+        order.action_confirm()

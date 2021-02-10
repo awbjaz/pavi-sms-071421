@@ -5,8 +5,8 @@
 #
 ##############################################################################
 
-from odoo import api, fields, models
-
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 import logging
 
@@ -28,18 +28,18 @@ class CRMLead(models.Model):
         return result
 
     @api.onchange('stage_id')
-    def _onchange_stage_id(self):
+    def _onchange_bill_stage_id(self):
         if self.stage_id.is_auto_quotation:
             if self.subscription_status == 'new':
-                plan = []
-                for line in self.plan.sale_order_template_line_ids:
+                product_lines = []
+                for line in self.product_lines:
                     data = {
                         'product_id': line.product_id.id,
-                        'name': line.name,
-                        'product_uom_qty': line.product_uom_qty,
-                        'price_unit': line.price_unit,
+                        'name': line.product_id.name,
+                        'product_uom_qty': line.quantity,
+                        'price_unit': line.unit_price,
                     }
-                    plan.append((0, 0, data))
+                    product_lines.append((0, 0, data))
 
                 lines = []
                 data = {
@@ -56,7 +56,7 @@ class CRMLead(models.Model):
                     'source_id': self.source_id.id,
                     'company_id': self.company_id.id or self.env.company.id,
                     'tag_ids': [(6, 0, self.tag_ids.ids)],
-                    'order_line': plan
+                    'order_line': product_lines
                 }
 
                 lines.append((0, 0, data))
@@ -66,57 +66,47 @@ class CRMLead(models.Model):
                 sale_order_id.action_confirm()
                 _logger.debug(f'Sale Order {sale_order_id}')
 
-    def write(self, values):
-        # Change Subscription Status
-        if values.get('subscription_status'):
-            for order in self.order_ids:
-                if order.order_line:
-                    for line in order.order_line:
-                        if line.subscription_id:
-                            line.subscription_id.update(
-                                {'subscription_status': values.get('subscription_status')})
-        _logger.debug(f"Change Status {values.get('subscription_status')}")
+            elif self.subscription_status == 'disconnection' or self.subscription_status == 'pre-termination':
+                subscriber_id = self.env['sale.subscription'].search([('partner_id', '=', self.partner_id.id), (
+                    'account_identification', '=', self.account_identification), ('stage_id', '!=', self.env.ref(
+                        'sale_subscription.sale_subscription_stage_closed').id)])
 
-        if values.get('subscription_status') == 'disconnection':
-            if self.stage_id.is_auto_quotation:
-                for order in self.order_ids:
-                    if order.order_line:
-                        for line in order.order_line:
-                            if line.subscription_id:
-                                line.subscription_id.update({'stage_id': self.env.ref(
-                                    'sale_subscription.sale_subscription_stage_closed').id})
-                                _logger.debug(f'Order Name {line.name}')
-                                _logger.debug(
-                                    f'Order Name {line.subscription_id.stage_id}')
-        _logger.debug(f'Values {values}')
+                for subs in subscriber_id:
+                    subs.update({'stage_id': self.env.ref('sale_subscription.sale_subscription_stage_closed').id,
+                                 'subscription_status': self.subscription_status,
+                                 })
 
-        if values.get('subscription_status') == 'pre-termination':
-            if self.stage_id.is_auto_quotation:
-                for order in self.order_ids:
-                    if order.order_line:
-                        for line in order.order_line:
-                            if line.subscription_id:
-                                line.subscription_id.update({'stage_id': self.env.ref(
-                                    'sale_subscription.sale_subscription_stage_closed').id})
-        # renewal
-        if values.get('subscription_status') == 'upgrade' or values.get('subscription_status') == 'convert':
-            if self.stage_id.is_auto_quotation:
-                subscription = []
-                for order in self.order_ids:
-                    if order.subscription_management == 'create':
-                        if order.order_line:
-                            for line in order.order_line:
-                                if line.subscription_id:
-                                    if line.subscription_id.id not in subscription:
-                                        subscription.append(
-                                            line.subscription_id.id)
+                _logger.debug(f'Disconnect {subscriber_id}')
 
-                subscription_id = self.env['sale.subscription'].search(
-                    [('id', 'in', subscription)])
-                for subs_id in subscription_id:
-                    subs_id.prepare_renewal_order()
-                    subs_id.write({'to_renew': True})
-                    _logger.debug(f'Subs ID {subs_id.to_renew}')
+            elif self.subscription_status == 'reconnection':
+                subscriber_id = self.env['sale.subscription'].search([('partner_id', '=', self.partner_id.id), (
+                    'account_identification', '=', self.account_identification), ('stage_id', '=', self.env.ref(
+                        'sale_subscription.sale_subscription_stage_closed').id)], order='date_start desc', limit=1)
 
-        _logger.debug(f'Values {values}')
-        return super(CRMLead, self).write(values)
+                subscriber_id.update({'stage_id': self.env.ref('sale_subscription.sale_subscription_stage_in_progress').id,
+                                      'subscription_status': self.subscription_status,
+                                      })
+                _logger.debug(f'Reconnect {subscriber_id}')
+
+            elif self.subscription_status == 'upgrade' or self.subscription_status == 'convert' or self.subscription_status == 'downgrade':
+                subscriber_id = self.env['sale.subscription'].search([('partner_id', '=', self.partner_id.id), (
+                    'account_identification', '=', self.account_identification), ('stage_id', '!=', self.env.ref(
+                        'sale_subscription.sale_subscription_stage_closed').id)])
+
+                product_lines = []
+                for line in self.product_lines:
+                    data = {
+                        'product_id': line.product_id.id,
+                        'name': line.product_id.name,
+                        'product_uom_qty': line.quantity,
+                        'price_unit': line.unit_price,
+                    }
+                    product_lines.append((0, 0, data))
+
+                for subs in subscriber_id:
+                    subs.subscription_status = self.subscription_status
+                    subs.prepare_renewal(
+                        product_lines,  opportunity_id=self._origin.id)
+
+                    _logger.debug(f'Pro {self._origin.id}')
+                _logger.debug(f'Upgrade {subscriber_id}')
