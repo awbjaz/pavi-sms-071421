@@ -61,4 +61,5 @@ class SaleSubscription(models.Model):
                                  " <a href=# data-oe-model=sale.subscription data-oe-id=%d>%s</a>" % (self.id, self.display_name)))
         order.order_line._compute_tax_id()
         _logger.debug(f'Order pro {order}')
+        _logger.debug(f'Order product_lines {product_lines}')
         order.action_confirm()

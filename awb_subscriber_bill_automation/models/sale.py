@@ -19,7 +19,6 @@ class SaleOrder(models.Model):
         res = super(SaleOrder,
                     self)._prepare_subscription_data(template)
         if self.opportunity_id:
-            res['opportunity_id'] = self.opportunity_id.id
             res['account_identification'] = self.account_identification
 
         _logger.debug(f'Result {res}')

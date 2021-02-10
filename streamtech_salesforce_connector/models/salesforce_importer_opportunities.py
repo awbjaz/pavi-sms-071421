@@ -368,6 +368,12 @@ class SalesForceImporterOpportunities(models.Model):
             province_name = partner.get('Province_BillingAddress__c')
             city_name = partner.get('City_BillingAddress__c')
 
+            mobile = partner['Mobile_Phone__c']
+            phone = partner['Phone']
+
+            data['mobile'] = mobile
+            data['phone'] = phone
+
             street1 = f'{bldg_billing} {street_billing}'
             street2 = brgy_billing
 
