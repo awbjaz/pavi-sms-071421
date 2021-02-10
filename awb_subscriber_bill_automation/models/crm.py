@@ -29,6 +29,11 @@ class CRMLead(models.Model):
 
     @api.onchange('stage_id')
     def _onchange_bill_stage_id(self):
+        is_completed = self.env.ref('awb_subscriber_product_information.stage_completed')
+        if self.stage_id.id == is_completed.id:
+            if not self.zone:
+                raise UserError(_('Please specify zone.'))
+
         if self.stage_id.is_auto_quotation:
             if self.subscription_status == 'new':
                 product_lines = []
