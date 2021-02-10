@@ -422,7 +422,9 @@ class SalesForceImporterOpportunities(models.Model):
         items = []
         _logger.debug(f'Adding Products {len(products)}')
         for product in products:
-            odoo_product = self.env['product.template'].search([('salesforce_id', '=', product['Product2Id'])])
+            domain = [('salesforce_id', '=', product['Product2Id']),
+                      ('active', 'in', (True, False))]
+            odoo_product = self.env['product.template'].search(domain)
             if not odoo_product:
                 _logger.debug(f'Import Product: {product}')
                 self.import_products(False, product['Product2Id'])
