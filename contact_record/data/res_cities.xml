@@ -26,7 +26,7 @@
         </record>
         
         <record id="res_city_012805000" model="res.city">
-            <field name="name">Batac City</field>
+            <field name="name">Batac</field>
             <field name="state_id" ref="res_province_012800000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -68,7 +68,7 @@
         </record>
         
         <record id="res_city_012812000" model="res.city">
-            <field name="name">Laoag City</field>
+            <field name="name">Laoag</field>
             <field name="state_id" ref="res_province_012800000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -422,7 +422,7 @@
         </record>
         
         <record id="res_city_013314000" model="res.city">
-            <field name="name">San Fernando City</field>
+            <field name="name">San Fernando</field>
             <field name="state_id" ref="res_province_013300000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -476,7 +476,7 @@
         </record>
         
         <record id="res_city_015503000" model="res.city">
-            <field name="name">Alaminos City</field>
+            <field name="name">Alaminos</field>
             <field name="state_id" ref="res_province_015500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -566,7 +566,7 @@
         </record>
         
         <record id="res_city_015518000" model="res.city">
-            <field name="name">Dagupan City</field>
+            <field name="name">Dagupan</field>
             <field name="state_id" ref="res_province_015500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -650,7 +650,7 @@
         </record>
         
         <record id="res_city_015532000" model="res.city">
-            <field name="name">San Carlos City</field>
+            <field name="name">San Carlos</field>
             <field name="state_id" ref="res_province_015500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -734,7 +734,7 @@
         </record>
         
         <record id="res_city_015546000" model="res.city">
-            <field name="name">Urdaneta City</field>
+            <field name="name">Urdaneta</field>
             <field name="state_id" ref="res_province_015500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -1322,7 +1322,7 @@
         </record>
         
         <record id="res_city_030803000" model="res.city">
-            <field name="name">Balanga City</field>
+            <field name="name">Balanga</field>
             <field name="state_id" ref="res_province_030800000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -1406,7 +1406,7 @@
         </record>
         
         <record id="res_city_031405000" model="res.city">
-            <field name="name">Bulacan</field>
+            <field name="name">Bulakan</field>
             <field name="state_id" ref="res_province_031400000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -1538,7 +1538,7 @@
         </record>
         
         <record id="res_city_034903000" model="res.city">
-            <field name="name">Cabanatuan City</field>
+            <field name="name">Cabanatuan</field>
             <field name="state_id" ref="res_province_034900000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -1568,7 +1568,7 @@
         </record>
         
         <record id="res_city_034908000" model="res.city">
-            <field name="name">Gapan City</field>
+            <field name="name">Gapan</field>
             <field name="state_id" ref="res_province_034900000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -1622,7 +1622,7 @@
         </record>
         
         <record id="res_city_034917000" model="res.city">
-            <field name="name">Science Muñoz City</field>
+            <field name="name">Munoz</field>
             <field name="state_id" ref="res_province_034900000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -1634,7 +1634,7 @@
         </record>
         
         <record id="res_city_034919000" model="res.city">
-            <field name="name">Palayan City</field>
+            <field name="name">Palayan</field>
             <field name="state_id" ref="res_province_034900000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -1676,7 +1676,7 @@
         </record>
         
         <record id="res_city_034926000" model="res.city">
-            <field name="name">San Jose City</field>
+            <field name="name">San Jose</field>
             <field name="state_id" ref="res_province_034900000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -1718,7 +1718,7 @@
         </record>
         
         <record id="res_city_035401000" model="res.city">
-            <field name="name">Angeles City</field>
+            <field name="name">Angeles</field>
             <field name="state_id" ref="res_province_035400000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -1766,7 +1766,7 @@
         </record>
         
         <record id="res_city_035409000" model="res.city">
-            <field name="name">Mabalacat City</field>
+            <field name="name">Mabalacat</field>
             <field name="state_id" ref="res_province_035400000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -1808,7 +1808,7 @@
         </record>
         
         <record id="res_city_035416000" model="res.city">
-            <field name="name">San Fernando City</field>
+            <field name="name">San Fernando</field>
             <field name="state_id" ref="res_province_035400000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -2252,7 +2252,7 @@
         </record>
         
         <record id="res_city_041028000" model="res.city">
-            <field name="name">Sto. Tomas City</field>
+            <field name="name">Santo Tomas</field>
             <field name="state_id" ref="res_province_041000000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -2324,7 +2324,7 @@
         </record>
         
         <record id="res_city_042106000" model="res.city">
-            <field name="name">Dasmariñas City</field>
+            <field name="name">Dasmarinas City</field>
             <field name="state_id" ref="res_province_042100000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -2336,13 +2336,13 @@
         </record>
         
         <record id="res_city_042108000" model="res.city">
-            <field name="name">General Trias City</field>
+            <field name="name">General Trias</field>
             <field name="state_id" ref="res_province_042100000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
         
         <record id="res_city_042109000" model="res.city">
-            <field name="name">Imus City</field>
+            <field name="name">Imus</field>
             <field name="state_id" ref="res_province_042100000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -2402,7 +2402,7 @@
         </record>
         
         <record id="res_city_042119000" model="res.city">
-            <field name="name">Tagaytay City</field>
+            <field name="name">Tagaytay</field>
             <field name="state_id" ref="res_province_042100000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -2420,13 +2420,13 @@
         </record>
         
         <record id="res_city_042122000" model="res.city">
-            <field name="name">Trece Martires City</field>
+            <field name="name">Trece Martires</field>
             <field name="state_id" ref="res_province_042100000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
         
         <record id="res_city_042123000" model="res.city">
-            <field name="name">Gen. Mariano Alvarez</field>
+            <field name="name">General Mariano Alvarez</field>
             <field name="state_id" ref="res_province_042100000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -2444,19 +2444,19 @@
         </record>
         
         <record id="res_city_043403000" model="res.city">
-            <field name="name">Biñan City</field>
+            <field name="name">Binan</field>
             <field name="state_id" ref="res_province_043400000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
         
         <record id="res_city_043404000" model="res.city">
-            <field name="name">Cabuyao City</field>
+            <field name="name">Cabuyao</field>
             <field name="state_id" ref="res_province_043400000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
         
         <record id="res_city_043405000" model="res.city">
-            <field name="name">Calamba City</field>
+            <field name="name">Calamba</field>
             <field name="state_id" ref="res_province_043400000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -2570,13 +2570,13 @@
         </record>
         
         <record id="res_city_043424000" model="res.city">
-            <field name="name">San Pablo City</field>
+            <field name="name">San Pablo</field>
             <field name="state_id" ref="res_province_043400000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
         
         <record id="res_city_043425000" model="res.city">
-            <field name="name">San Pedro City</field>
+            <field name="name">San Pedro</field>
             <field name="state_id" ref="res_province_043400000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -2594,7 +2594,7 @@
         </record>
         
         <record id="res_city_043428000" model="res.city">
-            <field name="name">Santa Rosa City</field>
+            <field name="name">Santa Rosa</field>
             <field name="state_id" ref="res_province_043400000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -2714,7 +2714,7 @@
         </record>
         
         <record id="res_city_045624000" model="res.city">
-            <field name="name">Lucena City</field>
+            <field name="name">Lucena</field>
             <field name="state_id" ref="res_province_045600000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -2840,7 +2840,7 @@
         </record>
         
         <record id="res_city_045647000" model="res.city">
-            <field name="name">Tayabas City</field>
+            <field name="name">Tayabas</field>
             <field name="state_id" ref="res_province_045600000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -2894,7 +2894,7 @@
         </record>
         
         <record id="res_city_045807000" model="res.city">
-            <field name="name">Jala-Jala</field>
+            <field name="name">JalaJala</field>
             <field name="state_id" ref="res_province_045800000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -3224,7 +3224,7 @@
         </record>
         
         <record id="res_city_175316000" model="res.city">
-            <field name="name">Puerto Princesa City</field>
+            <field name="name">Puerto Princesa</field>
             <field name="state_id" ref="res_province_175300000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -4310,7 +4310,7 @@
         </record>
         
         <record id="res_city_061907000" model="res.city">
-            <field name="name">Ma-Ayon</field>
+            <field name="name">Maayon</field>
             <field name="state_id" ref="res_province_061900000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -4358,7 +4358,7 @@
         </record>
         
         <record id="res_city_061915000" model="res.city">
-            <field name="name">Sapi-An</field>
+            <field name="name">Sapian</field>
             <field name="state_id" ref="res_province_061900000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -4562,7 +4562,7 @@
         </record>
         
         <record id="res_city_063035000" model="res.city">
-            <field name="name">Passi City</field>
+            <field name="name">Passi</field>
             <field name="state_id" ref="res_province_063000000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -4640,13 +4640,13 @@
         </record>
         
         <record id="res_city_064501000" model="res.city">
-            <field name="name">Bacolod City</field>
+            <field name="name">Bacolod</field>
             <field name="state_id" ref="res_province_064500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
         
         <record id="res_city_064502000" model="res.city">
-            <field name="name">Bago City</field>
+            <field name="name">Bago</field>
             <field name="state_id" ref="res_province_064500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -4658,7 +4658,7 @@
         </record>
         
         <record id="res_city_064504000" model="res.city">
-            <field name="name">Cadiz City</field>
+            <field name="name">Cadiz</field>
             <field name="state_id" ref="res_province_064500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -4688,13 +4688,13 @@
         </record>
         
         <record id="res_city_064509000" model="res.city">
-            <field name="name">Escalante City</field>
+            <field name="name">Escalante</field>
             <field name="state_id" ref="res_province_064500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
         
         <record id="res_city_064510000" model="res.city">
-            <field name="name">Himamaylan City</field>
+            <field name="name">Himamaylan</field>
             <field name="state_id" ref="res_province_064500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -4724,13 +4724,13 @@
         </record>
         
         <record id="res_city_064515000" model="res.city">
-            <field name="name">Kabankalan City</field>
+            <field name="name">Kabankalan</field>
             <field name="state_id" ref="res_province_064500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
         
         <record id="res_city_064516000" model="res.city">
-            <field name="name">La Carlota City</field>
+            <field name="name">La Carlota</field>
             <field name="state_id" ref="res_province_064500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -4772,13 +4772,13 @@
         </record>
         
         <record id="res_city_064523000" model="res.city">
-            <field name="name">Sagay City</field>
+            <field name="name">Sagay</field>
             <field name="state_id" ref="res_province_064500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
         
         <record id="res_city_064524000" model="res.city">
-            <field name="name">San Carlos City</field>
+            <field name="name">San Carlos</field>
             <field name="state_id" ref="res_province_064500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -4790,19 +4790,19 @@
         </record>
         
         <record id="res_city_064526000" model="res.city">
-            <field name="name">Silay City</field>
+            <field name="name">Silay</field>
             <field name="state_id" ref="res_province_064500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
         
         <record id="res_city_064527000" model="res.city">
-            <field name="name">Sipalay City</field>
+            <field name="name">Sipalay</field>
             <field name="state_id" ref="res_province_064500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
         
         <record id="res_city_064528000" model="res.city">
-            <field name="name">Talisay City</field>
+            <field name="name">Talisay</field>
             <field name="state_id" ref="res_province_064500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -4820,7 +4820,7 @@
         </record>
         
         <record id="res_city_064531000" model="res.city">
-            <field name="name">Victorias City</field>
+            <field name="name">Victorias</field>
             <field name="state_id" ref="res_province_064500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -5066,7 +5066,7 @@
         </record>
         
         <record id="res_city_071235000" model="res.city">
-            <field name="name">Pres. Carlos P. Garcia</field>
+            <field name="name">President Carlos P. Garcia</field>
             <field name="state_id" ref="res_province_071200000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -5228,7 +5228,7 @@
         </record>
         
         <record id="res_city_072214000" model="res.city">
-            <field name="name">Carcar City</field>
+            <field name="name">Carcar</field>
             <field name="state_id" ref="res_province_072200000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -5264,7 +5264,7 @@
         </record>
         
         <record id="res_city_072220000" model="res.city">
-            <field name="name">Cordova</field>
+            <field name="name">Cordoba</field>
             <field name="state_id" ref="res_province_072200000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -5282,7 +5282,7 @@
         </record>
         
         <record id="res_city_072223000" model="res.city">
-            <field name="name">Danao City</field>
+            <field name="name">Danao</field>
             <field name="state_id" ref="res_province_072200000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -5300,7 +5300,7 @@
         </record>
         
         <record id="res_city_072226000" model="res.city">
-            <field name="name">Lapu-Lapu City</field>
+            <field name="name">Lapu-Lapu</field>
             <field name="state_id" ref="res_province_072200000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -5324,7 +5324,7 @@
         </record>
         
         <record id="res_city_072230000" model="res.city">
-            <field name="name">Mandaue City</field>
+            <field name="name">Mandaue</field>
             <field name="state_id" ref="res_province_072200000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -5348,7 +5348,7 @@
         </record>
         
         <record id="res_city_072234000" model="res.city">
-            <field name="name">Naga City</field>
+            <field name="name">Naga</field>
             <field name="state_id" ref="res_province_072200000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -5444,13 +5444,13 @@
         </record>
         
         <record id="res_city_072250000" model="res.city">
-            <field name="name">Talisay City</field>
+            <field name="name">Talisay</field>
             <field name="state_id" ref="res_province_072200000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
         
         <record id="res_city_072251000" model="res.city">
-            <field name="name">Toledo City</field>
+            <field name="name">Toledo</field>
             <field name="state_id" ref="res_province_072200000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -5486,7 +5486,7 @@
         </record>
         
         <record id="res_city_074604000" model="res.city">
-            <field name="name">Bais City</field>
+            <field name="name">Bais</field>
             <field name="state_id" ref="res_province_074600000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -5498,7 +5498,7 @@
         </record>
         
         <record id="res_city_074606000" model="res.city">
-            <field name="name">Bayawan City</field>
+            <field name="name">Bayawan</field>
             <field name="state_id" ref="res_province_074600000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -5510,7 +5510,7 @@
         </record>
         
         <record id="res_city_074608000" model="res.city">
-            <field name="name">Canlaon City</field>
+            <field name="name">Canlaon</field>
             <field name="state_id" ref="res_province_074600000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -5522,13 +5522,13 @@
         </record>
         
         <record id="res_city_074610000" model="res.city">
-            <field name="name">Dumaguete City</field>
+            <field name="name">Dumaguete</field>
             <field name="state_id" ref="res_province_074600000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
         
         <record id="res_city_074611000" model="res.city">
-            <field name="name">Guihulngan City</field>
+            <field name="name">Guihulngan</field>
             <field name="state_id" ref="res_province_074600000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -5588,7 +5588,7 @@
         </record>
         
         <record id="res_city_074621000" model="res.city">
-            <field name="name">Tanjay City</field>
+            <field name="name">Tanjay</field>
             <field name="state_id" ref="res_province_074600000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -5828,7 +5828,7 @@
         </record>
         
         <record id="res_city_083708000" model="res.city">
-            <field name="name">Baybay City</field>
+            <field name="name">Baybay</field>
             <field name="state_id" ref="res_province_083700000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -5966,7 +5966,7 @@
         </record>
         
         <record id="res_city_083738000" model="res.city">
-            <field name="name">Ormoc City</field>
+            <field name="name">Ormoc</field>
             <field name="state_id" ref="res_province_083700000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -6020,7 +6020,7 @@
         </record>
         
         <record id="res_city_083747000" model="res.city">
-            <field name="name">Tacloban City</field>
+            <field name="name">Tacloban</field>
             <field name="state_id" ref="res_province_083700000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -6662,7 +6662,7 @@
         </record>
         
         <record id="res_city_097226000" model="res.city">
-            <field name="name">Bacungan</field>
+            <field name="name">Leon B. Postigo</field>
             <field name="state_id" ref="res_province_097200000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -6968,7 +6968,7 @@
         </record>
         
         <record id="res_city_101305000" model="res.city">
-            <field name="name">Impasug-ong</field>
+            <field name="name">Impasugong</field>
             <field name="state_id" ref="res_province_101300000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -7382,13 +7382,13 @@
         </record>
         
         <record id="res_city_104307000" model="res.city">
-            <field name="name">El Salvador City</field>
+            <field name="name">El Salvador</field>
             <field name="state_id" ref="res_province_104300000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
         
         <record id="res_city_104308000" model="res.city">
-            <field name="name">Gingoog City</field>
+            <field name="name">Gingoog</field>
             <field name="state_id" ref="res_province_104300000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -7532,7 +7532,7 @@
         </record>
         
         <record id="res_city_112317000" model="res.city">
-            <field name="name">Island Garden Samal City</field>
+            <field name="name">Samal</field>
             <field name="state_id" ref="res_province_112300000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -7856,7 +7856,7 @@
         </record>
         
         <record id="res_city_124711000" model="res.city">
-            <field name="name">Pigkawayan</field>
+            <field name="name">Pigcawayan</field>
             <field name="state_id" ref="res_province_124700000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -8036,7 +8036,7 @@
         </record>
         
         <record id="res_city_126511000" model="res.city">
-            <field name="name">Tacurong City</field>
+            <field name="name">Tacurong</field>
             <field name="state_id" ref="res_province_126500000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -8096,7 +8096,7 @@
         </record>
         
         <record id="res_city_133900000" model="res.city">
-            <field name="name">Manila City</field>
+            <field name="name">Manila</field>
             <field name="state_id" ref="res_province_130000000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -8156,7 +8156,7 @@
         </record>
         
         <record id="res_city_137601000" model="res.city">
-            <field name="name">Las Piñas City</field>
+            <field name="name">Las Pinas</field>
             <field name="state_id" ref="res_province_130000000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -8174,7 +8174,7 @@
         </record>
         
         <record id="res_city_137604000" model="res.city">
-            <field name="name">Parañaque City</field>
+            <field name="name">Paranaque</field>
             <field name="state_id" ref="res_province_130000000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -9272,7 +9272,7 @@
         </record>
         
         <record id="res_city_156615000" model="res.city">
-            <field name="name">Tongkil</field>
+            <field name="name">Banguingui</field>
             <field name="state_id" ref="res_province_156600000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -9662,7 +9662,7 @@
         </record>
         
         <record id="res_city_166803000" model="res.city">
-            <field name="name">Bislig City</field>
+            <field name="name">Bislig</field>
             <field name="state_id" ref="res_province_166800000"/>
             <field name="country_id" ref="base.ph"/>
         </record>
@@ -9758,7 +9758,7 @@
         </record>
         
         <record id="res_city_166819000" model="res.city">
-            <field name="name">Tandag City</field>
+            <field name="name">Tandag</field>
             <field name="state_id" ref="res_province_166800000"/>
             <field name="country_id" ref="base.ph"/>
         </record>

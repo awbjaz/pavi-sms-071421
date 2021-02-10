@@ -21,7 +21,7 @@ class SalesForceImporterProducts(models.Model):
             category = self.env['product.category'].search([('name', '=', 'All')])
             if product['Product2']['Family']:
                 category_name = product['Product2']['Family']
-                category = self.env['product.category'].search([('name', '=', category_name)])
+                category = self.env['product.category'].search([('name', '=', category_name), ('parent_id', '=', category.id)])
                 if not category:
                     category = self.env['product.category'].create({
                         'name': category_name,
@@ -31,7 +31,7 @@ class SalesForceImporterProducts(models.Model):
 
             if product['Product2'].get('Type__c'):
                 category_name = product['Product2']['Type__c']
-                sub_category = self.env['product.category'].search([('name', '=', category_name)])
+                sub_category = self.env['product.category'].search([('name', '=', category_name), ('parent_id', '=', category.id)])
                 if not sub_category:
                     category = self.env['product.category'].create({
                         'name': category_name,
@@ -91,6 +91,7 @@ class SalesForceImporterProducts(models.Model):
                 self.env.cr.commit()
             salesforce_ids.append(product['Product2']['Id'])
 
+        _logger.info(f'Completed Creating Products {len(products)}')
         return salesforce_ids
 
     def import_products(self, Auto, id=None):
@@ -123,6 +124,7 @@ class SalesForceImporterProducts(models.Model):
             to_date_query = " and Product2.CreatedDate<=" + today.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
             query += from_date_query + to_date_query
 
+        query += " LIMIT 5000"
         _logger.info(f'Query {query}')
         # products = self.sales_force.query(query)['records']
         products = self.sales_force.bulk.PriceBookEntry.query(query)

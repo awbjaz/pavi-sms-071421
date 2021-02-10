@@ -319,6 +319,10 @@ class SalesForceImporterOpportunities(models.Model):
 
             mobile = partner['Mobile_Phone__c']
 
+            birthday = partner['Birth_Date__c']
+            if birthday:
+                data['birthday'] = birthday
+
             data.update({
                 'first_name': partner['FirstName'],
                 'middle_name': partner['MiddleName'],
@@ -366,12 +370,24 @@ class SalesForceImporterOpportunities(models.Model):
         province_id = False
         if province_name:
             province_name = province_name.replace('\xa0', ' ')
-            province_id = self.env['res.country.state'].search([('name', '=', province_name)])
+            if province_name == 'Compostela Valley':
+                province_name = 'Davao de Oro'
+            elif province_name == 'Western Samar':
+                province_name = 'Samar'
+            province_id = self.env['res.country.state'].search([('name', '=ilike', province_name)])
 
         city_id = False
         if city_name:
             city_name = city_name.replace('\xa0', ' ')
-            city_id = self.env['res.city'].search([('name', '=', city_name), ('state_id', '=?', province_id.id)])
+            city_name = city_name.replace(' (Rizal)', '')
+            city_name = city_name.replace(' (Albor)', '')
+            city_name = city_name.replace('Bumbaran', 'Amai Manabilang')
+            city_name = city_name.replace('General Salipada K. Pendatun', 'Gen. S.K. Pendatun')
+            city_name = city_name.replace('Sultan Sumagka', 'Talitay')
+            city_name = city_name.replace('Datu Montawal', 'Pagagawan')
+            city_name = city_name.replace('Senator Ninoy Aquino', 'Sen. Ninoy Aquino')
+            city_name = city_name.replace('President Manuel A. Roxas', 'Pres. Manuel A. Roxas')
+            city_id = self.env['res.city'].search([('name', '=ilike', city_name), ('state_id', '=?', province_id.id)])
 
         if not city_id or len(city_id) > 1:
             _logger.error(f'Multiple Cities: {data["salesforce_id"]} {city_name}:{city_id} {province_name}:{province_id}')
