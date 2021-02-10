@@ -293,6 +293,7 @@ class SalesForceImporterOpportunities(models.Model):
             home_ownership = partner['Home_Ownership__c']
             if home_ownership:
                 home_ownership = home_ownership.lower()
+                home_ownership = home_ownership.replace('\xa0', ' ')
                 if home_ownership == 'living with relatives':
                     home_ownership = 'living_relatives'
                 elif home_ownership == 'company provided':
@@ -317,7 +318,8 @@ class SalesForceImporterOpportunities(models.Model):
             if email:
                 data['email'] = email
 
-            mobile = partner['Mobile_Phone__c']
+            mobile = partner['PersonMobilePhone']
+            phone = partner['PersonOtherPhone']
 
             birthday = partner['Birth_Date__c']
             if birthday:
@@ -327,7 +329,9 @@ class SalesForceImporterOpportunities(models.Model):
                 'first_name': partner['FirstName'],
                 'middle_name': partner['MiddleName'],
                 'last_name': partner['LastName'],
-                'mobile': mobile
+                'mobile': mobile,
+                'phone': phone,
+                'gender': gender
                 })
 
             street1 = partner['House_No_BL_Phase__c']
