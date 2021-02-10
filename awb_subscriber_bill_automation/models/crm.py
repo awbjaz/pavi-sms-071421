@@ -34,7 +34,7 @@ class CRMLead(models.Model):
                 product_lines = []
                 for line in self.product_lines:
                     data = {
-                        'product_id': line.product_id.id,
+                        'product_id': line.product_id.product_variant_id.id,
                         'name': line.product_id.name,
                         'product_uom_qty': line.quantity,
                         'price_unit': line.unit_price,
