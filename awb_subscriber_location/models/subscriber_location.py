@@ -17,7 +17,8 @@ class SubscriberLocation(models.Model):
     name = fields.Char(string="Location Name", required=True)
     code = fields.Char(string="Code")
     billing_day = fields.Integer(string="Billing Day")
-    location_id = fields.Many2one('subscriber.location', string="Parent Location")
+    location_id = fields.Many2one(
+        'subscriber.location', string="Parent Location")
     location_type = fields.Selection([('head', 'Head'),
                                       ('cluster', 'Cluster'),
                                       ('area', 'Area'),
@@ -33,6 +34,28 @@ class SubscriberLocation(models.Model):
     category = fields.Selection([('new', 'New'),
                                  ('existing', 'Existing')], string="Category")
     cluster_head = fields.Many2one('hr.employee', string="Cluster Head")
+
+    def name_get(self):
+        data = []
+        for rec in self:
+            head_name = f"{rec.location_id.location_id.location_id.name}/" if rec.location_id.location_id.location_id else ''
+            cluster_name = f"{rec.location_id.location_id.name}/" if rec.location_id.location_id else ''
+            area_name = f"{rec.location_id.name}/" if rec.location_id else ''
+            name = rec.name
+            display_value = f"{head_name}{cluster_name}{area_name}{name}"
+            data.append((rec.id, display_value))
+        return data
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        res = super(SubscriberLocation, self).name_search(
+            name=name, args=args, operator=operator, limit=limit)
+        if name:
+            records = self.search(
+                ['|', '|', '|', ('name', operator, name), ('location_id.name', operator, name), ('location_id.location_id.name', operator, name), ('location_id.location_id.location_id.name', operator, name)])
+            return records.name_get()
+        return res
 
     @api.onchange('billing_day')
     def _onchange_billing_day(self):

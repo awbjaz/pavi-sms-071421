@@ -18,14 +18,14 @@ class SalesForceImporterProducts(models.Model):
             domain = [('salesforce_id', '=', product['Product2']['Id']),
                       ('active', 'in', (True, False))]
             odoo_product = self.env['product.template'].search(domain)
-            category = self.env['product.category'].search([('name', '=', 'All')])
+            all_category = self.env['product.category'].search([('name', '=', 'All')])
             if product['Product2']['Family']:
                 category_name = product['Product2']['Family']
-                category = self.env['product.category'].search([('name', '=', category_name), ('parent_id', '=', category.id)])
+                category = self.env['product.category'].search([('name', '=', category_name), ('parent_id', '=', all_category.id)])
                 if not category:
                     category = self.env['product.category'].create({
                         'name': category_name,
-                        'parent_id': category.id
+                        'parent_id': all_category.id
                     })
                     self.env.cr.commit()
 
@@ -69,6 +69,7 @@ class SalesForceImporterProducts(models.Model):
                 'last_modified': product['LastModifiedDate'],
                 'categ_id': category.id,
                 'device_fee': product['Product2'].get('Device_Fee__c', 0),
+                'type': 'service',
                 'active': product['Product2'].get('IsActive', True)
             }
 

@@ -62,4 +62,4 @@ class SaleSubscription(models.Model):
         order.order_line._compute_tax_id()
         _logger.debug(f'Order pro {order}')
         _logger.debug(f'Order product_lines {product_lines}')
-        order.action_confirm()
+        order.action_confirm_renewal()
