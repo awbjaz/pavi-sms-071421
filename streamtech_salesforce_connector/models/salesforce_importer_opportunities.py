@@ -421,6 +421,7 @@ class SalesForceImporterOpportunities(models.Model):
     def _create_lead_product_data(self, opportunity, products):
         items = []
         _logger.debug(f'Adding Products {len(products)}')
+        device_fee = 0
         for product in products:
             domain = [('salesforce_id', '=', product['Product2Id']),
                       ('active', 'in', (True, False))]
@@ -430,12 +431,27 @@ class SalesForceImporterOpportunities(models.Model):
                 self.import_products(False, product['Product2Id'])
                 odoo_product = self.env['product.template'].search([('salesforce_id', '=', product['Product2Id'])])
 
+            total_cash_out = product['Total_Cash_Out__c']
+            if product['Device_Fee__c'] and product['Device_Fee__c'] > 0:
+                device_fee += product['Device_Fee__c']
+                total_cash_out -= product['Device_Fee__c']
+
             data = {
                 'product_id': odoo_product.id,
                 'quantity': product['Quantity'],
                 'unit_price': product['UnitPrice'],
-                'total_price': product['Total_Cash_Out__c'],
-                'device_fee': product['Device_Fee__c']
+                'total_price': total_cash_out,
+                'device_fee': 0
+            }
+            items.append((0, 0, data))
+
+        if device_fee > 0:
+            data = {
+                'product_id': self.env.ref('awb_subscriber_product_information.product_device_fee').id,
+                'quantity': 1,
+                'unit_price': device_fee,
+                'total_price': device_fee,
+                'device_fee': 0
             }
             items.append((0, 0, data))
 

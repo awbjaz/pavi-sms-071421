@@ -96,7 +96,6 @@ class Partner(models.Model):
 
         self.write(vals)
 
-
     def _compute_age(self):
         age = 0
         today = date.today()
