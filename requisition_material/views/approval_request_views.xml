@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="approval_request_req_material_view_form" model="ir.ui.view">
+        <field name="name">approval.request.req.material.view.form</field>
+        <field name="model">approval.request</field>
+        <field name="inherit_id" ref="approvals.approval_request_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/div[@class='oe_button_box']" position="inside">
+                <button name="action_view_transfer_request" type="object" 
+                    class="oe_stat_button" icon="fa-pencil-square-o"
+                    attrs="{'invisible':['|', ('transfers_count', '=', 0), ('request_status', 'in', ('new','pending'))]}">
+                    <field name="transfers_count" widget="statinfo" string="Internal Transfer"/>
+                </button>
+            </xpath>
+            <xpath expr="//group[@name='request_details']/field[@name='application']" position="after">
+                <field name="location_id" attrs="{'invisible':[('has_stock_location','==','no')], 'required': [('has_stock_location','==','required')], 'readonly': [('request_status','not in',('new', 'pending'))]}"/>   
+                <field name="location_transit_id" attrs="{'invisible':[('has_stock_location','==','no')], 'readonly': [('request_status','not in',('new', 'pending'))]}"/>   
+                <field name="location_dest_id" attrs="{'invisible':[('has_stock_location','==','no')], 'required': [('has_stock_location','==','required')], 'readonly': [('request_status','not in',('new', 'pending'))]}"/>   
+                <field name="warehouse_id" attrs="{'invisible':[('has_stock_location','==','no')], 'required': [('has_stock_location','==','required')], 'readonly': [('request_status','not in',('new', 'pending'))]}"/>   
+                <field name="has_stock_location" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
