@@ -11,18 +11,20 @@
                                 <table style="width:100%;">
                                     <tr>
                                         <td style="width:45%; padding-top: 5px; padding-bottom: 5px; padding-left: 2px;">
-                                            <img src="/awb_subscriber_bill/static/src/img/STREAMTECH-logo.jpg" width="100%"/>
+                                            <!-- <img src="/awb_subscriber_bill/static/src/img/STREAMTECH-logo.jpg" width="100%"/> -->
+                                            <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" alt="Logo" style="max-height: 120px;"/>
                                         </td>
                                         <td style="width:55%; padding-left: 2px;">
                                             <div style="text-align: right; line-height: 95%;">
                                                 <!-- company -->
                                                 <span style="font-weight:900; font-size:20px;" t-field="res_company.name"/> 
                                                 <br/> 
-                                                <span class="font-address"> 2F, Vistamall Daanghari, Molino, Bacoor, Cavite </span>
+                                                <span class="font-address">  <span t-field="res_company.street"/>,  <span t-field="res_company.street2"/><br/> 
+                                                 <span t-field="res_company.city"/>,  <span t-field="res_company.state_id"/> </span>
                                                 <br/> 
                                                 <span class="font-address"> Hotlines: (02) 8808-2323|0919-057-8888 </span>
                                                 <br/>
-                                                <span class="font-address"> VAT Reg. TIN: XXXXXXXXXXXXXXX </span>
+                                                <div class="font-address"> VAT Reg. TIN: <span t-field="res_company.vat"/> </div>
                                                
                                             </div>
                                             
@@ -51,8 +53,16 @@
                                         </th>
                                     </tr>
                                     <tr style="height:15px;">
+                                        <!-- account -->
+                                        <t t-set="acc_num" t-value="0"/>
+                                        <t t-foreach="doc.invoice_line_ids" t-as="line">
+                                            <t t-if="line.subscription_id">
+                                                <t t-set="acc_num" t-value="line.subscription_id.account_identification"/> 
+                                            </t>
+                                        </t>
                                         <td style="border: 2px solid black;text-align: center;">
-                                            <span>xxxxxx</span>
+                                            <t t-esc="acc_num"/>
+                                            <!-- <span>xxxxxx</span> -->
                                         </td>
                                         <td style="border: 2px solid black;text-align: center;">
                                             <span t-field="doc.atm_ref"/>
@@ -68,10 +78,10 @@
                                     </tr>
                                     <tr>
                                         <td style="border: 2px solid black;text-align: center;">
-                                            <span>xxxxxx</span>
+                                            <span t-field="doc.name"/>
                                         </td>
                                         <td style="border: 2px solid black;text-align: center;">
-                                            <span>xxxxxx</span>
+                                            <span t-field="doc.period_covered"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -81,7 +91,7 @@
                                 <table width="100%">
                                     <tr>
                                         <th style="width:25%; border: 2px solid black; text-align: center;">
-                                            <span>Minimum Date</span>
+                                            <span>Minimum Due</span>
                                         </th>
                                         <th style="width:25%; border: 2px solid black; text-align: center;">
                                             <span>Total Amount</span>
@@ -95,16 +105,16 @@
                                     </tr>
                                     <tr>
                                         <td style="width:25%; border: 2px solid black; text-align: center;">
-                                            <span>xxxxxx</span>
+                                            <span t-field="doc.amount_total_signed"/>
                                         </td>
                                         <td style="width:25%; border: 2px solid black; text-align: center;">
-                                            <span>xxxxxx</span>
+                                            <span t-field="doc.amount_total"/>
                                         </td>
                                         <td style="width:25%; border: 2px solid black; text-align: center;">
                                             <span t-field="doc.invoice_date_due"/>
                                         </td>
                                         <td style="width:25%; border: 2px solid black; text-align: center;">
-                                            <span>xxxxxx</span>
+                                            <span t-field="doc.invoice_line_ids[0].product_id.name"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -113,12 +123,13 @@
 
                             <div class="row" id="statement_of_account_body_3">
                                 <table width="100%" style="font-size:14px">
+                                    
                                     <tr>
                                         <th style="width:40%;">PREVIOUS CHARGES:</th>
                                         <td style="width:20%;"/>
                                         <td style="width:10%;"/>
                                         <td style="width:20%;"/>
-                                        <td style="width:10%;" rowspan="12"/>
+                                        
                                         <!-- <td rowspan="5" class="rotate"> -->
                                         <!-- <td rowspan="10" style="white-space: nowrap; -webkit-transform: rotate(-90deg); position: absolute; top: 0; left: 0;">
                                             NOT VALID AS RECEIPT
@@ -126,12 +137,18 @@
                                     </tr>
                                     <tr>
                                         <td>Previous Bill balance</td>
-                                        <td style="text-align:right;">PHP <span>1,624.00</span></td>
+                                        <td style="text-align:right;"> <span t-field="doc.amount_total"/></td>
                                         <td colspan="2"/>
                                     </tr>
                                     <tr>
+                                        <t t-set="payment_tot" t-value="0"/>
+                                        <t t-foreach="doc.statement_line_ids" t-as="line">
+                                            <t t-if="line.statement_type == 'payment'">
+                                                <t t-set="payment_tot" t-value="payment_tot+line.amount"/> 
+                                            </t>
+                                        </t>
                                         <td>Previous received</td>
-                                        <td style="text-align:right;"><span>1,624.00</span></td>
+                                        <td style="text-align:right;"><t t-esc="'{0:,.2f}'.format(payment_tot)"/></td>
                                         <td colspan="2"/>
                                     </tr>
                                     <tr>
@@ -145,30 +162,57 @@
                                         <td colspan="3"/>
                                     </tr>
                                     <tr>
+                                        <t t-set="subs_tot" t-value="0"/>
+                                        <t t-foreach="doc.statement_line_ids" t-as="line">
+                                            <t t-if="line.statement_type == 'subs_fee'">
+                                                <t t-set="subs_tot" t-value="subs_tot+line.amount"/> 
+                                            </t>
+                                        </t>
                                         <td>Monthly Subscription Fee</td>
-                                        <td style="text-align:right;"><span>xxxx.xx</span></td>
+                                        <td style="text-align:right;">
+                                            <t t-esc="subs_tot"/>
+                                        </td>
                                         <td colspan="2"/>
                                     </tr>
                                      <tr>
                                         <td>Device Fee</td>
-                                        <td style="text-align:right;"><span>xxxx.xx</span></td>
+                                        <t t-set="device_tot" t-value="0"/>
+                                        <t t-foreach="doc.statement_line_ids" t-as="line">
+                                            <t t-if="line.statement_type == 'device_fee'">
+                                                <t t-set="device_tot" t-value="device_tot+line.amount"/> 
+                                            </t>
+                                        </t>
+                                        <td style="text-align:right;">
+                                            <t t-esc="'{0:,.2f}'.format(device_tot)"/>
+                                        </td>
                                         <td colspan="2"/>
                                     </tr>
                                     <tr>
                                         <td>Others</td>
-                                        <td style="text-align:right;"><span>xxxx.xx</span></td>
+                                        <td style="text-align:right;"><span>0.00</span></td>
                                         <td colspan="2"/>
                                     </tr>
-                                    <tr>
+                                    <tr>                                                         
                                         <td>VAT</td>
-                                        <td style="text-align:right;"><span>xxxx.xx</span></td>
+                                           
+                                        <td style="text-align:right;">
+                                            <span t-field="doc.total_vat"/>
+                                        </td>             
                                         <td colspan="2"/>
+                                        <td rowspan="12">
+                                            <td style="width:10%; -webkit-transform: rotate(-90deg); position: absolute;">
+                                            <span style="float:left; color: grey; font-size: 20px; white-space: nowrap;">NOT VALID AS RECEIPT</span>
+                                            </td>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Total Current Charges</td>
                                         <td style="border-top: 2px solid black;"/>
                                         <td colspan="1"/>
-                                        <td style="text-align:right;"><span>xxxx.xx</span></td>
+                                        <td style="text-align:right;">
+                                            <span t-field="doc.total_statement_balance" t-esc-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/>
+                                        </td>
+                                              
                                     </tr>
                                     <tr>
                                         <td colspan="3"/>
@@ -177,7 +221,7 @@
                                     <tr>
                                         <th>TOTAL AMOUNT DUE:</th>
                                         <td colspan="2"/>
-                                        <td style="text-align:right;"><span>xxxx.xx</span></td>
+                                        <td style="text-align:right;"><span t-field="doc.amount_residual"/></td>
                                     </tr>
                                 </table>
                             </div>
@@ -205,44 +249,57 @@
                                     Please attach this billing stub when making payments
                                 </p>
                             </div>
-                            <br/>
-                            <div class="row" id="statement_of_account_body_6">
-                                <table width="100%">
-                                    <tr>
-                                        <th style="width:50%;">
-                                            <span>Account Number:</span>
-                                        </th>
-                                        <th style="width:50%;">
-                                            <span>Due Date:</span>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th style="width:50%;">
-                                            <span>Name:</span>
-                                        </th>
-                                        <th style="width:50%;">
-                                            <span>Total Amount Due:</span>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th style="width:50%;">
-                                        </th>
-                                        <th style="width:50%;">
-                                            <span>ATM Ref. Number:</span>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:50%;">
-                                            <span>
-                                                xxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                                            </span>
+                            <table style="width :100%">
+                                    <tr style="width :100%">
+                                        <td style="width:22%;">
+                                            <strong><span>Account Number:</span></strong>
                                         </td>
-                                        <th style="width:50%;">
-                                            <span>Contact Number:</span>
-                                        </th>
+                                        <td style="width:28%;">
+                                            <t t-esc="acc_num"/>
+                                        </td>
+                                        <td style="width:24%;">
+                                           <strong><span>Due Date:</span></strong>
+                                        </td>
+                                        <td style="width:26%; text-align:right">
+                                            <span t-field="doc.invoice_date_due"/>
+                                        </td>
                                     </tr>
+                                    <tr style="width :100%">
+                                        <td style="width:22%;">
+                                            <strong><span>Name:</span></strong>
+                                        </td>
+                                        <td style="width:28%;">
+                                            
+                                        </td>
+                                        <td style="width:24%;">
+                                           <strong><span>Total Amount Due:</span></strong>
+                                        </td>
+                                        <td style="width:26%; text-align:right">
+                                            <span t-field="doc.amount_total_signed"/>
+                                        </td>
+                                    </tr>
+                                    <tr style="width :100%">
+                                        <td style="width:50%;" colspan="2" rowspan="2">
+                                            <span style="font-size:18px;" t-field="doc.partner_id.name"/>
+                                        </td>
+                                        
+                                        <td style="width:24%;">
+                                           <strong><span>ATM Ref. Number:</span></strong>
+                                        </td>
+                                        <td style="width:26%; text-align:right">
+                                            <span t-field="doc.atm_ref"/>
+                                        </td>
+                                    </tr>
+                                     <tr>
+                                        <td style="width:24%;">
+                                            <strong><span>Contact Number:</span></strong>
+                                        </td>
+                                        <td style="width:26%; text-align:right">
+                                            <span t-field="doc.partner_id.phone"/>
+                                        </td>
+                                    </tr>
+                                   
                                 </table>
-                            </div>
                             <br/>
                             <div class="text-center" id="statement_of_account_body_7">
                                 <p style="border-top: 2px dotted black;">
@@ -251,18 +308,25 @@
                             <div class="row" id="statement_of_account_body_8">
                                 <table width="100%" style="font-size: 14px">
                                     <tr>
-                                        <th style="width:50%;">
-                                            <span>ATM Ref. Number:</span>
-                                        </th>
-                                        <th style="width:50%;">
-                                            <span>Due Date:</span>
-                                        </th>
+                                        <td style="width:20%;">
+                                            <strong><span>ATM Ref. Number:</span></strong>
+                                        </td>
+                                        <td style="width:35%;">
+                                            <span t-field="doc.atm_ref"/>
+                                        </td>
+                                        <td style="width:20%;">
+                                            <strong><span>Due Date:</span></strong>
+                                        </td>
+                                        <td style="width:25%;">
+                                            <span t-field="doc.invoice_date_due"/>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <th width="50%">
-                                            <span>Customer Name:</span>
-                                        </th>
-                                        <td width="50%">
+                                        <td style="width:20%;">
+                                            <strong><span>Customer Name:</span></strong>
+                                        </td>
+                                        <td>
+                                            <span t-field="doc.partner_id.name"/>
                                         </td>
                                     </tr>
                                 </table>
