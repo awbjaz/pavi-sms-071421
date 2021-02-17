@@ -9,9 +9,9 @@
                 <field name="subscriber_location_id"/>
                 <field name="subscription_count"/>
             </xpath>
-
-            <xpath expr="//field[@name='analytic_account_id']" position="attributes">
-                <attribute name="invisible">True</attribute>
+            <xpath expr="//group[@name='extra_settings']" position="inside">
+                <field name="zone_type" string="Class" required="1"/>
+                <field name="brand" string="Brand" required="1" domain="[('zone_type', '=', zone_type)]"/>
             </xpath>
         </field>
     </record>

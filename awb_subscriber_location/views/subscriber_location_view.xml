@@ -48,7 +48,7 @@
                             <page string="Other Informations">
                                 <group>
                                     <field name="date_started"/>
-                                    <field name="category"/>
+                                    <field name="category" widget="radio" options="{'horizontal': true}"/>
                                     <field name="description"/>
                                 </group>
                             </page>

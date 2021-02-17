@@ -1,3 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_subscriber_users,subcriber.location,model_subscriber_location,,1,1,1,1
-
+access_sale_zone_subtype,sale.zone_subtype,model_zone_subtype,sales_team.group_sale_salesman,1,0,0,0
+access_sale_zone_subtype_manager,sale.zone_subtype manager,model_zone_subtype,sales_team.group_sale_manager,1,1,1,1
+access_proj_zone_subtype,project.zone_subtype,model_zone_subtype,project.group_project_user,1,0,0,0
+access_proj_zone_subtype_manager,project.zone_subtype manager,model_zone_subtype,project.group_project_manager,1,1,1,1
