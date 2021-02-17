@@ -39,12 +39,14 @@
                             <div class="row" id="statement_of_account_body_1">
                                 <table style="border: 2px solid black; width:100%;">
                                     <tr style="border: 2px solid black; height:15px;">
-                                        <th rowspan="4" style="border: 2px solid black;text-align: left; width:40%">
-                                            <h3 class="pl-10">
-                                                <span t-field="doc.partner_id.name"/>
-                                            </h3>
-                                            <span class="pl-10" t-field="doc.partner_id.street"/>
-                                        </th>
+                                        <td rowspan="4" style="border: 2px solid black;text-align: left; width:40%; line-height: 95%; font-size: 14px;">                   
+                                            <strong><span class="pl-10" style="font-size: 20px;" t-field="doc.partner_id.name"/></strong> <br/>
+                                            <span class="pl-10" t-field="doc.partner_id.street"/> <br/>
+                                            <span class="pl-10" t-field="doc.partner_id.street2"/> <br/>
+                                            <span class="pl-10" t-field="doc.partner_id.city_id"/> <span t-field="doc.partner_id.state_id"/> <span t-field="doc.partner_id.zip"/><br/>
+                                            <span class="pl-10" t-field="doc.partner_id.province_id"/> <br/>
+                                            <span class="pl-10" t-field="doc.partner_id.country_id"/>
+                                        </td>
                                         <th style="border: 2px solid black; text-align: center;width:30%">
                                             <span>Account Number</span>
                                         </th>
