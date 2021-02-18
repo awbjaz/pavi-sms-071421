@@ -8,6 +8,8 @@
 from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 
+from dateutil.relativedelta import relativedelta
+
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -20,7 +22,21 @@ class SaleOrder(models.Model):
         res = super(SaleOrder,
                     self)._prepare_subscription_data(template)
         if self.opportunity_id:
+            res['opportunity_id'] = self.opportunity_id.id
+            res['subscriber_location_id'] = self.opportunity_id.zone
             res['account_identification'] = self.account_identification
+            res['date_start'] = self.opportunity_id.contract_start_date
+            if self.opportunity_id.zone.billing_day:
+                recurring_invoice_day = self.opportunity_id.zone.billing_day
+
+                date_today = res['date_start']
+                recurring_next_date = self.env['sale.subscription']._get_recurring_next_date(
+                    template.recurring_rule_type, template.recurring_interval,
+                    date_today, recurring_invoice_day
+                )
+
+                res['recurring_next_date'] = recurring_next_date
+                res['recurring_invoice_day'] = recurring_invoice_day
 
         _logger.debug(f'Result {res}')
         return res

@@ -31,16 +31,6 @@ class PartnerServiceProvider(models.Model):
     description = fields.Text('Description')
 
 
-class ZoneSubType(models.Model):
-    _name = 'zone.subtype'
-    _description = 'Zone Subtype'
-
-    name = fields.Char('Name', required=True)
-    zone_type = fields.Selection([('vista', 'Vista'),
-                                  ('non-vista', 'Non-Vista')], string='Zone Type')
-    description = fields.Text('Description')
-
-
 class Partner(models.Model):
     _inherit = "res.partner"
 

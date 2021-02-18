@@ -6,6 +6,7 @@
 ##############################################################################
 
 from odoo import api, fields, models, _
+from dateutil.relativedelta import relativedelta
 
 import logging
 
@@ -16,6 +17,7 @@ class SaleSubscription(models.Model):
     _inherit = "sale.subscription"
 
     account_identification = fields.Char(string="Account ID")
+    opportunity_id = fields.Many2one('crm.lead', string='Opportunity')
     subscription_status = fields.Selection([('new', 'New'),
                                             ('upgrade', 'Upgrade'),
                                             ('convert', 'Convert'),
@@ -53,6 +55,22 @@ class SaleSubscription(models.Model):
             }
         return res
 
+    def _prepare_invoice_line(self, line, fiscal_position, date_start=False, date_stop=False):
+        res = super(SaleSubscription, self)._prepare_invoice_line(line, fiscal_position, date_start, date_stop)
+        diff = self.recurring_next_date - self.date_start
+        days = diff.days
+        month_factor = 31
+        new_amount = 0
+        if days < month_factor:
+            original_amount = res['price_unit']
+            rate = original_amount / month_factor
+            new_amount = rate * days
+            res['price_unit'] = new_amount
+            res['name'] += f' ({days} days)'
+        _logger.debug(f'Prorate: {diff} = {new_amount} {line} {fiscal_position} {date_start} {date_stop}')
+        # if self.subscription_status == 'new' and diff.days < 31:
+        return res
+
     def prepare_renewal(self, product_lines, opportunity_id):
         self.ensure_one()
         values = self._prepare_renewal_values(product_lines, opportunity_id)
@@ -63,3 +81,13 @@ class SaleSubscription(models.Model):
         _logger.debug(f'Order pro {order}')
         _logger.debug(f'Order product_lines {product_lines}')
         order.action_confirm_renewal()
+
+    @api.onchange('date_start', 'template_id')
+    def onchange_date_start(self):
+        if self.date_start and self.recurring_rule_boundary == 'limited' and self.opportunity_id:
+            periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
+            contract_term = self.opportunity_id.contract_term
+            self.date = fields.Date.from_string(self.date_start) + relativedelta(**{
+                periods[self.recurring_rule_type]: contract_term * self.template_id.recurring_interval})
+        else:
+            self.date = False
