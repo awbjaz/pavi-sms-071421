@@ -44,7 +44,6 @@
                                             <span class="pl-10" t-field="doc.partner_id.street"/> <br/>
                                             <span class="pl-10" t-field="doc.partner_id.street2"/> <br/>
                                             <span class="pl-10" t-field="doc.partner_id.city_id"/> <span t-field="doc.partner_id.state_id"/> <span t-field="doc.partner_id.zip"/><br/>
-                                            <span class="pl-10" t-field="doc.partner_id.province_id"/> <br/>
                                             <span class="pl-10" t-field="doc.partner_id.country_id"/>
                                         </td>
                                         <th style="border: 2px solid black; text-align: center;width:30%">
