@@ -71,6 +71,37 @@ class SaleSubscription(models.Model):
         # if self.subscription_status == 'new' and diff.days < 31:
         return res
 
+    def _prepare_invoice_statement(self, invoice):
+        self.ensure_one()
+        device_id = self.env.ref('awb_subscriber_product_information.product_device_fee').id
+        lines = []
+        # invoice Lines
+        for invoice_line in invoice['invoice_line_ids']:
+            line = invoice_line[2]
+            _logger.debug(f'Line: {line}')
+            product = self.env['product.product'].browse(line['product_id'])
+            _logger.debug(f'Prod ID temp {product.product_tmpl_id.id}')
+            if product.product_tmpl_id.id == device_id:
+                data = {
+                    'name': line['name'],
+                    'statement_type': 'device_fee',
+                    'amount': line['price_unit'],
+                }
+                lines.append((0, 0, data))
+            else:
+                data = {
+                    'name': line['name'],
+                    'statement_type': 'subs_fee',
+                    'amount': line['price_unit'],
+                }
+                lines.append((0, 0, data))
+        return lines
+
+    def _prepare_invoice(self):
+        invoice = super(SaleSubscription, self)._prepare_invoice()
+        invoice['statement_line_ids'] = self._prepare_invoice_statement(invoice)
+        return invoice
+
     def prepare_renewal(self, product_lines, opportunity_id):
         self.ensure_one()
         values = self._prepare_renewal_values(product_lines, opportunity_id)

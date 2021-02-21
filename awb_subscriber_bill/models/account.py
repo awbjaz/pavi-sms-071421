@@ -18,7 +18,7 @@ class AccountMove(models.Model):
 
     statement_line_ids = fields.One2many(
         'account.statement.line', 'move_id', string="Statement Line")
-    atm_ref = fields.Char(string="ATM Reference")
+    atm_ref = fields.Char(string="ATM Reference", compute="_compute_atm_ref", stored=True)
     start_date = fields.Date(string="Start Date")
     end_date = fields.Date(string="End Date")
     period_covered = fields.Date(string="Period Covered")
@@ -46,6 +46,26 @@ class AccountMove(models.Model):
             rec.total_vat = sum(
                 rec.statement_line_ids.filtered(lambda r: r.statement_type == 'vat').mapped('amount'))
 
+    @api.depends('invoice_date_due')
+    def _compute_atm_ref(self):
+        for rec in self:
+            code = ''
+            if rec.partner_id.subscriber_location_id.code:
+                code = rec.partner_id.subscriber_location_id.code + '-'
+
+            if rec.invoice_date_due:
+                ref_date = '-' + rec.invoice_date_due.strftime('%m%d')
+            else:
+                ref_date = ''
+
+            _logger.debug(f'ID: {rec.id}')
+            if rec.id:
+                id = f'{rec.id:06}'
+            else:
+                id = f'{self._origin.id:06}'
+
+            rec.atm_ref = f'{code}{id}{ref_date}'
+
     def action_cron_generate(self):
         records = self.env['account.move'].search(
             [('type', 'in', ['out_invoice', 'in_invoice'])])
@@ -66,17 +86,6 @@ class AccountMove(models.Model):
             refunds = rec.env['account.move'].search(args_refund)
 
             _logger.debug(f'Refunds {refunds}')
-
-            code = ''
-            if rec.partner_id.subscriber_location_id.code:
-                code = rec.partner_id.subscriber_location_id.code + '-'
-
-            if rec.invoice_date_due:
-                ref_date = '-' + rec.invoice_date_due.strftime('%m%d')
-            else:
-                ref_date = ''
-
-            rec.atm_ref = f'{code}{rec.id:06}{ref_date}'
 
             lines = []
             # invoice Lines
