@@ -27,6 +27,7 @@
                                 <field name="cluster_head"/>
                                 <field name="billing_day" readonly="1"/>
                                 <field name="posting_day" readonly="1"/>
+                                <field name="cutoff_day" readonly="1"/>
                                 <field name="billing_due_day" readonly="1"/>
                                 <field name="subscription_count"/>
                             </group>
@@ -75,6 +76,9 @@
                    <attribute name="readonly">0</attribute>
                 </field>
                 <field name="posting_day" position="attributes">
+                   <attribute name="readonly">0</attribute>
+                </field>
+                <field name="cutoff_day" position="attributes">
                    <attribute name="readonly">0</attribute>
                 </field>
                 <field name="billing_due_day" position="attributes">

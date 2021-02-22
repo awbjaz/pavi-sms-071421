@@ -9,7 +9,14 @@
                 <field name="atm_ref"/>
                 <field name="start_date" invisible="1"/>
                 <field name="end_date" invisible="1"/>
-                <field name="period_covered" widget="daterange" options="{'related_start_date': 'start_date', 'related_end_date': 'end_date'}"/>
+                <label for="start_date" string="Period Covered"/>
+                <div class="o_row">
+                    <field name="start_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'end_date'}"/>
+                    <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                    <field name="end_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'start_date'}"/>
+                </div>
+
+
                 <field name="total_statement_balance"/>
                 <field name="total_vat" invisible="1"/>
             </xpath>

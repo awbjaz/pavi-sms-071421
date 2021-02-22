@@ -20,8 +20,9 @@ class SubscriberLocation(models.Model):
     name = fields.Char(string="Location Name", required=True, tracking=True)
     code = fields.Char(string="Code", tracking=True)
     billing_day = fields.Integer(string="Billing Day", tracking=True)
-    posting_day = fields.Integer(string="Posting Day")
-    billing_due_day = fields.Integer(string="Bill Due Day")
+    posting_day = fields.Integer(string="Posting Day", tracking=True)
+    cutoff_day = fields.Integer(string="Cut Off Day", tracking=True)
+    billing_due_day = fields.Integer(string="Bill Due Day", tracking=True)
     location_id = fields.Many2one('subscriber.location', string="Parent Location",
                                   tracking=True)
     location_type = fields.Selection([('head', 'Head'),
@@ -65,7 +66,22 @@ class SubscriberLocation(models.Model):
     @api.onchange('billing_day')
     def _onchange_billing_day(self):
         if self.billing_day > 31:
-            raise UserError(_('Billing Day cannot be exceed the Calendar Day'))
+            raise UserError(_('Billing Day cannot exceed the Calendar Day'))
+
+    @api.onchange('posting_day')
+    def _onchange_posting_day(self):
+        if self.posting_day > 31:
+            raise UserError(_('Posting Day cannot exceed the Calendar Day'))
+
+    @api.onchange('cutoff_day')
+    def _onchange_cutoff_day(self):
+        if self.cutoff_day > 31:
+            raise UserError(_('Cutoff Day cannot exceed the Calendar Day'))
+
+    @api.onchange('billing_due_day')
+    def _onchange_billing_due_day(self):
+        if self.billing_due_day > 31:
+            raise UserError(_('Billing Due Day cannot exceed the Calendar Day'))
 
     @api.depends('subscription_ids')
     def _compute_subscription(self):
