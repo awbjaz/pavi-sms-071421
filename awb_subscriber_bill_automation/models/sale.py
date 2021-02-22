@@ -23,7 +23,6 @@ class SaleOrder(models.Model):
                     self)._prepare_subscription_data(template)
         if self.opportunity_id:
             res['opportunity_id'] = self.opportunity_id.id
-            res['subscriber_location_id'] = self.opportunity_id.zone.id
             res['account_identification'] = self.account_identification
             res['date_start'] = self.opportunity_id.contract_start_date
             if self.opportunity_id.zone.billing_day:

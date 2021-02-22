@@ -20,8 +20,10 @@ class SubscriberLocation(models.Model):
     name = fields.Char(string="Location Name", required=True, tracking=True)
     code = fields.Char(string="Code", tracking=True)
     billing_day = fields.Integer(string="Billing Day", tracking=True)
-    location_id = fields.Many2one(
-        'subscriber.location', string="Parent Location", tracking=True)
+    posting_day = fields.Integer(string="Posting Day")
+    billing_due_day = fields.Integer(string="Bill Due Day")
+    location_id = fields.Many2one('subscriber.location', string="Parent Location",
+                                  tracking=True)
     location_type = fields.Selection([('head', 'Head'),
                                       ('cluster', 'Cluster'),
                                       ('area', 'Area'),

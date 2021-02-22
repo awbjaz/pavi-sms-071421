@@ -25,7 +25,9 @@
                             <group>
                                 <field name="analytic_account_id" groups="account.group_account_manager"/>
                                 <field name="cluster_head"/>
-                                <field name="billing_day" groups="sales_team.group_sale_manager"/>
+                                <field name="billing_day" readonly="1"/>
+                                <field name="posting_day" readonly="1"/>
+                                <field name="billing_due_day" readonly="1"/>
                                 <field name="subscription_count"/>
                             </group>
                             
@@ -62,7 +64,26 @@
             </field>
         </record>
 
-        <record id= "subscriber_location_tree" model= "ir.ui.view">
+        <record id="subscriber_location_manager_form" model="ir.ui.view">
+            <field name="name">subscriber.location.form</field>
+            <field name="model">subscriber.location</field>
+            <field name="inherit_id" ref="awb_subscriber_location.subscriber_location_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('sales_team.group_sale_manager') ])]" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="billing_day" position="attributes">
+                   <attribute name="readonly">0</attribute>
+                </field>
+                <field name="posting_day" position="attributes">
+                   <attribute name="readonly">0</attribute>
+                </field>
+                <field name="billing_due_day" position="attributes">
+                   <attribute name="readonly">0</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="subscriber_location_tree" model= "ir.ui.view">
             <field name= "name">subscriber.location.tree</field>
             <field name= "model">subscriber.location</field>
             <field name="type">tree</field>
