@@ -16,4 +16,59 @@
         </field>
     </record>
 
+
+    <record id="zone_subtype_form" model="ir.ui.view">
+        <field name="name">zone.subtype.form</field>
+        <field name="model">zone.subtype</field>
+        <field name="arch" type="xml">
+          <form string="Brand">
+            <sheet>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" placeholder="Name"/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="zone_type"/>
+                    <field name="description"/>
+                </group>
+            </sheet>
+          </form>
+        </field>
+    </record>
+
+    <record id="zone_subtype_tree" model="ir.ui.view">
+        <field name="name">zone.subtype.tree</field>
+        <field name="model">zone.subtype</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Zone" >
+                <field name="name" string="Name"/>
+                <field name="zone_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_zone_subtype_project" model="ir.actions.act_window">
+        <field name="name">Brand</field>
+        <field name="res_model">zone.subtype</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="zone_subtype_tree"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a Brand
+          </p><p>
+            Create Brand
+          </p>
+        </field>
+    </record>
+
+    <menuitem
+        name="Brand"
+        action="action_zone_subtype_project"
+        id="menu_zone_brand"
+        parent="awb_subscriber_location.menu_segmentation_project" 
+        groups="project.group_project_manager"
+        sequence="20"/>
+
 </odoo>
