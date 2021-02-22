@@ -29,21 +29,17 @@
                                 <field name="posting_day" readonly="1"/>
                                 <field name="cutoff_day" readonly="1"/>
                                 <field name="billing_due_day" readonly="1"/>
-                                <field name="subscription_count"/>
                             </group>
                             
                         </group>
                         <notebook>
-                            <page string="Child Locations">
+                            <page name="child_locations" string="Child Locations">
                                 <field name="location_ids" widget="many2many">
                                     <tree>
                                         <field name="name" string="Name"/>
                                         <field name="analytic_account_id" groups="account.group_account_manager"/>
                                     </tree>
                                 </field>
-                            </page>
-                            <page string="Subscriptions" groups="sale_subscription.group_sale_subscription_view">
-                                <field name="subscription_ids" readonly="1"/>
                             </page>
                             <page string="Projects" groups="project.group_project_manager">
                                 <field name="project_ids" readonly="1" groups="project.group_project_manager"/>
@@ -62,6 +58,24 @@
                         <field name="message_ids" widget="mail_thread"/>
                     </div>
                </form>
+            </field>
+        </record>
+
+        <record id="subscriber_location_manager_form" model="ir.ui.view">
+            <field name="name">subscriber.location.form</field>
+            <field name="model">subscriber.location</field>
+            <field name="inherit_id" ref="awb_subscriber_location.subscriber_location_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('sale_subscription.group_sale_subscription_view') ])]" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='billing_due_day']" position="after">
+                   <field name="subscription_count"/>
+                </xpath>
+                <xpath expr="//page[@name='child_locations']" position="after">
+                    <page string="Subscriptions" groups="sale_subscription.group_sale_subscription_view">
+                        <field name="subscription_ids" readonly="1"/>
+                    </page>
+                </xpath>
             </field>
         </record>
 
