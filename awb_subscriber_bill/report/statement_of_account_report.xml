@@ -238,7 +238,7 @@
                                     <tr>
                                         <td style="border: 1px solid black; text-align: left;">
                                             <p class="pl-10">
-                                                Thank you very much for settling your Streamtech monthly bill on time. We acknowledge your timely update, and would like you to know that this helps us at Streamtech to constantly provide you with quality internet service for your home. Should there be any billing discrepancies in your statement of account, kindly coordinate with our Billing Department within 15 days from statement date, or this statement of account would be considered accurate.
+                                                Thank you very much for settling your Streamtech monthly bill on time. We acknowledge your timely update, and would like you to know that this helps us at Streamtech to constantly provide you with quality internet service for your home. Please be reminded that any payments made on or after <span t-field="doc.posting_date"/> will be reflected on your next billing statement. Should there be any billing discrepancies in your statement of account, kindly coordinate with our Billing Department within 15 days from statement date, or this statement of account would be considered accurate.
                                             </p>
                                         </td>
                                     </tr>
