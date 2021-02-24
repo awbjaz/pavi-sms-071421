@@ -77,6 +77,9 @@ class CRMLead(models.Model):
                         'sale_subscription.sale_subscription_stage_closed').id)])
 
                 for subs in subscriber_id:
+                    if self.subscription_status == 'pre-termination':
+                        subs.recurring_invoice()
+
                     subs.update({'stage_id': self.env.ref('sale_subscription.sale_subscription_stage_closed').id,
                                  'subscription_status': self.subscription_status,
                                  })
