@@ -113,16 +113,16 @@ class SalesForceImporterProducts(models.Model):
                 raise osv.except_osv("Warning!", "Sorry; invalid operation, please select From Date")
 
             if self.from_date:
-                query += " where Product2.CreatedDate>=" + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+                query += " where Product2.LastModifiedDate>=" + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
 
             if self.to_date:
-                to_date_query = " and Product2.CreatedDate<=" + self.to_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+                to_date_query = " and Product2.LastModifiedDate<=" + self.to_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
                 query += to_date_query
         else:
             today = datetime.date.today()
             yesterday = today - datetime.timedelta(days=1)
-            from_date_query = " where Product2.CreatedDate>= " + yesterday.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
-            to_date_query = " and Product2.CreatedDate<=" + today.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+            from_date_query = " where Product2.LastModifiedDate>= " + yesterday.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+            to_date_query = " and Product2.LastModifiedDate<=" + today.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
             query += from_date_query + to_date_query
 
         query += " LIMIT 5000"

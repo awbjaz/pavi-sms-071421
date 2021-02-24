@@ -100,20 +100,20 @@ class SalesForceImporterOpportunities(models.Model):
                 raise osv.except_osv("Warning!", "Sorry; invalid operation, please select From Date")
 
             elif self.from_date and not self.to_date:
-                from_date_query = " AND CreatedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+                from_date_query = " AND LastModifiedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
                 query = query + from_date_query
 
             elif self.from_date and self.to_date:
-                from_date_query = " AND CreatedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
-                to_date_query = " AND createdDate<=" + self.to_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+                from_date_query = " AND LastModifiedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+                to_date_query = " AND LastModifiedDate<=" + self.to_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
 
                 query = query + from_date_query + to_date_query
 
         else:
             today = datetime.date.today()
             yesterday = today - datetime.timedelta(days=1)
-            from_date_query = " AND CreatedDate>=" + yesterday.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
-            to_date_query = " AND createdDate<=" + today.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+            from_date_query = " AND LastModifiedDate>=" + yesterday.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+            to_date_query = " AND LastModifiedDate<=" + today.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
 
             query = query + from_date_query + to_date_query
 
