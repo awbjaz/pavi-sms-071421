@@ -84,3 +84,9 @@ class CRMLead(models.Model):
         _logger.debug(f'Change Zone: {self.zone}')
         if self.partner_id:
             self.partner_id.subscriber_location_id = self.zone.id
+
+    @api.onchange('partner_id')
+    def _onchange_partner(self):
+        _logger.debug(f'Change Partner: {self.partner_id}')
+        if self.partner_id and self.partner_id.subscriber_location_id:
+            self.zone = self.partner_id.subscriber_location_id.id
