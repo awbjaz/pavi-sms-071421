@@ -517,11 +517,14 @@ class SalesForceImporterOpportunities(models.Model):
                 if lead['AccountId']:
                     lead_partner = self._get_partner_data(lead)
                     lead_data['partner_id'] = lead_partner.id
+                    _logger.debug(f'Subscriber Location {lead_partner.subscriber_location_id}')
+                    if lead_partner.subscriber_location_id:
+                        lead_data['zone'] = lead_partner.subscriber_location_id.id
 
                 _logger.debug(f'Create Product')
                 self._create_lead_product_data(odoo_lead, products)
                 _logger.debug(f'Created Product')
-                _logger.debug(f'Updating data: {odoo_lead.id}: {lead_data}')
+                # _logger.debug(f'Updating data: {odoo_lead.id}: {lead_data}')
                 # try:
                 odoo_lead.write(lead_data)
                 self.env.cr.commit()
