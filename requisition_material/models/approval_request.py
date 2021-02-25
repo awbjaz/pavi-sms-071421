@@ -8,21 +8,30 @@ class ApprovalRequest(models.Model):
     _inherit = 'approval.request'
 
     application = fields.Selection(
-        selection_add=[('warehouse', 'Warehouse')])
+        selection_add=[('warehouse', 'Inventory')])
 
     has_stock_location = fields.Selection(
         related="category_id.has_stock_location")
     location_id = fields.Many2one('stock.location', string="Source Stock Location",
                                   domain=[('usage', '=', 'internal')])
     location_dest_id = fields.Many2one('stock.location', string="Destination Stock Location",
-                                       domain=[('usage', '=', 'internal')])
+                                       domain=[('usage', 'in', ['internal','customer'])])
     location_transit_id = fields.Many2one('stock.location', string="Transit Location",
-                                          domain=[('usage', '=', 'internal')])
-    warehouse_id = fields.Many2one('stock.warehouse', string="Warehouse")
+                                          domain=[('usage', 'in', ['internal','transit'])])
+    warehouse_id = fields.Many2one('stock.warehouse', string="Warehouse", readonly=True)
+    picking_type_id = fields.Many2one('stock.picking.type', string="Inventory Operation",
+                                      domain=[('code','in',['internal','outgoing'])])
 
     transfers_count = fields.Integer(
         string='Transfer Request Count', compute="_compute_transfer_request_count")
-
+    
+    @api.onchange('picking_type_id')
+    def onchange_picking_type_id(self):
+        if self.picking_type_id:
+            self.warehouse_id = self.picking_type_id.warehouse_id.id
+            self.location_id = self.picking_type_id.default_location_src_id.id
+            self.location_dest_id = self.picking_type_id.default_location_dest_id.id
+        
     def _compute_transfer_request_count(self):
         for rec in self:
             transfers = self.env['stock.picking'].sudo().search(
@@ -33,82 +42,104 @@ class ApprovalRequest(models.Model):
         super(ApprovalRequest, self).action_approve(approver=None)
         if self.application == 'warehouse':
             picking = self.env['stock.picking'].sudo()
-            picking_type = self.env['stock.picking.type'].sudo().search(
-                [('code', '=', 'internal')], limit=1)
+#             picking_type = self.env['stock.picking.type'].sudo().search(
+#                 [('code', '=', 'internal')], limit=1)
+
+            """Checking of related partner record"""
+            if self.partner_id: partner_id = self.partner_id.id
+            else: partner_id = self.request_owner_id.partner_id.id
 
             if not self.location_transit_id:
-                if picking_type:
-                    products = []
-                    for product in self.product_line_ids:
-                        item = {
-                            'name': product.product_id.name,
-                            'product_id': product.product_id.id,
-                            'product_uom': product.uom_id.id,
-                            'product_uom_qty': product.quantity
-                        }
-                        products.append((0, 0, item))
-
-                    data = {
-                        'partner_id': self.request_owner_id.partner_id.id,
-                        'picking_type_id': picking_type.id,
-                        'location_id': self.location_id.id,
-                        'location_dest_id': self.location_dest_id.id,
-                        'origin': self.reference_number,
-                        'move_lines': products
+                products = []
+                for product in self.product_line_ids:
+                    item = {
+                        'name': product.product_id.name,
+                        'product_id': product.product_id.id,
+                        'product_uom': product.uom_id.id,
+                        'product_uom_qty': product.quantity
                     }
+                    products.append((0, 0, item))
 
-                    transfer_request = picking.create(data)
+                data = {
+                    'partner_id': partner_id,
+                    'picking_type_id': self.picking_type_id.id,
+                    'user_id': self.request_owner_id.partner_id.id,
+                    'location_id': self.location_id.id,
+                    'location_dest_id': self.location_dest_id.id,
+                    'origin': self.reference_number,
+                    'move_lines': products
+                }
 
-                    transfer_request.message_post_with_view('mail.message_origin_link',
-                                                            values={
-                                                                'self': transfer_request, 'origin': self},
-                                                            subtype_id=self.env.ref('mail.mt_note').id)
+                transfer_request = picking.create(data)
+
+                transfer_request.message_post_with_view('mail.message_origin_link',
+                                                        values={
+                                                            'self': transfer_request, 'origin': self},
+                                                        subtype_id=self.env.ref('mail.mt_note').id)
 
             else:
-                if picking_type:
-                    products = []
-                    for product in self.product_line_ids:
-                        item = {
-                            'name': product.product_id.name,
-                            'product_id': product.product_id.id,
-                            'product_uom': product.uom_id.id,
-                            'product_uom_qty': product.quantity
-                        }
-                        products.append((0, 0, item))
-
-
-                    data_source_to_transit = {
-                        'partner_id': self.request_owner_id.partner_id.id,
-                        'picking_type_id': picking_type.id,
-                        'location_id': self.location_id.id,
-                        'location_dest_id': self.location_transit_id.id,
-                        'origin': self.reference_number,
-                        'move_lines': products
+                products = []
+                for product in self.product_line_ids:
+                    item = {
+                        'name': product.product_id.name,
+                        'product_id': product.product_id.id,
+                        'product_uom': product.uom_id.id,
+                        'product_uom_qty': product.quantity
                     }
-
-                    data_transit_to_destination = {
-                        'partner_id': self.request_owner_id.partner_id.id,
-                        'picking_type_id': picking_type.id,
-                        'location_id': self.location_transit_id.id,
-                        'location_dest_id': self.location_dest_id.id,
-                        'origin': self.reference_number,
-                        'move_lines': products
-                    }
-
-                    source_to_transit = picking.create(data_source_to_transit)
-                    transit_to_destination = picking.create(data_transit_to_destination)
-
-                    source_to_transit.message_post_with_view('mail.message_origin_link',
-                                                        values={
-                                                            'self': source_to_transit, 'origin': self},
-                                                        subtype_id=self.env.ref('mail.mt_note').id)
-
-                    transit_to_destination.message_post_with_view('mail.message_origin_link',
-                                                        values={
-                                                            'self': transit_to_destination, 'origin': self},
-                                                        subtype_id=self.env.ref('mail.mt_note').id)
+                    products.append((0, 0, item))
 
 
+                data_source_to_transit = {
+                    'partner_id': partner_id,
+                    'picking_type_id': self.picking_type_id.id,
+                    'location_id': self.location_id.id,
+                    'user_id': self.request_owner_id.partner_id.id,
+                    'location_dest_id': self.location_transit_id.id,
+                    'origin': self.reference_number,
+                    'move_lines': products
+                }
+
+                data_transit_to_destination = {
+                    'partner_id': partner_id,
+                    'picking_type_id': self.picking_type_id.id,
+                    'location_id': self.location_transit_id.id,
+                    'location_dest_id': self.location_dest_id.id,
+                    'origin': self.reference_number,
+                    'move_lines': products
+                }
+
+                source_to_transit = picking.create(data_source_to_transit)
+                transit_to_destination = picking.create(data_transit_to_destination)
+
+                source_to_transit.message_post_with_view('mail.message_origin_link',
+                                                    values={
+                                                        'self': source_to_transit, 'origin': self},
+                                                    subtype_id=self.env.ref('mail.mt_note').id)
+
+                transit_to_destination.message_post_with_view('mail.message_origin_link',
+                                                    values={
+                                                        'self': transit_to_destination, 'origin': self},
+                                                    subtype_id=self.env.ref('mail.mt_note').id)
+
+
+    def action_withdraw(self, approver=None):
+        super(ApprovalRequest, self).action_withdraw(approver=None)
+        if self.application == 'warehouse':
+            picking = self.env['stock.picking'].sudo()
+            picking_ids = picking.sudo().search([('origin','=',self.reference_number),
+                                                 ('state','!=','done')])
+            for rec in picking_ids:
+                rec.state = 'cancel'
+    
+    def action_cancel(self, approver=None):
+        super(ApprovalRequest, self).action_cancel(approver=None)
+        if self.application == 'warehouse':
+            picking = self.env['stock.picking'].sudo()
+            picking_ids = picking.sudo().search([('origin','=',self.reference_number),
+                                                 ('state','!=','done')])
+            for rec in picking_ids:
+                rec.state = 'cancel'
+            
 
     def action_view_transfer_request(self):
         document = self.env['stock.picking'].sudo().search(
