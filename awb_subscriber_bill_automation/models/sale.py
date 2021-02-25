@@ -58,6 +58,8 @@ class SaleOrder(models.Model):
                 if not order.analytic_account_id:
                     order._create_analytic_account()
 
+        self.update_existing_subscriptions()
+        self.create_subscriptions()
         if self.env.user.has_group('sale.group_auto_done_setting'):
             self.action_done()
         return True

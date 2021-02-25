@@ -134,6 +134,9 @@ class SaleSubscription(models.Model):
         _logger.debug(f'Order product_lines {product_lines}')
         order.action_confirm_renewal()
 
+    def wipe(self):
+        self.write({"recurring_invoice_line_ids": [(6, 0, [])]})
+
     @api.onchange('date_start', 'template_id')
     def onchange_date_start(self):
         if self.date_start and self.recurring_rule_boundary == 'limited' and self.opportunity_id:
