@@ -17,7 +17,8 @@
                 </div>
 
 
-                <field name="total_statement_balance"/>
+                <field name="total_statement_balance" invisible="1"/>
+                <field name="total_prev_charges" invisible="1"/>
                 <field name="total_vat" invisible="1"/>
             </xpath>
             <xpath expr="//page[@name='other_info']" position="after">
@@ -30,6 +31,11 @@
                             <field name="amount"/>
                         </tree>
                     </field>
+                     <group class="oe_subtotal_footer" attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))]}">
+                        <field name="total_prev_charges" string="Previous Charges"/>
+                        <field name="amount_total" string="Current Charges"/>
+                        <field name="total_statement_balance" class="oe_subtotal_footer_separator"/>
+                    </group>
                 </page>
             </xpath>
         </field>

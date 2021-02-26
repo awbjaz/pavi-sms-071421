@@ -22,8 +22,9 @@ class AccountMove(models.Model):
     start_date = fields.Date(string="Start Date")
     end_date = fields.Date(string="End Date")
     period_covered = fields.Date(string="Period Covered")
-    total_statement_balance = fields.Float(
+    total_statement_balance = fields.Monetary(
         string="Total Statement Balance", compute='_compute_statement_balance')
+    total_prev_charges = fields.Monetary(string="Total Previous Charges", compute='_compute_statement_balance')
     is_subscription = fields.Boolean(
         string="Is Subscribtion", compute="_compute_is_subscription")
     total_vat = fields.Float(
@@ -45,6 +46,9 @@ class AccountMove(models.Model):
                 rec.statement_line_ids.mapped('amount'))
             rec.total_vat = sum(
                 rec.statement_line_ids.filtered(lambda r: r.statement_type == 'vat').mapped('amount'))
+            prev_balance = sum(rec.statement_line_ids.filtered(lambda r: r.statement_type == 'prev_bill').mapped('amount'))
+            prev_received = sum(rec.statement_line_ids.filtered(lambda r: r.statement_type == 'payment').mapped('amount'))
+            rec.total_prev_charges = prev_balance + prev_received
 
     @api.depends('invoice_date_due')
     def _compute_atm_ref(self):
@@ -162,8 +166,9 @@ class AccountStatementLine(models.Model):
     statement_type = fields.Selection([('subs_fee', 'Subscription Fee'),
                                        ('device_fee', 'Device Fee'),
                                        ('vat', 'VAT'),
-                                       ('payment', 'Payment'),
-                                       ('credit', 'Credit'),
+                                       ('prev_bill', 'Previous Bill'),
+                                       ('payment', 'Previous Received Payment'),
+                                       ('adjust', 'Adjustment'),
                                        ('other', 'Other')], string="Statement Type")
 
     move_id = fields.Many2one('account.move', string="Invoice")
