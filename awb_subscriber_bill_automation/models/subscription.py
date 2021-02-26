@@ -116,6 +116,53 @@ class SaleSubscription(models.Model):
                     'amount': line['price_unit'],
                 }
                 lines.append((0, 0, data))
+            
+            total_vat = 0.0
+            for taxes in line['tax_ids']: 
+                vat = taxes[2]
+                args = [('id', 'in', vat)]
+                tax = self.env['account.tax'].search(args)
+                total_price_unit = line['price_unit'] * line['quantity']
+                total_vat += total_price_unit * tax.amount / 100
+                _logger.debug(f'INVOICE: {tax}')
+                _logger.debug(f'INVOICE: {vat}')
+
+        data = {'name': "Value Added Tax", 'statement_type': 'vat'}
+        data['amount'] = total_vat
+        lines.append((0, 0, data))
+
+        # invoice previous bill and payment
+        args = [('partner_id', '=', invoice['partner_id']),
+                ('date', '>=', invoice['start_date']),
+                ('date', '<=', invoice['end_date']),
+                ('type', '=', 'out_invoice'),
+                ('state', '=', 'posted'),
+                ('invoice_line_ids.subscription_id', '=', self.id)]
+        invoice_id = self.env['account.move'].search(args)
+
+        _logger.debug(f'INVOICE: {invoice}')
+
+        if invoice_id:
+            prev_bill = 0
+            prev_payment = 0
+            for inv in invoice_id:
+                prev_bill += inv.amount_total
+                prev_payment += inv.amount_total - inv.amount_residual
+            
+            prev_bill = {
+                'name': 'Previous Bill balance',
+                'statement_type': 'prev_bill',
+                'amount': prev_bill,
+            }
+            prev_payment = {
+                'name': 'Previous Received Payment',
+                'statement_type': 'payment',
+                'amount': prev_payment * -1,
+            }
+
+            lines.append((0, 0, prev_bill))
+            lines.append((0, 0, prev_payment))
+
         return lines
 
     def _prepare_invoice(self):
