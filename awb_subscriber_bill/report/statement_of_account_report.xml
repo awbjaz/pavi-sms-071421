@@ -137,8 +137,14 @@
                                         </td> -->
                                     </tr>
                                     <tr>
+                                        <t t-set="prev_bill_tot" t-value="0"/>
+                                        <t t-foreach="doc.statement_line_ids" t-as="line">
+                                            <t t-if="line.statement_type == 'prev_bill'">
+                                                <t t-set="prev_bill_tot" t-value="prev_bill_tot+line.amount"/> 
+                                            </t>
+                                        </t>
                                         <td>Previous Bill balance</td>
-                                        <td style="text-align:right;"> <span t-field="doc.amount_total"/></td>
+                                        <td style="text-align:right;"> <t t-esc="'{0:,.2f}'.format(prev_bill_tot)"/></td>
                                         <td colspan="2"/>
                                     </tr>
                                     <tr>
@@ -158,8 +164,18 @@
                                         <td colspan="2"/>
                                     </tr>
                                     <tr>
-                                        <th>CURRENT CHARGES:</th>
+                                        <td>Total Previous Charges</td>
                                         <td style="border-top: 2px solid black;"/>
+                                        <td colspan="1"/>
+                                        <td style="text-align:right;">
+                                            <span t-field="doc.total_prev_charges"/>
+                                            <!-- <span t-field="doc.total_statement_balance" t-esc-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/> -->
+                                        </td>
+                                              
+                                    </tr>
+                                    <tr>
+                                        <th>CURRENT CHARGES:</th>
+                                        <td/>
                                         <td colspan="3"/>
                                     </tr>
                                     <tr>
@@ -171,7 +187,7 @@
                                         </t>
                                         <td>Monthly Subscription Fee</td>
                                         <td style="text-align:right;">
-                                            <t t-esc="subs_tot"/>
+                                            <t t-esc="'{0:,.2f}'.format(subs_tot)"/>
                                         </td>
                                         <td colspan="2"/>
                                     </tr>
@@ -197,7 +213,9 @@
                                         <td>VAT</td>
                                            
                                         <td style="text-align:right;">
-                                            <span t-field="doc.total_vat"/>
+                                            <!-- <span t-field="doc.total_vat"/> -->
+                                           
+                                            <t t-esc="'{0:,.2f}'.format(doc.total_vat)"/>
                                         </td>             
                                         <td colspan="2"/>
                                         <td rowspan="12">
@@ -211,18 +229,19 @@
                                         <td style="border-top: 2px solid black;"/>
                                         <td colspan="1"/>
                                         <td style="text-align:right;">
-                                            <span t-field="doc.total_statement_balance" t-esc-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/>
+                                            <span t-field="doc.amount_residual"/>
+                                            <!-- <span t-field="doc.total_statement_balance" t-esc-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/> -->
                                         </td>
                                               
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td colspan="3"/>
                                         <td style="border-top: 2px solid black;"/>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
                                         <th>TOTAL AMOUNT DUE:</th>
                                         <td colspan="2"/>
-                                        <td style="text-align:right;"><span t-field="doc.amount_residual"/></td>
+                                        <td style="text-align:right;"><span t-field="doc.total_statement_balance"/></td>
                                     </tr>
                                 </table>
                             </div>
@@ -381,18 +400,6 @@
             name="awb_subscriber_bill.report_subscriber_statement_of_account"
             file="awb_subscriber_bill.report_subscriber_statement_of_account"
         />
-        <report
-            id="account.account_invoices"
-            model="account.move"
-            string="Invoices"
-            report_type="qweb-pdf"
-            name="awb_subscriber_bill.report_subscriber_statement_of_account"
-            file="awb_subscriber_bill.report_subscriber_statement_of_account"
-            attachment="(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')"
-            print_report_name="(object._get_report_base_filename())"
-            groups="account.group_account_invoice"
-        />
-
         <record id="subscriber_soa_template_paper" model="report.paperformat">
             <field name="header_line" eval="False"/>
             <field name="default" eval="False"/>
