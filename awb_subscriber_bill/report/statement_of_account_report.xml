@@ -400,6 +400,18 @@
             name="awb_subscriber_bill.report_subscriber_statement_of_account"
             file="awb_subscriber_bill.report_subscriber_statement_of_account"
         />
+        <report
+            id="account.account_invoices"
+            model="account.move"
+            string="Invoices"
+            report_type="qweb-pdf"
+            name="awb_subscriber_bill.report_subscriber_statement_of_account"
+            file="awb_subscriber_bill.report_subscriber_statement_of_account"
+            attachment="(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')"
+            print_report_name="(object._get_report_base_filename())"
+            groups="account.group_account_invoice"
+        />
+
         <record id="subscriber_soa_template_paper" model="report.paperformat">
             <field name="header_line" eval="False"/>
             <field name="default" eval="False"/>
