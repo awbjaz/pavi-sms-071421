@@ -12,7 +12,7 @@
                                     <tr>
                                         <td style="width:45%; padding-top: 5px; padding-bottom: 5px; padding-left: 2px;">
                                             <!-- <img src="/awb_subscriber_bill/static/src/img/STREAMTECH-logo.jpg" width="100%"/> -->
-                                            <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" alt="Logo" style="max-height: 120px;"/>
+                                            <img t-if="doc.company_id.soa_logo" t-att-src="image_data_uri(doc.company_id.soa_logo)" alt="Logo" style="max-height: 120px;"/>
                                         </td>
                                         <td style="width:55%; padding-left: 2px;">
                                             <div style="text-align: right; line-height: 95%;">
@@ -400,18 +400,6 @@
             name="awb_subscriber_bill.report_subscriber_statement_of_account"
             file="awb_subscriber_bill.report_subscriber_statement_of_account"
         />
-        <report
-            id="account.account_invoices"
-            model="account.move"
-            string="Invoices"
-            report_type="qweb-pdf"
-            name="awb_subscriber_bill.report_subscriber_statement_of_account"
-            file="awb_subscriber_bill.report_subscriber_statement_of_account"
-            attachment="(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')"
-            print_report_name="(object._get_report_base_filename())"
-            groups="account.group_account_invoice"
-        />
-
         <record id="subscriber_soa_template_paper" model="report.paperformat">
             <field name="header_line" eval="False"/>
             <field name="default" eval="False"/>

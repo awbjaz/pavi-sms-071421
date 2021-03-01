@@ -473,6 +473,8 @@ class SalesForceImporterOpportunities(models.Model):
         medium = None
         source = None
 
+        completed_stage = self.env.ref('awb_subscriber_product_information.stage_completed')
+
         for idx, lead in enumerate(opportunities):
             _logger.info(f'----------------- STREAMTECH creating_opportunities Lead[{lead["Opportunity_Number__c"]}]: {idx} of {len(opportunities)}')
             products = lead['OpportunityLineItems']
@@ -512,6 +514,9 @@ class SalesForceImporterOpportunities(models.Model):
                     lead_stage = self.env['crm.stage'].create({
                         'name': lead['StageName'],
                     })
+
+                if odoo_lead.stage_id.id == completed_stage.id:
+                    lead_stage = completed_stage
 
                 lead_data = self._create_lead_data(lead, lead_stage, campaign, medium, source)
                 if lead['AccountId']:

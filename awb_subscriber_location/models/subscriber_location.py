@@ -44,9 +44,9 @@ class SubscriberLocation(models.Model):
     def name_get(self):
         data = []
         for rec in self:
-            head_name = f"{rec.location_id.location_id.location_id.name}/" if rec.location_id.location_id.location_id else ''
-            cluster_name = f"{rec.location_id.location_id.name}/" if rec.location_id.location_id else ''
-            area_name = f"{rec.location_id.name}/" if rec.location_id else ''
+            head_name = f"{rec.location_id.location_id.location_id.name} / " if rec.location_id.location_id.location_id else ''
+            cluster_name = f"{rec.location_id.location_id.name} / " if rec.location_id.location_id else ''
+            area_name = f"{rec.location_id.name} / " if rec.location_id else ''
             name = rec.name
             display_value = f"{head_name}{cluster_name}{area_name}{name}"
             data.append((rec.id, display_value))

@@ -47,3 +47,12 @@ class AccountMove(models.Model):
                 if len(res.line_ids) == 0:
                     raise UserError(_('Journal Items must have atleast 1 record'))
         return res
+
+    def write(self, vals):
+        res = super(AccountMove, self).write(vals)
+        _logger.debug(f'RESULT {res}')
+        for rec in self:
+            if rec.type == 'entry':
+                if len(rec.line_ids) == 0:
+                    raise UserError(_('Journal Items must have atleast 1 record'))
+        return res

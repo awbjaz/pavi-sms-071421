@@ -16,19 +16,15 @@ _logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    statement_line_ids = fields.One2many(
-        'account.statement.line', 'move_id', string="Statement Line")
+    statement_line_ids = fields.One2many('account.statement.line', 'move_id', string="Statement Line")
     atm_ref = fields.Char(string="ATM Reference", compute="_compute_atm_ref", stored=True)
     start_date = fields.Date(string="Start Date")
     end_date = fields.Date(string="End Date")
     period_covered = fields.Date(string="Period Covered")
-    total_statement_balance = fields.Monetary(
-        string="Total Statement Balance", compute='_compute_statement_balance')
+    total_statement_balance = fields.Monetary(string="Total Statement Balance", compute='_compute_statement_balance')
     total_prev_charges = fields.Monetary(string="Total Previous Charges", compute='_compute_statement_balance')
-    is_subscription = fields.Boolean(
-        string="Is Subscribtion", compute="_compute_is_subscription")
-    total_vat = fields.Float(
-        string="Total Vat", compute='_compute_statement_balance')
+    is_subscription = fields.Boolean(string="Is Subscribtion", compute="_compute_is_subscription")
+    total_vat = fields.Float(string="Total Vat", compute='_compute_statement_balance')
 
     @api.depends('invoice_line_ids')
     def _compute_is_subscription(self):

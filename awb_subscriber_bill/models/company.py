@@ -5,7 +5,10 @@
 #
 ##############################################################################
 
-from . import crm
-from . import sale
-from . import subscription_template
-from . import subscription
+from odoo import api, fields, models
+
+
+class Company(models.Model):
+    _inherit = "res.company"
+
+    soa_logo = fields.Binary(string="SOA Logo")
