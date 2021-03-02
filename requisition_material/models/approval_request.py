@@ -19,18 +19,18 @@ class ApprovalRequest(models.Model):
     location_transit_id = fields.Many2one('stock.location', string="Transit Location",
                                           domain=[('usage', 'in', ['internal','transit'])])
     warehouse_id = fields.Many2one('stock.warehouse', string="Warehouse", readonly=True)
-    picking_type_id = fields.Many2one('stock.picking.type', string="Inventory Operation",
+    wh_picking_type_id = fields.Many2one('stock.picking.type', string="Inventory Operation",
                                       domain=[('code','in',['internal','outgoing'])])
 
     transfers_count = fields.Integer(
         string='Transfer Request Count', compute="_compute_transfer_request_count")
     
-    @api.onchange('picking_type_id')
+    @api.onchange('wh_picking_type_id')
     def onchange_picking_type_id(self):
-        if self.picking_type_id:
-            self.warehouse_id = self.picking_type_id.warehouse_id.id
-            self.location_id = self.picking_type_id.default_location_src_id.id
-            self.location_dest_id = self.picking_type_id.default_location_dest_id.id
+        if self.wh_picking_type_id:
+            self.warehouse_id = self.wh_picking_type_id.warehouse_id.id
+            self.location_id = self.wh_picking_type_id.default_location_src_id.id
+            self.location_dest_id = self.wh_picking_type_id.default_location_dest_id.id
         
     def _compute_transfer_request_count(self):
         for rec in self:
