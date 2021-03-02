@@ -63,7 +63,7 @@ class ApprovalRequest(models.Model):
                 data = {
                     'partner_id': partner_id,
                     'picking_type_id': self.wh_picking_type_id.id,
-                    'user_id': self.request_owner_id.partner_id.id,
+                    'user_id': self.request_owner_id.id,
                     'location_id': self.location_id.id,
                     'location_dest_id': self.location_dest_id.id,
                     'origin': self.reference_number,
@@ -93,7 +93,7 @@ class ApprovalRequest(models.Model):
                     'partner_id': partner_id,
                     'picking_type_id': self.picking_type_id.id,
                     'location_id': self.location_id.id,
-                    'user_id': self.request_owner_id.partner_id.id,
+                    'user_id': self.request_owner_id.id,
                     'location_dest_id': self.location_transit_id.id,
                     'origin': self.reference_number,
                     'move_lines': products
