@@ -17,14 +17,14 @@
                                         <td style="width:55%; padding-left: 2px;">
                                             <div style="text-align: right; line-height: 95%;">
                                                 <!-- company -->
-                                                <span style="font-weight:900; font-size:20px;" t-field="res_company.name"/> 
+                                                <span style="font-weight:900; font-size:20px;" t-field="doc.company_id.name"/> 
                                                 <br/> 
-                                                <span class="font-address">  <span t-field="res_company.street"/>,  <span t-field="res_company.street2"/><br/> 
-                                                 <span t-field="res_company.city"/>,  <span t-field="res_company.state_id"/> </span>
+                                                <span class="font-address">  <span t-field="doc.company_id.street"/>,  <span t-field="doc.company_id.street2"/><br/> 
+                                                 <span t-field="doc.company_id.city"/>,  <span t-field="doc.company_id.state_id"/> </span>
                                                 <br/> 
                                                 <span class="font-address"> Hotlines: (02) 8808-2323|0919-057-8888 </span>
                                                 <br/>
-                                                <div class="font-address"> VAT Reg. TIN: <span t-field="res_company.vat"/> </div>
+                                                <div class="font-address"> VAT Reg. TIN: <span t-field="doc.company_id.vat"/> </div>
                                                
                                             </div>
                                             
