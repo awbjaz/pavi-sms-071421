@@ -42,9 +42,17 @@ class AccountMove(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         res = super(AccountMove, self).create(vals_list)
-        _logger.debug(f"Result {res['type']}")
-        _logger.debug(f"Result 2{res['line_ids']}")
-        if res['type'] == 'entry':
-            if len(res['line_ids']) == 0:
-                raise UserError(_('Journal Items must have atleast 1 record'))
+        for rec in res:
+            if rec.type == 'entry':
+                if len(res.line_ids) == 0:
+                    raise UserError(_('Journal Items must have atleast 1 record'))
+        return res
+
+    def write(self, vals):
+        res = super(AccountMove, self).write(vals)
+        _logger.debug(f'RESULT {res}')
+        for rec in self:
+            if rec.type == 'entry':
+                if len(rec.line_ids) == 0:
+                    raise UserError(_('Journal Items must have atleast 1 record'))
         return res

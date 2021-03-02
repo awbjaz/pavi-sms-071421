@@ -12,6 +12,10 @@
             <xpath expr="//field[@name='date_start']" position="before">
                 <field name="subscription_status"/>
             </xpath>
+
+            <xpath expr="//field[@name='code']" position="after">
+                <field name="opportunity_id" readonly="1"/>
+            </xpath>
         </field>
     </record>
 

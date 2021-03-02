@@ -100,20 +100,20 @@ class SalesForceImporterOpportunities(models.Model):
                 raise osv.except_osv("Warning!", "Sorry; invalid operation, please select From Date")
 
             elif self.from_date and not self.to_date:
-                from_date_query = " AND CreatedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+                from_date_query = " AND LastModifiedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
                 query = query + from_date_query
 
             elif self.from_date and self.to_date:
-                from_date_query = " AND CreatedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
-                to_date_query = " AND createdDate<=" + self.to_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+                from_date_query = " AND LastModifiedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+                to_date_query = " AND LastModifiedDate<=" + self.to_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
 
                 query = query + from_date_query + to_date_query
 
         else:
             today = datetime.date.today()
             yesterday = today - datetime.timedelta(days=1)
-            from_date_query = " AND CreatedDate>=" + yesterday.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
-            to_date_query = " AND createdDate<=" + today.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+            from_date_query = " AND LastModifiedDate>=" + yesterday.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+            to_date_query = " AND LastModifiedDate<=" + today.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
 
             query = query + from_date_query + to_date_query
 
@@ -416,6 +416,8 @@ class SalesForceImporterOpportunities(models.Model):
         else:
             lead_partner = self.env['res.partner'].create(data)
 
+        lead_partner.action_assign_customer_id()
+
         return lead_partner
 
     def _create_lead_product_data(self, opportunity, products):
@@ -473,6 +475,8 @@ class SalesForceImporterOpportunities(models.Model):
         medium = None
         source = None
 
+        completed_stage = self.env.ref('awb_subscriber_product_information.stage_completed')
+
         for idx, lead in enumerate(opportunities):
             _logger.info(f'----------------- STREAMTECH creating_opportunities Lead[{lead["Opportunity_Number__c"]}]: {idx} of {len(opportunities)}')
             products = lead['OpportunityLineItems']
@@ -513,15 +517,21 @@ class SalesForceImporterOpportunities(models.Model):
                         'name': lead['StageName'],
                     })
 
+                if odoo_lead.stage_id.id == completed_stage.id:
+                    lead_stage = completed_stage
+
                 lead_data = self._create_lead_data(lead, lead_stage, campaign, medium, source)
                 if lead['AccountId']:
                     lead_partner = self._get_partner_data(lead)
                     lead_data['partner_id'] = lead_partner.id
+                    _logger.debug(f'Subscriber Location {lead_partner.subscriber_location_id}')
+                    if lead_partner.subscriber_location_id:
+                        lead_data['zone'] = lead_partner.subscriber_location_id.id
 
                 _logger.debug(f'Create Product')
                 self._create_lead_product_data(odoo_lead, products)
                 _logger.debug(f'Created Product')
-                _logger.debug(f'Updating data: {odoo_lead.id}: {lead_data}')
+                # _logger.debug(f'Updating data: {odoo_lead.id}: {lead_data}')
                 # try:
                 odoo_lead.write(lead_data)
                 self.env.cr.commit()

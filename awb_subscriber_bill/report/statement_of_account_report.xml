@@ -12,7 +12,7 @@
                                     <tr>
                                         <td style="width:45%; padding-top: 5px; padding-bottom: 5px; padding-left: 2px;">
                                             <!-- <img src="/awb_subscriber_bill/static/src/img/STREAMTECH-logo.jpg" width="100%"/> -->
-                                            <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" alt="Logo" style="max-height: 120px;"/>
+                                            <img t-if="doc.company_id.soa_logo" t-att-src="image_data_uri(doc.company_id.soa_logo)" alt="Logo" style="max-height: 120px;"/>
                                         </td>
                                         <td style="width:55%; padding-left: 2px;">
                                             <div style="text-align: right; line-height: 95%;">
@@ -39,12 +39,13 @@
                             <div class="row" id="statement_of_account_body_1">
                                 <table style="border: 2px solid black; width:100%;">
                                     <tr style="border: 2px solid black; height:15px;">
-                                        <th rowspan="4" style="border: 2px solid black;text-align: left; width:40%">
-                                            <h3 class="pl-10">
-                                                <span t-field="doc.partner_id.name"/>
-                                            </h3>
-                                            <span class="pl-10" t-field="doc.partner_id.street"/>
-                                        </th>
+                                        <td rowspan="4" style="border: 2px solid black;text-align: left; width:40%; line-height: 95%; font-size: 14px;">                   
+                                            <strong><span class="pl-10" style="font-size: 20px;" t-field="doc.partner_id.name"/></strong> <br/>
+                                            <span class="pl-10" t-field="doc.partner_id.street"/> <br/>
+                                            <span class="pl-10" t-field="doc.partner_id.street2"/> <br/>
+                                            <span class="pl-10" t-field="doc.partner_id.city_id"/> <span t-field="doc.partner_id.state_id"/> <span t-field="doc.partner_id.zip"/><br/>
+                                            <span class="pl-10" t-field="doc.partner_id.country_id"/>
+                                        </td>
                                         <th style="border: 2px solid black; text-align: center;width:30%">
                                             <span>Account Number</span>
                                         </th>
@@ -136,8 +137,14 @@
                                         </td> -->
                                     </tr>
                                     <tr>
+                                        <t t-set="prev_bill_tot" t-value="0"/>
+                                        <t t-foreach="doc.statement_line_ids" t-as="line">
+                                            <t t-if="line.statement_type == 'prev_bill'">
+                                                <t t-set="prev_bill_tot" t-value="prev_bill_tot+line.amount"/> 
+                                            </t>
+                                        </t>
                                         <td>Previous Bill balance</td>
-                                        <td style="text-align:right;"> <span t-field="doc.amount_total"/></td>
+                                        <td style="text-align:right;"> <t t-esc="'{0:,.2f}'.format(prev_bill_tot)"/></td>
                                         <td colspan="2"/>
                                     </tr>
                                     <tr>
@@ -157,8 +164,18 @@
                                         <td colspan="2"/>
                                     </tr>
                                     <tr>
-                                        <th>CURRENT CHARGES:</th>
+                                        <td>Total Previous Charges</td>
                                         <td style="border-top: 2px solid black;"/>
+                                        <td colspan="1"/>
+                                        <td style="text-align:right;">
+                                            <span t-field="doc.total_prev_charges"/>
+                                            <!-- <span t-field="doc.total_statement_balance" t-esc-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/> -->
+                                        </td>
+                                              
+                                    </tr>
+                                    <tr>
+                                        <th>CURRENT CHARGES:</th>
+                                        <td/>
                                         <td colspan="3"/>
                                     </tr>
                                     <tr>
@@ -170,7 +187,7 @@
                                         </t>
                                         <td>Monthly Subscription Fee</td>
                                         <td style="text-align:right;">
-                                            <t t-esc="subs_tot"/>
+                                            <t t-esc="'{0:,.2f}'.format(subs_tot)"/>
                                         </td>
                                         <td colspan="2"/>
                                     </tr>
@@ -196,7 +213,9 @@
                                         <td>VAT</td>
                                            
                                         <td style="text-align:right;">
-                                            <span t-field="doc.total_vat"/>
+                                            <!-- <span t-field="doc.total_vat"/> -->
+                                           
+                                            <t t-esc="'{0:,.2f}'.format(doc.total_vat)"/>
                                         </td>             
                                         <td colspan="2"/>
                                         <td rowspan="12">
@@ -210,18 +229,19 @@
                                         <td style="border-top: 2px solid black;"/>
                                         <td colspan="1"/>
                                         <td style="text-align:right;">
-                                            <span t-field="doc.total_statement_balance" t-esc-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/>
+                                            <span t-field="doc.amount_residual"/>
+                                            <!-- <span t-field="doc.total_statement_balance" t-esc-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/> -->
                                         </td>
                                               
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td colspan="3"/>
                                         <td style="border-top: 2px solid black;"/>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
                                         <th>TOTAL AMOUNT DUE:</th>
                                         <td colspan="2"/>
-                                        <td style="text-align:right;"><span t-field="doc.amount_residual"/></td>
+                                        <td style="text-align:right;"><span t-field="doc.total_statement_balance"/></td>
                                     </tr>
                                 </table>
                             </div>
@@ -237,7 +257,7 @@
                                     <tr>
                                         <td style="border: 1px solid black; text-align: left;">
                                             <p class="pl-10">
-                                                Thank you very much for settling your Streamtech monthly bill on time. We acknowledge your timely update, and would like you to know that this helps us at Streamtech to constantly provide you with quality internet service for your home. Should there be any billing discrepancies in your statement of account, kindly coordinate with our Billing Department within 15 days from statement date, or this statement of account would be considered accurate.
+                                                Thank you very much for settling your Streamtech monthly bill on time. We acknowledge your timely update, and would like you to know that this helps us at Streamtech to constantly provide you with quality internet service for your home. Please be reminded that any payments made on or after <span t-field="doc.posting_date"/> will be reflected on your next billing statement. Should there be any billing discrepancies in your statement of account, kindly coordinate with our Billing Department within 15 days from statement date, or this statement of account would be considered accurate.
                                             </p>
                                         </td>
                                     </tr>
@@ -346,7 +366,6 @@
                                         <td style="width:8%;">
                                         </td>
                                         <td style="width:30%; border-bottom: 2px solid black;text-align:center;">
-                                            01/01/2021 08:08:00
                                         </td>
                                         <td style="width:8%;">
                                         </td>

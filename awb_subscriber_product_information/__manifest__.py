@@ -28,6 +28,7 @@
     'data': [
         'data/crm_stage_data.xml',
         'data/product_data.xml',
+        'data/res_partner_sequence.xml',
         'security/ir.model.access.csv',
         'views/crm_view.xml',
         'views/partner_view.xml',

@@ -26,6 +26,7 @@
     'depends': ['sale_subscription', 'awb_subscriber_bill_automation'],
 
     'data': [
+        'data/product_data.xml',
         'views/sale_subscription_view.xml',
     ],
     # only loaded in demonstration mode

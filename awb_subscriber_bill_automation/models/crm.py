@@ -27,12 +27,21 @@ class CRMLead(models.Model):
         _logger.debug(f'Result {result}')
         return result
 
-    @api.onchange('stage_id')
+    def write(self, vals):
+        is_completed = self.env.ref('awb_subscriber_product_information.stage_completed')
+        res = super(CRMLead, self).write(vals)
+        if 'stage_id' in vals and vals["stage_id"] == is_completed.id:
+            self._onchange_bill_stage_id()
+        return res
+
     def _onchange_bill_stage_id(self):
         is_completed = self.env.ref('awb_subscriber_product_information.stage_completed')
         if self.stage_id.id == is_completed.id:
             if not self.zone:
                 raise UserError(_('Please specify zone.'))
+
+        if len(self.order_ids):
+            return
 
         if self.stage_id.is_auto_quotation:
             if self.subscription_status == 'new':
@@ -67,16 +76,19 @@ class CRMLead(models.Model):
                 lines.append((0, 0, data))
                 _logger.debug(f'Get Lines {lines}')
 
-                sale_order_id = self.env['sale.order'].create(data)
+                sale_order_id = self.sudo().env['sale.order'].create(data)
                 sale_order_id.action_confirm()
                 _logger.debug(f'Sale Order {sale_order_id}')
 
             elif self.subscription_status == 'disconnection' or self.subscription_status == 'pre-termination':
-                subscriber_id = self.env['sale.subscription'].search([('partner_id', '=', self.partner_id.id), (
+                subscriber_id = self.sudo().env['sale.subscription'].search([('partner_id', '=', self.partner_id.id), (
                     'account_identification', '=', self.account_identification), ('stage_id', '!=', self.env.ref(
                         'sale_subscription.sale_subscription_stage_closed').id)])
 
                 for subs in subscriber_id:
+                    if self.subscription_status == 'pre-termination':
+                        subs.recurring_invoice()
+
                     subs.update({'stage_id': self.env.ref('sale_subscription.sale_subscription_stage_closed').id,
                                  'subscription_status': self.subscription_status,
                                  })
@@ -84,7 +96,7 @@ class CRMLead(models.Model):
                 _logger.debug(f'Disconnect {subscriber_id}')
 
             elif self.subscription_status == 'reconnection':
-                subscriber_id = self.env['sale.subscription'].search([('partner_id', '=', self.partner_id.id), (
+                subscriber_id = self.sudo().env['sale.subscription'].search([('partner_id', '=', self.partner_id.id), (
                     'account_identification', '=', self.account_identification), ('stage_id', '=', self.env.ref(
                         'sale_subscription.sale_subscription_stage_closed').id)], order='date_start desc', limit=1)
 
@@ -93,10 +105,11 @@ class CRMLead(models.Model):
                                       })
                 _logger.debug(f'Reconnect {subscriber_id}')
 
-            elif self.subscription_status == 'upgrade' or self.subscription_status == 'convert' or self.subscription_status == 'downgrade':
-                subscriber_id = self.env['sale.subscription'].search([('partner_id', '=', self.partner_id.id), (
-                    'account_identification', '=', self.account_identification), ('stage_id', '!=', self.env.ref(
-                        'sale_subscription.sale_subscription_stage_closed').id)])
+            elif self.subscription_status in ('upgrade', 'convert', 'downgrade'):
+                domain = [('partner_id', '=', self.partner_id.id),
+                          ('account_identification', '=', self.account_identification),
+                          ('stage_id', '!=', self.env.ref('sale_subscription.sale_subscription_stage_closed').id)]
+                subscriber_id = self.sudo().env['sale.subscription'].search(domain)
 
                 product_lines = []
                 for line in self.product_lines:
@@ -113,5 +126,18 @@ class CRMLead(models.Model):
                     subs.prepare_renewal(
                         product_lines,  opportunity_id=self._origin.id)
 
-                    _logger.debug(f'Pro {self._origin.id}')
-                _logger.debug(f'Upgrade {subscriber_id}')
+    @api.model
+    def _action_complete_opportunity(self):
+        closed_won = self.env.ref('awb_subscriber_product_information.stage_lead4')
+        closed_lost = self.env.ref('awb_subscriber_product_information.stage_lead5')
+        completed = self.env.ref('awb_subscriber_product_information.stage_completed')
+
+        domain = [('stage_id', 'in', [closed_lost.id, closed_won.id])]
+        oppys = self.env['crm.lead'].search(domain)
+        _logger.debug(f'Oppys to complete: {len(oppys)}')
+        for oppy in oppys:
+            _logger.debug(f'Processing Oppy: {oppy}')
+            try:
+                oppy.stage_id = completed.id
+            except Exception as e:
+                _logger.info(f'Cannot complete oppy: {oppy} Err: {str(e)}')

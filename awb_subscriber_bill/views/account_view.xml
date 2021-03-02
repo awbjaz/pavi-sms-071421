@@ -9,8 +9,16 @@
                 <field name="atm_ref"/>
                 <field name="start_date" invisible="1"/>
                 <field name="end_date" invisible="1"/>
-                <field name="period_covered" widget="daterange" options="{'related_start_date': 'start_date', 'related_end_date': 'end_date'}"/>
-                <field name="total_statement_balance"/>
+                <label for="start_date" string="Period Covered"/>
+                <div class="o_row">
+                    <field name="start_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'end_date'}"/>
+                    <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                    <field name="end_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'start_date'}"/>
+                </div>
+
+
+                <field name="total_statement_balance" invisible="1"/>
+                <field name="total_prev_charges" invisible="1"/>
                 <field name="total_vat" invisible="1"/>
             </xpath>
             <xpath expr="//page[@name='other_info']" position="after">
@@ -23,6 +31,11 @@
                             <field name="amount"/>
                         </tree>
                     </field>
+                     <group class="oe_subtotal_footer" attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))]}">
+                        <field name="total_prev_charges" string="Previous Charges"/>
+                        <field name="amount_total" string="Current Charges"/>
+                        <field name="total_statement_balance" class="oe_subtotal_footer_separator"/>
+                    </group>
                 </page>
             </xpath>
         </field>

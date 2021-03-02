@@ -27,9 +27,10 @@
 
     'data': [
         'security/ir.model.access.csv',
+        'data/account_data.xml',
+        'views/account_view.xml',
         'views/subscriber_location_view.xml',
         'views/project_view.xml',
-        'views/city_view.xml',
         'views/sale_subscription_view.xml',
         'views/sale_view.xml',
     ],

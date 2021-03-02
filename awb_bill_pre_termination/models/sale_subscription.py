@@ -66,8 +66,10 @@ class SaleSubscription(models.Model):
 
     def recurring_invoice(self):
         if self.subscription_status == 'pre-termination':
+            termination_item = self.env.ref('awb_bill_pre_termination.product_termination_fee').product_variant_id
             invoice_data = []
             for record in self:
+                record.termination_item = termination_item.id
                 invoice_raw_data = {
                             'product_id': record.termination_item.id,
                             'price_unit': record.pre_termination_charge,

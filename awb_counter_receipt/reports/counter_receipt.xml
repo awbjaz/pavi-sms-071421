@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <template id="external_layout_pavi">
+        <div class="header" style="font-size:18px !important;">
+            <style>  
+                .font 
+                {  
+                    font-size: 14px;  
+                    font-family: 'monospace';
+                }
+            </style>
+            <div class="row">
+                <table style="width:100%;">
+                    <tr>
+                        <td style="width:45%; padding-top: 5px; padding-bottom: 5px; padding-left: 2px;">
+                            <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" alt="Logo" style="max-height: 120px;"/>
+                        </td>
+                        <td class="font" style="width:55%; padding-left: 2px;">
+                            <div style="text-align: right; line-height: 110%;">
+                                <!-- company -->
+                                <span style="font-weight:900; font-size:20px;" t-field="res_company.name"/> 
+                                <br/> 
+                                <span class="font-address">  <span t-field="res_company.street"/>,  <span t-field="res_company.street2"/><br/> 
+                                    <span t-field="res_company.city"/>,  <span t-field="res_company.state_id"/> </span>
+                                <br/> 
+                                <span class="font-address"> Hotlines: (02) 8808-2323|0919-057-8888 </span>
+                                <br/>
+                                <div class="font-address"> VAT Reg. TIN: <span t-field="res_company.vat"/> </div>
+                                
+                            </div>
+                            
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+        </div>
+
+        <div class="article o_report_layout_standard" style="font-size:16px !important;">
+            <t t-raw="0" />
+        </div>
+    </template>
+
+    <template id="counter_receipt">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="awb_counter_receipt.external_layout_pavi">
+                    <style>  
+                        .font 
+                        {  
+                            font-size: 14px;  
+                            font-family: 'monospace';
+                        }
+                    </style>
+                    <div class="page font">
+                        <br/>
+                        <br/>
+                        <div style="text-align: center;"><h3>COUNTER RECEIPT</h3></div>
+                        <table style="width: 100%;">
+                            <tr>
+                                <td style="width: 10%;">
+                                    <span>SUPPLIER:</span>
+                                </td>
+                                 <td style="width: 55%;">
+                                    <span t-field="doc.partner_id" t-options="{'widget': 'contact', 'fields': ['address', 'name'], 'no_marker': True}"/>
+                                </td>
+                                 <td style="width: 8%;">
+                                    <span></span>
+                                </td>
+                                 <td style="width: 27%; color: red;">
+                                    <span t-field="doc.counter_receipt_ref"/>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td >
+                                    <span>DATE:</span>
+                                </td>
+                                 <td>
+                                    <span>11/22/2020</span>
+                                </td>
+                                 <td>
+                                    <span>AREA:</span>
+                                </td>
+                                 <td>
+                                    <span>PLANET ANTIPOLO</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table class="table table-sm">
+                            <tr>
+                                <th>S.I Date</th>
+                                <th>Monthly Due Date</th>
+                                <th>S.I. No.</th>
+                                <th>D.R. No.</th>
+                                <th>MRR No.</th>
+                                <th>P.O No.</th>
+                                <th>Amount</th>
+                                
+                            </tr>
+                            <tr>
+                          
+                              
+                                <t t-if="doc.invoice_ids">
+                                    <t t-foreach="doc.invoice_ids" t-as="line">
+                                        <td><span t-field="line.invoice_date"/> </td>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <td></td>
+                                </t>
+                                <t t-if="doc.invoice_ids">
+                                    <t t-foreach="doc.invoice_ids" t-as="line">
+                                        <td><span t-field="line.invoice_date_due"/> </td>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <td></td>
+                                </t>
+                                <t t-if="doc.picking_ids">
+                                    <t t-foreach="doc.picking_ids" t-as="line">
+                                        <td><span t-esc="line.si_num"/> </td>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <td></td>
+                                </t>
+
+                                <t t-if="doc.picking_ids">
+                                    <t t-foreach="doc.picking_ids" t-as="line">
+                                        <td><span t-esc="line.dr_num"/> </td>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <td></td>
+                                </t>
+                               
+                                <t t-if="doc.picking_ids">
+                                    <t t-foreach="doc.picking_ids" t-as="line">
+                                        <td><span t-esc="line.mrr_num"/> </td>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <td></td>
+                                </t>
+                                
+                                <td><span t-field="doc.name"/></td>
+                                <td><span t-field="doc.total_amount_vendor_bills"/></td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table style="width: 100%">
+                            <tr>
+                                <td style="width: 15%">Due Date:</td>
+                                <td style="width: 50%"><span t-field="doc.payment_term_id.name"/></td>
+                                <td style="width: 15%">TOTAL:</td>
+                                <td style="width: 20%"><span t-field="doc.total_amount_vendor_bills"/></td>
+                            </tr>
+                        </table>
+                        <br/>
+
+                        <div>
+                            <p>Please keep your counter receipt copy. This will be surrendered upon collecting check payments.<br/>
+                            To follow up your  check, please call : Mr. Patrick Rufo at telephone no. 873-7958.</p>
+                        </div>
+                        <br/><br/>
+
+
+                        <div class="row">
+                            <table style="width: 100%">
+                            <tr>
+                                <td style="width:40%; border-bottom: 2px solid black;text-align:center;">
+                                    <span t-field="doc.user_id.name"/>
+                                </td>
+                                <td style="width: 20%"></td>
+                                <td style="width:40%; border-bottom: 2px solid black;text-align:center;">
+                                    <span t-field="doc.partner_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">
+                                    Authorized Signature
+                                </td>
+                                <td></td>
+                                <td style="text-align: center;">
+                                    Suppliers Conformity
+                                </td>
+                            </tr>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>    
+        </t>
+    </template>
+    </data>
+</odoo>

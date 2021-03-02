@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import fields, models, _
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 import logging
 
@@ -78,3 +78,15 @@ class CRMLead(models.Model):
         write_result = super(CRMLead, self).write(vals)
 
         return write_result
+
+    @api.onchange('zone')
+    def _onchange_zone(self):
+        _logger.debug(f'Change Zone: {self.zone}')
+        if self.partner_id:
+            self.partner_id.subscriber_location_id = self.zone.id
+
+    @api.onchange('partner_id')
+    def _onchange_partner(self):
+        _logger.debug(f'Change Partner: {self.partner_id}')
+        if self.partner_id and self.partner_id.subscriber_location_id:
+            self.zone = self.partner_id.subscriber_location_id.id

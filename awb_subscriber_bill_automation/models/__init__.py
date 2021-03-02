@@ -7,4 +7,5 @@
 
 from . import crm
 from . import sale
+from . import subscription_template
 from . import subscription
