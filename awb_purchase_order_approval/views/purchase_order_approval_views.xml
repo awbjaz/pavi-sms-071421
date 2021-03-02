@@ -38,7 +38,7 @@
                         <field name="approver_ids">
                             <tree editable="bottom">
                                 <field name="sequence" widget="handle"/>
-                                <field name="approval_condition" widget="radio" options="{'horizontal': true}"/>
+                                <field name="approval_condition" required="1"/>
                                 <field name="approved_by" widget="many2many_tags" options="{'no_create_edit': True}"/>
                             </tree>
                         </field>
