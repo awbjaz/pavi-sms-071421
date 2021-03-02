@@ -94,7 +94,7 @@ class PurchaseOrder(models.Model):
         for approval in self.approval_lines:
             approver = approval.approver_id.id
             if approver == self.env.user.id:
-                approval.state = 'rejected'
+                approval.sudo().update({'state': 'rejected'})
         self.sudo().update({'state': 'draft'})
 
     @api.depends('state')

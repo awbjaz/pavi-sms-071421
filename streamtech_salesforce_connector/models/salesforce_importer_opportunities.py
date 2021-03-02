@@ -416,6 +416,8 @@ class SalesForceImporterOpportunities(models.Model):
         else:
             lead_partner = self.env['res.partner'].create(data)
 
+        lead_partner.action_assign_customer_id()
+
         return lead_partner
 
     def _create_lead_product_data(self, opportunity, products):

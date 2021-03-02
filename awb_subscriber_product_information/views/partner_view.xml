@@ -31,6 +31,11 @@
                     <field name="customer_rank" invisible="1"/>
                     <group>
                         <group>
+                            <field name="customer_number"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
                             <field name="account_classification" widget="radio" options="{'horizontal': True}" attrs="{'invisible': [('is_company', '=', False)]}"/>
                             <field name="account_subclassification" attrs="{'invisible': [('is_company', '=', False)]}"/>
                             <field name="account_group" widget="radio" options="{'horizontal': True}" attrs="{'invisible': [('is_company', '=', True)]}"/>
@@ -49,6 +54,17 @@
                 </page>
             </xpath>
     
+        </field>
+    </record>
+
+    <record model="ir.actions.server" id="action_account_reports_customer_generate_number">
+        <field name="name">Generate Customer Number</field>
+        <field name="model_id" ref="model_res_partner"/>
+        <field name="binding_model_id" ref="model_res_partner" />
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                action = records.action_assign_customer_id()
         </field>
     </record>
 

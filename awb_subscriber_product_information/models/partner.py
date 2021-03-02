@@ -34,6 +34,7 @@ class PartnerServiceProvider(models.Model):
 class Partner(models.Model):
     _inherit = "res.partner"
 
+    customer_number = fields.Char(string='Customer ID')
     last_name = fields.Char(string="Last Name")
     first_name = fields.Char(string="First Name")
     middle_name = fields.Char(string="Middle Name")
@@ -85,6 +86,12 @@ class Partner(models.Model):
             vals.update({'name': name})
 
         self.write(vals)
+
+    def action_assign_customer_id(self):
+        for rec in self:
+            if rec.customer_rank > 0 and not rec.customer_number:
+                cust_no = rec.env['ir.sequence'].next_by_code('subscriber.customer.id')
+                rec.update({'customer_number': cust_no})
 
     def _compute_age(self):
         age = 0
