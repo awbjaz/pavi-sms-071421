@@ -6,7 +6,7 @@
 ##############################################################################
 
 from odoo import api, fields, models, _
-from datetime import datetime
+from datetime import datetime, date
 
 import logging
 
@@ -17,7 +17,8 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     statement_line_ids = fields.One2many('account.statement.line', 'move_id', string="Statement Line")
-    atm_ref = fields.Char(string="ATM Reference", compute="_compute_atm_ref", stored=True)
+    atm_ref = fields.Char(string="ATM Reference", compute="_compute_atm_reference_number", stored=True)
+    atm_ref_sequence = fields.Char(string="ATM Reference Sequence", stored=True)
     start_date = fields.Date(string="Start Date")
     end_date = fields.Date(string="End Date")
     period_covered = fields.Date(string="Period Covered")
@@ -46,25 +47,23 @@ class AccountMove(models.Model):
             prev_received = sum(rec.statement_line_ids.filtered(lambda r: r.statement_type == 'payment').mapped('amount'))
             rec.total_prev_charges = prev_balance + prev_received
 
-    @api.depends('invoice_date_due')
-    def _compute_atm_ref(self):
+    @api.model
+    def create(self, vals):
+        vals['atm_ref_sequence'] = self.env['ir.sequence'].next_by_code('account_move.atm.reference.seq.code')
+        res = super(AccountMove, self).create(vals)
+        return res
+
+    @api.depends("atm_ref_sequence")
+    def _compute_atm_reference_number(self):
         for rec in self:
-            code = ''
-            if rec.partner_id.subscriber_location_id.code:
-                code = rec.partner_id.subscriber_location_id.code + '-'
-
-            if rec.invoice_date_due:
-                ref_date = '-' + rec.invoice_date_due.strftime('%m%d')
-            else:
-                ref_date = ''
-
-            _logger.debug(f'ID: {rec.id}')
-            if rec.id:
-                id = f'{rec.id:06}'
-            else:
-                id = f'{self._origin.id:06}'
-
-            rec.atm_ref = f'{code}{id}{ref_date}'
+            rec.atm_ref = ''
+            if rec.atm_ref_sequence:
+                today = date.today()
+                year = str(today.year)[2:4]
+                sequence = rec.atm_ref_sequence
+                company_code = rec.company_id.zone_code
+                value = f'{year}-{company_code}-{sequence}-1231'
+                rec.atm_ref = value
 
     def action_cron_generate(self):
         records = self.env['account.move'].search(

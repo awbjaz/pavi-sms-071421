@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='currency_id']" position="after">
                 <field name="atm_ref"/>
+                <field name="atm_ref_sequence" invisible="1"/>
                 <field name="start_date" invisible="1"/>
                 <field name="end_date" invisible="1"/>
                 <label for="start_date" string="Period Covered"/>

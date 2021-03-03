@@ -12,3 +12,4 @@ class Company(models.Model):
     _inherit = "res.company"
 
     soa_logo = fields.Binary(string="SOA Logo")
+    zone_code = fields.Char(string="Code")
