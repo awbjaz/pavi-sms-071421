@@ -5,7 +5,7 @@
 #
 ##############################################################################
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from datetime import datetime
 
 import logging
@@ -153,6 +153,12 @@ class AccountMove(models.Model):
             rec.update({'statement_line_ids': None})
             rec.update({'statement_line_ids': lines})
 
+    def export_printer_data_file(self):
+        url = "/print/custom/sales_invoice/%s" % self.id
+        return {
+            "url": url,
+            "type": "ir.actions.act_url"
+        }
 
 class AccountStatementLine(models.Model):
     _name = "account.statement.line"
