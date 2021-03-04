@@ -10,8 +10,9 @@ from datetime import datetime, date
 
 import logging
 
-_logger = logging.getLogger(__name__)
+from ..helpers.printer_data_util import PrinterDataUtil
 
+_logger = logging.getLogger(__name__)
 
 class AccountMove(models.Model):
     _inherit = "account.move"
@@ -154,6 +155,19 @@ class AccountMove(models.Model):
 
     def export_printer_data_file(self):
         url = "/print/custom/sales_invoice/%s" % self.id
+        return {
+            "url": url,
+            "type": "ir.actions.act_url"
+        }
+
+    def export_printer_data_file_from_many(self, account_ids):
+        _logger.error(f'export_printer_data_file_from_many {account_ids}')
+
+        # records = self.env['account.move'].search([('id', 'in', account_ids)])
+        # return PrinterDataUtil.generate_data_file(records)
+        
+        string_ids = [str(int) for int in account_ids]
+        url = "/print/custom/sales_invoice/%s" % '-'.join(string_ids)
         return {
             "url": url,
             "type": "ir.actions.act_url"

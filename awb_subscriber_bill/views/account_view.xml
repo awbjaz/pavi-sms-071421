@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+<!--     <act_window id="action_export_printer_agency_format"
+        name="Export to Printer Agency Data File"
+        src_model="account.move"
+        res_model="wizard model"
+        view_type="form" view_mode="form"
+        key2="client_action_multi" target="new"
+    />
+ -->
+
+
+<!--
+    <record id="account.invoice.tree_ext" model="ir.ui.view">
+        <field name="name">view.account.form.ext2</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+           <button name="action_move_switch_invoice_to_credit_note" position="after">
+            <button name="button_draft" position="after">
+            <button name="export_printer_agency_format" string="Export to Printer Agency Data File" type="object"/>
+          </button>
+        </field>
+    </record>
+-->
     <record id="view_account_form_ext" model="ir.ui.view">
         <field name="name">view.account.form.ext</field>
         <field name="model">account.move</field>
@@ -41,4 +65,28 @@
             </xpath>
         </field>
     </record>
+
+<!--
+    <act_window id="id_for_record"
+        name="Test"
+        src_model="account.invoice.tree"
+        res_model="model_b"
+        view_type="form" view_mode="form"
+        key2="client_action_multi" target="new"/>
+
+    <record id="wizard_view" model="ir.ui.view">
+        <field name="name">Test</field>
+        <field name="model">model_b</field>
+        <field name="arch" type="xml">
+            <form string="Test">
+                # Define the View
+                <footer>
+                    <button string="Apply" name="action_apply" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+-->
+
 </odoo>

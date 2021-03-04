@@ -29,14 +29,14 @@
         'security/ir.model.access.csv',
         'data/account_move_atm_ref_sequence.xml',
         'data/account_data.xml',
-        'views/assets.xml',
+        # 'views/assets.xml',
         'views/account_view.xml',
         'views/account_printer_data.xml',
         'views/company_view.xml',
         'report/statement_of_account_report.xml',
     ],
     'qweb': [
-        'static/src/xml/account_invoice_tree_header.xml'
+        # 'static/src/xml/account_invoice_tree_header.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
