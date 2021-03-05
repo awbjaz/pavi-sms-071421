@@ -19,6 +19,7 @@ class Purchase(models.Model):
         string='Counter Receipt Reference')
     counter_receipt_date = fields.Date(
         string="Counter Receipt Date")
+    follow_up_to = fields.Many2one('res.partner', string="Follow Up to")
 
     total_amount_vendor_bills = fields.Monetary(
         string="Total Amount of Vendor Bills", compute='_compute_amount_bills')

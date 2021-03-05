@@ -162,7 +162,7 @@
 
                         <div>
                             <p>Please keep your counter receipt copy. This will be surrendered upon collecting check payments.<br/>
-                            To follow up your  check, please call : Mr. Patrick Rufo at telephone no. 873-7958.</p>
+                            To follow up your  check, please call : <span t-field="doc.follow_up_to"/> at <span t-field="doc.follow_up_to.mobile"/>.</p>
                         </div>
                         <br/><br/>
 

@@ -102,34 +102,42 @@ class SaleSubscription(models.Model):
             _logger.debug(f'Line: {line}')
             product = self.env['product.product'].browse(line['product_id'])
             _logger.debug(f'Prod ID temp {product.product_tmpl_id.id}')
-            if product.product_tmpl_id.id == device_id:
-                data = {
-                    'name': line['name'],
-                    'statement_type': 'device_fee',
-                    'amount': line['price_unit'],
-                }
-                lines.append((0, 0, data))
-            else:
-                data = {
-                    'name': line['name'],
-                    'statement_type': 'subs_fee',
-                    'amount': line['price_unit'],
-                }
-                lines.append((0, 0, data))
-            
+
             total_vat = 0.0
             for taxes in line['tax_ids']: 
                 vat = taxes[2]
                 args = [('id', 'in', vat)]
                 tax = self.env['account.tax'].search(args)
-                total_price_unit = line['price_unit'] * line['quantity']
-                total_vat += total_price_unit * tax.amount / 100
-                _logger.debug(f'INVOICE: {tax}')
-                _logger.debug(f'INVOICE: {vat}')
+                total_price_unit = line['price_unit'] * line['quantity'] #1999
+                tot_vat = 0.0
+                for t in tax:
+                    total_price_unit = total_price_unit - tot_vat
+                    #tax exclusive
+                    # total_vat += total_price_unit * tax.amount / 100
+                    #tax inclusive
+                    tot_vat += (total_price_unit / ((100 + t.amount) / 100)) * (t.amount/100)
+                total_vat += tot_vat
 
-        data = {'name': "Value Added Tax", 'statement_type': 'vat'}
-        data['amount'] = total_vat
-        lines.append((0, 0, data))
+            if product.product_tmpl_id.id == device_id:
+                data = {
+                    'name': line['name'],
+                    'statement_type': 'device_fee',
+                    'amount': line['price_unit'] - total_vat,
+                }
+                lines.append((0, 0, data))
+            else:
+
+                data = {
+                    'name': line['name'],
+                    'statement_type': 'subs_fee',
+                    'amount': line['price_unit'] - total_vat,
+                }
+                lines.append((0, 0, data))
+            
+
+            data = {'name': "Value Added Tax", 'statement_type': 'vat'}
+            data['amount'] = total_vat
+            lines.append((0, 0, data))
 
         # invoice previous bill and payment
         args = [('partner_id', '=', invoice['partner_id']),
