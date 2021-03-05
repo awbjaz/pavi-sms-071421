@@ -12,7 +12,7 @@ class PurchaseOrder(models.Model):
 
     state = fields.Selection(selection_add=[('for_approval', 'For Approval')])
     requested_by = fields.Many2one('res.partner', default=lambda self: self.env.user.id, required=True)
-    reviewed_by = fields.Many2one('res.partner', required=True)
+    reviewed_by = fields.Many2one('res.partner')
     approval_lines = fields.One2many('purchase.order.approval.line', 'order_id',
                                      string='Approval Lines', tracking=True, copy=True)
     can_approve = fields.Boolean(compute='_compute_can_approve', default=False)
@@ -87,7 +87,7 @@ class PurchaseOrder(models.Model):
 
         if is_validate:
             self.state = 'sent'
-            self.reviewed_by = self.env.user.id
+            self.reviewed_by = self.env.user.partner_id.id
             self.button_confirm()
 
     def action_reject(self):
