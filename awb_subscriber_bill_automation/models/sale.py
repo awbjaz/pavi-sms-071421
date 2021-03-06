@@ -63,3 +63,26 @@ class SaleOrder(models.Model):
         if self.env.user.has_group('sale.group_auto_done_setting'):
             self.action_done()
         return True
+
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+    date_start = fields.Date(string='Start Date', default=fields.Date.today)
+    date_end = fields.Date(string='End Date')
+
+    def _prepare_subscription_line_data(self):
+        """Prepare a dictionnary of values to add lines to a subscription."""
+        values = list()
+        for line in self:
+            values.append((0, False, {
+                'product_id': line.product_id.id,
+                'name': line.name,
+                'quantity': line.product_uom_qty,
+                'uom_id': line.product_uom.id,
+                'price_unit': line.price_unit,
+                'discount': line.discount if line.order_id.subscription_management != 'upsell' else False,
+                'date_start': line.date_start,
+                'date_end': line.date_end
+            }))
+        return values

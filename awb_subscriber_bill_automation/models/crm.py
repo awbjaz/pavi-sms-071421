@@ -47,11 +47,14 @@ class CRMLead(models.Model):
             if self.subscription_status == 'new':
                 product_lines = []
                 for line in self.product_lines:
+                    # By Default all product lines does not expire
                     data = {
                         'product_id': line.product_id.product_variant_id.id,
                         'name': line.product_id.name,
                         'product_uom_qty': line.quantity,
                         'price_unit': line.unit_price,
+                        # 'date_start': self.contract_start_date,
+                        # 'date_end': self.contract_end_date
                     }
                     product_lines.append((0, 0, data))
 

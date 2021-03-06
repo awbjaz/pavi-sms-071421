@@ -58,23 +58,26 @@ class SaleSubscription(models.Model):
 
     def _prepare_invoice_line(self, line, fiscal_position, date_start=False, date_stop=False):
         res = super(SaleSubscription, self)._prepare_invoice_line(line, fiscal_position, date_start, date_stop)
-        diff = date_stop - self.date_start
-        days = diff.days
-        month_factor = 31
-        new_amount = 0
-        if days < month_factor:
-            original_amount = res['price_unit']
-            rate = original_amount * 12 / 365
-            new_amount = rate * days
-            res['price_unit'] = new_amount
-            res['name'] += f' ({days} days)'
-        _logger.debug(f'Prorate: {diff} = {new_amount} {line} {fiscal_position} {date_start} {date_stop}')
+        if line.date_start or line.date_end:
+            diff = date_stop - line.date_start
+            days = diff.days
+            month_factor = 31
+            new_amount = 0
+            if days < month_factor:
+                original_amount = res['price_unit']
+                rate = original_amount * 12 / 365
+                new_amount = rate * days
+                res['price_unit'] = new_amount
+                res['name'] += f' ({days} days)'
+            _logger.debug(f'Prorate: {diff} = {new_amount} {line} {fiscal_position} {date_start} {date_stop}')
         # if self.subscription_status == 'new' and diff.days < 31:
         return res
 
     def _prepare_invoice_lines(self, fiscal_position):
         self.ensure_one()
-        due_day = self.subscriber_location_id.billing_due_day
+        if not self.subscriber_location_id.cutoff_day:
+            raise UserError('No Zone is assigned to subscriber location. Please assign a zone on subscriber record.')
+        cutoff_day = self.subscriber_location_id.cutoff_day
         next_date = self.recurring_next_date
 
         if not next_date:
@@ -85,12 +88,22 @@ class SaleSubscription(models.Model):
         interval = self.recurring_interval
 
         next_date = next_date - relativedelta(**{interval_type: interval*2})
-        _logger.debug(f'Compute next date: Next {next_date}, due_day: {due_day}')
-        recurring_start_date = self._get_recurring_next_date(self.recurring_rule_type, interval, next_date, due_day)
+        _logger.debug(f'Compute next date: Next {next_date}, due_day: {cutoff_day}')
+        recurring_start_date = self._get_recurring_next_date(self.recurring_rule_type, interval, next_date, cutoff_day)
         revenue_date_start = fields.Date.from_string(recurring_start_date+relativedelta(days=1))
-        recurring_next_date = self._get_recurring_next_date(self.recurring_rule_type, interval, revenue_date_start, due_day)
+        _logger.debug('Dates: Next Date: {next_date} Start Day: {revenue_date_start}')
+        recurring_next_date = self._get_recurring_next_date(self.recurring_rule_type, interval, revenue_date_start, cutoff_day)
         revenue_date_stop = fields.Date.from_string(recurring_next_date)
-        return [(0, 0, self._prepare_invoice_line(line, fiscal_position, revenue_date_start, revenue_date_stop)) for line in self.recurring_invoice_line_ids]
+        invoice_lines = []
+        for line in self.recurring_invoice_line_ids:
+            starts_within = not line.date_start or (line.date_start and line.date_start < revenue_date_stop)
+            ends_within = not line.date_end or (line.date_end and line.date_end > revenue_date_start)
+            _logger.debug(f'Check Invoice line dates: {starts_within} {line.date_start} {revenue_date_stop}')
+            _logger.debug(f'Check Invoice line dates: {ends_within} {line.date_end} {revenue_date_start}')
+            if starts_within and ends_within:
+                val = self._prepare_invoice_line(line, fiscal_position, revenue_date_start, revenue_date_stop)
+                invoice_lines.append((0, 0, val))
+        return invoice_lines
 
     def _prepare_invoice_statement(self, invoice):
         self.ensure_one()
@@ -104,17 +117,17 @@ class SaleSubscription(models.Model):
             _logger.debug(f'Prod ID temp {product.product_tmpl_id.id}')
 
             total_vat = 0.0
-            for taxes in line['tax_ids']: 
+            for taxes in line['tax_ids']:
                 vat = taxes[2]
                 args = [('id', 'in', vat)]
                 tax = self.env['account.tax'].search(args)
-                total_price_unit = line['price_unit'] * line['quantity'] #1999
+                total_price_unit = line['price_unit'] * line['quantity'] # 1999
                 tot_vat = 0.0
                 for t in tax:
                     total_price_unit = total_price_unit - tot_vat
-                    #tax exclusive
+                    # tax exclusive
                     # total_vat += total_price_unit * tax.amount / 100
-                    #tax inclusive
+                    # tax inclusive
                     tot_vat += (total_price_unit / ((100 + t.amount) / 100)) * (t.amount/100)
                 total_vat += tot_vat
 
@@ -133,7 +146,6 @@ class SaleSubscription(models.Model):
                     'amount': line['price_unit'] - total_vat,
                 }
                 lines.append((0, 0, data))
-            
 
             data = {'name': "Value Added Tax", 'statement_type': 'vat'}
             data['amount'] = total_vat
@@ -156,7 +168,7 @@ class SaleSubscription(models.Model):
             for inv in invoice_id:
                 prev_bill += inv.amount_total
                 prev_payment += inv.amount_total - inv.amount_residual
-            
+
             prev_bill = {
                 'name': 'Previous Bill balance',
                 'statement_type': 'prev_bill',
@@ -201,3 +213,10 @@ class SaleSubscription(models.Model):
                 periods[self.recurring_rule_type]: contract_term * self.template_id.recurring_interval})
         else:
             self.date = False
+
+
+class SaleSubscriptionLine(models.Model):
+    _inherit = "sale.subscription.line"
+
+    date_start = fields.Date(string='Start Date', default=fields.Date.today)
+    date_end = fields.Date(string='End Date')
