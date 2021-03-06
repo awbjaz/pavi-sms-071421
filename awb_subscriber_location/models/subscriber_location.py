@@ -19,6 +19,7 @@ class SubscriberLocation(models.Model):
 
     name = fields.Char(string="Location Name", required=True, tracking=True)
     code = fields.Char(string="Code", tracking=True)
+    company_id = fields.Many2one('res.company', string="Company", tracking=True)
     billing_day = fields.Integer(string="Billing Day", tracking=True)
     posting_day = fields.Integer(string="Posting Day", tracking=True)
     cutoff_day = fields.Integer(string="Cut Off Day", tracking=True)
