@@ -23,6 +23,8 @@ class SaleSubscription(models.Model):
 
     def _prepare_invoice_data(self):
         res = super(SaleSubscription, self)._prepare_invoice_data()
+        if not self.subscriber_location_id:
+            raise UserError(_('No Zone assigned to subscriber. Please update subscriber record.'))
         cutoff_day = self.subscriber_location_id.cutoff_day
         due_day = self.subscriber_location_id.billing_due_day
         posting_day = self.subscriber_location_id.posting_day
@@ -37,7 +39,7 @@ class SaleSubscription(models.Model):
 
         next_date = next_date - relativedelta(**{interval_type: interval*2})
         _logger.debug(f'Compute next date: Next {next_date}, due_day: {due_day}')
-        recurring_start_date = self._get_recurring_next_date(self.recurring_rule_type, interval, next_date, due_day)
+        recurring_start_date = self._get_recurring_next_date(self.recurring_rule_type, interval, next_date, cutoff_day)
         start_date = fields.Date.from_string(recurring_start_date+relativedelta(days=1))
         recurring_next_date = self._get_recurring_next_date(self.recurring_rule_type, interval, start_date, cutoff_day)
         end_date = fields.Date.from_string(recurring_next_date)

@@ -7,18 +7,23 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
                 <page string="Others">
-                <group col="6">
-                    <group colspan="2">
-                    <div>
-                        <label for="soa_log" string="SOA Logo:" style="font-weight: bold;"/>
-                        <field name="soa_logo" widget="image" class="oe_avatar"/>
-                    </div>
+                    <group>
+                        <group>
+                            <field name="zone_code"/>
+                        </group>
                     </group>
+                    <group col="6">
+                        <group colspan="2">
+                            <div>
+                                <label for="soa_log" string="SOA Logo:" style="font-weight: bold;"/>
+                                <field name="soa_logo" widget="image" class="oe_avatar"/>
+                            </div>
+                        </group>
 
-                    <group cols="4">
+                        <group cols="4">
+                        </group>
+                        
                     </group>
-                    
-                </group>
                 </page>
             </xpath>
             

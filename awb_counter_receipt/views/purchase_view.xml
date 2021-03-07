@@ -6,9 +6,16 @@
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="counter_receipt_ref" readonly="1"/>
-                <field name="counter_receipt_date"/>
+                <field name="counter_receipt_ref" readonly="1" attrs="{'invisible': [('state', 'in', ('draft', 'sent'))]}"/>
+                <field name="counter_receipt_date"  attrs="{'invisible': [('state', 'in', ('draft', 'sent'))]}"/>
+                <field name="follow_up_to" attrs="{'invisible': [('state', 'in', ('draft', 'sent'))]}"/>
                 <field name="total_amount_vendor_bills" invisible="1"/>
+               
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="replace">
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="payment_term_id" options="{'no_create': True}"/>
             </xpath>
         </field>
     </record>

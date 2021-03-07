@@ -20,9 +20,9 @@
                                                 <span style="font-weight:900; font-size:20px;" t-field="doc.company_id.name"/> 
                                                 <br/> 
                                                 <span class="font-address">  <span t-field="doc.company_id.street"/>,  <span t-field="doc.company_id.street2"/><br/> 
-                                                 <span t-field="doc.company_id.city"/>,  <span t-field="doc.company_id.state_id"/> </span>
+                                                 <span t-field="doc.company_id.city"/>,  <span t-field="doc.company_id.state_id"/>  <span t-field="doc.company_id.zip"/> </span>
                                                 <br/> 
-                                                <span class="font-address"> Hotlines: (02) 8808-2323|0919-057-8888 </span>
+                                                <span class="font-address"> Hotlines: (02) 8808-2323 | 0919-057-8888 </span>
                                                 <br/>
                                                 <div class="font-address"> VAT Reg. TIN: <span t-field="doc.company_id.vat"/> </div>
                                                
