@@ -68,7 +68,7 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    date_start = fields.Date(string='Start Date', default=fields.Date.today)
+    date_start = fields.Date(string='Start Date')
     date_end = fields.Date(string='End Date')
 
     def _prepare_subscription_line_data(self):
