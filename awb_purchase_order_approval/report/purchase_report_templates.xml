@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="contact" inherit_id="base.contact">
+        <xpath expr="//address" position="replace">
+            <div t-if="not (('name' in fields) or (address and 'address' in fields) or (city and 'city' in fields) or (mobile and 'mobile' in fields) or (website and 'website' in fields) or (email and 'email' in fields))" class="css_non_editable_mode_hidden">
+                --<span class="text-muted" t-esc="name"/>--
+            </div>
+            <t t-if="object.country_id.name_position != 'after'">
+                <t t-call="base.contact_name"/>
+            </t>
+            <div itemprop="address" itemscope="itemscope" itemtype="http://schema.org/PostalAddress">
+                <div t-if="address and 'address' in fields" class="d-flex align-items-baseline">
+                    <i t-if="not options.get('no_marker')" class="fa fa-map-marker fa-fw" role="img" aria-label="Address" title="Address"/>
+
+                    <span itemprop="streetAddress" t-raw="address"/>
+<!-- 
+                    <div class="w-100" itemprop="streetAddress" t-raw="address.replace('\n', options.get('no_tag_br') and ', ' or ('&lt;br/&gt;%s' % ('' if options.get('no_marker') else '')))"/>
+ -->                    
+                </div>
+                <div t-if="city and 'city' in fields" class="d-flex align-items-baseline">
+                    <i t-if="not options.get('no_marker')" class="fa fa-map-marker fa-fw" role="img" aria-label="Address" title="Address"/>
+                    <div>
+                        <span itemprop="addressLocality" t-esc="city"/>,
+                        <span itemprop="addressCountry" t-esc="country_id"/>
+                    </div>
+                </div>
+                <div t-if="phone and 'phone' in fields"><i t-if="not options.get('no_marker') or options.get('phone_icons')" class='fa fa-phone fa-fw' role="img" aria-label="Phone" title="Phone"/> <span class="o_force_ltr" itemprop="telephone" t-esc="phone"/></div>
+                <div t-if="mobile and 'mobile' in fields"><i t-if="not options.get('no_marker') or options.get('phone_icons')" class='fa fa-mobile fa-fw' role="img" aria-label="Mobile" title="Mobile"/> <span class="o_force_ltr" itemprop="telephone" t-esc="mobile"/></div>
+                <div t-if="fax and 'fax' in fields"><i t-if="not options.get('no_marker') or options.get('phone_icons')" class='fa fa-fax fa-fw' role="img" aria-label="Fax" title="Fax"/> <span class="o_force_ltr" itemprop="faxNumber" t-esc="fax"/></div>
+                <div t-if="website and 'website' in fields">
+                    <i t-if="not options.get('no_marker')" class='fa fa-globe' role="img" aria-label="Website" title="Website"/>
+                    <a t-att-href="website and '%s%s' % ('http://' if '://' not in website else '',website)"><span itemprop="website" t-esc="website"/></a>
+                </div>
+                <div t-if="email and 'email' in fields"><i t-if="not options.get('no_marker')" class='fa fa-envelope fa-fw' role="img" aria-label="Email" title="Email"/> <span itemprop="email" t-esc="email"/></div>
+            </div>
+            <t t-if="object.country_id and object.country_id.name_position == 'after'">
+                <t t-call="base.contact_name"/>
+            </t>
+       </xpath>
+    </template>
+
+<!-- 
+    <template id="report_purchaseorder_document" inherit_id="purchase.report_purchaseorder_document">
+        <xpath expr="//t[@t-set='address']" position="replace">
+            <div t-field="o.partner_id"
+            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True, "horizontal": 1}' />
+            <p t-if="o.partner_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></p>
+        </xpath>
+    </template>
+ -->
+
+    <template id="report_purchaseorder_document" inherit_id="purchase.report_purchaseorder_document">
+        <xpath expr="//div[@id='informations']" position="inside">
+            <div class="col-3 bm-2">
+                <strong>Requested By:</strong>
+                <p t-field="o.requested_by" class="m-0"/>
+            </div>
+            <div class="col-3 bm-2">
+                <strong>Payment Terms:</strong>
+                <p t-field="o.payment_term_id.name" class="m-0"/>
+            </div>
+            <div class="col-3 bm-2">
+                <strong>Receipt Date:</strong>
+                <p t-field="o.date_planned" class="m-0"/>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="external_layout_standard" inherit_id="web.external_layout_standard">
+        <xpath expr="//img[@t-if='company.logo']" position="replace">
+            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 120px; padding-bottom: 0px; margin-bottom: 0px" alt="Logo"/>
+        </xpath>
+<!-- 
+        <xpath expr="//div[@name='company_address']" position="replace">
+            <div style="border-bottom: 0px solid black;"/>
+        </xpath>
+ -->
+    </template>
+
+  
+<!-- 
+    <template id="contact" inherit_id="base.contact">
+        <xpath expr="//address/div" position="after">
+            <div t-if="object.my_field and 'my_field' in fields" 
+                class='css_editable_mode_hidden'>
+                <div itemprop="my_field" t-esc="object.my_field" 
+                    style="margin-top:4px;margin-bottom:4px;font-size:10px;"/>
+            </div>
+       </xpath>
+    </template>
+ -->
+</odoo>

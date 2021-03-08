@@ -16,11 +16,12 @@
     'website': "http://www.achievewithoutborders.com",
     'category': "Operations/Purchase",
     'version': '13.0.1.0.0',
-    'depends': ['purchase'],
+    'depends': ['web', 'purchase'],
     'data': [
         'security/ir.model.access.csv',
         'views/purchase_order_approval_views.xml',
-        'views/purchase_views.xml'
+        'views/purchase_views.xml',
+        'report/purchase_report_templates.xml'
     ],
     'installable': True,
     'application': False,
