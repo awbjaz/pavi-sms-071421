@@ -73,7 +73,7 @@
         'views/ks_dashboard_ninja_view.xml',
         'views/ks_dashboard_ninja_item_view.xml',
         'views/ks_dashboard_ninja_assets.xml',
-        'views/ks_dashboard_actions.xml',
+        'views/ks_dashboard_action.xml',
     ],
 
     'qweb': [
