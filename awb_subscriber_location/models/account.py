@@ -26,4 +26,5 @@ class AccountMove(models.Model):
         _logger.debug(f'Record {moves}')
 
         for rec in moves:
+            rec.action_approve()
             rec.action_post()
