@@ -55,12 +55,14 @@
                                     </tr>
                                     <tr style="height:15px;">
                                         <!-- account -->
-                                        <t t-set="acc_num" t-value="0"/>
+                                        <t t-set="acc_num" t-value="doc.partner_id.customer_number"/>
+<!-- 
                                         <t t-foreach="doc.invoice_line_ids" t-as="line">
                                             <t t-if="line.subscription_id">
                                                 <t t-set="acc_num" t-value="line.subscription_id.account_identification"/> 
                                             </t>
                                         </t>
+ -->
                                         <td style="border: 2px solid black;text-align: center; font-size: 12px; padding: 2px;">
                                             <t t-esc="acc_num"/>
                                             <!-- <span>xxxxxx</span> -->
