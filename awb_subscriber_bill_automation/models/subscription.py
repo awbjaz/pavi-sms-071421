@@ -153,8 +153,9 @@ class SaleSubscription(models.Model):
 
         # invoice previous bill and payment
         args = [('partner_id', '=', invoice['partner_id']),
-                ('date', '>=', invoice['start_date']),
-                ('date', '<=', invoice['end_date']),
+                # ('date', '>=', invoice['start_date']),
+                # ('date', '<=', invoice['end_date']),
+                ('amount_residual', '>', 0),
                 ('type', '=', 'out_invoice'),
                 ('state', '=', 'posted'),
                 ('invoice_line_ids.subscription_id', '=', self.id)]
@@ -162,7 +163,29 @@ class SaleSubscription(models.Model):
 
         _logger.debug(f'INVOICE: {invoice}')
 
-        if invoice_id:
+        if len(invoice_id) > 1:
+            bill = invoice_id[0].amount_total
+            residual = invoice_id[0].amount_residual
+            prev_bill = 0
+            prev_payment = bill - residual
+            for inv in invoice_id[1:]:
+                prev_bill += inv.amount_residual + bill
+                
+            prev_bill = {
+                'name': 'Previous Bill balance',
+                'statement_type': 'prev_bill',
+                'amount': prev_bill,
+            }
+            prev_payment = {
+                'name': 'Previous Received Payment',
+                'statement_type': 'payment',
+                'amount': prev_payment * -1,
+            }
+
+            lines.append((0, 0, prev_bill))
+            lines.append((0, 0, prev_payment))
+
+        else:
             prev_bill = 0
             prev_payment = 0
             for inv in invoice_id:
