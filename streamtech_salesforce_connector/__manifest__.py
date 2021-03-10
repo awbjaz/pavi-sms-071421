@@ -16,9 +16,10 @@
     'website': "http://www.achievewithoutborders.com",
     'category': 'Sales',
     'version': '13.0.1.0.0',
-    'depends': ['salesforce_connector', 'awb_subscriber_bill_automation'],
+    'depends': ['salesforce_connector', 'awb_subscriber_bill_automation', 'awb_subscriber_product_information'],
     'data': [
-        'views/crm_view.xml'
+        'views/crm_view.xml',
+        'views/partner_view.xml'
     ],
     'installable': True,
     'application': False,

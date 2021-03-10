@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+import datetime
 
 _logger = logging.getLogger(__name__)
 
@@ -8,8 +9,10 @@ class PrinterDataUtil():
     @classmethod
     def _format_number(cls, value, length):
         result = '0.00'
-        if value:
+        try:
             result = '{0:.2f}'.format(value)
+        except:
+            pass
         return result.rjust(length)
 
     @classmethod
@@ -21,18 +24,19 @@ class PrinterDataUtil():
 
     @classmethod
     def _format_date(cls, value):
-        date = str(value)
-        if(date.endswith('False')):
-            date = date[:-len('False')]
-        else:
-            date += ''
+        date = ''
+        try:
+            date = datetime.date.strftime(value, "%m-%d-%Y")
+        except:
+            pass
+
         return date
     
     @classmethod
     def _format_date_mmyyyy(cls, value):
         value = cls._format_date(value)
         if value and len(value) > 0:
-            value = value[0:2] + '-' + value[6:10]
+            value = value[0:2].rjust(2,'0') + '-' + value[6:10].rjust(2,'0')
         return value.ljust(10)
 
     @classmethod
@@ -46,12 +50,12 @@ class PrinterDataUtil():
     @classmethod
     def _generate_data_row(cls, record):
         txt = ''
-        txt += cls._format_string(record.name, 10)
+        txt += cls._format_string(record.name.replace('INV/',''), 10)
         txt += cls._format_date_mmyyyy(record.invoice_date)
         txt += cls._format_date_mmddyyyy(record.invoice_date_due)
         txt += cls._format_date_mmddyyyy('')
 
-        txt += cls._format_string(record.invoice_line_ids[0].subscription_id.account_identification, 20)
+        txt += cls._format_string(record.partner_id.customer_number, 20)
         txt += cls._format_string(record.invoice_partner_display_name, 70)
 
         value = ''
@@ -60,7 +64,7 @@ class PrinterDataUtil():
         except:
             pass 
         txt += cls._format_string(value, 64)
-        txt += cls._format_string(record.partner_id.city, 64)
+        txt += cls._format_string(record.partner_id.city_id.name, 64)
 
         value = ''
         try:
@@ -75,6 +79,7 @@ class PrinterDataUtil():
 
         txt += cls._format_string('', 20)
         txt += cls._format_string(record.period_covered, 24)
+        txt += cls._format_date_range(record.start_date, record.end_date)
 
         txt += cls._format_string('Balance from Last Bill', 50)
         txt += cls._format_string('Basic Charge', 30)
@@ -91,7 +96,12 @@ class PrinterDataUtil():
         txt += cls._format_string('Remarks:', 8)
 
         txt += cls._format_number(record.total_prev_charges, 12)
-        txt += cls._format_number(record.invoice_line_ids[0].subscription_id.baseline_amount, 12)
+
+        subs_tot = 0
+        for line in record.statement_line_ids:
+            if line.statement_type == 'subs_fee':
+                subs_tot = subs_tot + line.amount
+        txt += cls._format_number(subs_tot, 12)
 
         txt += cls._format_string('(Inclusive of VAT)', 19)
         txt += cls._format_number(0, 12)
