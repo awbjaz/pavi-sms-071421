@@ -18,7 +18,6 @@ class SubscriberLocation(models.Model):
     _inherit = ['mail.thread']
 
     name = fields.Char(string="Location Name", required=True, tracking=True)
-    code = fields.Char(string="Code", tracking=True)
     company_id = fields.Many2one('res.company', string="Company", tracking=True)
     billing_day = fields.Integer(string="Billing Day", tracking=True)
     posting_day = fields.Integer(string="Posting Day", tracking=True)
@@ -29,7 +28,7 @@ class SubscriberLocation(models.Model):
     location_type = fields.Selection([('head', 'Head'),
                                       ('cluster', 'Cluster'),
                                       ('area', 'Area'),
-                                      ('zone', 'Zone')], default='head', string="Location Type", tracking=True)
+                                      ('zone', 'Zone')], default='zone', string="Location Type", tracking=True, required=True)
     active = fields.Boolean(string="Active", default=True, tracking=True)
     analytic_account_id = fields.Many2one('account.analytic.account', string="Analytic Account")
     location_ids = fields.One2many('subscriber.location', 'location_id', string="Child Location")
