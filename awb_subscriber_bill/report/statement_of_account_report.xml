@@ -66,7 +66,7 @@
                                             <!-- <span>xxxxxx</span> -->
                                         </td>
                                         <td style="border: 2px solid black;text-align: center;">
-                                            <span t-field="doc.atm_ref"/>
+                                            <span t-esc="doc.print_atm_ref(doc.atm_ref)"/>
                                         </td>
                                     </tr>
                                     <tr style="height:15px;">
@@ -82,7 +82,7 @@
                                             <span t-field="doc.name"/>
                                         </td>
                                         <td style="border: 2px solid black;text-align: center;">
-                                            <span t-field="doc.period_covered"/>
+                                            <span t-field="doc.start_date"/> - <span t-field="doc.end_date"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -143,7 +143,7 @@
                                                 <t t-set="prev_bill_tot" t-value="prev_bill_tot+line.amount"/> 
                                             </t>
                                         </t>
-                                        <td>Previous Bill balance</td>
+                                        <td>Previous Bill Balance</td>
                                         <td style="text-align:right;"> <t t-esc="'{0:,.2f}'.format(prev_bill_tot)"/></td>
                                         <td colspan="2"/>
                                     </tr>
@@ -154,7 +154,7 @@
                                                 <t t-set="payment_tot" t-value="payment_tot+line.amount"/> 
                                             </t>
                                         </t>
-                                        <td>Previous received</td>
+                                        <td>Payment Received</td>
                                         <td style="text-align:right;"><t t-esc="'{0:,.2f}'.format(payment_tot)"/></td>
                                         <td colspan="2"/>
                                     </tr>
@@ -164,7 +164,7 @@
                                         <td colspan="2"/>
                                     </tr>
                                     <tr>
-                                        <td>Total Previous Charges</td>
+                                        <td>Balance from Previous Charges</td>
                                         <td style="border-top: 2px solid black;"/>
                                         <td colspan="1"/>
                                         <td style="text-align:right;">
@@ -173,6 +173,7 @@
                                         </td>
                                               
                                     </tr>
+                                    <tr></tr>
                                     <tr>
                                         <th>CURRENT CHARGES:</th>
                                         <td/>
@@ -191,7 +192,7 @@
                                         </td>
                                         <td colspan="2"/>
                                     </tr>
-                                     <tr>
+                                    <tr>
                                         <td>Device Fee</td>
                                         <t t-set="device_tot" t-value="0"/>
                                         <t t-foreach="doc.statement_line_ids" t-as="line">
@@ -224,7 +225,7 @@
                                             </td>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr style="margin-top: 10px;">
                                         <td>Total Current Charges</td>
                                         <td style="border-top: 2px solid black;"/>
                                         <td colspan="1"/>
@@ -234,10 +235,9 @@
                                         </td>
                                               
                                     </tr>
-                                    <!-- <tr>
-                                        <td colspan="3"/>
-                                        <td style="border-top: 2px solid black;"/>
-                                    </tr> -->
+                                    <tr>
+                                        <td colspan="4"/>
+                                    </tr>
                                     <tr>
                                         <th>TOTAL AMOUNT DUE:</th>
                                         <td colspan="2"/>
@@ -256,7 +256,7 @@
                                     </tr>
                                     <tr>
                                         <td style="border: 1px solid black; text-align: left;">
-                                            <p class="pl-10">
+                                            <p class="pl-10" style="font-size: 12px;">
                                                 Thank you very much for settling your Streamtech monthly bill on time. We acknowledge your timely update, and would like you to know that this helps us at Streamtech to constantly provide you with quality internet service for your home. Please be reminded that any payments made on or after <span t-field="doc.posting_date"/> will be reflected on your next billing statement. Should there be any billing discrepancies in your statement of account, kindly coordinate with our Billing Department within 15 days from statement date, or this statement of account would be considered accurate.
                                             </p>
                                         </td>
@@ -307,10 +307,10 @@
                                            <strong><span>ATM Ref. Number:</span></strong>
                                         </td>
                                         <td style="width:26%; text-align:right">
-                                            <span t-field="doc.atm_ref"/>
+                                            <span t-esc="doc.print_atm_ref(doc.atm_ref)"/>
                                         </td>
                                     </tr>
-                                     <tr>
+                                    <tr>
                                         <td style="width:24%;">
                                             <strong><span>Contact Number:</span></strong>
                                         </td>
@@ -318,7 +318,14 @@
                                             <span t-field="doc.partner_id.phone"/>
                                         </td>
                                     </tr>
-                                   
+                                    <tr style="width:100%">
+                                        <td colspan="2">
+                                            <img t-att-src="'data:image/png;base64,' + doc.action_generate_barcode(doc.atm_ref)" style="width:300px;height:100px;" />
+                                        </td>
+                                        <td colspan="2">
+                                            <img src="/awb_subscriber_bill/static/src/img/stream_qr_code.png" style="width:100px" />
+                                        </td>
+                                    </tr>
                                 </table>
                             <br/>
                             <div class="text-center" id="statement_of_account_body_7">
@@ -332,7 +339,7 @@
                                             <strong><span>ATM Ref. Number:</span></strong>
                                         </td>
                                         <td style="width:35%;">
-                                            <span t-field="doc.atm_ref"/>
+                                            <span t-esc="doc.print_atm_ref(doc.atm_ref)"/>
                                         </td>
                                         <td style="width:20%;">
                                             <strong><span>Due Date:</span></strong>

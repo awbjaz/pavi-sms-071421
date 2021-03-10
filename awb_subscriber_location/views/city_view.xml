@@ -14,7 +14,7 @@
 
         
         <!-- sale -->
-        <record id="action_sale_city" model="ir.actions.act_window">
+        <!-- <record id="action_sale_city" model="ir.actions.act_window">
             <field name="name">Cities</field>
             <field name="res_model">res.city</field>
             <field name="view_mode">tree,form</field>
@@ -30,6 +30,6 @@
             name="City"
             action="action_sale_city"
             id="menu_sale_city"
-            parent="awb_subscriber_location.menu_segmentation_sale" sequence="30"/>
+            parent="awb_subscriber_location.menu_segmentation_sale" sequence="30"/> -->
     </data>
 </odoo>

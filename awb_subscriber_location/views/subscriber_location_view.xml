@@ -16,7 +16,6 @@
                         </div>
                         <group>
                             <group>
-                                <field name="code"/>
                                 <field name="company_id"/>
                                 <field name="location_id"/>
                                 <field name="location_type" widget="radio" options="{'horizontal': true}"/>

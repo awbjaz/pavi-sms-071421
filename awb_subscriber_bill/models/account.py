@@ -5,6 +5,11 @@
 #
 ##############################################################################
 
+from barcode import Code39
+from barcode.writer import ImageWriter
+import io
+import base64
+
 from odoo import api, fields, models, _
 from datetime import datetime, date
 
@@ -13,6 +18,7 @@ import logging
 from ..helpers.printer_data_util import PrinterDataUtil
 
 _logger = logging.getLogger(__name__)
+
 
 class AccountMove(models.Model):
     _inherit = "account.move"
@@ -63,95 +69,22 @@ class AccountMove(models.Model):
                 year = str(today.year)[2:4]
                 sequence = rec.atm_ref_sequence
                 company_code = rec.company_id.zone_code
-                value = f'{year}-{company_code}-{sequence}-1231'
+                value = f'{year}{company_code}{sequence}1231'
                 rec.atm_ref = value
 
-    def action_cron_generate(self):
-        records = self.env['account.move'].search(
-            [('type', 'in', ['out_invoice', 'in_invoice'])])
-        _logger.debug(f'Record Invoice and Bill {records}')
+    def print_atm_ref(self, atm_ref):
+        return atm_ref[2:]
 
-        for rec in records:
-            args = [('partner_id', '=', rec.partner_id.id),
-                    ('company_id', '=', rec.company_id.id),
-                    ('state', '=', 'posted'),
-                    ('invoice_ids', 'in', rec.id)]
-            payments = rec.env['account.payment'].search(args)
-
-            args_refund = [('partner_id', '=', rec.partner_id.id),
-                           ('company_id', '=', rec.company_id.id),
-                           ('state', '=', 'posted'),
-                           ('reversed_entry_id', '=', rec.id)]
-
-            refunds = rec.env['account.move'].search(args_refund)
-
-            _logger.debug(f'Refunds {refunds}')
-
-            lines = []
-            # invoice Lines
-            for line in rec.invoice_line_ids:
-                if line.product_id.product_tmpl_id.id == self.env.ref('awb_subscriber_product_information.product_device_fee').id:
-                    data = {
-                        'name': line.name,
-                        'statement_type': 'device_fee',
-                        'amount': line.credit,
-                    }
-                    _logger.debug(
-                        f'Prod ID temp {line.product_id.product_tmpl_id.id}')
-                    lines.append((0, 0, data))
-                else:
-                    data = {
-                        'name': line.name,
-                        'statement_type': 'subs_fee',
-                        'amount': line.credit,
-                    }
-                    lines.append((0, 0, data))
-
-            # taxes
-            for line in rec.line_ids:
-                if line.tax_line_id:
-                    data = {'name': "Value Added Tax",
-                            'statement_type': 'vat'}
-                    if line.tax_line_id.type_tax_use == 'sale':
-                        data['amount'] = line.credit
-                    elif line.tax_line_id.type_tax_use == 'purchase':
-                        data['amount'] = line.debit
-                    else:
-                        data['amount'] = 0.0
-                    lines.append((0, 0, data))
-
-            # payments
-            if payments:
-                total_amount = 0
-                for line in payments:
-                    total_amount += line.amount
-
-                data = {
-                    'name': 'Payment',
-                    'statement_type': 'payment',
-                    'amount': total_amount * -1,
-                }
-
-                lines.append((0, 0, data))
-
-            # refunds
-            if refunds:
-                total_amount = 0
-                for line in refunds:
-                    total_amount += (line.amount_total - line.amount_residual)
-                data = {
-                    'name': 'Credits/Rebates',
-                    'statement_type': 'credit',
-                    'amount': total_amount * -1,
-                }
-
-                lines.append((0, 0, data))
-            prod_id = self.env.ref(
-                'awb_subscriber_product_information.product_device_fee').id
-            _logger.debug(f'Prod ID {prod_id}')
-            _logger.debug(f'Inv Lines {rec.name}{lines}')
-            rec.update({'statement_line_ids': None})
-            rec.update({'statement_line_ids': lines})
+    def action_generate_barcode(self, number):
+        number = self.print_atm_ref(number)
+        _logger.debug(f'Generating Barcode: {number}')
+        img_writer = ImageWriter()
+        img_writer.text_distance = 0.1
+        img = Code39(number, add_checksum=False, writer=img_writer)
+        f = io.BytesIO()
+        img.write(f)
+        img_data = base64.b64encode(f.getvalue()).decode()
+        return img_data
 
     def export_printer_data_file(self):
         url = "/print/custom/sales_invoice/%s" % self.id
@@ -165,13 +98,14 @@ class AccountMove(models.Model):
 
         # records = self.env['account.move'].search([('id', 'in', account_ids)])
         # return PrinterDataUtil.generate_data_file(records)
-        
+
         string_ids = [str(int) for int in account_ids]
         url = "/print/custom/sales_invoice/%s" % '-'.join(string_ids)
         return {
             "url": url,
             "type": "ir.actions.act_url"
         }
+
 
 class AccountStatementLine(models.Model):
     _name = "account.statement.line"

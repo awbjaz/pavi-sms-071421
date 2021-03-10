@@ -1,0 +1,2 @@
+id,active,perm_create,perm_unlink,perm_read,perm_write,domain_force,groups,name,model_id
+awb_account_groups.manage_expense_sheet_rule,TRUE,TRUE,TRUE,TRUE,TRUE,"[('user_id', '=', user.id)]",Expenses / Team Approver,Manager Expense Sheet,Expense Report
