@@ -39,7 +39,7 @@
                             <div class="row" id="statement_of_account_body_1">
                                 <table style="border: 2px solid black; width:100%;">
                                     <tr style="border: 2px solid black; height:15px;">
-                                        <td rowspan="4" style="border: 2px solid black;text-align: left; width:40%; line-height: 95%; font-size: 14px;">                   
+                                        <td rowspan="4" style="border: 2px solid black;text-align: left; width:40%; line-height: 95%; font-size: 14px; padding: 5px;">                   
                                             <strong><span class="pl-10" style="font-size: 20px;" t-field="doc.partner_id.name"/></strong> <br/>
                                             <span class="pl-10" t-field="doc.partner_id.street"/> <br/>
                                             <span class="pl-10" t-field="doc.partner_id.street2"/> <br/>
@@ -61,11 +61,11 @@
                                                 <t t-set="acc_num" t-value="line.subscription_id.account_identification"/> 
                                             </t>
                                         </t>
-                                        <td style="border: 2px solid black;text-align: center;">
+                                        <td style="border: 2px solid black;text-align: center; font-size: 12px; padding: 2px;">
                                             <t t-esc="acc_num"/>
                                             <!-- <span>xxxxxx</span> -->
                                         </td>
-                                        <td style="border: 2px solid black;text-align: center;">
+                                        <td style="border: 2px solid black;text-align: center; font-size: 12px; padding: 2px;">
                                             <span t-esc="doc.print_atm_ref(doc.atm_ref)"/>
                                         </td>
                                     </tr>
@@ -78,10 +78,10 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td style="border: 2px solid black;text-align: center;">
+                                        <td style="border: 2px solid black;text-align: center; font-size: 12px; padding: 2px;">
                                             <span t-field="doc.name"/>
                                         </td>
-                                        <td style="border: 2px solid black;text-align: center;">
+                                        <td style="border: 2px solid black;text-align: center; font-size:12px; padding: 2px;">
                                             <span t-field="doc.start_date"/> - <span t-field="doc.end_date"/>
                                         </td>
                                     </tr>
@@ -105,16 +105,16 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td style="width:25%; border: 2px solid black; text-align: center;">
+                                        <td style="width:25%; border: 2px solid black; text-align: center; font-size: 12px; padding: 2px;">
                                             <span t-field="doc.amount_total_signed"/>
                                         </td>
-                                        <td style="width:25%; border: 2px solid black; text-align: center;">
+                                        <td style="width:25%; border: 2px solid black; text-align: center; font-size: 12px; padding: 2px;">
                                             <span t-field="doc.amount_total"/>
                                         </td>
-                                        <td style="width:25%; border: 2px solid black; text-align: center;">
+                                        <td style="width:25%; border: 2px solid black; text-align: center; font-size: 12px; padding: 2px;">
                                             <span t-field="doc.invoice_date_due"/>
                                         </td>
-                                        <td style="width:25%; border: 2px solid black; text-align: center;">
+                                        <td style="width:25%; border: 2px solid black; text-align: center; font-size: 12px; padding: 2px;">
                                             <span t-field="doc.invoice_line_ids[0].product_id.name"/>
                                         </td>
                                     </tr>
@@ -173,8 +173,7 @@
                                         </td>
                                               
                                     </tr>
-                                    <tr></tr>
-                                    <tr>
+                                    <tr style="padding-top: 15px;">
                                         <th>CURRENT CHARGES:</th>
                                         <td/>
                                         <td colspan="3"/>
@@ -225,7 +224,7 @@
                                             </td>
                                         </td>
                                     </tr>
-                                    <tr style="margin-top: 10px;">
+                                    <tr>
                                         <td>Total Current Charges</td>
                                         <td style="border-top: 2px solid black;"/>
                                         <td colspan="1"/>
@@ -238,7 +237,7 @@
                                     <tr>
                                         <td colspan="4"/>
                                     </tr>
-                                    <tr>
+                                    <tr style="padding-top: 15px;">
                                         <th>TOTAL AMOUNT DUE:</th>
                                         <td colspan="2"/>
                                         <td style="text-align:right;"><span t-field="doc.total_statement_balance"/></td>
