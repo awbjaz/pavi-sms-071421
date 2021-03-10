@@ -28,7 +28,6 @@
     'data': [
         'security/ir.model.access.csv',
         'data/account_move_atm_ref_sequence.xml',
-        'data/account_data.xml',
         # 'views/assets.xml',
         'views/account_view.xml',
         'views/account_printer_data.xml',
