@@ -41,12 +41,19 @@ class SaleSubscription(models.Model):
         _logger.debug(f'Compute next date: Next {next_date}, due_day: {due_day}')
         recurring_start_date = self._get_recurring_next_date(self.recurring_rule_type, interval, next_date, cutoff_day)
         start_date = fields.Date.from_string(recurring_start_date+relativedelta(days=1))
-        recurring_next_date = self._get_recurring_next_date(self.recurring_rule_type, interval, start_date, cutoff_day)
+        recurring_next_date = self._get_recurring_next_date(self.recurring_rule_type, 0, start_date, cutoff_day)
+        recurring_posting_date = self._get_recurring_next_date(self.recurring_rule_type, 0, start_date, posting_day)
+        _logger.debug(f'Days: {recurring_start_date >= recurring_next_date}: {recurring_start_date} > {recurring_next_date}')
+        # This is a HACK to fix the issue with jumping dates
+        if recurring_start_date >= recurring_next_date:
+            recurring_next_date = self._get_recurring_next_date(self.recurring_rule_type, interval, start_date, cutoff_day)
+            recurring_posting_date = self._get_recurring_next_date(self.recurring_rule_type, interval, start_date, posting_day)
         end_date = fields.Date.from_string(recurring_next_date)
-        recurring_due_date = self._get_recurring_next_date(self.recurring_rule_type, interval, start_date, due_day)
-        due_date = fields.Date.from_string(recurring_due_date)
-        recurring_posting_date = self._get_recurring_next_date(self.recurring_rule_type, interval, start_date, posting_day)
         posting_date = fields.Date.from_string(recurring_posting_date)
+        recurring_due_date = self._get_recurring_next_date(self.recurring_rule_type, interval, end_date, due_day)
+        due_date = fields.Date.from_string(recurring_due_date)
+
+        _logger.debug(f'Period Covered: {start_date}-{end_date}')
 
         narration = _("This invoice covers the following period: %s - %s") % (format_date(self.env, start_date), format_date(self.env, end_date))
         if self.env['ir.config_parameter'].sudo().get_param('account.use_invoice_terms') and self.company_id.invoice_terms:
