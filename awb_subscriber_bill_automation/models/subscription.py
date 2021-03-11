@@ -57,7 +57,8 @@ class SaleSubscription(models.Model):
         return res
 
     def _prepare_invoice_line(self, line, fiscal_position, date_start=False, date_stop=False):
-        res = super(SaleSubscription, self)._prepare_invoice_line(line, fiscal_position, date_start, date_stop)
+        res = super(SaleSubscription, self)._prepare_invoice_line(
+            line, fiscal_position, date_start, date_stop)
         if line.date_start or line.date_end:
             diff = date_stop - line.date_start
             days = diff.days
@@ -69,7 +70,8 @@ class SaleSubscription(models.Model):
                 new_amount = rate * days
                 res['price_unit'] = new_amount
                 res['name'] += f' ({days} days)'
-            _logger.debug(f'Prorate: {diff} = {new_amount} {line} {fiscal_position} {date_start} {date_stop}')
+            _logger.debug(
+                f'Prorate: {diff} = {new_amount} {line} {fiscal_position} {date_start} {date_stop}')
         # if self.subscription_status == 'new' and diff.days < 31:
         return res
 
@@ -83,7 +85,8 @@ class SaleSubscription(models.Model):
         if not next_date:
             raise UserError(_('Please define Date of Next Invoice of "%s".') % (self.display_name,))
 
-        periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
+        periods = {'daily': 'days', 'weekly': 'weeks',
+                   'monthly': 'months', 'yearly': 'years'}
         interval_type = periods[self.recurring_rule_type]
         interval = self.recurring_interval
 
@@ -101,7 +104,8 @@ class SaleSubscription(models.Model):
             _logger.debug(f'Check Invoice line dates: {starts_within} {line.date_start} {revenue_date_stop}')
             _logger.debug(f'Check Invoice line dates: {ends_within} {line.date_end} {revenue_date_start}')
             if starts_within and ends_within:
-                val = self._prepare_invoice_line(line, fiscal_position, revenue_date_start, revenue_date_stop)
+                val = self._prepare_invoice_line(
+                    line, fiscal_position, revenue_date_start, revenue_date_stop)
                 invoice_lines.append((0, 0, val))
         return invoice_lines
 
@@ -121,14 +125,16 @@ class SaleSubscription(models.Model):
                 vat = taxes[2]
                 args = [('id', 'in', vat)]
                 tax = self.env['account.tax'].search(args)
-                total_price_unit = line['price_unit'] * line['quantity'] # 1999
+                total_price_unit = line['price_unit'] * \
+                    line['quantity']  # 1999
                 tot_vat = 0.0
                 for t in tax:
                     total_price_unit = total_price_unit - tot_vat
                     # tax exclusive
                     # total_vat += total_price_unit * tax.amount / 100
                     # tax inclusive
-                    tot_vat += (total_price_unit / ((100 + t.amount) / 100)) * (t.amount/100)
+                    tot_vat += (total_price_unit /
+                                ((100 + t.amount) / 100)) * (t.amount/100)
                 total_vat += tot_vat
 
             if product.product_tmpl_id.id == device_id:
@@ -151,59 +157,37 @@ class SaleSubscription(models.Model):
             data['amount'] = total_vat
             lines.append((0, 0, data))
 
-        # invoice previous bill and payment
+        # invoice previous bill
         args = [('partner_id', '=', invoice['partner_id']),
-                # ('date', '>=', invoice['start_date']),
-                # ('date', '<=', invoice['end_date']),
-                ('amount_residual', '>', 0),
                 ('type', '=', 'out_invoice'),
                 ('state', '=', 'posted'),
                 ('invoice_line_ids.subscription_id', '=', self.id)]
-        invoice_id = self.env['account.move'].search(args)
 
-        _logger.debug(f'INVOICE: {invoice}')
+        invoice_id = self.env['account.move'].search(args, limit=1, order="date desc")
 
-        if len(invoice_id) > 1:
-            bill = invoice_id[0].amount_total
-            residual = invoice_id[0].amount_residual
-            prev_bill = 0
-            prev_payment = bill - residual
-            for inv in invoice_id[1:]:
-                prev_bill += inv.amount_residual + bill
-                
+        if invoice_id:
+            prev_bill = invoice_id.amount_total + invoice_id.total_prev_charges
             prev_bill = {
                 'name': 'Previous Bill balance',
                 'statement_type': 'prev_bill',
                 'amount': prev_bill,
             }
+            lines.append((0, 0, prev_bill))
+
+        #Previous Payment
+        args_pay = [('partner_id', '=', invoice['partner_id']),
+                    ('partner_type', '=', 'customer'),
+                    ('state', '=', 'posted')]
+        payment_id = self.env['account.payment'].search(args_pay, limit=1, order="payment_date desc")
+
+
+        if payment_id:
+            prev_payment = payment_id.amount
             prev_payment = {
                 'name': 'Previous Received Payment',
                 'statement_type': 'payment',
                 'amount': prev_payment * -1,
             }
-
-            lines.append((0, 0, prev_bill))
-            lines.append((0, 0, prev_payment))
-
-        else:
-            prev_bill = 0
-            prev_payment = 0
-            for inv in invoice_id:
-                prev_bill += inv.amount_total
-                prev_payment += inv.amount_total - inv.amount_residual
-
-            prev_bill = {
-                'name': 'Previous Bill balance',
-                'statement_type': 'prev_bill',
-                'amount': prev_bill,
-            }
-            prev_payment = {
-                'name': 'Previous Received Payment',
-                'statement_type': 'payment',
-                'amount': prev_payment * -1,
-            }
-
-            lines.append((0, 0, prev_bill))
             lines.append((0, 0, prev_payment))
 
         return lines

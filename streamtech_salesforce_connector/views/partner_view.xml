@@ -13,64 +13,91 @@
                 </xpath>
 
                 <xpath expr="//field[@name='last_name']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_company', '=', True)], 'required': [('is_company', '!=', True)], 'readonly':[('salesforce_id','!=', None)]}</attribute>
+                    <attribute name="attrs">{'invisible': [('is_company', '=', True)], 'required': [('is_company', '!=', True)], 'readonly':[('salesforce_id','!=', False)]}</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='first_name']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_company', '=', True)], 'required': [('is_company', '!=', True)], 'readonly':[('salesforce_id','!=', None)]}</attribute>
+                    <attribute name="attrs">{'invisible': [('is_company', '=', True)], 'required': [('is_company', '!=', True)], 'readonly':[('salesforce_id','!=', False)]}</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='middle_name']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_company', '=', True)], 'readonly':[('salesforce_id','!=', None)]}</attribute>
+                    <attribute name="attrs">{'invisible': [('is_company', '=', True)], 'readonly':[('salesforce_id','!=', False)]}</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='birthday']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_company', '=', True)], 'readonly':[('salesforce_id','!=', None)]}</attribute>
+                    <attribute name="attrs">{'invisible': [('is_company', '=', True)], 'readonly':[('salesforce_id','!=', False)]}</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='gender']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_company', '=', True)], 'readonly':[('salesforce_id','!=', None)]}</attribute>
+                    <attribute name="attrs">{'invisible': [('is_company', '=', True)], 'readonly':[('salesforce_id','!=', False)]}</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='home_ownership']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_company', '=', False)], 'readonly':[('salesforce_id','!=', None)]}</attribute>
+                    <attribute name="attrs">{'invisible': [('is_company', '=', False)], 'readonly':[('salesforce_id','!=', False)]}</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='account_classification']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_company', '=', False)], 'readonly':[('salesforce_id','!=', None)]}</attribute>
+                    <attribute name="attrs">{'invisible': [('is_company', '=', False)], 'readonly':[('salesforce_id','!=', False)]}</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='account_subclassification']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_company', '=', False)], 'readonly':[('salesforce_id','!=', None)]}</attribute>
+                    <attribute name="attrs">{'invisible': [('is_company', '=', False)], 'readonly':[('salesforce_id','!=', False)]}</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='account_group']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_company', '=', True)], 'readonly':[('salesforce_id','!=', None)]}</attribute>
+                    <attribute name="attrs">{'invisible': [('is_company', '=', True)], 'readonly':[('salesforce_id','!=', False)]}</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='account_type']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_company', '=', False)], 'readonly':[('salesforce_id','!=', None)]}</attribute>
+                    <attribute name="attrs">{'invisible': [('is_company', '=', False)], 'readonly':[('salesforce_id','!=', False)]}</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='subscriber_type']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_company', '=', False)], 'readonly':[('salesforce_id','!=', None)]}</attribute>
+                    <attribute name="attrs">{'invisible': [('is_company', '=', False)], 'readonly':[('salesforce_id','!=', False)]}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='service_provider']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='zone_type']" position="attributes">
-                    <attribute name="attrs">{'readonly':[('salesforce_id','!=', None)]}</attribute>
+                    <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='zone_subtype']" position="attributes">
-                    <attribute name="attrs">{'readonly':[('salesforce_id','!=', None)]}</attribute>
-                </xpath>
-
-                <xpath expr="//field[@name='zone_subtype']" position="attributes">
-                    <attribute name="attrs">{'readonly':[('salesforce_id','!=', None)]}</attribute>
+                    <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
                 </xpath>
             </field>
         </record>
-
-        
-
+        <!-- base -->
+        <record model="ir.ui.view" id="streamtech_sf_base_view_partner_form">
+            <field name="name">view.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='street']" position="before">
+                        <!-- make available -->
+                        <field name="salesforce_id" invisible="1"/>
+                    </xpath>
+                    <xpath expr="//field[@name='street']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='zip']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>                    
+                </data>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="streamtech_sf_sms_res_partner_view_form">
+            <field name="name">view.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="sms.res_partner_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='phone']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                </xpath>
+            </field>
+        </record>
     </data>
 </odoo>
