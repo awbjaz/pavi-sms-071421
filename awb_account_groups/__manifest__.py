@@ -23,7 +23,7 @@
 
     'version': '13.0.1.0.0',
 
-    'depends': ['hr_expense', 'account_accountant'],
+    'depends': ['hr_expense', 'account_accountant', 'account_asset'],
 
     'data': [
         # 'security/ir.model.access.csv',
