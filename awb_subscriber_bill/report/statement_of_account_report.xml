@@ -106,10 +106,10 @@
                             </tr>
                             <tr>
                                 <td style="width:25%; border: 2px solid black; text-align: center; font-size: 12px; padding: 2px;">
-                                    <span t-field="doc.amount_total_signed"/>
+                                    <span t-field="doc.total_statement_balance"/>
                                 </td>
                                 <td style="width:25%; border: 2px solid black; text-align: center; font-size: 12px; padding: 2px;">
-                                    <span t-field="doc.amount_total"/>
+                                    <span t-field="doc.total_statement_balance"/>
                                 </td>
                                 <td style="width:25%; border: 2px solid black; text-align: center; font-size: 12px; padding: 2px;">
                                     <span t-field="doc.invoice_date_due"/>

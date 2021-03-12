@@ -35,6 +35,7 @@ class Partner(models.Model):
     _inherit = "res.partner"
 
     customer_number = fields.Char(string='Customer ID')
+    customer_number_old = fields.Char(string='Customer ID (Old)')
     last_name = fields.Char(string="Last Name")
     first_name = fields.Char(string="First Name")
     middle_name = fields.Char(string="Middle Name")

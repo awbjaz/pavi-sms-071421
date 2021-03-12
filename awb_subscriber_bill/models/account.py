@@ -106,6 +106,41 @@ class AccountMove(models.Model):
             "type": "ir.actions.act_url"
         }
 
+    # def _recompute_statement(self, invoice):
+    #     self.ensure_one()
+    #     device_id = self.env.ref('awb_subscriber_product_information.product_device_fee').id
+    #     lines = []
+    #     # invoice Lines
+    #     for invoice in self.invoice_line_ids:
+    #         if invoice.product.product_tmpl_id.id == device_id:
+    #                 data = {
+    #                 'name': invoice.name,
+    #                 'statement_type': 'device_fee',
+    #                 'amount': invoice.price_subtotal,
+    #             }
+    #             lines.append((0, 0, data))
+
+    #         elif invoice.subscription_id:
+    #             data = {
+    #                 'name': name,
+    #                 'statement_type': 'subs_fee',
+    #                 'amount': line['price_unit'] - total_vat,
+    #             }
+    #             lines.append((0, 0, data))
+
+    #         else:
+    #             data = {
+    #                 'name': name,
+    #                 'statement_type': 'subs_fee',
+    #                 'amount': line['price_unit'] - total_vat,
+    #             }
+    #             lines.append((0, 0, data))
+    
+
+    #     return lines
+
+
+
 
 class AccountStatementLine(models.Model):
     _name = "account.statement.line"
