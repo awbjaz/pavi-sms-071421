@@ -17,7 +17,6 @@
               <field name="posted_by"/>
               <field name="audited_by"/>
               <field name="approved_by"/>
-              <field name="received_by"/>
             </group>
           </xpath>
         </field>
