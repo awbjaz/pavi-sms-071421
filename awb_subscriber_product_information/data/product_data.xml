@@ -8,4 +8,12 @@
         <field name="recurring_invoice">1</field>
         <field name="internet_usage">0</field>
     </record>
+    <record model="product.template" id="product_ext_fee">
+        <field name="name">Ext Fee</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product.product_category_all"/>
+        <field name="standard_price">0</field>
+        <field name="recurring_invoice">1</field>
+        <field name="internet_usage">0</field>
+    </record>
 </odoo>
