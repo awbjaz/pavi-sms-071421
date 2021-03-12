@@ -12,7 +12,6 @@
             <field name="posted_by" attrs="{'invisible': [('partner_type', '!=', 'supplier')]}"/>
             <field name="audited_by" attrs="{'invisible': [('partner_type', '!=', 'supplier')]}"/>
             <field name="approved_by" attrs="{'invisible': [('partner_type', '!=', 'supplier')]}"/>
-            <field name="received_by" attrs="{'invisible': [('partner_type', '!=', 'supplier')]}"/>
           </xpath>
         </field>
       </record>

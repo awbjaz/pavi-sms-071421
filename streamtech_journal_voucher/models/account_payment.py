@@ -17,5 +17,3 @@ class AccountMove(models.Model):
                                  copy=False, tracking=True)
     posted_by = fields.Many2one('res.users', string='Posted By',
                                 copy=False, tracking=True)
-    received_by = fields.Many2one('res.users', string='Received By',
-                                  copy=False, tracking=True)

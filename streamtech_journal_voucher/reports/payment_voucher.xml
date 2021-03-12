@@ -50,7 +50,7 @@
                         </div>
                         <div class="row">
                             <div class="col-8 text-left">
-                                <b>Pesos   </b><u><span t-field="doc.check_amount_in_words"/></u>
+                                <b>Pesos   </b><u style="text-transform: uppercase;"><span t-esc="doc.amount_to_text(doc.amount, doc.currency_id)"/>ONLY</u>
                             </div>
                         </div>
                         <div class="row">
@@ -58,13 +58,13 @@
                                 <b>In payment of </b><u><span t-field="doc.communication"/></u>
                             </div>
                             <div class="col-4 text-right">
-                                <b>Check No.   </b><u><span t-field="doc.check_number"/></u>   
+                                <b>Check No.   </b><u><span t-esc="doc.name[-4:]"/></u>   
                             </div>
                         </div>
                         <div class="mt-3">
-                            <t t-set="total_debit" t-value="0"/>
-                            <t t-set="total_credit" t-value="0"/>
                             <table class="table">
+                                <t t-set="total_debit" t-value="0"/>
+                                <t t-set="total_credit" t-value="0"/>
                                 <tr class="border-right-0 border-left-0" style="border: 3px solid black;">
                                     <th class="col-6 pt-0 pb-0 text-uppercase text-center" colspan="3">
                                        <b>EXPLANATION</b>
@@ -94,7 +94,9 @@
                                                     (<span t-esc="'{0:,.2f}'.format(item.credit)"/>)
                                                 </t>
                                             </td>
-                                            <t t-set="total" t-value="total_debit+item.debit-item.credit"/>
+                                            <t t-set="total_debit" t-value="total_debit+item.debit"/>
+                                            <t t-set="total_credit" t-value="total_credit+item.credit"/>
+                                            <t t-set="total" t-value="total_debit-total_credit"/>
                                         </tr>
                                     </t>                                    
                                 </t>
@@ -115,6 +117,8 @@
                                 </tr>
                             </table>
                             <table class="table" style="margin-top:-10px;">
+                                <t t-set="total_debit" t-value="0"/>
+                                <t t-set="total_credit" t-value="0"/>
                                 <tr class="border-right-0 border-left-0" style="border: 3px solid black;">
                                     <th class="pt-0 pb-0 text-center text-uppercase" colspan="2" style="border-right: 1px solid black;">
                                        <b>ACCOUNT NAME</b>
@@ -202,17 +206,17 @@
                         </div>
                         <div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-8">
                                 </div>
-                                <div class="col-6 text-right">
-                                    RECEIVED BY: <u><span t-esc="doc.received_by.name"/></u>
+                                <div class="col-4 text-left">
+                                    RECEIVED BY:__________________________________
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-8">
                                 </div>
-                                <div class="col-6 text-right">
-                                    DATE: <u><span t-field="doc.create_date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'/></u>
+                                <div class="col-4 text-left">
+                                    DATE:___________________________________________
                                 </div>
                             </div>
                         </div>
