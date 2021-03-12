@@ -62,7 +62,7 @@ class Purchase(models.Model):
 
         _logger.debug(f'pickings {due_date}')
 
-    @api.depends('invoice_ids.amount_residual')
+    @api.depends('invoice_ids.amount_total')
     def _compute_amount_bills(self):
         tot_amount = 0
         if len(self.invoice_ids) > 0:
