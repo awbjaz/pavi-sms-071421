@@ -27,6 +27,7 @@
                       <group>
                           <field name="approval_type" widget="radio"/>
                           <field name="active" invisible="1"/>
+                          <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                       </group>
                       <group>
                           <field name="min_amount" />

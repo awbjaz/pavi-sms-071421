@@ -163,7 +163,7 @@ class SaleSubscription(models.Model):
                 ('state', '=', 'posted'),
                 ('invoice_line_ids.subscription_id', '=', self.id)]
 
-        invoice_id = self.env['account.move'].search(args, limit=1, order="date desc")
+        invoice_id = self.env['account.move'].search(args, limit=1, order="end_date desc")
 
         if invoice_id:
             prev_bill = invoice_id.amount_total + invoice_id.total_prev_charges

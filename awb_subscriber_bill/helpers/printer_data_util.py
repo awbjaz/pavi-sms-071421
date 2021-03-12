@@ -16,11 +16,15 @@ class PrinterDataUtil():
         return result.rjust(length)
 
     @classmethod
-    def _format_string(cls, value, length):
+    def _format_string(cls, value, length, is_left_aligned = True):
         result = ''
         if value:
             result = value + ''
-        return result.ljust(length)
+        if is_left_aligned:
+            result = result.ljust(length)
+        else:
+            result = result.rjust(length)
+        return result[:length]
 
     @classmethod
     def _format_date(cls, value):
@@ -45,7 +49,8 @@ class PrinterDataUtil():
 
     @classmethod
     def _format_date_range(cls, value1, value2):
-        return cls._format_date(value1) + ' to ' + cls._format_date(value2)
+        result = cls._format_date(value1) + ' to ' + cls._format_date(value2)
+        return cls._format_string(result.replace('-', '/'), 24)
 
     @classmethod
     def _generate_data_row(cls, record):
@@ -104,16 +109,16 @@ class PrinterDataUtil():
         txt += cls._format_number(subs_tot, 12)
 
         txt += cls._format_string('(Inclusive of VAT)', 19)
-        txt += cls._format_number(0, 12)
+        txt += cls._format_string(0, 12, False)
         txt += cls._format_number(record.invoice_line_ids[0].subscription_id.paid_security_deposit, 12)
-        txt += cls._format_number(0, 12)
+        txt += cls._format_string(0, 12, False)
         txt += cls._format_number(record.amount_total, 12)
         txt += cls._format_number(record.total_vat, 12)
         txt += cls._format_number(0, 12) # amort
         txt += cls._format_number(record.amount_total_signed, 12)
 
         txt += cls._format_string('', 120)
-        txt += cls._format_string('', 120)
+        txt += cls._format_string('', 150)
 
         txt += cls._format_string(record.atm_ref, 100)
 

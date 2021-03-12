@@ -50,19 +50,31 @@
  -->
 
     <template id="report_purchaseorder_document" inherit_id="purchase.report_purchaseorder_document">
-        <xpath expr="//div[@id='informations']" position="inside">
-            <div class="col-3 bm-2">
-                <strong>Requested By:</strong>
-                <p t-field="o.requested_by" class="m-0"/>
+        <xpath expr="//div[@id='informations']" position="after">
+            <div id="informations2" class="row mt32 mb32">
+                <div class="col-3 bm-2">
+                    <strong>Requested By:</strong>
+                    <p t-field="o.requested_by" class="m-0"/>
+                </div>
+                <div class="col-3 bm-2">
+                    <strong>Payment Terms:</strong>
+                    <p t-field="o.payment_term_id.name" class="m-0"/>
+                </div>
+                <div class="col-3 bm-2">
+                    <strong>Delivery Date:</strong>
+                    <p t-field="o.picking_ids[0].date_done" class="m-0"/>
+                </div>
             </div>
-            <div class="col-3 bm-2">
-                <strong>Payment Terms:</strong>
-                <p t-field="o.payment_term_id.name" class="m-0"/>
-            </div>
-            <div class="col-3 bm-2">
-                <strong>Receipt Date:</strong>
-                <p t-field="o.date_planned" class="m-0"/>
-            </div>
+        </xpath>
+        <xpath expr="//div[@id='total']" position="after">
+            <table border="1" style="width:100%;">
+              <tr style="font-weight:bold;">
+                <td>
+                    <div widget="html" t-field="user.signature"/>
+                 </td>
+                 <td></td>
+              </tr>
+            </table>
         </xpath>
     </template>
 

@@ -19,8 +19,11 @@
     'depends': ['account'],
     'data': [
         'views/account_move_views.xml',
+        'views/account_payment_views.xml',
         'reports/report.xml',
         'reports/journal_voucher.xml',
+        'reports/account_payable_voucher.xml',
+        'reports/payment_voucher.xml',
     ],
     'installable': True,
     'application': False,

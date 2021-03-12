@@ -10,6 +10,15 @@
             <field name="reviewed_by" attrs="{'invisible': [('type', '!=', 'entry')]}"/>
             <field name="approved_by" attrs="{'invisible': [('type', '!=', 'entry')]}"/>
           </xpath>
+          <xpath expr="//group[@name='payments_info_group']" position="after">
+            <group string="Others" attrs="{'invisible': [('type', '!=', 'in_invoice')]}">
+              <field name="prepared_by"/>
+              <field name="entered_by"/>
+              <field name="posted_by"/>
+              <field name="audited_by"/>
+              <field name="approved_by"/>
+            </group>
+          </xpath>
         </field>
       </record>
     </data>
