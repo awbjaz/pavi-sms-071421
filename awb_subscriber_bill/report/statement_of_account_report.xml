@@ -206,15 +206,21 @@
                             </tr>
                             <tr>
                                 <td>Others</td>
-                                <td style="text-align:right;"><span>0.00</span></td>
+                                <t t-set="other_tot" t-value="0"/>
+                                <t t-foreach="doc.statement_line_ids" t-as="line">
+                                    <t t-if="line.statement_type == 'other'">
+                                        <t t-set="other_tot" t-value="other_tot+line.amount"/> 
+                                    </t>
+                                </t>
+                                <td style="text-align:right;">
+                                    <t t-esc="'{0:,.2f}'.format(other_tot)"/>
+                                </td>
                                 <td colspan="2"/>
                             </tr>
                             <tr>                                                         
                                 <td>VAT</td>
                                    
-                                <td style="text-align:right;">
-                                    <!-- <span t-field="doc.total_vat"/> -->
-                                   
+                                <td style="text-align:right;">                     
                                     <t t-esc="'{0:,.2f}'.format(doc.total_vat)"/>
                                 </td>             
                                 <td colspan="2"/>

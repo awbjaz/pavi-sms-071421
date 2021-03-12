@@ -106,40 +106,78 @@ class AccountMove(models.Model):
             "type": "ir.actions.act_url"
         }
 
-    # def _recompute_statement(self, invoice):
-    #     self.ensure_one()
-    #     device_id = self.env.ref('awb_subscriber_product_information.product_device_fee').id
-    #     lines = []
-    #     # invoice Lines
-    #     for invoice in self.invoice_line_ids:
-    #         if invoice.product.product_tmpl_id.id == device_id:
-    #                 data = {
-    #                 'name': invoice.name,
-    #                 'statement_type': 'device_fee',
-    #                 'amount': invoice.price_subtotal,
-    #             }
-    #             lines.append((0, 0, data))
+    def recompute_statement(self):
+        self.ensure_one()
+        device_id = self.env.ref('awb_subscriber_product_information.product_device_fee').id
+        lines = []
+        # invoice Lines
+        for invoice in self.invoice_line_ids:
+            if invoice.product_id.product_tmpl_id.id == device_id:
+                data = {
+                    'name': invoice.name,
+                    'statement_type': 'device_fee',
+                    'amount': invoice.price_subtotal,
+                }
+                lines.append((0, 0, data))
 
-    #         elif invoice.subscription_id:
-    #             data = {
-    #                 'name': name,
-    #                 'statement_type': 'subs_fee',
-    #                 'amount': line['price_unit'] - total_vat,
-    #             }
-    #             lines.append((0, 0, data))
+            elif invoice.subscription_id:
+                data = {
+                    'name': invoice.name,
+                    'statement_type': 'subs_fee',
+                    'amount': invoice.price_subtotal,
+                }
+                lines.append((0, 0, data))
 
-    #         else:
-    #             data = {
-    #                 'name': name,
-    #                 'statement_type': 'subs_fee',
-    #                 'amount': line['price_unit'] - total_vat,
-    #             }
-    #             lines.append((0, 0, data))
-    
+            else:
+                data = {
+                    'name': invoice.name,
+                    'statement_type': 'other',
+                    'amount': invoice.price_subtotal,
+                }
+                lines.append((0, 0, data))
 
-    #     return lines
+        data = {'name': "Value Added Tax", 'statement_type': 'vat'}
+        data['amount'] = self.amount_tax
+        lines.append((0, 0, data))
+
+        # invoice previous bill
+        args = [('partner_id', '=', self.partner_id.id),
+                ('type', '=', 'out_invoice'),
+                ('state', '=', 'posted'),
+                ('is_subscription', '=', True),
+                ('id', '!=', self.id)]
+
+        invoice_id = self.env['account.move'].search(args, limit=1, order="end_date desc")
+        _logger.debug(f' prev_ball {invoice_id}')
+        if invoice_id:
+            prev_bill = invoice_id.amount_total + invoice_id.total_prev_charges
+            prev_bill = {
+                'name': 'Previous Bill balance',
+                'statement_type': 'prev_bill',
+                'amount': prev_bill,
+            }
+            lines.append((0, 0, prev_bill))
+
+        #Previous Payment
+        args_pay = [('partner_id', '=', self.partner_id.id),
+                    ('partner_type', '=', 'customer'),
+                    ('invoice_ids', 'in', invoice_id.id),
+                    ('state', '=', 'posted')]
+        payment_id = self.env['account.payment'].search(args_pay, limit=1, order="payment_date desc")
+        _logger.debug(f' prev_pay {payment_id}')
+
+        if payment_id:
+            prev_payment = payment_id.amount
+            prev_payment = {
+                'name': 'Previous Received Payment',
+                'statement_type': 'payment',
+                'amount': prev_payment * -1,
+            }
+            lines.append((0, 0, prev_payment))
 
 
+        self.update({'statement_line_ids': None})
+        self.update({'statement_line_ids': lines})
 
 
 class AccountStatementLine(models.Model):
