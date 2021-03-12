@@ -16,6 +16,7 @@ class PurchaseOrderApproval(models.Model):
     approval_type = fields.Selection([('amount', 'Amount')], string='Approval Type', default='amount', tracking=True)
    
     approver_ids = fields.One2many('purchase.order.approver.line', 'approval_id', string='Approvers')
+    company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company)
 
     @api.depends('min_amount', 'max_amount')
     def _compute_name(self):

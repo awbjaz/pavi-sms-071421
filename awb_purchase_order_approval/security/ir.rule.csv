@@ -1,0 +1,2 @@
+id,active,perm_create,perm_unlink,perm_read,perm_write,domain_force,groups,name,model_id
+awb_purchase_order_approval.purchase_order_approval_rule,TRUE,TRUE,TRUE,TRUE,TRUE,"[('company_id', 'in', company_ids)]",,Purchase Order Approval multi-company,Purchase Order Approval

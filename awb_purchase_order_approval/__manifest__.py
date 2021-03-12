@@ -19,6 +19,7 @@
     'depends': ['web', 'purchase'],
     'data': [
         'security/ir.model.access.csv',
+        'security/ir.rule.csv',
         'views/purchase_order_approval_views.xml',
         'views/purchase_views.xml',
         'report/purchase_report_templates.xml'
