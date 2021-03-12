@@ -77,7 +77,7 @@
                                     <span>DATE:</span>
                                 </td>
                                  <td>
-                                    <span>11/22/2020</span>
+                                     <span t-field="doc.counter_receipt_date"/>
                                 </td>
                                  <td>
                                     <span>AREA:</span>
@@ -97,11 +97,8 @@
                                 <th>MRR No.</th>
                                 <th>P.O No.</th>
                                 <th>Amount</th>
-                                
                             </tr>
                             <tr>
-                          
-                              
                                 <t t-if="doc.invoice_ids">
                                     <t t-foreach="doc.invoice_ids" t-as="line">
                                         <td><span t-field="line.invoice_date"/> </td>
@@ -110,41 +107,12 @@
                                 <t t-else="">
                                     <td></td>
                                 </t>
-                                <t t-if="doc.invoice_ids">
-                                    <t t-foreach="doc.invoice_ids" t-as="line">
-                                        <td><span t-field="line.invoice_date_due"/> </td>
-                                    </t>
-                                </t>
-                                <t t-else="">
-                                    <td></td>
-                                </t>
-                                <t t-if="doc.picking_ids">
-                                    <t t-foreach="doc.picking_ids" t-as="line">
-                                        <td><span t-esc="line.si_num"/> </td>
-                                    </t>
-                                </t>
-                                <t t-else="">
-                                    <td></td>
-                                </t>
-
-                                <t t-if="doc.picking_ids">
-                                    <t t-foreach="doc.picking_ids" t-as="line">
-                                        <td><span t-esc="line.dr_num"/> </td>
-                                    </t>
-                                </t>
-                                <t t-else="">
-                                    <td></td>
-                                </t>
-                               
-                                <t t-if="doc.picking_ids">
-                                    <t t-foreach="doc.picking_ids" t-as="line">
-                                        <td><span t-esc="line.mrr_num"/> </td>
-                                    </t>
-                                </t>
-                                <t t-else="">
-                                    <td></td>
-                                </t>
-                                
+                                <td>
+                                    <span t-field="doc.receipt_date_due"/>
+                                </td>
+                                <td><span t-field="doc.si_num"/></td>
+                                <td><span t-field="doc.dr_num"/></td>
+                                <td><span t-field="doc.mrr_num"/></td>
                                 <td><span t-field="doc.name"/></td>
                                 <td><span t-field="doc.total_amount_vendor_bills"/></td>
                             </tr>
