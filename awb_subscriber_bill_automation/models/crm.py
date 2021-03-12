@@ -136,11 +136,12 @@ class CRMLead(models.Model):
         completed = self.env.ref('awb_subscriber_product_information.stage_completed')
 
         domain = [('stage_id', 'in', [closed_lost.id, closed_won.id])]
-        oppys = self.env['crm.lead'].search(domain)
+        oppys = self.env['crm.lead'].search(domain, limit=200)
         _logger.debug(f'Oppys to complete: {len(oppys)}')
         for oppy in oppys:
             _logger.debug(f'Processing Oppy: {oppy}')
             try:
                 oppy.stage_id = completed.id
+                self.env.cr.commit()
             except Exception as e:
                 _logger.info(f'Cannot complete oppy: {oppy} Err: {str(e)}')
