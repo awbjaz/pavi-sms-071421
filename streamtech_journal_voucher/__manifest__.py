@@ -21,6 +21,7 @@
         'views/account_move_views.xml',
         'reports/report.xml',
         'reports/journal_voucher.xml',
+        'reports/account_payable_voucher.xml',
     ],
     'installable': True,
     'application': False,
