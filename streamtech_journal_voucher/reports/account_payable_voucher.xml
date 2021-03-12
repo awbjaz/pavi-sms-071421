@@ -193,14 +193,14 @@
                                 <div class="col-8">
                                 </div>
                                 <div class="col-4 text-left">
-                                    RECEIVED BY:__________________________________
+                                    RECEIVED BY: <span style="text-decoration: underline; white-space: pre;">                                                  </span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-8">
                                 </div>
                                 <div class="col-4 text-left">
-                                    DATE:___________________________________________
+                                    DATE: <span style="text-decoration: underline; white-space: pre;">                                                                 </span>
                                 </div>
                             </div>
                         </div>

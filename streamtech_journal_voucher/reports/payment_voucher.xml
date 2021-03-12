@@ -49,8 +49,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-8 text-left">
-                                <b>Pesos   </b><u style="text-transform: uppercase;"><span t-esc="doc.amount_to_text(doc.amount, doc.currency_id)"/>ONLY</u>
+                            <div class="col-12 text-left">
+                                <b>Pesos   </b><u style="text-transform: uppercase;"><span t-esc="doc.amount_to_text(doc.amount, doc.currency_id)"/> ONLY</u>
                             </div>
                         </div>
                         <div class="row">
@@ -209,14 +209,14 @@
                                 <div class="col-8">
                                 </div>
                                 <div class="col-4 text-left">
-                                    RECEIVED BY:__________________________________
+                                    RECEIVED BY: <span style="text-decoration: underline; white-space: pre;">                                                  </span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-8">
                                 </div>
                                 <div class="col-4 text-left">
-                                    DATE:___________________________________________
+                                    DATE: <span style="text-decoration: underline; white-space: pre;">                                                                 </span>
                                 </div>
                             </div>
                         </div>
