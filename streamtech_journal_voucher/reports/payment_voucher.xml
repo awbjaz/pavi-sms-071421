@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="report_accounts_payable_voucher">
+    <template id="report_payment_voucher">
         <t t-call="web.basic_layout">
             <t t-set="data_report_margin_top" t-value="12"/>
             <t t-set="data_report_header_spacing" t-value="9"/>
@@ -22,7 +22,7 @@
                             <br/>
                             <br/>
                             <div style="font-size:20px;">
-                                <center><strong><span>ACCOUNTS PAYABLE VOUCHER</span></strong></center>
+                                <center><strong><span>PAYMENT VOUCHER</span></strong></center>
                             </div>
                         </div>
                         <div class="row">
@@ -31,26 +31,40 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-4 offset-8 text-right">
-                                <b>Date: </b> <u><span t-field="doc.date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'/></u>
+                            <div class="col-8 text-left">
+                                <b>Pay to the</b>
+                            </div>
+                            <div class="col-4 text-right">
+                                <b>Date: </b> <u><span t-field="doc.payment_date" t-options='{"widget": "payment_date", "format": "MMMM dd, yyyy"}'/></u>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-4 offset-8 text-right">
-                                <t t-set="total_debit" t-value="0"/>
-                                <t t-set="debit" t-value="0"/>
-                                <t t-foreach="doc.line_ids" t-as="item">
-                                    <t t-set="debit" t-value="item.debit"/>
-                                    <t t-set="total_debit" t-value="total_debit+item.debit"/>
-                                </t>
-                                <b>₱ </b> <u><span t-esc="'{0:,.2f}'.format(total_debit)"/></u>
+                            <div class="col-1 text-left">
+                            </div>
+                            <div class="col-7 text-left">
+                                <b>order of   </b><u><span t-field="doc.partner_id"/></u>
+                            </div>
+                            <div class="col-4 text-right">
+                                <b>₱ </b> <u><span t-esc="'{0:,.2f}'.format(doc.amount)"/></u>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8 text-left">
+                                <b>Pesos   </b><u><span t-field="doc.check_amount_in_words"/></u>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8 text-left">
+                                <b>In payment of </b><u><span t-field="doc.communication"/></u>
+                            </div>
+                            <div class="col-4 text-right">
+                                <b>Check No.   </b><u><span t-field="doc.check_number"/></u>   
                             </div>
                         </div>
                         <div class="mt-3">
+                            <t t-set="total_debit" t-value="0"/>
+                            <t t-set="total_credit" t-value="0"/>
                             <table class="table">
-                                <t t-set="total_debit" t-value="0"/>
-                                <t t-set="total_credit" t-value="0"/>
-                                <!-- Particular -->
                                 <tr class="border-right-0 border-left-0" style="border: 3px solid black;">
                                     <th class="col-6 pt-0 pb-0 text-uppercase text-center" colspan="3">
                                        <b>EXPLANATION</b>
@@ -63,24 +77,26 @@
                                     </th>
                                 </tr>
                                 <t t-set="total" t-value="0"/>
-                                <t t-foreach="doc.line_ids" t-as="item">
-                                    <tr>
-                                        <td class="pt-0 pb-0 border-top-0 border-bottom-0" colspan="3">
-                                            <span t-field="item.name"/>
-                                        </td>
-                                        <td  class="pt-0 pb-0 text-center border-top-0 border-bottom-0" style="border-right: 1px solid black;">
-                                            <span t-esc="item.account_id.code"/>
-                                        </td>
-                                        <td class="pt-0 pb-0 text-right border-top-0 border-bottom-0">
-                                            <t t-if="item.debit>0">
-                                                <span t-esc="'{0:,.2f}'.format(item.debit)"/>
-                                            </t>
-                                            <t t-if="item.credit>0">
-                                                (<span t-esc="'{0:,.2f}'.format(item.credit)"/>)
-                                            </t>
-                                        </td>
-                                        <t t-set="total" t-value="total_debit+item.debit-item.credit"/>
-                                    </tr>
+                                <t t-foreach="doc.reconciled_invoice_ids" t-as="payment_invoice">
+                                    <t t-foreach="payment_invoice.line_ids" t-as="item">
+                                        <tr>
+                                            <td class="pt-0 pb-0 border-top-0 border-bottom-0" colspan="3">
+                                                <span t-field="item.name"/>
+                                            </td>
+                                            <td  class="pt-0 pb-0 text-center border-top-0 border-bottom-0" style="border-right: 1px solid black;">
+                                                <span t-esc="item.account_id.code"/>
+                                            </td>
+                                            <td class="pt-0 pb-0 text-right border-top-0 border-bottom-0">
+                                                <t t-if="item.debit>0">
+                                                    <span t-esc="'{0:,.2f}'.format(item.debit)"/>
+                                                </t>
+                                                <t t-if="item.credit>0">
+                                                    (<span t-esc="'{0:,.2f}'.format(item.credit)"/>)
+                                                </t>
+                                            </td>
+                                            <t t-set="total" t-value="total_debit+item.debit-item.credit"/>
+                                        </tr>
+                                    </t>                                    
                                 </t>
                                 <tr>
                                     <td class="pt-0 pb-0 text-right text-uppercase border-top-0 border-bottom-0" colspan="4" style="border-right: 1px solid black;">
@@ -98,7 +114,6 @@
                                     </td>
                                 </tr>
                             </table>
-                            <!-- Account -->
                             <table class="table" style="margin-top:-10px;">
                                 <tr class="border-right-0 border-left-0" style="border: 3px solid black;">
                                     <th class="pt-0 pb-0 text-center text-uppercase" colspan="2" style="border-right: 1px solid black;">
@@ -114,31 +129,33 @@
                                        <b>CREDIT</b>
                                     </th>
                                 </tr>
-                                <t t-foreach="doc.line_ids" t-as="item">
-                                    <tr>
-                                        <td class="pt-0 pb-0 border-top-0 border-bottom-0" colspan="2" style="border-right: 1px solid black;">
-                                            <span t-field="item.account_id.name"/>
-                                        </td>
-                                        <td  class="pt-0 pb-0 text-center border-top-0 border-bottom-0 border-left-0" style="border-right: 1px solid black;">
-                                            <span t-esc="item.account_id.code"/>
-                                        </td>
-                                        <td class="pt-0 pb-0 text-right border-top-0 border-bottom-0" style="border-right: 1px solid black;">
-                                            <t t-if="item.debit == 0">
-                                            </t>
-                                            <t t-else="item.debit != 0">
-                                                <span t-esc="'{0:,.2f}'.format(item.debit)"/>
-                                            </t>
-                                        </td>
-                                        <td class="pt-0 pb-0 text-right border-top-0 border-bottom-0">
-                                            <t t-if="item.credit == 0">
-                                            </t>
-                                            <t t-else="item.credit != 0">
-                                                <span t-esc="'{0:,.2f}'.format(item.credit)"/>
-                                            </t>
-                                        </td>
-                                        <t t-set="total_debit" t-value="total_debit+item.debit"/>
-                                        <t t-set="total_credit" t-value="total_credit+item.credit"/>
-                                    </tr>
+                                <t t-foreach="doc.reconciled_invoice_ids" t-as="payment_invoice">
+                                    <t t-foreach="payment_invoice.line_ids" t-as="item">
+                                        <tr>
+                                            <td class="pt-0 pb-0 border-top-0 border-bottom-0" colspan="2" style="border-right: 1px solid black;">
+                                                <span t-field="item.account_id.name"/>
+                                            </td>
+                                            <td  class="pt-0 pb-0 text-center border-top-0 border-bottom-0 border-left-0" style="border-right: 1px solid black;">
+                                                <span t-esc="item.account_id.code"/>
+                                            </td>
+                                            <td class="pt-0 pb-0 text-right border-top-0 border-bottom-0" style="border-right: 1px solid black;">
+                                                <t t-if="item.debit == 0">
+                                                </t>
+                                                <t t-else="item.debit != 0">
+                                                    <span t-esc="'{0:,.2f}'.format(item.debit)"/>
+                                                </t>
+                                            </td>
+                                            <td class="pt-0 pb-0 text-right border-top-0 border-bottom-0">
+                                                <t t-if="item.credit == 0">
+                                                </t>
+                                                <t t-else="item.credit != 0">
+                                                    <span t-esc="'{0:,.2f}'.format(item.credit)"/>
+                                                </t>
+                                            </td>
+                                            <t t-set="total_debit" t-value="total_debit+item.debit"/>
+                                            <t t-set="total_credit" t-value="total_credit+item.credit"/>
+                                        </tr>
+                                    </t>                                    
                                 </t>
                                 <tr style="border-bottom: 3px solid black;">
                                     <td class="pt-0 pb-0 border-top-0 border-bottom-0" colspan="2" style="border-right: 1px solid black;">Nothing Follows...</td>
@@ -153,7 +170,6 @@
                                     </td>
                                 </tr>
                             </table>
-                            <!-- Signature -->
                             <table class="table" style="margin-top:-10px;">
                                 <tr class="border-right-0 border-left-0" style="border: 3px solid black;">
                                     <th class="pt-0 pb-0 text-left" style="border-right: 1px solid black;">
