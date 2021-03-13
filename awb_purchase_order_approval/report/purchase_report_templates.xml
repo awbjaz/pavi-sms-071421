@@ -62,19 +62,9 @@
                 </div>
                 <div class="col-3 bm-2">
                     <strong>Delivery Date:</strong>
-                    <p t-field="o.picking_ids[0].date_done" class="m-0"/>
+                    <p t-field="o.date_planned" class="m-0"/>
                 </div>
             </div>
-        </xpath>
-        <xpath expr="//div[@id='total']" position="after">
-            <table border="1" style="width:100%;">
-              <tr style="font-weight:bold;">
-                <td>
-                    <div widget="html" t-field="user.signature"/>
-                 </td>
-                 <td></td>
-              </tr>
-            </table>
         </xpath>
     </template>
 
