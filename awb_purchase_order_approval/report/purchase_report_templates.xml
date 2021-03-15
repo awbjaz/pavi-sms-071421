@@ -30,32 +30,6 @@
         </xpath>
     </template>
 
-    <template id="external_layout_standard" inherit_id="web.external_layout_standard">
-       
-        <xpath expr="//div[@t-att-style='report_header_style']" position="replace">
-           <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
-                <div class="row">
-                    <div class="col-3 mb4">
-                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 120px;" alt="Logo"/>
-                    </div>
-                    <div class="col-9 text-right" name="company_address">
-                        <div t-field="company.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"/>
-                    </div>
-                     <!-- <div class="col-3 text-right" style="margin-top:22px;" t-field="company.report_header" name="moto"/> -->
-                </div>
-                <div t-if="company.logo or company.report_header" class="row zero_min_height">
-                    <div class="col-12">
-                        <div style="border-bottom: 1px solid black;"/>
-                    </div>
-                </div>
-             
-            </div>
-        </xpath>
-
-
-    </template>
-
-  
 <!-- 
     <template id="contact" inherit_id="base.contact">
         <xpath expr="//address/div" position="after">
