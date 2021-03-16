@@ -11,7 +11,7 @@ class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
     state = fields.Selection(selection_add=[('for_approval', 'For Approval')])
-    requested_by = fields.Many2one('res.users', default=lambda self: self.env.user, required=True)
+    requested_by = fields.Many2one('res.partner', default=lambda self: self.env.user.partner_id.id, required=True)
     reviewed_by = fields.Many2one('res.partner')
     approval_lines = fields.One2many('purchase.order.approval.line', 'order_id',
                                      string='Approval Lines', tracking=True, copy=True)
