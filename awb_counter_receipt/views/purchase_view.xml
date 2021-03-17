@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="counter_receipt_ref" readonly="1" attrs="{'invisible': [('state', 'in', ('draft', 'sent'))]}"/>
-                <field name="counter_receipt_date"  attrs="{'invisible': [('state', 'in', ('draft', 'sent'))]}"/>
+                <field name="counter_receipt_date" attrs="{'invisible': [('state', 'in', ('draft', 'sent'))], 'required': [('state', 'not in', ('draft', 'sent'))]}"/>
                 <field name="follow_up_to" attrs="{'invisible': [('state', 'in', ('draft', 'sent'))]}"/>
                 <field name="total_amount_vendor_bills" invisible="1"/>
                
@@ -16,7 +16,7 @@
             </xpath>
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="payment_term_id" options="{'no_create': True}"/>
-                <field name="receipt_date_due" attrs="{'invisible': [('state', 'in', ('draft', 'sent'))]}"/>
+                <field name="receipt_date_due" attrs="{'invisible': [('state', 'in', ('draft', 'sent'))], 'required': [('state', 'not in', ('draft', 'sent'))]}"/>
                 <field name="si_num" readonly="1" force_save="1" attrs="{'invisible': [('state', 'in', ('draft', 'sent'))]}"/>
                 <field name="dr_num" readonly="1" force_save="1" attrs="{'invisible': [('state', 'in', ('draft', 'sent'))]}"/>
                 <field name="mrr_num" readonly="1" force_save="1" attrs="{'invisible': [('state', 'in', ('draft', 'sent'))]}"/>
