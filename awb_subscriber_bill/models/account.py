@@ -56,7 +56,8 @@ class AccountMove(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['atm_ref_sequence'] = self.env['ir.sequence'].next_by_code('account_move.atm.reference.seq.code')
+        if vals['type'] == 'out_invoice':
+            vals['atm_ref_sequence'] = self.env['ir.sequence'].next_by_code('account_move.atm.reference.seq.code')
         res = super(AccountMove, self).create(vals)
         return res
 

@@ -27,10 +27,11 @@ class AccountAsset(models.Model):
     @api.model   
     def create(self, vals):
         _logger.error('create')
-        # if vals.has_key('acquisition_date'):
-        #     vals['first_depreciation_date'] = self.compute_depreciation_date(vals['acquisition_date'])
-    
-        vals['first_depreciation_date'] = self.compute_depreciation_date(vals['acquisition_date'])
+        try:
+            if vals.has_key('acquisition_date'):
+                vals['first_depreciation_date'] = self.compute_depreciation_date(vals['acquisition_date'])
+        except:
+            pass #evil
 
         result = super(AccountAsset, self).create(vals)
         return result 
