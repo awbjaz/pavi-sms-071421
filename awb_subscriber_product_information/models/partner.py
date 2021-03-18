@@ -12,14 +12,80 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+ACCOUNT_CLASSIFICATION = [('internal', 'Affiliate / Internal'),
+                          ('external', 'External'),
+                          ('avg - allday retail','AVG - Allday Retail'),
+                          ('avg - allhome','AVG - Allhome'),
+                          ('avg - cmstar management','AVG - CMStar Management'),
+                          ('avg - family shoppers','AVG - Family Shoppers'),
+                          ('avg - cafe voila','AVG - Cafe Voila'),
+                          ('avg - others','AVG - Others'),
+                          ('avg - vitacare','AVG - Vitacare'),
+                          ('mall - admin office','Mall - Admin Office'),
+                          ('mall - managed wifi','Mall - Managed Wifi'),
+                          ('parallax','Parallax'),
+                          ('vista','Vista'),
+                          ('avg - allday marts','AVG - Allday Marts'),
+                          ('mark\'s fitness','Mark\'s Fitness'),
+                          ('mgs / mex','MGS / MEX'),
+                          ('pavi','PAVI'),
+                          ('globalland / gets','Globalland / GETs'),
+                          ('vip','VIP'),
+                          ('franchise','Franchise'),
+                          ('allbank','Allbank'),
+                          ('georgia academy','Georgia Academy'),
+                          ('others','Others'),
+                          ('mella hotel','Mella Hotel'),
+                          ('golden haven','Golden Haven'),
+                          ('enterprise','Enterprise'),
+                          ('b2b','B2B'),
+                          ('sme','SME'),
+                          ('msme','MSME'),
+                          ('starmall alabang','Starmall Alabang'),
+                          ('starmall edsa-shaw','Starmall EDSA-SHAW'),
+                          ('vistamall antipolo (mille luce)','VistaMall Antipolo (Mille Luce)'),
+                          ('vistamall bataan','VistaMall Bataan'),
+                          ('vistamall cebu (talisay) (azienda)*','VistaMall Cebu (Talisay) (Azienda)*'),
+                          ('vistamall daang hari','VistaMall Daang Hari'),
+                          ('vistamall dasma (agustine grove)','VistaMall Dasma (Agustine Grove)'),
+                          ('vistamall gen trias','VistaMall Gen Trias'),
+                          ('vistamall iloilo','VistaMall Iloilo'),
+                          ('vistamall lakefront (boardwalk)','VistaMall Lakefront (Boardwalk)'),
+                          ('vistamall lakefront (wharf)','VistaMall Lakefront (Wharf)'),
+                          ('vistamall las pinas','VistaMall Las Pinas'),
+                          ('vistamall las pinas annex','VistaMall Las Pinas Annex'),
+                          ('vistamall malolos','VistaMall Malolos'),
+                          ('vistamall naga','VistaMall Naga'),
+                          ('vistamall nomo','VistaMall NOMO'),
+                          ('vistamall pampanga (paseo)','VistaMall Pampanga (Paseo)'),
+                          ('vistamall sjdm bulacan','VistaMall SJDM Bulacan'),
+                          ('vistamall sta. rosa','VistaMall Sta. Rosa'),
+                          ('vistamall taguig','VistaMall Taguig'),
+                          ('vistamall tanza','VistaMall Tanza'),
+                          ('evia lifestyle center','EVIA Lifestyle Center'),
+                          ('mintal davao','Mintal Davao'),
+                          ('gran europa','Gran Europa'),
+                          ('polar (beside edsa shaw)','Polar (beside EDSA Shaw)'),
+                          ('ferrari','Ferrari'),
+                          ('bcda commercial pad taguig','BCDA COMMERCIAL PAD TAGUIG'),
+                          ('vistamall vibal','VistaMall Vibal'),
+                          ('vistahub molino','VistaHub Molino'),
+                          ('vistamall las pinas b3','VistaMall Las Pinas B3'),
+                          ('wordlwide corporate center','Wordlwide Corporate Center'),
+                          ('vistamall silang','VistaMall Silang'),
+                          ('vistamall imus','VistaMall Imus'),
+                          ('vistamall kawit','VistaMall Kawit'),
+                          ('vistamall global south','VistaMall Global South'),
+                          ('vistamall cabanatuan','VistaMall Cabanatuan'),
+                          ('vistamall sta. maria bulacan','VistaMall Sta. Maria Bulacan')]
+
 
 class PartnerAccountClassification(models.Model):
     _name = 'partner.classification'
     _description = 'Partner Classification'
 
     name = fields.Char('Name', required=True)
-    account_classification = fields.Selection([('internal', 'Affiliate / Internal'),
-                                               ('external', 'External')], string="Account Classification")
+    account_classification = fields.Selection(ACCOUNT_CLASSIFICATION, string="Account Classification")
     description = fields.Text('Description')
 
 
@@ -53,13 +119,14 @@ class Partner(models.Model):
                                        ('living_relatives', 'Living with Relatives'),
                                        ('company_provided', 'Company Provided'),
                                        ('mortgaged', 'Mortgaged')], string="Home Ownership")
-    account_classification = fields.Selection([('internal', 'Affiliate / Internal'),
-                                               ('external', 'External')], string="Account Classification")
+    account_classification = fields.Selection(ACCOUNT_CLASSIFICATION, string="Account Classification")
     account_subclassification = fields.Many2one('partner.classification', string='Account Subclassification')
     subscriber_type = fields.Selection([('enterprise', 'Enterprise'),
                                         ('sme', 'SME'),
                                         ('internal', 'Internal'),
-                                        ('msme', 'MSME')], string='Subscriber Type')
+                                        ('msme', 'MSME'),
+                                        ('external', 'External'),
+                                        ('mall tenants', 'Mall Tenants')], string='Subscriber Type')
     account_group = fields.Selection([('vista', 'Vista'),
                                      ('non-vista', 'Non-Vista')], string='Account Group')
     account_type = fields.Selection([('corporate', 'Corporate'),
