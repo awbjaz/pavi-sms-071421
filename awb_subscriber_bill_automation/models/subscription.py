@@ -177,6 +177,7 @@ class SaleSubscription(models.Model):
         #Previous Payment
         args_pay = [('partner_id', '=', invoice['partner_id']),
                     ('partner_type', '=', 'customer'),
+                    ('invoice_ids', 'in', invoice_id.id),
                     ('state', '=', 'posted')]
         payment_id = self.env['account.payment'].search(args_pay, limit=1, order="payment_date desc")
 

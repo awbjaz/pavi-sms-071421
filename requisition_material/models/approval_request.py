@@ -131,8 +131,8 @@ class ApprovalRequest(models.Model):
             for rec in picking_ids:
                 rec.state = 'cancel'
     
-    def action_cancel(self, approver=None):
-        super(ApprovalRequest, self).action_cancel(approver=None)
+    def action_cancel(self):
+        super(ApprovalRequest, self).action_cancel()
         if self.application == 'warehouse':
             picking = self.env['stock.picking'].sudo()
             picking_ids = picking.sudo().search([('origin','=',self.reference_number),
