@@ -21,7 +21,7 @@
 
     'category': 'Localization',
 
-    'version': '13.0.1.1.0',
+    'version': '13.0.1.2.0',
 
     'depends': ['crm', 'sale_management', 'sale_subscription', 'awb_subscriber_location'],
 
