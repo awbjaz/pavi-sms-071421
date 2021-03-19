@@ -25,8 +25,9 @@
             <xpath expr="//group[@name='request_details']/field[@name='application']" position="after">
                 <field name="warehouse_id" 
                     attrs="{'invisible':[('has_warehouse','==','no')], 'required': [('has_warehouse','==','required')], 'readonly': [('request_status','not in',('new', 'pending'))]}"
-                    options="{'no_create': True}"/>   
+                    options="{'no_create': True}"/>
                 <field name="picking_type_id" options="{'no_create': True}" invisible="1"/>
+                <field name="purchase_process" attrs="{'invisible': [('application', '!=', 'purchase')], 'required': [('application', '==', 'purchase')]}"/>
                 <field name="has_warehouse" invisible="1"/>
             </xpath>
 

@@ -16,6 +16,12 @@ class AwbApprovalCategory(models.Model):
                                      ('optional', 'Optional'),
                                      ('no', 'None')],
                                     default='no', string="Products", required=True)
+    has_analytic_account = fields.Selection([('required', 'Required'),
+                                             ('optional', 'Optional'),
+                                             ('no', 'None')],
+                                            default='no',
+                                            string="Analytic Account",
+                                            required=True)
 
     has_application = fields.Selection([('required', 'Required'),
                                         ('no', 'None')],

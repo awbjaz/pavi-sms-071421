@@ -11,7 +11,7 @@ from odoo import api, fields, models, _
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    region_id = fields.Many2one('res.region', string='Region', ondelete='restrict', required=True, domain="[('country_id', '=?', country_id)]")
+    region_id = fields.Many2one('res.region', string='Region', ondelete='restrict', domain="[('country_id', '=?', country_id)]")
     state_id = fields.Many2one("res.country.state",
                                string='State',
                                ondelete='restrict',

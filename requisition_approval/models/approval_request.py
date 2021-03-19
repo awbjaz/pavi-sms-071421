@@ -19,12 +19,16 @@ class AwbApprovalRequest(models.Model):
     reference_number = fields.Char('Reference #', readonly=True)
     has_products = fields.Selection(related="category_id.has_products")
     has_application = fields.Selection(related="category_id.has_application")
+    has_analytic_account = fields.Selection(related="category_id.has_analytic_account")
 
     product_line_ids = fields.One2many(
         'approval.product.line', 'approval_id', string="Products")
 
     application = fields.Selection(
         [('no', 'None')], default="no", string="Application")
+
+    account_analytic_id = fields.Many2one(
+                    'account.analytic.account', string="Analytic Account")
 
     def action_confirm(self):
         res = super(AwbApprovalRequest, self).action_confirm()

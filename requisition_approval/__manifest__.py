@@ -21,7 +21,7 @@
 
     'category': 'Approval',
 
-    'version': '13.0.1.0.0',
+    'version': '13.0.1.1.0',
 
     'depends': ['approvals', 'product'],
 
