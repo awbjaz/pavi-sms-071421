@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_payment_form" model="ir.ui.view">
+        <field name="name">view.account.payment.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='communication']" position="after">
+                <field name="source_payment_id"/>
+            </xpath>
+             <xpath expr="//sheet" position="inside">
+                <notebook>
+                    <page string="Transfer Details" name="transfer_details" attrs="{'invisible': [('payment_type', '!=', 'transfer')]}">
+                    <group>
+                        <field name="transfer_details" nolabel="1">
+                            <tree>
+                            <field name="payment_ref" string="References"/>
+                            <field name="partner_id" string="Customer"/>
+                            <field name="amount"/>
+                            <field name="memo"/>
+                            <field name="payment_date"/>
+                            </tree>
+                        </field>
+                    </group>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
