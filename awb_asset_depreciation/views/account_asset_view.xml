@@ -8,6 +8,9 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='first_depreciation_date']" position="replace">
                 <field name="first_depreciation_date" widget="date" readonly="1"/>
+<!-- 
+                <field name="trigger_first_depreciation_date" attrs="{'invisible':1}"/>
+ -->
             </xpath>
         </field>
     </record>
