@@ -44,8 +44,10 @@ class AccountMove(models.Model):
         res = super(AccountMove, self).create(vals_list)
         for rec in res:
             if rec.type == 'entry':
-                if len(res.line_ids) == 0:
-                    raise UserError(_('Journal Items must have atleast 1 record'))
+                _logger.debug(f'Type {rec.type}')
+                if rec.journal_id.type == 'general':
+                    if not rec.line_ids:
+                        raise UserError(_('Journal Items must have atleast 1 record'))
         return res
 
     def write(self, vals):
