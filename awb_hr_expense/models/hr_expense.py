@@ -17,7 +17,7 @@ class HrExpense(models.Model):
     @api.model   
     def create(self, vals):
         vals['generated_num'] = self.env['ir.sequence'].next_by_code('hr.expense.generated.number.seq.code') 
-        vals['generated_num_plus_name'] = vals['generated_num'] + "/" + vals['name']
+        vals['generated_num_plus_name'] = (vals['generated_num'] or '') + '/' + (vals['name'] or '')
         result = super(HrExpense, self).create(vals)
         return result 
 
