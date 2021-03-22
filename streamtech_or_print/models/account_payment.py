@@ -19,20 +19,16 @@ class account_payment(models.Model):
             'device_fee': 0.0,
             'service_fee': 0.0,
             'untaxed_amount': 0.0,
+            'tax_withholding': 0.0,
             'total_sales': 0.0,
             'vat': 0.0,
             'total_amount': 0.0
         }
-        device = self.env.ref('awb_subscriber_product_information.product_device_fee')
-        for invoice in self.reconciled_invoice_ids:
-            detail['untaxed_amount'] += invoice.amount_untaxed
-            detail['vat'] += invoice.amount_tax
-            detail['total_sales'] += invoice.amount_total
-            detail['total_amount'] += invoice.amount_total
-            for line in invoice.invoice_line_ids:
-                if line.product_id.id == device.id:
-                    detail['device_fee'] += line.price_subtotal
-                else:
-                    detail['service_fee'] += line.price_subtotal
-                _logger.info(f'Invoice {invoice} {line} {detail}')
+        detail['total_sales'] = float(self.amount)
+        detail['vat'] = round(self.amount / 1.12 * 0.12, 2)
+        detail['untaxed_amount'] = detail['total_sales'] - detail['vat']
+        if self.partner_id.is_company:
+            detail['tax_withholding'] = detail['untaxed_amount'] * 0.02
+        detail['total_amount'] = detail['untaxed_amount'] + detail['vat'] - detail['tax_withholding']
+
         return detail
