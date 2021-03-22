@@ -23,13 +23,23 @@ class AccountAsset(models.Model):
         _logger.error('_default_trigger_first_depreciation_date')
         return self.compute_depreciation_date(self.acquisition_date) 
 
+    def _get_first_depreciation_date(self, vals={}):
+        _logger.error('_get_first_depreciation_date')
+        first_depreciation_date = self.compute_depreciation_date(vals.get('acquisition_date', datetime.datetime.now()))
+        return first_depreciation_date
+
     def compute_depreciation_date(self, acquisition_date):
         _logger.error('compute_depreciation_date')
         base_date = acquisition_date
         if base_date is None or base_date is False or base_date is True:
             base_date = datetime.datetime.now()
 
-        day = base_date.day
+        try:
+            day = base_date.day
+        except:
+            base_date = datetime.datetime.now()
+            day = base_date.day
+
         month = base_date.month
         year = base_date.year
 
@@ -60,3 +70,5 @@ class AccountAsset(models.Model):
         if self.first_depreciation_date != expected:
             self.first_depreciation_date = expected 
                            
+
+    

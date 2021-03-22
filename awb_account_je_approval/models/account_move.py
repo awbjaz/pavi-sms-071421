@@ -47,7 +47,7 @@ class AccountMove(models.Model):
                 _logger.debug(f'Type {rec.type}')
                 if rec.journal_id.type == 'general':
                     if not rec.line_ids:
-                        raise UserError(_('Journal Items must have atleast 1 record'))
+                        raise UserError(_('Journal Items must have at least 1 record'))
         return res
 
     def write(self, vals):
@@ -56,5 +56,5 @@ class AccountMove(models.Model):
         for rec in self:
             if rec.type == 'entry':
                 if len(rec.line_ids) == 0:
-                    raise UserError(_('Journal Items must have atleast 1 record'))
+                    raise UserError(_('Journal Items must have at least 1 record'))
         return res
