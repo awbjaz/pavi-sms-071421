@@ -55,6 +55,7 @@ class AccountMove(models.Model):
         _logger.debug(f'RESULT {res}')
         for rec in self:
             if rec.type == 'entry':
-                if len(rec.line_ids) == 0:
-                    raise UserError(_('Journal Items must have at least 1 record'))
+                if rec.journal_id.type == 'general':
+                    if len(rec.line_ids) == 0:
+                        raise UserError(_('Journal Items must have at least 1 record'))
         return res
