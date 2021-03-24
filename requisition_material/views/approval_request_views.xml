@@ -14,7 +14,6 @@
             </xpath>
             <xpath expr="//group[@name='request_details']/field[@name='application']" position="after">
                 <field name="wh_picking_type_id" attrs="{'invisible':[('has_stock_location','==','no')], 'required': [('has_stock_location','==','required')], 'readonly': [('request_status','not in',('new', 'pending'))]}"/> 
-                <field name="warehouse_id"/>
                 <field name="location_id" attrs="{'invisible':[('has_stock_location','==','no')], 'required': [('has_stock_location','==','required')], 'readonly': [('request_status','not in',('new', 'pending'))]}"/>   
                 <field name="location_transit_id" attrs="{'invisible':[('has_stock_location','==','no')], 'readonly': [('request_status','not in',('new', 'pending'))]}"/>   
                 <field name="location_dest_id" attrs="{'invisible':[('has_stock_location','==','no')], 'required': [('has_stock_location','==','required')], 'readonly': [('request_status','not in',('new', 'pending'))]}"/>

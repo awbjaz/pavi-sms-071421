@@ -18,7 +18,6 @@ class ApprovalRequest(models.Model):
                                        domain=[('usage', 'in', ['internal','customer'])])
     location_transit_id = fields.Many2one('stock.location', string="Transit Location",
                                           domain=[('usage', 'in', ['internal','transit'])])
-    warehouse_id = fields.Many2one('stock.warehouse', string="Warehouse", readonly=True)
     wh_picking_type_id = fields.Many2one('stock.picking.type', string="Inventory Operation",
                                       domain=[('code','in',['internal','outgoing'])])
 
@@ -28,7 +27,6 @@ class ApprovalRequest(models.Model):
     @api.onchange('wh_picking_type_id')
     def onchange_picking_type_id(self):
         if self.wh_picking_type_id:
-            self.warehouse_id = self.wh_picking_type_id.warehouse_id.id
             self.location_id = self.wh_picking_type_id.default_location_src_id.id
             self.location_dest_id = self.wh_picking_type_id.default_location_dest_id.id
         
@@ -131,8 +129,8 @@ class ApprovalRequest(models.Model):
             for rec in picking_ids:
                 rec.state = 'cancel'
     
-    def action_cancel(self, approver=None):
-        super(ApprovalRequest, self).action_cancel(approver=None)
+    def action_cancel(self):
+        super(ApprovalRequest, self).action_cancel()
         if self.application == 'warehouse':
             picking = self.env['stock.picking'].sudo()
             picking_ids = picking.sudo().search([('origin','=',self.reference_number),
