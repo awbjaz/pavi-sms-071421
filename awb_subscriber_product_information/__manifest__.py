@@ -30,6 +30,7 @@
         'data/product_data.xml',
         'data/res_partner_sequence.xml',
         'security/ir.model.access.csv',
+        'views/account_views.xml',
         'views/crm_view.xml',
         'views/partner_view.xml',
         'views/product_view_ext.xml',
