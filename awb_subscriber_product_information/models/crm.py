@@ -29,6 +29,7 @@ class CRMLead(models.Model):
     _inherit = 'crm.lead'
 
     account_identification = fields.Char(string="Account ID")
+    customer_number = fields.Char(related='partner_id.customer_number')
     company_type = fields.Selection(related="partner_id.company_type", string="Account Type")
     is_auto_quotation = fields.Boolean(string="Is auto Quotation")
     outside_source = fields.Boolean(string="Outside Source", default=False)
