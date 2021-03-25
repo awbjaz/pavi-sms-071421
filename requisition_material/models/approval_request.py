@@ -36,20 +36,20 @@ class ApprovalRequest(models.Model):
                 [('origin', '=', rec.reference_number)])
             rec.transfers_count = len(transfers)
 
-    def action_approve(self, approver=None):
-        super(ApprovalRequest, self).action_approve(approver=None)
-        if self.application == 'warehouse':
+    def process_request_approval(self, request):
+        super(ApprovalRequest, self).process_request_approval(request)
+        if request.application == 'warehouse':
             picking = self.env['stock.picking'].sudo()
 #             picking_type = self.env['stock.picking.type'].sudo().search(
 #                 [('code', '=', 'internal')], limit=1)
 
             """Checking of related partner record"""
-            if self.partner_id: partner_id = self.partner_id.id
-            else: partner_id = self.request_owner_id.partner_id.id
+            if request.partner_id: partner_id = request.partner_id.id
+            else: partner_id = request.request_owner_id.partner_id.id
 
-            if not self.location_transit_id:
+            if not request.location_transit_id:
                 products = []
-                for product in self.product_line_ids:
+                for product in request.product_line_ids:
                     item = {
                         'name': product.product_id.name,
                         'product_id': product.product_id.id,
@@ -60,11 +60,11 @@ class ApprovalRequest(models.Model):
 
                 data = {
                     'partner_id': partner_id,
-                    'picking_type_id': self.wh_picking_type_id.id,
-                    'user_id': self.request_owner_id.id,
-                    'location_id': self.location_id.id,
-                    'location_dest_id': self.location_dest_id.id,
-                    'origin': self.reference_number,
+                    'picking_type_id': request.wh_picking_type_id.id,
+                    'user_id': request.request_owner_id.id,
+                    'location_id': request.location_id.id,
+                    'location_dest_id': request.location_dest_id.id,
+                    'origin': request.reference_number,
                     'move_lines': products
                 }
 
@@ -77,7 +77,7 @@ class ApprovalRequest(models.Model):
 
             else:
                 products = []
-                for product in self.product_line_ids:
+                for product in request.product_line_ids:
                     item = {
                         'name': product.product_id.name,
                         'product_id': product.product_id.id,
@@ -86,23 +86,22 @@ class ApprovalRequest(models.Model):
                     }
                     products.append((0, 0, item))
 
-
                 data_source_to_transit = {
                     'partner_id': partner_id,
-                    'picking_type_id': self.picking_type_id.id,
-                    'location_id': self.location_id.id,
-                    'user_id': self.request_owner_id.id,
-                    'location_dest_id': self.location_transit_id.id,
-                    'origin': self.reference_number,
+                    'picking_type_id': request.picking_type_id.id,
+                    'location_id': request.location_id.id,
+                    'user_id': request.request_owner_id.id,
+                    'location_dest_id': request.location_transit_id.id,
+                    'origin': request.reference_number,
                     'move_lines': products
                 }
 
                 data_transit_to_destination = {
                     'partner_id': partner_id,
-                    'picking_type_id': self.picking_type_id.id,
-                    'location_id': self.location_transit_id.id,
-                    'location_dest_id': self.location_dest_id.id,
-                    'origin': self.reference_number,
+                    'picking_type_id': request.picking_type_id.id,
+                    'location_id': request.location_transit_id.id,
+                    'location_dest_id': request.location_dest_id.id,
+                    'origin': request.reference_number,
                     'move_lines': products
                 }
 

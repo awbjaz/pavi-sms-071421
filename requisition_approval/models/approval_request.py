@@ -47,6 +47,16 @@ class AwbApprovalRequest(models.Model):
 
         return res
 
+    def _compute_request_status(self):
+        super(AwbApprovalRequest, self)._compute_request_status()
+        for request in self:
+            if request.request_status == 'approved':
+                self.process_request_approval(request)
+
+    def process_request_approval(self, request):
+        # create place holder method
+        return
+
 
 class AwbApprovalProductLine(models.Model):
     _name = "approval.product.line"
