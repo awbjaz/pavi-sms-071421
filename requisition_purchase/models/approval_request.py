@@ -214,16 +214,16 @@ class PrApprovalRequest(models.Model):
                                                 'self': tendercreate, 'origin': self},
                                             subtype_id=self.env.ref('mail.mt_note').id)
 
-    def action_approve(self, approver=None):
-        res = super(PrApprovalRequest, self).action_approve(approver=None)
+    def process_request_approval(self, request):
+        super(PrApprovalRequest, self).process_request_approval(request)
         transactions = {}
-        if self.product_line_ids and self.application == 'purchase':
-            for line in self.product_line_ids:
-                if self.purchase_process == 'product':
+        if request.product_line_ids and request.application == 'purchase':
+            for line in request.product_line_ids:
+                if request.purchase_process == 'product':
                     requisition_type = line.product_id.purchase_requisition
-                elif self.purchase_process == 'draft_po':
+                elif request.purchase_process == 'draft_po':
                     requisition_type = 'rfq'
-                elif self.purchase_process == 'draft_pa':
+                elif request.purchase_process == 'draft_pa':
                     requisition_type = 'tenders'
 
                 if requisition_type not in transactions:
@@ -250,5 +250,3 @@ class PrApprovalRequest(models.Model):
                     for vendor in transactions[requisition_type]:
                         lines = transactions[requisition_type][vendor]
                         self._create_tenders(vendor, lines)
-
-        return res

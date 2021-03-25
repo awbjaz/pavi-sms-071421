@@ -25,7 +25,7 @@ class PurchaseOrder(models.Model):
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
-    gross_amount = fields.Float(string='Gross Amount')
+    gross_amount = fields.Float(string='Gross Price')
     discount = fields.Float(string='Discount')
     discount_percentage = fields.Float(string='Discount %')
     price_unit = fields.Float(string='Unit Price', required=True, digits='Product Price', compute='_compute_price')

@@ -21,7 +21,7 @@
 
     'category': 'Localization',
 
-    'version': '13.0.1.0.0',
+    'version': '13.0.1.1.1',
 
     'depends': ['requisition_approval', 'purchase_requisition', 'purchase', 'stock', 'purchase_stock'],
 
@@ -33,6 +33,6 @@
         'views/purchase_requisition_views.xml',
     ],
     'installable': True,
-    'application': True,
+    'application': False,
     'auto_install': False
 }
