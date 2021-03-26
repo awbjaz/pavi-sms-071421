@@ -16,22 +16,22 @@
                                         <!-- <span t-esc="detail['device_fee']"/> -->
                                     </div>
                                     <div style="margin: 8mm 0 0 0;">
-                                        <span t-esc="detail['total_sales']"/>
+                                        <span t-esc="'{0:,.2f}'.format(detail['total_sales'])"/>
                                     </div>
                                     <div style="margin: 2mm 0 0 0;">
-                                        <span t-esc="detail['vat'] * -1"/>
+                                        <span t-esc="'{0:,.2f}'.format(detail['vat'] * -1)"/>
                                     </div>
                                     <div style="margin: 2mm 0 0 0;">
-                                        <span t-esc="detail['untaxed_amount']"/>
+                                        <span t-esc="'{0:,.2f}'.format(detail['untaxed_amount'])"/>
                                     </div>
                                     <div style="margin: 2mm 0 0 0;">
-                                        <span t-esc="detail['tax_withholding']"/>
+                                        <span t-esc="'{0:,.2f}'.format(detail['tax_withholding'])"/>
                                     </div>
                                     <div style="margin: 2mm 0 0 0;">
-                                        <span t-esc="detail['vat']"/>
+                                        <span t-esc="'{0:,.2f}'.format(detail['vat'])"/>
                                     </div>
                                     <div style="margin: 2mm 0 0 0;">
-                                        <span t-esc="detail['total_amount']"/>
+                                        <span t-esc="'{0:,.2f}'.format(detail['total_amount'])"/>
                                     </div>
                                 </div>
                             </td>
