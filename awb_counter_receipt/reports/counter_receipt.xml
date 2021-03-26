@@ -98,15 +98,25 @@
                                 <th>P.O No.</th>
                                 <th style="text-align: right">Amount</th>
                             </tr>
-                            <t t-if="doc.invoice_ids">
-                            <tr t-foreach="doc.invoice_ids.sorted(key=lambda r: r.invoice_date)" t-as="line">
-                                <td><span t-field="line.invoice_date"/> </td>
-                                <td><span t-field="doc.receipt_date_due"/></td>
-                                <td><span t-field="doc.si_num"/></td>
-                                <td><span t-field="doc.dr_num"/></td>
-                                <td><span t-field="doc.mrr_num"/></td>
-                                <td><span t-field="doc.name"/></td>
-                                <td style="text-align: right"><span t-field="line.amount_total"/> </td>
+                            <t t-set="tot_amount" t-value="0"/>
+                            <t t-if="doc.picking_ids">
+                            <tr t-foreach="doc.picking_ids.sorted(key=lambda r: r.name)" t-as="line">
+                                <t t-if="line.state == 'done'">
+                                    <td><span t-field="line.si_date"/> </td>
+                                    <td><span t-field="line.receipt_date_due"/></td>
+                                    <td><span t-field="line.si_num"/></td>
+                                    <td><span t-field="line.dr_num"/></td>
+                                    <td><span t-field="line.mrr_num"/></td>
+                                    <td>
+                                    <t t-if="line.purchase_id">
+                                        <span t-field="line.purchase_id.name"/>
+                                    </t>
+                                    </td>
+                                    <td style="text-align: right"> 
+                                        <span t-field="line.total_amount"/> 
+                                        <t t-set="tot_amount" t-value="tot_amount+line.total_amount"/>
+                                    </td>
+                                </t>
                             </tr>
                             </t>
                         </table>
@@ -116,7 +126,7 @@
                                 <td style="width: 15%">Due Date:</td>
                                 <td style="width: 50%"><span t-field="doc.payment_term_id.name"/></td>
                                 <td style="width: 15%; text-align: right">TOTAL:</td>
-                                <td style="width: 20%; text-align: right"><span t-field="doc.total_amount_vendor_bills"/></td>
+                                <td style="width: 20%; text-align: right"> <t t-esc="'{0:,.2f}'.format(tot_amount)"/> </td>
                             </tr>
                         </table>
                         <br/>
