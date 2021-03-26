@@ -136,7 +136,25 @@ class SaleSubscription(models.Model):
                     tot_vat += (total_price_unit /
                                 ((100 + t.amount) / 100)) * (t.amount/100)
                 total_vat += tot_vat
+          
+            if product.product_tmpl_id.id != device_id:
+                _logger.debug(f'Invoice: {invoice}')
 
+                args = [('partner_id', '=', invoice['partner_id']),
+                        ('type', '=', 'out_refund'),
+                        ('state', '=', 'posted'),
+                        ('invoice_date', '>=', line['subscription_start_date']),
+                        ('invoice_date', '<=', line['subscription_end_date'])]
+
+                credit_note_id = self.env['account.move'].search(args, limit=1, order="invoice_date desc")
+
+                rebates = {
+                    'name': 'Rebates',
+                    'statement_type': 'adjust',
+                    'amount': credit_note_id.amount_total * -1,
+                }
+                lines.append((0, 0, rebates))
+            
             if product.product_tmpl_id.id == device_id:
                 data = {
                     'name': line['name'],
@@ -145,7 +163,6 @@ class SaleSubscription(models.Model):
                 }
                 lines.append((0, 0, data))
             else:
-
                 data = {
                     'name': line['name'],
                     'statement_type': 'subs_fee',
