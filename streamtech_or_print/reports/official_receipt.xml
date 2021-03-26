@@ -15,7 +15,7 @@
                                     <div style="margin: 4mm 0 0 0;">
                                         <!-- <span t-esc="detail['device_fee']"/> -->
                                     </div>
-                                    <div style="margin: 8mm 0 0 0;">
+                                    <div style="margin: 8mm 0 0 0;"> 
                                         <span t-esc="'{0:,.2f}'.format(detail['total_sales'])"/>
                                     </div>
                                     <div style="margin: 2mm 0 0 0;">
