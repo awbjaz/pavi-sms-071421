@@ -53,7 +53,8 @@ class AccountMove(models.Model):
                 rec.statement_line_ids.filtered(lambda r: r.statement_type == 'vat').mapped('amount'))
             prev_balance = sum(rec.statement_line_ids.filtered(lambda r: r.statement_type == 'prev_bill').mapped('amount'))
             prev_received = sum(rec.statement_line_ids.filtered(lambda r: r.statement_type == 'payment').mapped('amount'))
-            rec.total_prev_charges = prev_balance + prev_received
+            adjustment = sum(rec.statement_line_ids.filtered(lambda r: r.statement_type == 'adjust').mapped('amount'))
+            rec.total_prev_charges = prev_balance + prev_received + adjustment
 
     @api.model
     def create(self, vals):
