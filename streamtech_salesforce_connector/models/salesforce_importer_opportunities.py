@@ -78,6 +78,7 @@ class SalesForceImporterOpportunities(models.Model):
                     Contract_Term__c,
                     Sub_Stages__c,
                     Initial_Payment_Date__c,
+                    Area_ODOO__c,
                     (SELECT SLA_Activation_Actual_End_Date__c FROM opportunity.Job_Orders__r),
                     (SELECT
                         PricebookEntryId, Product2Id, ProductCode,
@@ -87,7 +88,8 @@ class SalesForceImporterOpportunities(models.Model):
                         opportunity.OpportunityLineItems),
                     {account_query}
                 FROM opportunity
-                WHERE ((StageName = 'Closed Won' AND Sub_Stages__c in ('Completed Activation'))
+                WHERE  CreatedDate >= 2021-03-15T00:00:00+0000
+                AND ((StageName = 'Closed Won' AND Sub_Stages__c in ('Completed Activation'))
                 OR StageName = 'Closed Lost')
                 AND Opportunity_In_Effect__c = true
                 """
@@ -187,6 +189,8 @@ class SalesForceImporterOpportunities(models.Model):
         else:
             speed = 0
 
+        zone = self._find_zone(lead['Area_ODOO__c'])
+
         contract_term = lead.get('Contract_Term__c', 0)
         if contract_term:
             contract_term = int(contract_term)
@@ -241,7 +245,8 @@ class SalesForceImporterOpportunities(models.Model):
             'payment_date': lead.get('Initial_Payment_Date__c'),
             'billing_type': 'physical',
             'job_order_status': substage,
-            'subscription_status': subscription_status
+            'subscription_status': subscription_status,
+            'zone': zone.id
         }
 
         if contract_start_date and contract_end_date:
@@ -253,172 +258,6 @@ class SalesForceImporterOpportunities(models.Model):
             lead['sf_type'] = 'Reconnection'
 
         return lead
-
-    def _create_lead_partner_data(self, partner, lead_partner):
-        data = {
-            'salesforce_id': partner['Id'],
-            'name': partner['Name'],
-            'account_type': '',
-            'outside_sourced': True,
-            'location': 'SalesForce Opportunity Account',
-            'customer_rank': 1,
-            'last_name': '',
-            'first_name': '',
-            'middle_name': '',
-            'birthday': False,
-            'gender': '',
-            'subscriber_type': '',
-            'account_classification': '',
-            'account_subclassification': None,
-            'type': '',
-        }
-
-        type_data = partner['Type']
-        if type_data:
-            data['type'] = type_data
-
-        if partner.get('IsPersonAccount'):
-            data['is_company'] = False
-            gender = partner['Gender__c']
-            if gender:
-                gender = gender.lower()
-            else:
-                gender = None
-
-            civil_status = partner.get('Civil_Status__c')
-            if civil_status:
-                civil_status = civil_status.lower()
-                data['civil_status'] = civil_status
-
-            home_ownership = partner['Home_Ownership__c']
-            if home_ownership:
-                home_ownership = home_ownership.lower()
-                home_ownership = home_ownership.replace('\xa0', ' ')
-                if home_ownership == 'living with relatives':
-                    home_ownership = 'living_relatives'
-                elif home_ownership == 'company provided':
-                    home_ownership = 'company_provided'
-                data['home_ownership'] = home_ownership
-
-            account_group = partner['Zone_Type_Acc__c']
-            if account_group:
-                account_group = account_group.lower()
-                data['account_group'] = account_group
-                data['zone_type'] = account_group
-
-            zone_subtype = partner['Zone_Sub_Type_Acc__c']
-            if zone_subtype:
-                zone_sub = self.env['zone.subtype'].search([('name', '=', zone_subtype)])
-                if not zone_sub:
-                    zone_sub = self.env['zone.subtype'].create({'name': zone_subtype, 'zone_type': account_group})
-
-                data['zone_subtype'] = zone_sub.id
-
-            email = partner['PersonEmail']
-            if email:
-                data['email'] = email
-
-            mobile = partner['PersonMobilePhone']
-            phone = partner['PersonOtherPhone']
-
-            birthday = partner['Birth_Date__c']
-            if birthday:
-                data['birthday'] = birthday
-
-            data.update({
-                'first_name': partner['FirstName'],
-                'middle_name': partner['MiddleName'],
-                'last_name': partner['LastName'],
-                'mobile': mobile,
-                'phone': phone,
-                'gender': gender
-                })
-
-            street1 = partner['House_No_BL_Phase__c']
-            street2 = partner['Barangay_Subdivision_Name__c']
-
-            province_name = partner['Province__c']
-            city_name = partner['City__c']
-        else:
-            data['is_company'] = True
-            subscriber_type = partner.get('Customer_Type__c')
-            if subscriber_type:
-                subscriber_type = subscriber_type.lower()
-                data['subscriber_type'] = subscriber_type
-
-            classification = partner['Account_Classification__c']
-            if classification:
-                classification = classification.lower()
-                if classification == 'affiliate/internal':
-                    classification = 'internal'
-                data['account_classification'] = classification
-
-            sub_classification = partner.get('Account_Sub_Classification__c')
-            if sub_classification:
-                sub_class = self.env['partner.classification'].search([('name', '=', sub_classification)])
-                if not sub_class:
-                    sub_class = self.env['partner.classification'].create({'name': sub_classification, 'account_classification': classification})
-
-                data['account_subclassification'] = sub_class.id
-
-            bldg_billing = partner.get('NameBldg_NoFloor_No_BillingAddress__c')
-            street_billing = partner.get('Street_BillingAddress__c')
-            brgy_billing = partner.get('Barangay_BillingAddress__c')
-
-            province_name = partner.get('Province_BillingAddress__c')
-            city_name = partner.get('City_BillingAddress__c')
-
-            mobile = partner['Mobile_Phone__c']
-            phone = partner['Phone']
-
-            data['mobile'] = mobile
-            data['phone'] = phone
-
-            street1 = f'{bldg_billing} {street_billing}'
-            street2 = brgy_billing
-
-        province_id = False
-        if province_name:
-            province_name = province_name.replace('\xa0', ' ')
-            if province_name == 'Compostela Valley':
-                province_name = 'Davao de Oro'
-            elif province_name == 'Western Samar':
-                province_name = 'Samar'
-            province_id = self.env['res.country.state'].search([('name', '=ilike', province_name)])
-
-        city_id = False
-        if city_name:
-            city_name = city_name.replace('\xa0', ' ')
-            city_name = city_name.replace(' (Rizal)', '')
-            city_name = city_name.replace(' (Albor)', '')
-            city_name = city_name.replace('Bumbaran', 'Amai Manabilang')
-            city_name = city_name.replace('General Salipada K. Pendatun', 'Gen. S.K. Pendatun')
-            city_name = city_name.replace('Sultan Sumagka', 'Talitay')
-            city_name = city_name.replace('Datu Montawal', 'Pagagawan')
-            city_name = city_name.replace('Senator Ninoy Aquino', 'Sen. Ninoy Aquino')
-            city_name = city_name.replace('President Manuel A. Roxas', 'Pres. Manuel A. Roxas')
-            city_id = self.env['res.city'].search([('name', '=ilike', city_name), ('state_id', '=?', province_id.id)])
-
-        if not city_id or len(city_id) > 1:
-            _logger.error(f'Multiple Cities: {data["salesforce_id"]} {city_name}:{city_id} {province_name}:{province_id}')
-
-        data.update({
-            'street': street1,
-            'street2': street2,
-            'city_id': city_id.id if city_id else False,
-            'state_id': province_id.id if province_id else False,
-            'region_id': province_id.region_id.id if province_id and province_id.region_id else False,
-            'country_id': province_id.country_id.id if province_id and province_id.country_id else False
-            })
-
-        if lead_partner:
-            lead_partner.write(data)
-        else:
-            lead_partner = self.env['res.partner'].create(data)
-
-        lead_partner.action_assign_customer_id()
-
-        return lead_partner
 
     def _create_lead_product_data(self, opportunity, products):
         items = []
@@ -465,9 +304,13 @@ class SalesForceImporterOpportunities(models.Model):
     def _get_partner_data(self, lead):
         lead_partner = self.env['res.partner'].search([('salesforce_id', '=', lead['AccountId'])])
         partner = lead['Account']
-        lead_partner = self._create_lead_partner_data(partner, lead_partner)
+        lead_partner = self._create_customer(partner, lead_partner)
 
         return lead_partner
+
+    def _find_zone(self, zone):
+        zone = self.env['subscriber.location'].search([('name', '=', zone)], limit=1)
+        return zone
 
     def creating_opportunities(self, opportunities):
         salesforce_ids = []
