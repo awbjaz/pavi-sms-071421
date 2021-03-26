@@ -26,9 +26,9 @@ class account_payment(models.Model):
         }
         detail['total_sales'] = float(self.amount)
         detail['vat'] = round(self.amount / 1.12 * 0.12, 2)
-        detail['untaxed_amount'] = detail['total_sales'] - detail['vat']
+        detail['untaxed_amount'] = round(detail['total_sales'] - detail['vat'], 2)
         if self.partner_id.is_company:
-            detail['tax_withholding'] = detail['untaxed_amount'] * 0.02
-        detail['total_amount'] = detail['untaxed_amount'] + detail['vat'] - detail['tax_withholding']
+            detail['tax_withholding'] = round(detail['untaxed_amount'] * 0.02, 2)
+        detail['total_amount'] = round(detail['untaxed_amount'] + detail['vat'] - detail['tax_withholding'], 2)
 
         return detail
