@@ -136,10 +136,12 @@
         <xpath expr="//field[@name='website']" position="attributes">
           <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
         </xpath>
-        <xpath expr="//field[@name='website']" position="attributes">
+        <xpath expr="//field[@name='email_from']" position="attributes">
           <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
         </xpath>
-
+        <xpath expr="//field[@name='partner_address_phone']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
 
         <xpath expr="//page[@name='lead']//field[@name='partner_name']" position="attributes">
           <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
