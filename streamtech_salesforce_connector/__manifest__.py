@@ -15,7 +15,7 @@
     'author': "Achieve Without Borders, Inc",
     'website': "http://www.achievewithoutborders.com",
     'category': 'Sales',
-    'version': '13.0.1.0.0',
+    'version': '13.0.1.0.1',
     'depends': ['salesforce_connector', 'awb_subscriber_bill_automation', 'awb_subscriber_product_information'],
     'data': [
         'views/crm_view.xml',
