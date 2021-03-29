@@ -10,7 +10,6 @@
                 <field name="si_date"/>
                 <field name="si_num" attrs="{'required': True}"/>
                 <field name="dr_num"/>
-                <field name="mrr_num" attrs="{'required': True}"/>
                 <field name="total_amount" invisible="1"/>
             </xpath>
         </field>
@@ -26,7 +25,6 @@
                 <field name="si_date" optional="hide"/>
                 <field name="si_num" optional="hide"/>
                 <field name="dr_num" optional="hide"/>
-                <field name="mrr_num" optional="hide"/>
             </xpath>
         </field>
     </record>

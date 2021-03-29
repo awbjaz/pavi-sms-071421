@@ -21,7 +21,6 @@ class Picking(models.Model):
     si_date = fields.Date(string="SI Date")
     si_num = fields.Char(string="SI Number")
     dr_num = fields.Char(string="DR Number")
-    mrr_num = fields.Char(string="MRR Number")
     total_amount = fields.Float(string="Total Amount", compute='_compute_total_amount')
 
     @api.depends('move_ids_without_package')

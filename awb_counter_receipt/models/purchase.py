@@ -20,7 +20,18 @@ class Purchase(models.Model):
     counter_receipt_date = fields.Date(string="Counter Receipt Date")
     follow_up_to = fields.Many2one('res.partner', string="Follow Up to")
 
-    @ api.model
+    is_item_received = fields.Boolean(string="Is Item received ?", compute='_compute_item_received')
+    
+
+    @api.depends('picking_ids')
+    def _compute_item_received(self):
+        received = False
+        for pick in self.picking_ids:
+            if pick.state == 'done':
+                received = True
+        self.is_item_received = received
+
+    @api.model
     def create(self, vals):
         vals['counter_receipt_ref'] = self.env['ir.sequence'].next_by_code(
             'counter.receipt') or '/'

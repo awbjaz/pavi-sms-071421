@@ -106,7 +106,7 @@
                                     <td><span t-field="line.receipt_date_due"/></td>
                                     <td><span t-field="line.si_num"/></td>
                                     <td><span t-field="line.dr_num"/></td>
-                                    <td><span t-field="line.mrr_num"/></td>
+                                    <td><span t-field="line.name"/></td>
                                     <td>
                                     <t t-if="line.purchase_id">
                                         <span t-field="line.purchase_id.name"/>
