@@ -103,6 +103,7 @@ class PrApprovalRequest(models.Model):
         return action
 
     def _create_purchase_order(self, line):
+        # deprecated marked for removal
         purchase_data = {
             'partner_id': line.product_id.seller_ids[0].name.id if line.product_id.seller_ids else self.partner_id.id,
             'order_line': [(0, 0, {
@@ -126,6 +127,7 @@ class PrApprovalRequest(models.Model):
                                         subtype_id=self.env.ref('mail.mt_note').id)
 
     def _create_purchase_requisition(self, line):
+        # deprecated marked for removal
         tender_data = {
             'vendor_id': line.product_id.seller_ids[0].name.id if line.product_id.seller_ids else self.partner_id.id,
             'line_ids': [(0, 0, {
@@ -181,7 +183,9 @@ class PrApprovalRequest(models.Model):
             'discount': 0
         }
 
-        pocreate = self.purchase_ids.create(purchase_data)
+        _logger.debug(f'User: {self.env.ref("base.user_root")}')
+
+        pocreate = self.with_user(self.env.ref('base.user_root')).purchase_ids.create(purchase_data)
         pocreate.message_post_with_view('mail.message_origin_link',
                                         values={
                                             'self': pocreate, 'origin': self},
@@ -206,9 +210,9 @@ class PrApprovalRequest(models.Model):
             'approval_id': self.id,
             'origin': self.reference_number,
         }
+        _logger.debug(f'User 2: {self.env.ref("base.user_root")}')
 
-        tendercreate = self.purchase_requisition_ids.create(
-            tender_data)
+        tendercreate = self.with_user(self.env.ref('base.user_root')).purchase_requisition_ids.create(tender_data)
         tendercreate.message_post_with_view('mail.message_origin_link',
                                             values={
                                                 'self': tendercreate, 'origin': self},
