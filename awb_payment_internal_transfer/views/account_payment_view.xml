@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="account.view_account_payment_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='communication']" position="after">
-                <field name="source_payment_id"/>
+                <field name="source_payment_id" string="Destination Payment"/>
             </xpath>
              <xpath expr="//sheet" position="inside">
                 <notebook>
