@@ -1,3 +1,7 @@
+# v1.2.1 03/29/21
+
+    - [FIX] remove negative in Official Receipt Print
+
 # v1.2.0
 
     - [IMP] Changed to 2 decimal places of all amount
