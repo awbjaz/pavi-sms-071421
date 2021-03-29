@@ -21,7 +21,7 @@
 
     'category': 'Localization',
 
-    'version': '13.0.1.2.1',
+    'version': '13.0.1.3.0',
 
     'depends': ['requisition_approval', 'purchase_requisition', 'purchase', 'stock', 'purchase_stock'],
 

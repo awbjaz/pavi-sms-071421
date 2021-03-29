@@ -24,6 +24,8 @@ class AwbApprovalCategory(models.Model):
                                             required=True)
 
     has_application = fields.Selection([('required', 'Required'),
+                                        ('default', 'Default'),
                                         ('no', 'None')],
                                        default='no', string="Application", required=True)
+    application_type = fields.Selection([], string='Application Type')
     prefix = fields.Char(string='Prefix', default='', required=True)

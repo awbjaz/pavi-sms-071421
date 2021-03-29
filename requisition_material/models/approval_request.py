@@ -19,17 +19,17 @@ class ApprovalRequest(models.Model):
     location_transit_id = fields.Many2one('stock.location', string="Transit Location",
                                           domain=[('usage', 'in', ['internal','transit'])])
     wh_picking_type_id = fields.Many2one('stock.picking.type', string="Inventory Operation",
-                                      domain=[('code','in',['internal','outgoing'])])
+                                         domain=[('code','in',['internal','outgoing'])])
 
     transfers_count = fields.Integer(
         string='Transfer Request Count', compute="_compute_transfer_request_count")
-    
+
     @api.onchange('wh_picking_type_id')
     def onchange_picking_type_id(self):
         if self.wh_picking_type_id:
             self.location_id = self.wh_picking_type_id.default_location_src_id.id
             self.location_dest_id = self.wh_picking_type_id.default_location_dest_id.id
-        
+
     def _compute_transfer_request_count(self):
         for rec in self:
             transfers = self.env['stock.picking'].sudo().search(
@@ -44,8 +44,10 @@ class ApprovalRequest(models.Model):
 #                 [('code', '=', 'internal')], limit=1)
 
             """Checking of related partner record"""
-            if request.partner_id: partner_id = request.partner_id.id
-            else: partner_id = request.request_owner_id.partner_id.id
+            if request.partner_id:
+                partner_id = request.partner_id.id
+            else:
+                partner_id = request.request_owner_id.partner_id.id
 
             if not request.location_transit_id:
                 products = []
@@ -68,7 +70,7 @@ class ApprovalRequest(models.Model):
                     'move_lines': products
                 }
 
-                transfer_request = picking.create(data)
+                transfer_request = picking.with_user(self.env.ref('base.user_root')).create(data)
 
                 transfer_request.message_post_with_view('mail.message_origin_link',
                                                         values={
@@ -105,8 +107,8 @@ class ApprovalRequest(models.Model):
                     'move_lines': products
                 }
 
-                source_to_transit = picking.create(data_source_to_transit)
-                transit_to_destination = picking.create(data_transit_to_destination)
+                source_to_transit = picking.with_user(self.env.ref('base.user_root')).create(data_source_to_transit)
+                transit_to_destination = picking.with_user(self.env.ref('base.user_root')).create(data_transit_to_destination)
 
                 source_to_transit.message_post_with_view('mail.message_origin_link',
                                                     values={
@@ -118,7 +120,6 @@ class ApprovalRequest(models.Model):
                                                         'self': transit_to_destination, 'origin': self},
                                                     subtype_id=self.env.ref('mail.mt_note').id)
 
-
     def action_withdraw(self, approver=None):
         super(ApprovalRequest, self).action_withdraw(approver=None)
         if self.application == 'warehouse':
@@ -127,7 +128,7 @@ class ApprovalRequest(models.Model):
                                                  ('state','!=','done')])
             for rec in picking_ids:
                 rec.state = 'cancel'
-    
+
     def action_cancel(self):
         super(ApprovalRequest, self).action_cancel()
         if self.application == 'warehouse':
@@ -136,7 +137,6 @@ class ApprovalRequest(models.Model):
                                                  ('state','!=','done')])
             for rec in picking_ids:
                 rec.state = 'cancel'
-            
 
     def action_view_transfer_request(self):
         document = self.env['stock.picking'].sudo().search(

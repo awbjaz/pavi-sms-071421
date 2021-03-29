@@ -14,3 +14,5 @@ class PrApprovalCategory(models.Model):
 
     has_warehouse = fields.Selection([('required', 'Required'),
                                       ('no', 'None')], default='no', string="Warehouse", required=True)
+    application_type = fields.Selection(
+        selection_add=[('purchase', 'Purchase')])

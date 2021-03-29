@@ -13,3 +13,4 @@ class ApprovalCategory(models.Model):
     has_stock_location = fields.Selection(
         CATEGORY_SELECTION, string="Has Stock Location", default="no", required=True,
         help="Stock Location that should be specified on the request.")
+    application_type = fields.Selection(selection_add=[('warehouse', 'Inventory')])

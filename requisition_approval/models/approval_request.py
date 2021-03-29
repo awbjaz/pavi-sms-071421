@@ -16,6 +16,18 @@ _logger = logging.getLogger(__name__)
 class AwbApprovalRequest(models.Model):
     _inherit = "approval.request"
 
+    def _default_application(self):
+        _logger.debug(f'Default Application: {self._context} {self.has_application}: {self.category_id.application_type}')
+        category_id = self._context.get('default_category_id', None)
+        application = 'no'
+        if category_id:
+            category = self.env['approval.category'].browse(category_id)
+            if category.has_application == 'default':
+                application = category.application_type
+            else:
+                application = 'no'
+        return application
+
     reference_number = fields.Char('Reference #', readonly=True)
     has_products = fields.Selection(related="category_id.has_products")
     has_application = fields.Selection(related="category_id.has_application")
@@ -25,7 +37,7 @@ class AwbApprovalRequest(models.Model):
         'approval.product.line', 'approval_id', string="Products")
 
     application = fields.Selection(
-        [('no', 'None')], default="no", string="Application")
+        [('no', 'None')], default=_default_application, string="Application")
 
     account_analytic_id = fields.Many2one(
                     'account.analytic.account', string="Analytic Account")
