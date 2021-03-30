@@ -19,7 +19,7 @@
                                         <span t-esc="'{0:,.2f}'.format(detail['total_sales'])"/>
                                     </div>
                                     <div style="margin: 2mm 0 0 0;">
-                                        <span t-esc="'{0:,.2f}'.format(detail['vat'] * -1)"/>
+                                        <span t-esc="'{0:,.2f}'.format(detail['vat'])"/>
                                     </div>
                                     <div style="margin: 2mm 0 0 0;">
                                         <span t-esc="'{0:,.2f}'.format(detail['untaxed_amount'])"/>

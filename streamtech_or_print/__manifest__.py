@@ -15,7 +15,7 @@
     'author': "Achieve Without Borders, Inc",
     'website': "http://www.achievewithoutborders.com",
     'category': 'Report',
-    'version': '13.0.1.2.0',
+    'version': '13.0.1.2.1',
     'depends': ['account'],
     'data': [
         'reports/report.xml',
