@@ -52,7 +52,8 @@ class AccountMoveBatch(models.Model):
 
     state = fields.Selection([('draft', 'Draft'),
                               ('confirm', 'Confirm'),
-                              ('invoice', 'Invoiced')],
+                              ('invoice', 'Invoiced'),
+                              ('post', 'Posted')],
                              string='State', default='draft')
     account_invoice_ids = fields.Many2many('account.move', string="Invoices")
     @api.model
@@ -168,6 +169,7 @@ class AccountMoveBatch(models.Model):
             view_id.append(moves.id)
         move = self.env['account.move'].search([('id', 'in', view_id)])
         move.action_post()
+        self.update({'state': 'post'})
 
 
 class AccountMoveBatchLine(models.Model):

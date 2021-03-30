@@ -23,8 +23,16 @@ class AccountPayment(models.Model):
    def verify_payment(self, payment_ids):
       _logger.debug(f'Payments Record {payment_ids}')
       payments = self.env['account.payment'].browse(payment_ids)
-      journals = [pay.journal_id.id for pay in payments]
       total_amount = sum([pay.amount for pay in payments])
+
+      journals = []
+      for pay in payments:
+         if pay.payment_type == 'transfer':
+            journals.append(pay.destination_journal_id.id)
+         else:
+            journals.append(pay.journal_id.id)
+
+      _logger.debug(f'Journal {journals}')
 
       has_internal_transfer = []
       for line in payments:
@@ -63,7 +71,7 @@ class AccountPaymentTransfer(models.Model):
 
    payment_id = fields.Many2one('account.payment', string="Payment")
    payment_ref = fields.Many2one('account.payment', string="Payment Reference")
-   partner_id = fields.Many2one('res.partner', string="Partner", required=True)
+   partner_id = fields.Many2one('res.partner', string="Partner")
    amount = fields.Float(string="Amount")
    memo = fields.Char(string="Memo")
    payment_date = fields.Date(string="Payment Date")

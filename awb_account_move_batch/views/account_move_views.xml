@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='ref']" position="after">
-                <field name="batch_rebates_id"/>
+                <field name="batch_rebates_id" invisible="1"/>
             </xpath>
         </field>
     </record>

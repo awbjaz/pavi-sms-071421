@@ -11,7 +11,7 @@
                 <button name="action_compute_rebates" type="object"  string="Compute Rebate" states="draft" class="oe_highlight"  />
                 <button name="action_confirm" type="object"  string="Confirm" states="draft" class="oe_highlight"  />
                 <button name="action_invoice" type="object"  string="Create Invoiced" states="confirm" class="oe_highlight" />
-                <button name="action_view_invoice" type="object"  string="View Invoiced" states="invoice" class="oe_highlight" />
+                <button name="action_view_invoice" type="object"  string="View Invoiced" states="invoice,post" class="oe_highlight" />
                 <button name="action_invoice_post" type="object"  string="Post Invoiced" states="invoice" class="oe_highlight" />
                 <field name="state" widget="statusbar" />
               </header>

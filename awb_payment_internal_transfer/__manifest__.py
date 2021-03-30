@@ -14,7 +14,7 @@
     'author': "Achieve Without Borders, Inc",
     'website': "http://www.achievewithoutborders.com",
     'category': 'Accounting/Payments',
-    'version': '13.0.1.1.0',
+    'version': '13.0.1.2.0',
     'depends': ['account'],
     'data': [
         'security/ir.model.access.csv',
