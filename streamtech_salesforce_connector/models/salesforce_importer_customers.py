@@ -93,7 +93,7 @@ class SalesForceImporterCustomers(models.Model):
         contacts = self.sales_force.bulk.Account.query(query)
         return self.creating_contacts(contacts)
 
-    def _create_customer(self, partner, lead_partner):
+    def _create_customer(self, partner, lead_partner, zone=None):
         data = {
             'salesforce_id': partner['Id'],
             'name': partner['Name'],
@@ -111,6 +111,9 @@ class SalesForceImporterCustomers(models.Model):
             'account_subclassification': None,
             'type': '',
         }
+
+        if zone:
+            data['subscriber_location_id'] = zone.id
 
         type_data = partner['Type']
         if type_data:
