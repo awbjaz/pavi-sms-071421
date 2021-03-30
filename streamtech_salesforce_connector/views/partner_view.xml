@@ -134,6 +134,15 @@
                     <xpath expr="//field[@name='parent_id']" position="attributes">
                         <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
                     </xpath>
+                     <xpath expr="//field[@name='image_1920']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                     <xpath expr="//field[@name='company_type']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                     <xpath expr="//field[@name='child_ids']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
                 </data>
             </field>
         </record>

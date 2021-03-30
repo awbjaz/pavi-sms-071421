@@ -136,12 +136,6 @@
         <xpath expr="//field[@name='website']" position="attributes">
           <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
         </xpath>
-        <xpath expr="//field[@name='email_from']" position="attributes">
-          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
-        </xpath>
-        <xpath expr="//field[@name='partner_address_phone']" position="attributes">
-          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
-        </xpath>
 
         <xpath expr="//page[@name='lead']//field[@name='partner_name']" position="attributes">
           <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
@@ -215,6 +209,11 @@
         <xpath expr="//form[1]/sheet[1]/group[1]/group[not(@name)][6]/field[@name='company_id']" position="attributes">
           <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
         </xpath>
+<!-- 
+        <xpath expr="//form[1]/sheet[1]/group[1]/group[4]/field[@name='priority']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+-->
       </field>
   </record>
 </odoo>
