@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='communication']" position="after">
                 <field name="source_payment_id" string="Destination Payment"/>
+                <field name="is_deposited" readonly="1" />
             </xpath>
              <xpath expr="//sheet" position="inside">
                 <notebook>
