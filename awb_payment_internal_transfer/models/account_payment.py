@@ -17,8 +17,9 @@ class AccountPayment(models.Model):
    _inherit = "account.payment"
 
    source_payment_id = fields.Many2one('account.payment', string="Source Payment", readonly=True)
-   date_transfer = fields.Date(string="Transder Date")
+   date_transfer = fields.Date(string="Transfer Date")
    transfer_details = fields.One2many('account.payment.transfer', 'payment_id', string="Transfer Details", readonly=True)
+   is_deposited = fields.Boolean(string="Deposited")
 
    def verify_payment(self, payment_ids):
       _logger.debug(f'Payments Record {payment_ids}')
