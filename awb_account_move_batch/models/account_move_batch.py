@@ -128,7 +128,7 @@ class AccountMoveBatch(models.Model):
         for customer_id, batch_lines in customers.items():
             invoice_lines = []
             for line in batch_lines['lines']:
-                account_id = line.product_id.property_account_expense_id or line.product_id.categ_id.property_account_expense_categ_id
+                account_id = line.product_id.categ_id.property_account_income_categ_id
                 invoice_lines.append((0, 0, {
                     'product_id': line.product_id.id,
                     'name': line.description,
