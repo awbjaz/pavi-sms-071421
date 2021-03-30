@@ -1,0 +1,2 @@
+id,active,perm_create,perm_unlink,perm_read,perm_write,domain_force,groups,name,model_id
+awb_hr_expense_approval.hr_expense_approval_rule,TRUE,TRUE,TRUE,TRUE,TRUE,"['|',('company_id','=',False),('company_id', 'in', company_ids)]",,HR Expense Approval multi-company,HR Expense Approval

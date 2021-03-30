@@ -22,6 +22,7 @@
             <xpath expr="//group[1]/group[2]/field[@name='partner_id']" position="before">
                 <field name="company_type" readonly="1"/>
                 <field name="account_identification" readonly="1"/>
+                <field name="customer_number" readonly="1"/>
             </xpath>
 
             <xpath expr="//field[@name='team_id']" position="after">

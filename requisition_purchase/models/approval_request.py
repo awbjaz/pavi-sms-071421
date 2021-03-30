@@ -21,6 +21,10 @@ class PrApprovalRequest(models.Model):
     picking_type_id = fields.Many2one(
         'stock.picking.type', string="Deliver To")
 
+    purchase_process = fields.Selection([('product', 'Based on Product'),
+                                         ('draft_po', 'Draft Purchase Order'),
+                                         ('draft_pa', 'Draft Purchase Agreement')],
+                                        string='Process')
     application = fields.Selection(
         selection_add=[('purchase', 'Purchase')])
 
@@ -99,6 +103,7 @@ class PrApprovalRequest(models.Model):
         return action
 
     def _create_purchase_order(self, line):
+        # deprecated marked for removal
         purchase_data = {
             'partner_id': line.product_id.seller_ids[0].name.id if line.product_id.seller_ids else self.partner_id.id,
             'order_line': [(0, 0, {
@@ -122,6 +127,7 @@ class PrApprovalRequest(models.Model):
                                         subtype_id=self.env.ref('mail.mt_note').id)
 
     def _create_purchase_requisition(self, line):
+        # deprecated marked for removal
         tender_data = {
             'vendor_id': line.product_id.seller_ids[0].name.id if line.product_id.seller_ids else self.partner_id.id,
             'line_ids': [(0, 0, {
@@ -152,12 +158,78 @@ class PrApprovalRequest(models.Model):
 
     # 3. loop through transactions create the related forms
 
-    def action_approve(self, approver=None):
-        res = super(PrApprovalRequest, self).action_approve(approver=None)
+    def _create_rfq(self, vendor, lines):
+        order_line = []
+        for line in lines:
+            product = {
+                'product_id': line.product_id.id,
+                'name': line.product_description,
+                'product_qty': line.quantity,
+                'price_unit': line.product_id.list_price,
+                'date_planned': fields.Datetime.now(),
+                'product_uom': line.uom_id.id,
+            }
+            if self.account_analytic_id:
+                product['account_analytic_id'] = self.account_analytic_id.id
+
+            order_line.append((0, 0, product))
+
+        purchase_data = {
+            'partner_id': vendor,
+            'order_line': order_line,
+            'picking_type_id': self.picking_type_id.id,
+            'approval_id': self.id,
+            'origin': self.reference_number,
+            'discount': 0
+        }
+
+        _logger.debug(f'User: {self.env.ref("base.user_root")}')
+
+        pocreate = self.with_user(self.env.ref('base.user_root')).purchase_ids.create(purchase_data)
+        pocreate.message_post_with_view('mail.message_origin_link',
+                                        values={
+                                            'self': pocreate, 'origin': self},
+                                        subtype_id=self.env.ref('mail.mt_note').id)
+
+    def _create_tenders(self, vendor, lines):
+        order_line = []
+        for line in lines:
+            product = {
+                'product_id': line.product_id.id,
+                'product_qty': line.quantity,
+                'price_unit': line.product_id.list_price,
+                'product_uom_id': line.uom_id.id,
+            }
+            if self.account_analytic_id:
+                product['account_analytic_id'] = self.account_analytic_id.id
+            order_line.append((0, 0, product))
+
+        tender_data = {
+            'vendor_id': vendor,
+            'line_ids': order_line,
+            'approval_id': self.id,
+            'origin': self.reference_number,
+        }
+        _logger.debug(f'User 2: {self.env.ref("base.user_root")}')
+
+        tendercreate = self.with_user(self.env.ref('base.user_root')).purchase_requisition_ids.create(tender_data)
+        tendercreate.message_post_with_view('mail.message_origin_link',
+                                            values={
+                                                'self': tendercreate, 'origin': self},
+                                            subtype_id=self.env.ref('mail.mt_note').id)
+
+    def process_request_approval(self, request):
+        super(PrApprovalRequest, self).process_request_approval(request)
         transactions = {}
-        if self.product_line_ids and self.application == 'purchase':
-            for line in self.product_line_ids:
-                requisition_type = line.product_id.purchase_requisition
+        if request.product_line_ids and request.application == 'purchase':
+            for line in request.product_line_ids:
+                if request.purchase_process == 'product':
+                    requisition_type = line.product_id.purchase_requisition
+                elif request.purchase_process == 'draft_po':
+                    requisition_type = 'rfq'
+                elif request.purchase_process == 'draft_pa':
+                    requisition_type = 'tenders'
+
                 if requisition_type not in transactions:
                     transactions[requisition_type] = {}
 
@@ -175,56 +247,10 @@ class PrApprovalRequest(models.Model):
                     for vendor in transactions[requisition_type]:
                         _logger.debug(
                             f'Vendor: {transactions[requisition_type][vendor]}')
-                        order_line = []
-                        for line in transactions[requisition_type][vendor]:
-                            product = {
-                                'product_id': line.product_id.id,
-                                'name': line.product_description,
-                                'product_qty': line.quantity,
-                                'price_unit': line.product_id.list_price,
-                                'date_planned': fields.Datetime.now(),
-                                'product_uom': line.uom_id.id,
-                            }
-                            order_line.append((0, 0, product))
-
-                        purchase_data = {
-                            'partner_id': vendor,
-                            'order_line': order_line,
-                            'picking_type_id': self.picking_type_id.id,
-                            'approval_id': self.id,
-                            'origin': self.reference_number,
-                        }
-
-                        pocreate = self.purchase_ids.create(purchase_data)
-                        pocreate.message_post_with_view('mail.message_origin_link',
-                                                        values={
-                                                            'self': pocreate, 'origin': self},
-                                                        subtype_id=self.env.ref('mail.mt_note').id)
+                        lines = transactions[requisition_type][vendor]
+                        self._create_rfq(vendor, lines)
 
                 elif requisition_type == 'tenders':
                     for vendor in transactions[requisition_type]:
-                        order_line = []
-                        for line in transactions[requisition_type][vendor]:
-                            product = {
-                                'product_id': line.product_id.id,
-                                'product_qty': line.quantity,
-                                'price_unit': line.product_id.list_price,
-                                'product_uom_id': line.uom_id.id,
-                            }
-                            order_line.append((0, 0, product))
-
-                        tender_data = {
-                            'vendor_id': vendor,
-                            'line_ids': order_line,
-                            'approval_id': self.id,
-                            'origin': self.reference_number,
-                        }
-
-                        tendercreate = self.purchase_requisition_ids.create(
-                            tender_data)
-                        tendercreate.message_post_with_view('mail.message_origin_link',
-                                                            values={
-                                                                'self': tendercreate, 'origin': self},
-                                                            subtype_id=self.env.ref('mail.mt_note').id)
-
-        return res
+                        lines = transactions[requisition_type][vendor]
+                        self._create_tenders(vendor, lines)

@@ -7,9 +7,11 @@
         <field name="inherit_id" ref="approvals.approval_request_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//group[@name='request_details']/field[@name='reference']" position="after">
-                <field name="application" attrs="{'invisible':[('has_application','==','no')], 'required': [('has_application','==','required')], 'readonly': [('request_status','not in',('new', 'pending'))]}" widget="radio" options="{'horizontal': true}"/>
+                <field name="application" attrs="{'invisible':[('has_application','!=','required')], 'required': [('has_application','==','required')], 'readonly': [('request_status','not in',('new', 'pending'))]}" widget="radio" options="{'horizontal': true}"/>
+                <field name="account_analytic_id" attrs="{'invisible':[('has_analytic_account','==','no')], 'required': [('has_analytic_account','==','required')], 'readonly': [('request_status','not in',('new', 'pending'))]}"/>
                 <field name="has_application" invisible="1"/>
                 <field name="has_products" invisible="1"/>
+                <field name="has_analytic_account" invisible="1"/>
             </xpath>
 
             <xpath expr="//notebook/page[@name='approvers']" position="after">
@@ -38,6 +40,8 @@
             <xpath expr="//field[@name='has_location']" position="after">
                 <field name="has_products" string="Products" widget="radio" options="{'horizontal': true}"/>
                 <field name="has_application" string="Application" widget="radio" options="{'horizontal': true}"/>
+                <field name="application_type" attrs="{'invisible': [('has_application', '!=', 'default')]}"/>
+                <field name="has_analytic_account" string="Analytic Account" widget="radio" options="{'horizontal': true}"/>
             </xpath>
         </field>
     </record>

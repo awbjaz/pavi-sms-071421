@@ -23,4 +23,9 @@
     <record id="account.root_payment_menu" model="ir.ui.menu">
         <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
     </record>
+
+     <!-- Accounting > Management > Budget -->
+    <record id="account_budget.menu_act_crossovered_budget_view" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+    </record>
 </odoo>

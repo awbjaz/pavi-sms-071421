@@ -30,12 +30,12 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='currency_id']" position="after">
-                <field name="atm_ref"/>
+                <field name="atm_ref" attrs="{'invisible': [('type', 'not in', ('out_invoice'))]}"/>
                 <field name="atm_ref_sequence" invisible="1"/>
                 <field name="start_date" invisible="1"/>
                 <field name="end_date" invisible="1"/>
-                <label for="start_date" string="Period Covered"/>
-                <div class="o_row">
+                <label for="start_date" string="Period Covered" attrs="{'invisible': [('type', 'not in', ('out_invoice'))]}"/>
+                <div class="o_row" attrs="{'invisible': [('type', 'not in', ('out_invoice'))]}">
                     <field name="start_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'end_date'}"/>
                     <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
                     <field name="end_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'start_date'}"/>

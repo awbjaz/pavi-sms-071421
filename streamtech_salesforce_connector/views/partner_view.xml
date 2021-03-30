@@ -67,6 +67,18 @@
                 <xpath expr="//field[@name='zone_subtype']" position="attributes">
                     <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
                 </xpath>
+
+                <xpath expr="//field[@name='subscriber_location_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='customer_number']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='customer_number_old']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+                </xpath>
             </field>
         </record>
         <!-- base -->
@@ -83,9 +95,54 @@
                     <xpath expr="//field[@name='street']" position="attributes">
                         <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
                     </xpath>
+                    <xpath expr="//field[@name='street']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='street2']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='state_id']" position="attributes">
+                        <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='region_id']" position="attributes">
+                        <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='country_id']" position="attributes">
+                        <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
                     <xpath expr="//field[@name='zip']" position="attributes">
                         <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
-                    </xpath>                    
+                    </xpath>
+                    <xpath expr="//field[@name='mobile']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='email']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='website']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='title']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='civil_status']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='function']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='parent_id']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                     <xpath expr="//field[@name='image_1920']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                     <xpath expr="//field[@name='company_type']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
+                     <xpath expr="//field[@name='child_ids']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('salesforce_id','!=', False)]}</attribute>
+                    </xpath>
                 </data>
             </field>
         </record>

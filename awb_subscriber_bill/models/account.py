@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
@@ -52,11 +53,14 @@ class AccountMove(models.Model):
                 rec.statement_line_ids.filtered(lambda r: r.statement_type == 'vat').mapped('amount'))
             prev_balance = sum(rec.statement_line_ids.filtered(lambda r: r.statement_type == 'prev_bill').mapped('amount'))
             prev_received = sum(rec.statement_line_ids.filtered(lambda r: r.statement_type == 'payment').mapped('amount'))
-            rec.total_prev_charges = prev_balance + prev_received
+            adjustment = sum(rec.statement_line_ids.filtered(lambda r: r.statement_type == 'adjust').mapped('amount'))
+            rec.total_prev_charges = prev_balance + prev_received + adjustment
 
     @api.model
     def create(self, vals):
-        vals['atm_ref_sequence'] = self.env['ir.sequence'].next_by_code('account_move.atm.reference.seq.code')
+        invoice_type = vals.get('type', self._context.get('default_type', 'entry'))
+        if invoice_type == 'out_invoice':
+            vals['atm_ref_sequence'] = self.env['ir.sequence'].next_by_code('account_move.atm.reference.seq.code')
         res = super(AccountMove, self).create(vals)
         return res
 

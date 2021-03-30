@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, SUPERUSER_ID, _
+from odoo.exceptions import UserError
 import logging
 
 
@@ -11,11 +12,14 @@ class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
     state = fields.Selection(selection_add=[('for_approval', 'For Approval')])
-    requested_by = fields.Many2one('res.partner', default=lambda self: self.env.user.id, required=True)
+    requested_by = fields.Many2one('res.partner', default=lambda self: self.env.user.partner_id.id, required=True)
     reviewed_by = fields.Many2one('res.partner')
     approval_lines = fields.One2many('purchase.order.approval.line', 'order_id',
                                      string='Approval Lines', tracking=True, copy=True)
-    can_approve = fields.Boolean(compute='_compute_can_approve', default=False)
+    can_approve = fields.Boolean(string='My Approval',
+                                 compute='_compute_can_approve',
+                                 search='_search_for_approval',
+                                 default=False)
 
     index_seq = fields.Integer(string='Index Sequence', default=1)
 
@@ -99,23 +103,37 @@ class PurchaseOrder(models.Model):
 
     @api.depends('state')
     def _compute_can_approve(self):
-        if self.env.is_superuser():
-            self.sudo().update({'can_approve': True})
-        else:
-            self.sudo().update({'can_approve': False})
-            if self.state == 'for_approval':
-                can_approve = False
-                args = [('state', '=', 'pending'),
-                        ('order_id', '=', self.id),
-                        ('sequence', '=', self.index_seq)]
+        for po in self:
+            if self.env.is_superuser():
+                po.sudo().update({'can_approve': True})
+            else:
+                po.sudo().update({'can_approve': False})
+                if po.state == 'for_approval':
+                    can_approve = False
+                    args = [('state', '=', 'pending'),
+                            ('order_id', '=', po.id),
+                            ('sequence', '=', po.index_seq)]
 
-                approval_line_data = self.env['purchase.order.approval.line'].search(args)
+                    approval_line_data = self.env['purchase.order.approval.line'].search(args)
 
-                for approval in approval_line_data:
-                    approver = approval.approver_id.id
-                    _logger.debug(f'_compute_can_approve: {approver} {approval.state}')
-                    if approver == self.env.user.id and approval.state == 'pending':
-                        can_approve = True
+                    for approval in approval_line_data:
+                        approver = approval.approver_id.id
+                        _logger.debug(f'_compute_can_approve: {approver} {approval.state}')
+                        if approver == self.env.user.id and approval.state == 'pending':
+                            can_approve = True
 
-                if can_approve:
-                    self.sudo().update({'can_approve': True})
+                    if can_approve:
+                        po.sudo().update({'can_approve': True})
+
+    def _search_for_approval(self, operator, value):
+        if operator not in ['=', '!='] or not isinstance(value, bool):
+            raise UserError(_('Operation not supported'))
+        if operator != '=':
+            value = not value
+        self._cr.execute(f"""
+            SELECT id FROM purchase_order po
+            WHERE EXISTS (SELECT * FROM purchase_order_approval_line po_app_line
+                          WHERE po_app_line.order_id = po.id
+                          AND po_app_line.approver_id = {self.env.user.id} LIMIT 1)
+        """)
+        return [('id', 'in' if value else 'not in', [r[0] for r in self._cr.fetchall()])]

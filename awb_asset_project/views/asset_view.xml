@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <!-- Assets -->
+
+    <record model="ir.ui.view" id="view_account_asset_form_asset_updates_project">
+        <field name="name">account.asset.form.project</field>
+        <field name="model">account.asset</field>
+        <field name="inherit_id" ref="account_asset.view_account_asset_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group/group[4]" position="after">
+                <group string="Project">
+                    <field name="project_id" />
+                    <field name="location_id" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
