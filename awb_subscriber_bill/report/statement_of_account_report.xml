@@ -159,8 +159,14 @@
                                 <td colspan="2"/>
                             </tr>
                             <tr>
+                                <t t-set="adjust_tot" t-value="0"/>
+                                <t t-foreach="doc.statement_line_ids" t-as="line">
+                                    <t t-if="line.statement_type == 'adjust'">
+                                        <t t-set="adjust_tot" t-value="adjust_tot+line.amount"/> 
+                                    </t>
+                                </t>
                                 <td>Add adjustment</td>
-                                <td style="text-align:right;"><span>0.00</span></td>
+                                <td style="text-align:right;"><t t-esc="'{0:,.2f}'.format(adjust_tot)"/></td>
                                 <td colspan="2"/>
                             </tr>
                             <tr>
@@ -290,11 +296,16 @@
                                 </td>
                             </tr>
                             <tr style="width :100%">
-                                <td style="width:22%;">
+                                <td style="width:20%; line-height: 60%;" colspan="2">
                                     <strong><span>Name:</span></strong>
-                                </td>
-                                <td style="width:28%;">
-                                    
+                                    <span style="font-size:13px;" t-if="doc.partner_id.company_type=='person'">
+                                        <t t-esc="doc.partner_id.first_name"/>
+                                        <t t-if="doc.partner_id.middle_name" t-esc="doc.partner_id.middle_name[:1] + '.'"/>
+                                        <t t-esc="doc.partner_id.last_name"/>
+                                    </span>
+                                    <span style="font-size:13px;" t-else="doc.partner_id.is_company">
+                                        <t t-esc="doc.partner_id.name"/>
+                                    </span>
                                 </td>
                                 <td style="width:24%;">
                                    <strong><span>Total Amount Due:</span></strong>
@@ -305,7 +316,7 @@
                             </tr>
                             <tr style="width :100%">
                                 <td style="width:50%;" colspan="2" rowspan="2">
-                                    <span style="font-size:18px;" t-field="doc.partner_id.name"/>
+                                    
                                 </td>
                                 
                                 <td style="width:24%;">
@@ -367,7 +378,7 @@
                                 <td style="width:20%;">
                                     <strong><span>Customer Name:</span></strong>
                                 </td>
-                                <td>
+                                <td colspan="3">
                                     <span t-field="doc.partner_id.name"/>
                                 </td>
                             </tr>
@@ -380,12 +391,10 @@
                                 <td style="width:20%; text-align:left;">
                                     <span>Received by:</span>
                                 </td>
-                                <td style="width:4%;">
-                                </td>
-                                <td style="width:30%; border-bottom: 2px solid black;text-align:center;">
+                                <td style="width:34%; border-bottom: 2px solid black;text-align:center; line-height: 50%;">
                                     <span t-field="doc.partner_id.name"/>
                                 </td>
-                                <td style="width:8%;">
+                                <td style="width:5%;">
                                 </td>
                                 <td style="width:30%; border-bottom: 2px solid black;text-align:center;">
                                 </td>
@@ -393,7 +402,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2">
+                                <td>
                                 </td>
                                 
                                 <td style="text-align:center;">

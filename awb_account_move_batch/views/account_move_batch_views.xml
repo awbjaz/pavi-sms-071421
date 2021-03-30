@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_batch_invoice_form" model="ir.ui.view">
+          <field name="name">account.move.batch.form</field>
+          <field name="model">account.move.batch</field>
+          <field name="arch" type="xml">
+            <form string="Batch Rebates">
+              <header>
+                <button name="action_load_subscribers" type="object"  string="Load subscribers" states="draft" class="oe_highlight" attrs="{'invisible':[('state','!=','draft')]}" />
+                <button name="action_compute_rebates" type="object"  string="Compute Rebate" states="draft" class="oe_highlight"  />
+                <button name="action_confirm" type="object"  string="Confirm" states="draft" class="oe_highlight"  />
+                <button name="action_invoice" type="object"  string="Create Invoiced" states="confirm" class="oe_highlight" />
+                <button name="action_view_invoice" type="object"  string="View Invoiced" states="invoice,post" class="oe_highlight" />
+                <button name="action_invoice_post" type="object"  string="Post Invoiced" states="invoice" class="oe_highlight" />
+                <field name="state" widget="statusbar" />
+              </header>
+              <sheet>
+                <h2>
+                  <field name="name"  />
+                </h2>
+                <group> 
+                  <group>
+                    <field name="invoice_type" readonly="1" />
+                    <field name="location_id" />
+                    <field name="days" />
+                  </group>
+                  <group>
+                    <field name="journal_id" attrs="{'readonly':[('state','!=','draft')]}" />
+                    <field name="company_id" attrs="{'readonly':[('state','!=','draft')]}" />
+                  </group>
+                  <notebook colspan="4">
+                    <page string="Invoice Lines">
+                      <group >
+                        <field name="invoice_ids" attrs="{'invisible':[('invoice_type','!=','cust_invoice')],'readonly':[('state','!=','draft')] }" nolabel="1" >
+                          <tree editable="bottom" >
+                            <field name="date"/>
+                            <field name="subscription_line_id" invisible="1"/>
+                            <field name="partner_id"  />
+                            <field name="product_id" string="Subscription Product"/>
+                            <field name="description" />
+                            <!--<field name="account_id" domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '=', 'other')]"  />-->
+                            <field name="account_id" domain="[('company_id', '=', parent.company_id), ('user_type_id', '=', 'other')]"  invisible="1"/>
+                            <field name="uom_id" invisible="1"/>
+                            <field name="amount" />
+                          </tree> 
+                        </field>
+                      </group>
+                    </page>
+                    <page string="Credit Notes">
+                      <group >
+                        <field name="account_move_ids" nolabel="1"/>
+                      </group>
+                    </page>
+                  </notebook>
+                </group>
+              </sheet>
+            </form>
+          </field>
+        </record>
+
+        <record id="view_batch_invoice_tree" model="ir.ui.view">
+            <field name="name">account.move.batch.tree</field>
+            <field name="model">account.move.batch</field>
+            <field name="arch" type="xml">
+                <tree string="Batch Invoices"
+                      decoration-info="state == 'draft'"
+                      decoration-muted="state == 'cancel'"
+                      js_class="account_tree">
+                    <field name="name"/>
+                    <field name="invoice_type"/>
+                    <field name="company_id" optional="hide"/>
+                    <field name="location_id"/>
+                    <field name="days"/>
+                    <field name="state" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_move_out_refund_batch" model="ir.actions.act_window">
+            <field name="name">Rebates</field>
+            <field name="res_model">account.move.batch</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="view_batch_invoice_tree"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a rebate
+              </p><p>
+                This creates rebates to multiple subscribers of a specific location
+              </p>
+            </field>
+        </record>
+
+        <menuitem
+            id="menu_action_move_out_refund_batch"
+            action="action_move_out_refund_batch"
+            parent="account.menu_finance_receivables"
+            sequence="2"/>
+    </data>
+</odoo>

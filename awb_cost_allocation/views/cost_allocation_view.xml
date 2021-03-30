@@ -94,14 +94,13 @@
                             <field name="accounting_date"/>
                             <field name="posted_date" attrs="{'invisible': [('state', '!=', 'posted')]}"/>
                             <field name="journal_id" domain="[('type', '=', 'general')]" widget="selection"/>
-                            <field name="debit_account_id" widget="selection"/>
+                            <field name="debit_account_id" />
                             <field name="debit_analytic_account_id" widget="many2many_tags"/>
-                            <field name="credit_account_id" widget="selection"/>
+                            <field name="credit_account_id" />
                             <field name="credit_other_analytic_account_id" 
                                 widget="many2many_tags" 
                                 attrs="{'invisible': [('application', '!=', 'others')]}"/>
                             <field name="credit_analytic_account_id"
-                                widget="selection" 
                                 attrs="{'invisible': [('application', '=', 'others')]}"/>
                         </group>
                     </group>
@@ -112,7 +111,7 @@
                                     <field name="date" width="0.5"/>
                                     <field name="account_id"/>
                                     <field name="analytic_account_id"/>
-                                    <field name="partner_id" widget="selection" optional="hide"/>
+                                    <field name="partner_id" optional="hide"/>
                                     <field name="name" optional="show"/>
                                     <field name="tax_ids" widget="many2many_tags" width="0.5" optional="hide"/>
                                     <field name="tag_ids" widget="many2many_tags" width="0.5" optional="hide"

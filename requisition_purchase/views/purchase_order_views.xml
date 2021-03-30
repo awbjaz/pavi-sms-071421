@@ -5,8 +5,8 @@
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='company_id']" position="after">
-                <field name="approval_id" invisible="1"/>
+            <xpath expr="//field[@name='currency_id']" position="before">
+                <field name="approval_id" invisible="0"/>
             </xpath>
 
         </field>

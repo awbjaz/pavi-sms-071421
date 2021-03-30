@@ -18,6 +18,7 @@ class SaleSubscription(models.Model):
     _inherit = "sale.subscription"
 
     account_identification = fields.Char(string="Account ID")
+    customer_number = fields.Char(related='partner_id.customer_number')
     opportunity_id = fields.Many2one('crm.lead', string='Opportunity')
     subscription_status = fields.Selection([('new', 'New'),
                                             ('upgrade', 'Upgrade'),
@@ -136,7 +137,25 @@ class SaleSubscription(models.Model):
                     tot_vat += (total_price_unit /
                                 ((100 + t.amount) / 100)) * (t.amount/100)
                 total_vat += tot_vat
+          
+            if product.product_tmpl_id.id != device_id:
+                _logger.debug(f'Invoice: {invoice}')
 
+                args = [('partner_id', '=', invoice['partner_id']),
+                        ('type', '=', 'out_refund'),
+                        ('state', '=', 'posted'),
+                        ('invoice_date', '>=', line['subscription_start_date']),
+                        ('invoice_date', '<=', line['subscription_end_date'])]
+
+                credit_note_id = self.env['account.move'].search(args, limit=1, order="invoice_date desc")
+
+                rebates = {
+                    'name': 'Rebates',
+                    'statement_type': 'adjust',
+                    'amount': credit_note_id.amount_total * -1,
+                }
+                lines.append((0, 0, rebates))
+            
             if product.product_tmpl_id.id == device_id:
                 data = {
                     'name': line['name'],
@@ -145,7 +164,6 @@ class SaleSubscription(models.Model):
                 }
                 lines.append((0, 0, data))
             else:
-
                 data = {
                     'name': line['name'],
                     'statement_type': 'subs_fee',
@@ -177,6 +195,7 @@ class SaleSubscription(models.Model):
         #Previous Payment
         args_pay = [('partner_id', '=', invoice['partner_id']),
                     ('partner_type', '=', 'customer'),
+                    ('invoice_ids', 'in', invoice_id.id),
                     ('state', '=', 'posted')]
         payment_id = self.env['account.payment'].search(args_pay, limit=1, order="payment_date desc")
 

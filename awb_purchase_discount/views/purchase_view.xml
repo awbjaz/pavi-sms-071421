@@ -11,10 +11,11 @@
 
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
                 <attribute name="readonly">1</attribute>
+                <attribute name="string">Net Price</attribute>
             </xpath>
 
             <xpath expr="//field[@name='order_line']/tree/field[@name='product_qty']" position="after">
-                <field name="gross_amount" optional="show"/>
+                <field name="gross_amount" optional="show" string="Unit Price"/>
                 <field name="discount_percentage" optional="hide"/>
                 <field name="discount" optional="hide"/>
             </xpath>

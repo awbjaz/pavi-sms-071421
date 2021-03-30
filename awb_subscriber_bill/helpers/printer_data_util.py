@@ -109,9 +109,9 @@ class PrinterDataUtil():
         txt += cls._format_number(subs_tot, 12)
 
         txt += cls._format_string('(Inclusive of VAT)', 19)
-        txt += cls._format_string(0, 12, False)
+        txt += cls._format_string('0', 12, False)
         txt += cls._format_number(record.invoice_line_ids[0].subscription_id.paid_security_deposit, 12)
-        txt += cls._format_string(0, 12, False)
+        txt += cls._format_string('0', 12, False)
         txt += cls._format_number(record.amount_total, 12)
         txt += cls._format_number(record.total_vat, 12)
         txt += cls._format_number(0, 12) # amort
@@ -119,6 +119,11 @@ class PrinterDataUtil():
 
         txt += cls._format_string('', 120)
         txt += cls._format_string('', 150)
+
+        txt += cls._format_string('', 14)
+
+        txt += cls._format_string('0', 12, False)
+        txt += cls._format_string('0', 12, False)
 
         txt += cls._format_string(record.atm_ref, 100)
 

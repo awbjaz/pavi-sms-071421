@@ -13,6 +13,32 @@
             </xpath>
         </field>
     </record>
+
+    <record id="view_hr_expense_sheet_form" model="ir.ui.view">
+        <field name="name">view.hr.expense.sheet.form</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="replace">
+                <field name="generated_num" class="oe_inline" string=""/>/<field name="name" class="oe_inline" string=""/>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="generated_num" />
+            </xpath>
+        </field>
+    </record>
+
+     <record id="view_hr_expense_sheet_tree" model= "ir.ui.view">
+        <field name="name">view.hr.expense.sheet.tree</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_tree"/>
+        <field name="arch" type= "xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="generated_num_plus_name"/>
+            </xpath>
+        </field>
+    </record>
+
 <!--     
     <record id="view_expenses_tree" model= "ir.ui.view">
         <field name="name">view_expenses_tree</field>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="payment_internal_trans_wiz" model="ir.ui.view">
+        <field name="name">payment.internal.trans.wiz</field>
+        <field name="model">payment.internal.transfer</field>
+        <field name="arch" type="xml">
+             <form string="Create Payment Internal Transfer">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="source_journal_id"/>
+                            <field name="total_amount"/>
+                        </group>
+                        <group>
+                            <field name="dest_journal_id" widget="selection"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="open_create_internal_payment" string="Create" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_payment_internal_trans" model="ir.actions.act_window">
+        <field name="name">Create Internal Transfer</field>
+        <field name="res_model">payment.internal.transfer</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="payment_internal_trans_wiz"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_create_payment_internal_transfer" model="ir.actions.server">
+        <field name="name">Create Internal Transfer</field>
+        <field name="model_id" ref="account.model_account_payment"/>
+        <field name="binding_model_id" ref="account.model_account_payment"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                action = records.verify_payment(records.ids)
+        </field>
+    </record>
+</odoo>
