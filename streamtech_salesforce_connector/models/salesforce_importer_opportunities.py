@@ -246,7 +246,8 @@ class SalesForceImporterOpportunities(models.Model):
             'billing_type': 'physical',
             'job_order_status': substage,
             'subscription_status': subscription_status,
-            'zone': zone.id
+            'zone': zone.id,
+            'company_id': zone.company_id.id
         }
 
         if contract_start_date and contract_end_date:
@@ -304,7 +305,8 @@ class SalesForceImporterOpportunities(models.Model):
     def _get_partner_data(self, lead):
         lead_partner = self.env['res.partner'].search([('salesforce_id', '=', lead['AccountId'])])
         partner = lead['Account']
-        lead_partner = self._create_customer(partner, lead_partner)
+        zone = self._find_zone(lead['Area_ODOO__c'])
+        lead_partner = self._create_customer(partner, lead_partner, zone)
 
         return lead_partner
 
