@@ -1,7 +1,6 @@
-
 {
     'name' : 'Project Asset',
-    'version' : '13.0.1.0',
+    'version' : '13.0.1.1',
     'summary': 'Tagging Project into Asset',
     'author': 'Achieve Without Borders, Inc.',
     'sequence': 100,

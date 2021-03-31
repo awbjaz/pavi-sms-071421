@@ -21,6 +21,10 @@ class AccountPayment(models.Model):
    transfer_details = fields.One2many('account.payment.transfer', 'payment_id', string="Transfer Details", readonly=True)
    is_deposited = fields.Boolean(string="Deposited")
 
+   def post(self):
+      res = super(AccountPayment, self).post()
+      self.is_deposited = True
+
    def verify_payment(self, payment_ids):
       _logger.debug(f'Payments Record {payment_ids}')
       payments = self.env['account.payment'].browse(payment_ids)
