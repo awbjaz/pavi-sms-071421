@@ -241,7 +241,7 @@
                                 <td style="border-top: 2px solid black;"/>
                                 <td colspan="1"/>
                                 <td style="text-align:right;">
-                                    <span t-field="doc.amount_residual"/>
+                                    <span t-field="doc.amount_total"/>
                                     <!-- <span t-field="doc.total_statement_balance" t-esc-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/> -->
                                 </td>
                                       

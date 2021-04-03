@@ -24,13 +24,13 @@
             <page string="Approvals">
               <field name="index_seq" readonly="1" invisible="1"/>
               <field name="approval_lines">
-                <tree editable="bottom" create="0" delete="0">
+                <tree editable="bottom">
                   <field name="rule_id" invisible="1" readonly="True"/>
-                  <field name="sequence" invisible="0" readonly="True"/>
-                  <field name="approval_condition" invisible="1" readonly="True"/>
+                  <field name="sequence" attrs="{'readonly': [('state', 'not in', ('pending'))]}"/>
+                  <field name="approval_condition" attrs="{'readonly': [('state', 'not in', ('pending'))]}"/>
                   <field name="can_proceed" invisible="1" readonly="True"/>
                   <field name="state" invisible="1" readonly="True"/>
-                  <field name="approver_id" readonly="True"/>
+                  <field name="approver_id" attrs="{'readonly': [('state', 'not in', ('pending'))]}"/>
                   <field name="state" readonly="True"/>
                 </tree>
               </field>
