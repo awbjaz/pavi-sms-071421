@@ -14,7 +14,7 @@ class HRExpenseApproval(models.Model):
     max_amount = fields.Float('Maximum Amount', required=True, tracking=True)
     active = fields.Boolean('Active', index=True, default=True, tracking=True)
     approval_type = fields.Selection([('amount', 'Amount')], string='Approval Type', default='amount', tracking=True)
-   
+
     approver_ids = fields.One2many('hr.expense.approver.line', 'approval_id', string='Approvers')
     company_id = fields.Many2one('res.company', 'Company', index=True, default=lambda self: self.env.company)
 
@@ -24,13 +24,12 @@ class HRExpenseApproval(models.Model):
             rule.name = f'{rule.min_amount} - {rule.max_amount}'
 
 
-
 class HRExpenseApproverLine(models.Model):
     _name = "hr.expense.approver.line"
     _description = "Expense Approver Line"
     _order = "sequence asc, id asc"
 
-    sequence = fields.Integer(string="Sequence", default=1)
+    sequence = fields.Integer(string="Sequence", required=True)
     approval_condition = fields.Selection([('and', 'AND'), ('or', 'OR')], string='Condition', default='and')
     approved_by = fields.Many2many('res.users', string='Approved By')
 
@@ -43,8 +42,8 @@ class HRExpenseApprovalLine(models.Model):
     _description = "Expense Approval Line"
 
     expense_id = fields.Many2one('hr.expense.sheet', string='Order Reference', index=True, required=True, ondelete='cascade')
-    rule_id = fields.Many2one('hr.expense.approval', string="Rule", index=True, required=True)
-    sequence = fields.Integer(string="Sequence")
+    rule_id = fields.Many2one('hr.expense.approval', string="Rule", index=True)
+    sequence = fields.Integer(string="Sequence", required=True, default=1)
     approval_condition = fields.Selection([('and', 'AND'), ('or', 'OR')], string='Condition', default='and')
     can_proceed = fields.Boolean(string="Can Proceed")
     approver_id = fields.Many2one('res.users', string="Approver", index=True, required=True, tracking=True)
@@ -52,5 +51,3 @@ class HRExpenseApprovalLine(models.Model):
                               ('approved', 'Approved'),
                               ('rejected', 'Rejected')], default='pending', string="State", tracking=True)
     remarks = fields.Text('Reason', tracking=True)
-    approval_condition = fields.Selection([('and', 'AND'), ('or', 'OR')], string='Condition')
-
