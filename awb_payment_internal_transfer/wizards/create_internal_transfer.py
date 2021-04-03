@@ -44,7 +44,6 @@ class PaymentInternalTransfer(models.TransientModel):
             'amount': self.total_amount,
             'payment_method_id': payment_method_id.id,
             'payment_type': 'transfer',
-            'is_deposited': True,
             'transfer_details': transfer_details,
             }
 
