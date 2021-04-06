@@ -201,7 +201,7 @@ class SalesForceImporterOpportunities(models.Model):
         sales_team_id = None
         if sf_sales_team:
             # Find corresponding entry in Odoo CRMr team records
-            sales_team_result = self._find_sales_team()
+            sales_team_result = self._find_sales_team(sf_sales_team)
             if (len(sales_team_result) > 0):
                 sales_team_id = sales_team_result[0].id
 
