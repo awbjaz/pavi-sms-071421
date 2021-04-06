@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_asset_sell_wiz" model="ir.ui.view">
+        <field name="name">view.account.asset.sell.wiz</field>
+        <field name="model">account.asset.sell</field>
+        <field name="inherit_id" ref="account_asset.asset_sell_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='action']" position="before">
+                <field name="asset_id" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
