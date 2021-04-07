@@ -1,3 +1,6 @@
+## [v13.0.1.1.3] - 2021-04-07
+    - [FIX] Checking date for processing old invoices
+
 ## [v1.1.2] - 2021-04-03
     - [FIX] Change the current total amount displayed in SOA
 

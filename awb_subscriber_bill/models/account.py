@@ -32,7 +32,7 @@ class AccountMove(models.Model):
     period_covered = fields.Date(string="Period Covered")
     total_statement_balance = fields.Monetary(string="Total Statement Balance", compute='_compute_statement_balance')
     total_prev_charges = fields.Monetary(string="Total Previous Charges", compute='_compute_statement_balance')
-    is_subscription = fields.Boolean(string="Is Subscribtion", compute="_compute_is_subscription")
+    is_subscription = fields.Boolean(string="Is Subscription", compute="_compute_is_subscription")
     total_vat = fields.Float(string="Total Vat", compute='_compute_statement_balance')
 
     @api.depends('invoice_line_ids')
@@ -149,6 +149,7 @@ class AccountMove(models.Model):
                 ('type', '=', 'out_invoice'),
                 ('state', '=', 'posted'),
                 ('is_subscription', '=', True),
+                ('invoice_date_due', '<', self.invoice_date_due),
                 ('id', '!=', self.id)]
 
         invoice_id = self.env['account.move'].search(args, limit=1, order="end_date desc")
@@ -166,6 +167,7 @@ class AccountMove(models.Model):
         args_pay = [('partner_id', '=', self.partner_id.id),
                     ('partner_type', '=', 'customer'),
                     ('invoice_ids', 'in', invoice_id.id),
+                    ('payment_date', '<', self.invoice_date_due),
                     ('state', '=', 'posted')]
         payment_id = self.env['account.payment'].search(args_pay, limit=1, order="payment_date desc")
         _logger.debug(f' prev_pay {payment_id}')
