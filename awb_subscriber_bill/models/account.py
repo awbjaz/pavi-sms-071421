@@ -152,7 +152,7 @@ class AccountMove(models.Model):
                 ('invoice_date_due', '<', self.invoice_date_due),
                 ('id', '!=', self.id)]
 
-        invoice_id = self.env['account.move'].search(args, limit=1, order="end_date desc")
+        invoice_id = self.env['account.move'].search(args, limit=1, order="invoice_date_due desc")
         _logger.debug(f' prev_ball {invoice_id}')
         if invoice_id:
             prev_bill = invoice_id.amount_total + invoice_id.total_prev_charges
