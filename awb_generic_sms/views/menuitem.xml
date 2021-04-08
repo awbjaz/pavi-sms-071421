@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<menuitem id="main_sms_menu" name="SMS" />
+
+	<menuitem id="send_sms_menu" name="Send SMS" parent="main_sms_menu" />
+	<menuitem id="submenu_send_sms" name="Send SMS" parent="send_sms_menu" action="send_sms_action" />
+	<menuitem id="submenu_history" name="SMS History" parent="send_sms_menu" action="history_sms_action" />
+
+	<menuitem id="config_menu" name="Configuration" parent="main_sms_menu" />
+	<menuitem id="submenu_sms_template" name="SMS Templates" parent="config_menu" action="template_sms_action" />
+
+</odoo>
