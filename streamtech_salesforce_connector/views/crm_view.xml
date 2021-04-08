@@ -209,6 +209,13 @@
         <xpath expr="//form[1]/sheet[1]/group[1]/group[not(@name)][6]/field[@name='company_id']" position="attributes">
           <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
         </xpath>
+        <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/div[1]/field[@name='email_from']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/field[@name='phone']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+
 <!-- 
         <xpath expr="//form[1]/sheet[1]/group[1]/group[4]/field[@name='priority']" position="attributes">
           <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
@@ -218,13 +225,26 @@
             <attribute name="readonly">True</attribute>
         </xpath>
 
-        <xpath expr="//field[@name='team_id']" position="attributes">
-            <attribute name="readonly">True</attribute>
+        <!--
+          Make other email field invisible
+        -->
+        <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/div[1]/field[@name='partner_address_email']" position="attributes">
+          <attribute name="attrs">{'invisible':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+
+        <!--
+          Make other phone field invisible
+        -->
+        <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/field[@name='partner_address_phone']" position="attributes">
+          <attribute name="attrs">{'invisible':[('salesforce_id','!=', False)]}</attribute>
         </xpath>
 
       </field>
   </record>
 
+  <!--
+    NOTE: This is for admin group
+  -->
   <record id="view_crm_lead_form_auto3" model="ir.ui.view" >
       <field name="name">lead.form.inherit</field>
       <field name="model">crm.lead</field>
