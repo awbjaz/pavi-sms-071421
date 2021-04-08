@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+sms_manager,sms manager,model_awb_sms_record,,1,1,1,1
+history_manager,history manager,model_awb_sms_history,,1,0,1,0
+template_manager,template manager,model_awb_sms_template,,1,1,1,1
