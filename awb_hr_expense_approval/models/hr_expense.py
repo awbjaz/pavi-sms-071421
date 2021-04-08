@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, SUPERUSER_ID, _
+from odoo.exceptions import Warning, UserError, ValidationError
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -25,16 +26,37 @@ class HrExpenseSheet(models.Model):
         approval_rule = self.env['hr.expense.approval'].search(args, limit=1)
 
         approvers = []
-        for record in approval_rule.approver_ids:
-            for approver in record.approved_by:
-                data = {
+        if approval_rule.employee_manager:
+            if self.user_id:
+                approvers.append((0, 0, {
                     'rule_id': approval_rule.id,
-                    'approval_condition': record.approval_condition,
-                    'sequence': record.sequence,
-                    'approver_id': approver.id
-                }
-                approvers.append((0, 0, data))
-
+                    'approval_condition': 'or',
+                    'sequence': 1,
+                    'approver_id': self.user_id.id,
+                }))
+                for record in approval_rule.approver_ids:
+                    for approver in record.approved_by:
+                        data = {
+                            'rule_id': approval_rule.id,
+                            'approval_condition': record.approval_condition,
+                            'sequence': record.sequence + 1,
+                            'approver_id': approver.id
+                        }
+                        approvers.append((0, 0, data))
+            else: 
+                raise UserError(_('You need to set manager to proceed.'))
+        else:
+            for record in approval_rule.approver_ids:
+                for approver in record.approved_by:
+                    data = {
+                        'rule_id': approval_rule.id,
+                        'approval_condition': record.approval_condition,
+                        'sequence': record.sequence,
+                        'approver_id': approver.id
+                    }
+                    approvers.append((0, 0, data))
+        _logger.debug(f'APPROVERS {approvers}')
+      
         self.sudo().update({'approval_lines': [(5, 0, 0)]})
         self.sudo().update({'approval_lines': approvers})
 
