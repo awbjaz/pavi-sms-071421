@@ -14,7 +14,7 @@
     'author': "Achieve Without Borders, Inc",
     'website': "http://www.achievewithoutborders.com",
     'category': 'Accounting/Asset',
-    'version': '13.0.1.0.0',
+    'version': '13.0.1.1.0',
     'depends': ['account', 'account_asset'],
     'data': [
         'wizards/account_asset_sell_wiz.xml',
