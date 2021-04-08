@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@name='other_info']/group[@id='other_tab_group']/group[@name='accounting_info_group']" position="inside">
                 <field name="for_asset_selling" groups="account.group_account_user"/>
-                <field name="asset_id" groups="account.group_account_user" attrs="{'invisible': [('for_asset_selling', '!=', True)]}"/>
+                <field name="asset_id" groups="account.group_account_user" attrs="{'invisible': [('for_asset_selling', '!=', True)]}" domain="[('state', '=', 'open')]"/>
             </xpath>
         </field>
     </record>
