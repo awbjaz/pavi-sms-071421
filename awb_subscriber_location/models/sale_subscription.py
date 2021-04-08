@@ -37,20 +37,25 @@ class SaleSubscription(models.Model):
         interval_type = periods[self.recurring_rule_type]
         interval = self.recurring_interval
 
-        next_date = next_date - relativedelta(**{interval_type: interval*2})
+        if cutoff_day < 16:
+            next_date = next_date - relativedelta(**{interval_type: interval})
+        else:
+            next_date = next_date - relativedelta(**{interval_type: interval*2})
+
         _logger.debug(f'Compute next date: Next {next_date}, due_day: {due_day}')
         recurring_start_date = self._get_recurring_next_date(self.recurring_rule_type, interval, next_date, cutoff_day)
         start_date = fields.Date.from_string(recurring_start_date+relativedelta(days=1))
+
         recurring_next_date = self._get_recurring_next_date(self.recurring_rule_type, 0, start_date, cutoff_day)
         recurring_posting_date = self._get_recurring_next_date(self.recurring_rule_type, 0, start_date, posting_day)
+        recurring_due_date = self._get_recurring_next_date(self.recurring_rule_type, interval, start_date, due_day)
         _logger.debug(f'Days: {recurring_start_date >= recurring_next_date}: {recurring_start_date} > {recurring_next_date}')
         # This is a HACK to fix the issue with jumping dates
         if recurring_start_date >= recurring_next_date:
             recurring_next_date = self._get_recurring_next_date(self.recurring_rule_type, interval, start_date, cutoff_day)
-            recurring_posting_date = self._get_recurring_next_date(self.recurring_rule_type, interval, start_date, posting_day)
+
         end_date = fields.Date.from_string(recurring_next_date)
         posting_date = fields.Date.from_string(recurring_posting_date)
-        recurring_due_date = self._get_recurring_next_date(self.recurring_rule_type, interval, end_date, due_day)
         due_date = fields.Date.from_string(recurring_due_date)
 
         _logger.debug(f'Period Covered: {start_date}-{end_date}')

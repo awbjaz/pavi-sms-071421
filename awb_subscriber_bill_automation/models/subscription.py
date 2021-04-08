@@ -115,7 +115,11 @@ class SaleSubscription(models.Model):
         interval_type = periods[self.recurring_rule_type]
         interval = self.recurring_interval
 
-        next_date = next_date - relativedelta(**{interval_type: interval*2})
+        if cutoff_day < 16:
+            next_date = next_date - relativedelta(**{interval_type: interval})
+        else:
+            next_date = next_date - relativedelta(**{interval_type: interval*2})
+
         _logger.debug(f'Compute next date: Next {next_date}, due_day: {cutoff_day}')
         recurring_start_date = self._get_recurring_next_date(self.recurring_rule_type, interval, next_date, cutoff_day)
         revenue_date_start = fields.Date.from_string(recurring_start_date+relativedelta(days=1))
@@ -125,6 +129,7 @@ class SaleSubscription(models.Model):
         # This is a HACK to fix the issue with jumping dates
         if recurring_start_date >= recurring_next_date:
             recurring_next_date = self._get_recurring_next_date(self.recurring_rule_type, interval, revenue_date_start, cutoff_day)
+
         revenue_date_stop = fields.Date.from_string(recurring_next_date)
         invoice_lines = []
         for line in self.recurring_invoice_line_ids:
