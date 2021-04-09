@@ -1,3 +1,6 @@
+## [13.0.1.2.2] - 2021-04-09
+- [FIX] Batch Posting
+
 ## [13.0.1.2.1] - 2021-04-03
 - [FIX] Assignment for deposited flag for transfer detail items
 
