@@ -1,3 +1,7 @@
+## [13.0.1.2.1] - 2021-04-09
+
+- [FIX] add default value in sequence
+
 ## [13.0.1.2.0] - 2021-04-08
 
 - [IMP] Add employee manager approver

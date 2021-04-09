@@ -30,7 +30,7 @@ class HRExpenseApproverLine(models.Model):
     _description = "Expense Approver Line"
     _order = "sequence asc, id asc"
 
-    sequence = fields.Integer(string="Sequence", required=True)
+    sequence = fields.Integer(string="Sequence", required=True, default=1)
     approval_condition = fields.Selection([('and', 'AND'), ('or', 'OR')], string='Condition', default='and')
     approved_by = fields.Many2many('res.users', string='Approved By')
 
@@ -42,9 +42,9 @@ class HRExpenseApprovalLine(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "Expense Approval Line"
 
-    expense_id = fields.Many2one('hr.expense.sheet', string='Order Reference', index=True, required=True, ondelete='cascade')
+    expense_id = fields.Many2one('hr.expense.sheet', string='Expense Reference', index=True, required=True, ondelete='cascade')
     rule_id = fields.Many2one('hr.expense.approval', string="Rule", index=True)
-    sequence = fields.Integer(string="Sequence", required=True, default=1)
+    sequence = fields.Integer(string="Sequence", required=True)
     approval_condition = fields.Selection([('and', 'AND'), ('or', 'OR')], string='Condition', default='and')
     can_proceed = fields.Boolean(string="Can Proceed")
     approver_id = fields.Many2one('res.users', string="Approver", index=True, required=True, tracking=True)
