@@ -29,7 +29,6 @@
 
                         <button name="action_deprecated"
                                 type="object"
-                                class="oe_highlight"
                                 attrs="{'invisible': [('state', '!=', 'approved')]}"
                                 string="Deprecated"/>
                                 
