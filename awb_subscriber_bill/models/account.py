@@ -181,6 +181,23 @@ class AccountMove(models.Model):
             }
             lines.append((0, 0, prev_payment))
 
+        #Rebates
+        args_rebates = [('partner_id', '=', self.partner_id.id),
+                ('type', '=', 'out_refund'),
+                ('state', '=', 'posted'),
+                ('invoice_date', '>=', self.start_date),
+                ('invoice_date', '<=', self.end_date)]
+
+        credit_note_id = self.env['account.move'].search(args_rebates, limit=1, order="invoice_date desc")
+        
+        if credit_note_id:
+            rebates = {
+                'name': 'Rebates',
+                'statement_type': 'adjust',
+                'amount': credit_note_id.amount_total * -1,
+            }
+            lines.append((0, 0, rebates))
+
 
         self.update({'statement_line_ids': None})
         self.update({'statement_line_ids': lines})
