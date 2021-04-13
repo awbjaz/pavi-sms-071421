@@ -5,34 +5,37 @@
             <t t-name="report_document">
                 <div class="page">
                     <link rel="stylesheet" type="text/scss" href="/awb_subscriber_bill/static/src/css/soa.css"/>
-                    <div class="row" id="statement_of_account_header">
-                        <table style="width:100%;">
-                            <tr>
-                                <td style="width:45%; padding-top: 5px; padding-bottom: 5px; padding-left: 2px;">
-                                    <!-- <img src="/awb_subscriber_bill/static/src/img/STREAMTECH-logo.jpg" width="100%"/> -->
-                                    <img t-if="doc.company_id.soa_logo" t-att-src="image_data_uri(doc.company_id.soa_logo)" alt="Logo" style="max-height: 120px;"/>
-                                </td>
-                                <td style="width:55%; padding-left: 2px;">
-                                    <div style="text-align: right; line-height: 95%;">
-                                        <!-- company -->
-                                        <span style="font-weight:900; font-size:20px;" t-field="doc.company_id.name"/> 
-                                        <br/> 
-                                        <span class="font-address">  <span t-field="doc.company_id.street"/>,  <span t-field="doc.company_id.street2"/><br/> 
-                                         <span t-field="doc.company_id.city"/>,  <span t-field="doc.company_id.state_id"/>  <span t-field="doc.company_id.zip"/> </span>
-                                        <br/> 
-                                        <span class="font-address"> Hotlines: (02) 8808-2323 | 0919-057-8888 </span>
-                                        <br/>
-                                        <div class="font-address"> VAT Reg. TIN: <span t-field="doc.company_id.vat"/> </div>
+                    <div>
+                        <div class="col-xs-3 float-left" style="padding-top: 30px;">
+                             <img t-if="doc.company_id.soa_logo" t-att-src="image_data_uri(doc.company_id.soa_logo)" alt="Logo" style="max-height: 120px;"/>
+                        </div>
+                        <div class="col-xs-3" style="padding-top: 40px;">
+                        </div>
+                        <div class="col-xs-6 float-right" style="text-align: right; line-height: 95%; padding-top: 20px;">
                                        
-                                    </div>
-                                    
-                                </td>
-                            </tr>
-                        </table>
+                            <span style="font-weight:900; font-size:20px;" t-field="doc.company_id.name"/> 
+                            <br/> 
+                            <span class="font-address">  <span t-field="doc.company_id.street"/>,  <span t-field="doc.company_id.street2"/><br/> 
+                                <span t-field="doc.company_id.city"/>,  <span t-field="doc.company_id.state_id"/>  <span t-field="doc.company_id.zip"/> </span>
+                            <br/> 
+                            <span class="font-address"> Hotlines: (02) 8808-2323 | 0919-057-8888 </span>
+                            <br/>
+                            <div class="font-address"> VAT Reg. TIN: <span t-field="doc.company_id.vat"/> </div>
+                            
+                        </div>
+                       
                     </div>
                     <br/>
-                    <div class="text-center">
-                        <h4 style="font-weight:900; font-size:22px">STATEMENT OF ACCOUNT</h4>
+                   
+                    <div class="row" id="statement_of_account_body">
+                        <table style="width: 100%">
+                        <tr>
+                            <td><br/></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100%"><h4 style="text-align: center; font-weight:900; font-size:22px">STATEMENT OF ACCOUNT</h4></td>
+                        </tr>
+                        </table>
                     </div>
                     <div class="row" id="statement_of_account_body_1">
                         <table style="border: 2px solid black; width:100%;">
@@ -106,7 +109,12 @@
                             </tr>
                             <tr>
                                 <td style="width:25%; border: 2px solid black; text-align: center; font-size: 12px; padding: 2px;">
-                                    <span t-field="doc.total_statement_balance"/>
+                                     <t t-if="doc.total_statement_balance &gt;= 0">
+                                        <span t-field="doc.total_statement_balance"/>
+                                    </t>
+                                    <t t-else="">
+                                       $ 0.00
+                                    </t>
                                 </td>
                                 <td style="width:25%; border: 2px solid black; text-align: center; font-size: 12px; padding: 2px;">
                                     <span t-field="doc.total_statement_balance"/>
