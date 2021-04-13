@@ -23,11 +23,12 @@ class AccountPayment(models.Model):
 
     def post(self):
         res = super(AccountPayment, self).post()
-        if self.payment_type == 'transfer':
-            self.is_deposited = True
+        for rec in self:
+            if rec.payment_type == 'transfer':
+                rec.is_deposited = True
 
-            for rec in self.transfer_details:
-                rec.payment_ref.is_deposited = True
+                for line in rec.transfer_details:
+                    line.payment_ref.is_deposited = True
 
     def verify_payment(self, payment_ids):
         _logger.debug(f'Payments Record {payment_ids}')

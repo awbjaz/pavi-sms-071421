@@ -63,7 +63,7 @@
                         <field name="total_statement_balance" class="oe_subtotal_footer_separator"/>
                     </group>
                     <group class="oe_subtotal_footer">
-                        <button name="recompute_statement" string="Update Statement Line" type="object" class="oe_highlight"/>
+                        <button name="recompute_statement" string="Update Statement Line" type="object" class="oe_highlight" attrs="{'invisible': [('state', 'not in', ('draft'))]}"/>
                     </group>
                 </page>
             </xpath>

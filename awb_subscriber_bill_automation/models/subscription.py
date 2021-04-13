@@ -60,19 +60,43 @@ class SaleSubscription(models.Model):
     def _prepare_invoice_line(self, line, fiscal_position, date_start=False, date_stop=False):
         res = super(SaleSubscription, self)._prepare_invoice_line(
             line, fiscal_position, date_start, date_stop)
-        if line.date_start or line.date_end:
-            diff = date_stop - line.date_start
-            days = diff.days
+
+        device_id = self.env.ref('awb_subscriber_product_information.product_device_fee').id
+        ext_id = self.env.ref('awb_subscriber_product_information.product_ext_fee').id
+        # For New Subscriber
+        # if line.product_id and :
+        subs_date_start = self.date_start
+
+        if line.product_id.id not in (device_id, ext_id):
+            _logger.debug(f'Check Proration {date_start} {date_stop} x {line.date_start} {line.date_end}')
+            date_end = date_stop
+            diff = None
+            # if line ends earlier
+            if line.date_end and line.date_end < date_stop:
+                date_end = line.date_end
+                diff = date_stop - date_end
+
+            # if line started later than the cutoff
+            if line.date_start and date_start < line.date_start:
+                diff = date_end - line.date_start
+            elif not line.date_start and subs_date_start > date_start:
+                diff = date_end - subs_date_start
+
             month_factor = 31
-            new_amount = 0
+            if diff:
+                days = diff.days
+            else:
+                days = month_factor
+
+            count = 0
             if days < month_factor:
-                original_amount = res['price_unit']
-                rate = original_amount * 12 / 365
-                new_amount = rate * days
-                res['price_unit'] = new_amount
+                count = days / month_factor
+                # original_amount = res['price_unit']
+                # rate = original_amount * 12 / 365
+                # new_amount = rate * days
+                res['quantity'] = round(count,2)
                 res['name'] += f' ({days} days)'
-            _logger.debug(
-                f'Prorate: {diff} = {new_amount} {line} {fiscal_position} {date_start} {date_stop}')
+            _logger.debug(f'Prorate: {diff} = {count} {line} {fiscal_position} {date_start} {date_stop}')
         # if self.subscription_status == 'new' and diff.days < 31:
         return res
 
@@ -91,12 +115,21 @@ class SaleSubscription(models.Model):
         interval_type = periods[self.recurring_rule_type]
         interval = self.recurring_interval
 
-        next_date = next_date - relativedelta(**{interval_type: interval*2})
+        if cutoff_day < 16:
+            next_date = next_date - relativedelta(**{interval_type: interval})
+        else:
+            next_date = next_date - relativedelta(**{interval_type: interval*2})
+
         _logger.debug(f'Compute next date: Next {next_date}, due_day: {cutoff_day}')
         recurring_start_date = self._get_recurring_next_date(self.recurring_rule_type, interval, next_date, cutoff_day)
         revenue_date_start = fields.Date.from_string(recurring_start_date+relativedelta(days=1))
         _logger.debug('Dates: Next Date: {next_date} Start Day: {revenue_date_start}')
-        recurring_next_date = self._get_recurring_next_date(self.recurring_rule_type, interval, revenue_date_start, cutoff_day)
+        recurring_next_date = self._get_recurring_next_date(self.recurring_rule_type, 0, revenue_date_start, cutoff_day)
+        _logger.debug(f'Days: {recurring_start_date >= recurring_next_date}: {recurring_start_date} > {recurring_next_date}')
+        # This is a HACK to fix the issue with jumping dates
+        if recurring_start_date >= recurring_next_date:
+            recurring_next_date = self._get_recurring_next_date(self.recurring_rule_type, interval, revenue_date_start, cutoff_day)
+
         revenue_date_stop = fields.Date.from_string(recurring_next_date)
         invoice_lines = []
         for line in self.recurring_invoice_line_ids:
@@ -137,7 +170,7 @@ class SaleSubscription(models.Model):
                     tot_vat += (total_price_unit /
                                 ((100 + t.amount) / 100)) * (t.amount/100)
                 total_vat += tot_vat
-          
+
             if product.product_tmpl_id.id != device_id:
                 _logger.debug(f'Invoice: {invoice}')
 
@@ -155,7 +188,7 @@ class SaleSubscription(models.Model):
                     'amount': credit_note_id.amount_total * -1,
                 }
                 lines.append((0, 0, rebates))
-            
+
             if product.product_tmpl_id.id == device_id:
                 data = {
                     'name': line['name'],
@@ -167,7 +200,7 @@ class SaleSubscription(models.Model):
                 data = {
                     'name': line['name'],
                     'statement_type': 'subs_fee',
-                    'amount': line['price_unit'] - total_vat,
+                    'amount': (line['price_unit'] * line['quantity']) - total_vat,
                 }
                 lines.append((0, 0, data))
 

@@ -79,6 +79,7 @@ class SalesForceImporterOpportunities(models.Model):
                     Sub_Stages__c,
                     Initial_Payment_Date__c,
                     Area_ODOO__c,
+                    Business_Unit_Groups__c,
                     (SELECT SLA_Activation_Actual_End_Date__c FROM opportunity.Job_Orders__r),
                     (SELECT
                         PricebookEntryId, Product2Id, ProductCode,
@@ -195,6 +196,15 @@ class SalesForceImporterOpportunities(models.Model):
         if contract_term:
             contract_term = int(contract_term)
 
+        # Business Unit
+        sf_sales_team = lead.get('Business_Unit_Groups__c', None)
+        sales_team_id = None
+        if sf_sales_team:
+            # Find corresponding entry in Odoo CRMr team records
+            sales_team_result = self._find_sales_team(sf_sales_team)
+            if (len(sales_team_result) > 0):
+                sales_team_id = sales_team_result[0].id
+
         job_orders = lead.get('Job_Orders__r', {})
         contract_start_date = None
         contract_end_date = None
@@ -247,7 +257,8 @@ class SalesForceImporterOpportunities(models.Model):
             'job_order_status': substage,
             'subscription_status': subscription_status,
             'zone': zone.id,
-            'company_id': zone.company_id.id
+            'company_id': zone.company_id.id,
+            'team_id': sales_team_id
         }
 
         if contract_start_date and contract_end_date:
@@ -309,6 +320,10 @@ class SalesForceImporterOpportunities(models.Model):
         lead_partner = self._create_customer(partner, lead_partner, zone)
 
         return lead_partner
+
+    def _find_sales_team(self, sales_team):
+        team = self.env['crm.team'].search([('name', '=ilike', sales_team)], limit=1)
+        return team
 
     def _find_zone(self, zone):
         zone = self.env['subscriber.location'].search([('name', '=', zone)], limit=1)
