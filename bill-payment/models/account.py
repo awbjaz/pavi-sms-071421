@@ -112,7 +112,12 @@ class account_payment(models.Model):
                 # ('invoice_date_due', '>', rec.payment_date)
             ]
             invoices = self.env['account.move'].search(args, order='invoice_date_due')
+            last_invoice = False
             for inv in invoices:
+                last_invoice = inv
                 if inv.invoice_date_due > rec.payment_date:
                     rec.bill_id = inv.id
                     break
+            else:
+                if last_invoice:
+                    rec.bill_id = last_invoice.id
