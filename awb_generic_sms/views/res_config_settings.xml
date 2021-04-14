@@ -5,20 +5,44 @@
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[hasclass('settings')]" position="inside">
-                <div class="app_settings_block">
-                    <div id="sms_configuration">
-                        <h2>Smart SMS Gateway</h2>
-                        <div class="row mt16 o_settings_container">
-                            <div class="col-12 col-lg-6 o_setting_box">
-                                <div class="o_setting_left_pane">
-                                    <field name="smart_gateway"/>
+            <xpath expr="//div[hasclass('settings')]/div[@data-key='general_settings']/div[@id='languages']" position="after">
+                <div id="sms_configuration">
+                    <h2>Smart SMS Gateway</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="smart_gateway"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="smart_gateway"/>
+                                <div class="text-muted">
+                                    Activating this option allows you to send SMS notification Through Smart API
                                 </div>
-                                <div class="o_setting_right_pane">
-                                    <label for="smart_gateway"/>
-                                    <div class="text-muted">
-                                        Activating this option allows you to send SMS notification Through Smart API
-                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-12 o_setting_box">
+                            <div class="o_setting_left_pane">
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="smart_gateway_url"/>
+                                <br />
+                                <field name="smart_gateway_url"/>
+                                <div class="text-muted">
+                                    SMART SMS Gateway API URL
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-12 o_setting_box">
+                            <div class="o_setting_left_pane">
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="smart_gateway_token"/>
+                                <br />
+                                <field name="smart_gateway_token"/>
+                                <div class="text-muted">
+                                    SMART SMS Gateway API Token
                                 </div>
                             </div>
                         </div>
