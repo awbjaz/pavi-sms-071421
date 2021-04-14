@@ -1,0 +1,16 @@
+ <odoo>
+	 <record model="ir.module.category" id="sms_management">
+	     <field name="name">SMS Integration</field>
+	     <field name="description">User access level for SMS Gateway module</field>
+	     <field name="sequence">20</field>
+	</record>
+
+	<record id="sms_user" model="res.groups">
+        <field name="name">Account Officer</field>
+        <field name="category_id" ref="sms_management"/>
+    </record>
+    <record id="sms_admin" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="category_id" ref="sms_management"/>
+    </record>
+</odoo>

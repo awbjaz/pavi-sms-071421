@@ -4,22 +4,22 @@
     	<record id="sms_template_billing_1" model="awb.sms.template">
             <field name="name">Billing Reminder</field>
             <field name="template_body">
-Good day!
-This is your bill for the month of ${month}
-Accnt Name: ${partner_id}
-Accnt No.: ${name}
-MSF: ${msf_php}
-Arrears: ${arrears}
-Total Bill: ${amount_total}
-ATM Ref No.: ${ref}
-Bill No.: ${bill_num}
+Good day! 
+
+This is your bill for the month of ${month_of_billing}. 
+Acct Name: ${partner_id} 
+Acct No: ${customer_number}:
+Current Charges: ${amount_total} 
+Arrears: ${total_prev_charges}
+Total Amount Due: ${total_statement_balance}
+ATM Ref No: ${atm_ref}
+Bill No: ${name} 
 Due Date: ${invoice_date_due}
-Bill Covered: ${bill_covered}
+Bill Covered: ${start_date} to  ${end_date}
 
-You may now pay your bill via this link, https://www.streamtech.com.ph/bills-payment/
-Please use your ATM Ref number and bill number.  
-
-Thank you.
+You may now pay your bill via this link,  
+https://www.streamtech.com.ph/bills-payment/.
+Please use your ATM  Ref number and bill number. Thank you!
             </field>
         </record>
     </data>

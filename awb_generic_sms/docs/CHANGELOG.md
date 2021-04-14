@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [13.0.1.0.1] - 2021-04-14
+   - Configurable SMS Gateway API URL and Token
+   - Security Access Rights, Roles, Groups ( Administrator, Account Officer )
+   - SMS Template Fixes, Updates and remove Placeholders
+   - Validations
+
+### Related User Stories
+   - User Story #47 - As a System Admin, I should be able to turn on/off the SMS Gateway Feature
+   - User Story #48 - As a System Admin, I should be able to configure the Smart API URL Instance and Authentication Token
+   - User Story #49 - As a System Admin, I should be able to give a User permission to access to the SMS Gateway Feature
+   - User Story #50 - As a System Admin, I should be able to view the SMS History
+   - User Story #51 - Missing Peso and Comma sign in Amounts
+   - User Story #52 - Message Text Area should be empty when creating new Template
+   - User Story #53 - SMS for Draft Invoice has "Sent" status
+   - User Story #54 - Validations: SMS Template, SMS Settings, Actions
+   - User Story #57 - Month of Billing : Based on Posting Date > New Month Field for Invoice
+
+
 ## [13.0.1.0.1] - 2021-04-08
    - Configure SMS Templates ( PAVI Requirements )
    - On-demand SMS
