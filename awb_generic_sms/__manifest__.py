@@ -26,11 +26,11 @@
     'depends': ['account_accountant'],
 
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'views/send_sms_view.xml',
         'views/menuitem.xml',
         'views/res_config_settings.xml',
-        'views/accounting_view.xml',
         # 'views/sms_invoice_view.xml',
         'data/sms_template_data.xml',
     ],

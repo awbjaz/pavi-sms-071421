@@ -1,4 +1,13 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
-sms_manager,sms manager,model_awb_sms_record,,1,1,1,1
-history_manager,history manager,model_awb_sms_history,,1,0,1,0
-template_manager,template manager,model_awb_sms_template,,1,1,1,1
+
+sms_sending_manager,sms_sending manager,model_awb_sms_send,sms_admin,1,1,1,1
+sms_sending_user,sms_sending user,model_awb_sms_send,sms_user,1,0,1,0
+
+sms_manager,sms manager,model_awb_sms_record,sms_admin,1,1,1,1
+sms_user,sms user,model_awb_sms_record,sms_user,1,1,1,0
+
+history_manager,history manager,model_awb_sms_history,sms_admin,1,0,1,0
+history_user,history user,model_awb_sms_history,sms_user,0,0,1,0
+
+template_manager,template manager,model_awb_sms_template,sms_admin,1,1,1,1
+template_user,template user,model_awb_sms_template,sms_user,1,1,1,1
