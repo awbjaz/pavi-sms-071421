@@ -5,7 +5,7 @@ from tempfile import TemporaryFile
 from odoo import http
 from odoo.http import request
 
-from ..helpers.printer_data_util import PrinterDataUtil
+from ..helpers.printer_data_util_2021_april import PrinterDataUtil
 
 _logger = logging.getLogger(__name__)
 
@@ -19,9 +19,9 @@ class PrinterDataController(http.Controller):
         txt = PrinterDataUtil.generate_data_file_contents(records)
 
         headers = [
-                ('Content-Type', 'text/html'), 
+                ('Content-Type', 'text/csv'), 
                 ('Content-Length', len(txt)), 
-                ('Content-Disposition', 'attachment; filename="printer_data.txt"')
+                ('Content-Disposition', 'attachment; filename="printer_data.csv"')
             ]
         return request.make_response(txt, headers=headers)
 
