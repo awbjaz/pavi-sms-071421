@@ -12,19 +12,27 @@ class AWBResConfigSettings(models.TransientModel):
         help="Activating this option will allow the user to use Smart SMS Gateway",
         readonly=False
     )
+    smart_gateway_url = fields.Char('Smart API URL')
+    smart_gateway_token = fields.Char('Smart API Token')
 
     @api.model
     def get_values(self):
       res = super(AWBResConfigSettings, self).get_values()
       params = self.env['ir.config_parameter'].sudo()
       smart_gateway = params.get_param('smart_gateway', default=False)
+      smart_gateway_url = params.get_param('smart_gateway_url', default=False)
+      smart_gateway_token = params.get_param('smart_gateway_token', default=False)
       res.update(
           smart_gateway=smart_gateway,
+          smart_gateway_url=smart_gateway_url,
+          smart_gateway_token=smart_gateway_token,
       )
       return res
 
     @api.model
     def set_values(self):
         super(AWBResConfigSettings, self).set_values()
-        self.env['ir.config_parameter'].sudo().set_param(
-            'smart_gateway', self.smart_gateway)
+        params = self.env['ir.config_parameter'].sudo()
+        params.set_param('smart_gateway', self.smart_gateway)
+        params.set_param('smart_gateway_url', self.smart_gateway_url)
+        params.set_param('smart_gateway_token', self.smart_gateway_token)

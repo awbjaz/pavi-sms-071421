@@ -2,19 +2,27 @@ import json
 import requests
 from ..models import models
 
-SMART_API_URL = 'https://messagingsuite.smart.com.ph/cgpapi/messages/sms'
-SMART_AUTH = 'Basic amVycnkubWFycXVlc2VzQG1hbmRhbGF5LmNvbS5waDpwNGpOZ0w5Uw=='
-
 
 class SendSMS(object):
-    def __init__(self, sms_id, recipients, message, recordsets=None, sms_gateway=None, auth=None):
+    def __init__(
+        self,
+        url,
+        token,
+        sms_id,
+        recipients,
+        message,
+        recordsets=None,
+        sms_gateway=None,
+        auth=None
+    ):
         self.headers = {
             'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': SMART_AUTH
+            'Authorization': token
         }
         self.recipients = recipients
         self.message = message
         self.sms_id = sms_id
+        self.url = url
 
     def send(self):
         sms_data = []
@@ -26,7 +34,7 @@ class SendSMS(object):
                 'text': self.message,
             }
             res = requests.post(
-                url=SMART_API_URL,
+                url=self.url,
                 headers=self.headers,
                 data=json.dumps(data)
             )
