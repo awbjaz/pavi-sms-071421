@@ -11,11 +11,12 @@
                         </div>
                         <div class="col-xs-3" style="padding-top: 40px;">
                         </div>
-                        <div class="col-xs-6 float-right" style="text-align: right; line-height: 95%; padding-top: 20px;">
+                        <div class="col-xs-6 float-right" style="text-align: right; line-height: 95%; padding-top: 18px;">
                                        
                             <span style="font-weight:900; font-size:20px;" t-field="doc.company_id.name"/> 
                             <br/> 
-                            <span class="font-address">  <span t-field="doc.company_id.street"/>,  <span t-field="doc.company_id.street2"/><br/> 
+                            <span class="font-address">  <span t-field="doc.company_id.street"/>,  <br/>
+                                <span t-field="doc.company_id.street2"/><br/> 
                                 <span t-field="doc.company_id.city"/>,  <span t-field="doc.company_id.state_id"/>  <span t-field="doc.company_id.zip"/> </span>
                             <br/> 
                             <span class="font-address"> Hotlines: (02) 8808-2323 | 0919-057-8888 </span>
