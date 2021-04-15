@@ -1,4 +1,8 @@
-## [v13.0.1.3.0] - 2021-04-14
+## [v13.0.1.4.0] - 2021-04-15
+
+    - [IMP] Adjust alignment in company address
+
+## [v13.0.1.3.0] - 2021-04-15
 
     - [IMP] Adjust line height and alignment
 
