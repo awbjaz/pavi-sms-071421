@@ -1,3 +1,7 @@
+## [v13.0.1.5.0] - 2021-04-16
+
+    - [IMP] adjust company address in header SOA
+
 ## [v13.0.1.4.0] - 2021-04-15
 
     - [IMP] Adjust alignment in company address
