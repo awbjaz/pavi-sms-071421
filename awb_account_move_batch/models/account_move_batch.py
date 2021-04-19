@@ -43,6 +43,7 @@ class AccountMoveBatch(models.Model):
     invoice_type = fields.Selection([('cust_invoice', 'Customer Invoice')],
                                     string="Invoice Type", default='cust_invoice')
     company_id = fields.Many2one('res.company', string='Company', default=_get_company_default)
+    rebate_date = fields.Date(string="Date", required=True, default=fields.Date.today())
     journal_id = fields.Many2one('account.move', string='Journal', default=_default_journal)
     location_id = fields.Many2one('subscriber.location', string='Location')
     days = fields.Integer(string="Number of Days")
@@ -62,6 +63,9 @@ class AccountMoveBatch(models.Model):
             'account.move.batch.seq.code') or 'MASS INV/'
         result = super(AccountMoveBatch, self).create(vals)
         return result
+
+    def action_set_to_draft(self):
+        self.write({'state':'draft'})
 
     def action_compute_rebates(self):
         _logger.debug(f'Computing Rebates')
@@ -85,12 +89,12 @@ class AccountMoveBatch(models.Model):
         sub_product = []
         for sub in subs:
             partner = sub.partner_id
-            date = sub.date_start
+            # date = sub.date_start
             device_id = self.env.ref('awb_subscriber_product_information.product_device_fee').id
             for sub_line in sub.recurring_invoice_line_ids:
                 if sub_line.product_id.id != device_id:
                     data = {
-                        'date': date,
+                        'date': self.rebate_date,
                         'subscription_line_id': sub_line.id,
                         'partner_id': partner.id,
                         'product_id': sub_line.product_id.id,
@@ -139,7 +143,7 @@ class AccountMoveBatch(models.Model):
 
             data = {
                 'invoice_origin': self.name,
-                'invoice_date': fields.Date.today(),
+                'invoice_date': line.date,
                 'date': fields.Date.today(),
                 'partner_id': customer_id,
                 'type': 'out_refund',
@@ -179,7 +183,7 @@ class AccountMoveBatchLine(models.Model):
     invoice_id = fields.Many2one('account.move.batch', string="Invoice")
     partner_id = fields.Many2one('res.partner', string="Partner", required=True)
     description = fields.Char(string="Description")
-    date = fields.Date(string="Date")
+    date = fields.Date(string="Date", default=fields.Date.today(), required=True)
     uom_id = fields.Many2one('uom.uom', string="UOM")
     product_id = fields.Many2one('product.product', string='Product')
     account_id = fields.Many2one('account.account', string="Account")

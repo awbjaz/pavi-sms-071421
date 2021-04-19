@@ -6,17 +6,19 @@
                 <div class="page">
                     <link rel="stylesheet" type="text/scss" href="/awb_subscriber_bill/static/src/css/soa.css"/>
                     <div>
-                        <div class="col-xs-3 float-left" style="padding-top: 30px;">
-                             <img t-if="doc.company_id.soa_logo" t-att-src="image_data_uri(doc.company_id.soa_logo)" alt="Logo" style="max-height: 120px;"/>
+                        <div class="float-left" style="padding-top: 22px; margin-left: -15px;">
+                             <img t-if="doc.company_id.soa_logo" t-att-src="image_data_uri(doc.company_id.soa_logo)" alt="Logo" style="max-height: 130px;"/>
                         </div>
-                        <div class="col-xs-3" style="padding-top: 40px;">
-                        </div>
-                        <div class="col-xs-6 float-right" style="text-align: right; line-height: 95%; padding-top: 20px;">
-                                       
+                        <!-- <div style="padding-top: 40px;">
+                        </div> -->
+                        <div class="float-right" style="text-align: right; line-height: 95%; padding-top: 60px; word-wrap: break-word; width: 400px; margin-right: -15px;">           
                             <span style="font-weight:900; font-size:20px;" t-field="doc.company_id.name"/> 
                             <br/> 
-                            <span class="font-address">  <span t-field="doc.company_id.street"/>,  <span t-field="doc.company_id.street2"/><br/> 
-                                <span t-field="doc.company_id.city"/>,  <span t-field="doc.company_id.state_id"/>  <span t-field="doc.company_id.zip"/> </span>
+                            <span class="font-address">  
+                                <span t-field="doc.company_id.street"/>,  
+                                <span t-field="doc.company_id.street2"/><br/> 
+                                <span t-field="doc.company_id.city"/>,  <span t-field="doc.company_id.state_id"/>  
+                                <span t-field="doc.company_id.zip"/> </span>
                             <br/> 
                             <span class="font-address"> Hotlines: (02) 8808-2323 | 0919-057-8888 </span>
                             <br/>
@@ -25,7 +27,7 @@
                         </div>
                        
                     </div>
-                    <br/>
+                   
                    
                     <div class="row" id="statement_of_account_body">
                         <table style="width: 100%">
@@ -40,12 +42,14 @@
                     <div class="row" id="statement_of_account_body_1">
                         <table style="border: 2px solid black; width:100%;">
                             <tr style="border: 2px solid black; height:15px;">
-                                <td rowspan="4" style="border: 2px solid black;text-align: left; width:40%; line-height: 95%; font-size: 14px; padding: 5px;">                   
-                                    <strong><span class="pl-10" style="font-size: 20px;" t-field="doc.partner_id.name"/></strong> <br/>
-                                    <span class="pl-10" t-field="doc.partner_id.street"/> <br/>
-                                    <span class="pl-10" t-field="doc.partner_id.street2"/> <br/>
-                                    <span class="pl-10" t-field="doc.partner_id.city_id"/> <span t-field="doc.partner_id.state_id"/> <span t-field="doc.partner_id.zip"/><br/>
-                                    <span class="pl-10" t-field="doc.partner_id.country_id"/>
+                                <td rowspan="4" style="border: 2px solid black;text-align: left; width:40%; font-size: 14px; padding: 5px;">                   
+                                    <div style="margin-left: 10px; line-height: 110%;">
+                                    <strong><span style="font-size: 20px;" t-field="doc.partner_id.name"/></strong> <br/>
+                                    <span t-field="doc.partner_id.street"/> <br/>
+                                    <span t-field="doc.partner_id.street2"/> <br/>
+                                    <span t-field="doc.partner_id.city_id"/> <span t-field="doc.partner_id.state_id"/> <span t-field="doc.partner_id.zip"/>
+                                    <span t-field="doc.partner_id.country_id"/>
+                                    </div>
                                 </td>
                                 <th style="border: 2px solid black; text-align: center;width:30%">
                                     <span>Account Number</span>
@@ -304,7 +308,7 @@
                                 </td>
                             </tr>
                             <tr style="width :100%">
-                                <td style="width:20%; line-height: 60%;" colspan="2">
+                                <td style="width:20%; line-height: 95%;" colspan="2">
                                     <strong><span>Name:</span></strong>
                                     <span style="font-size:13px;" t-if="doc.partner_id.company_type=='person'">
                                         <t t-esc="doc.partner_id.first_name"/>
@@ -399,7 +403,7 @@
                                 <td style="width:20%; text-align:left;">
                                     <span>Received by:</span>
                                 </td>
-                                <td style="width:34%; border-bottom: 2px solid black;text-align:center; line-height: 50%;">
+                                <td style="width:34%; border-bottom: 2px solid black;text-align:center; line-height: 95%;">
                                     <span t-field="doc.partner_id.name"/>
                                 </td>
                                 <td style="width:5%;">
@@ -485,7 +489,7 @@
             <field name="print_page_width">210</field>
             <field name="dpi">90</field>
             <field name="margin_top">0</field>
-            <field name="margin_bottom">12.50</field>
+            <field name="margin_bottom">0</field>
             <field name="margin_right">25.4</field>
             <field name="margin_left">25.4</field>
             <field name="print_page_height">297</field>

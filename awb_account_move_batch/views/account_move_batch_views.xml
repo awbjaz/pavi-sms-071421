@@ -10,7 +10,8 @@
                 <button name="action_load_subscribers" type="object"  string="Load subscribers" states="draft" class="oe_highlight" attrs="{'invisible':[('state','!=','draft')]}" />
                 <button name="action_compute_rebates" type="object"  string="Compute Rebate" states="draft" class="oe_highlight"  />
                 <button name="action_confirm" type="object"  string="Confirm" states="draft" class="oe_highlight"  />
-                <button name="action_invoice" type="object"  string="Create Invoiced" states="confirm" class="oe_highlight" />
+                <button name="action_invoice" type="object"  string="Create Invoices" states="confirm" class="oe_highlight" />
+                <button name="action_set_to_draft" type="object"  string="Reset to Draft" states="confirm"/>
                 <button name="action_view_invoice" type="object"  string="View Invoiced" states="invoice,post" class="oe_highlight" />
                 <button name="action_invoice_post" type="object"  string="Post Invoiced" states="invoice" class="oe_highlight" />
                 <field name="state" widget="statusbar" />
@@ -26,6 +27,7 @@
                     <field name="days" />
                   </group>
                   <group>
+                    <field name="rebate_date" attrs="{'readonly':[('state','!=','draft')]}"/>
                     <field name="journal_id" attrs="{'readonly':[('state','!=','draft')]}" />
                     <field name="company_id" attrs="{'readonly':[('state','!=','draft')]}" />
                   </group>
