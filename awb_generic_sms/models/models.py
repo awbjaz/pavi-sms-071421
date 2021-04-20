@@ -60,54 +60,53 @@ class SMS(models.Model):
         )
 
         if record:
-            if state:
-                if record.state == state:
-                    recipient_ids = record.partner_id
-
-                    raw_template_body = self.env['awb.sms.template'].search(
-                        [("name", "=", template_name)], limit=1, order="write_date desc"
-                    )
-
-                    if raw_template_body.exists():
-                        raw_template_body = raw_template_body.template_body.replace("${", "{")
-                    else:
-                        raise exceptions.ValidationError(
-                            (
-                                "SMS Template %s not found, Make sure to input the correct SMS Template name"
-                            ) % template_name
-                        )
-
-                    format_keys = [fkey for _, fkey, _, _ in Formatter().parse(raw_template_body) if fkey]
-
-                    key_value = {}
-                    for key in format_keys:
-
-                        try:
-                            value = getattr(record, key)
-                        except AttributeError:
-                            value = None
-
-                        if value:
-                            try:
-                                if value.name:
-                                    value = value.name
-                            except AttributeError:
-                                if isinstance(value, float):
-                                    value = "\u20B1 {:,.2f}".format(value)
-                                else:
-                                    pass
-
-                        raw_data = {key: value}
-                        key_value.update(raw_data)
-
-                    template_body = raw_template_body.format_map(key_value)
-                else:
-                    raise exceptions.ValidationError(
-                        ("Record should be in %s state.") % state
-                    )
-            else:
+            if not state:
                 raise exceptions.ValidationError(
                     ("State parameter is required, Please check server actions")
+                )
+            if record.state == state:
+                recipient_ids = record.partner_id
+
+                raw_template_body = self.env['awb.sms.template'].search(
+                    [("name", "=", template_name)], limit=1, order="write_date desc"
+                )
+
+                if raw_template_body.exists():
+                    raw_template_body = raw_template_body.template_body.replace("${", "{")
+                else:
+                    raise exceptions.ValidationError(
+                        (
+                            "SMS Template %s not found, Make sure to input the correct SMS Template name"
+                        ) % template_name
+                    )
+
+                format_keys = [fkey for _, fkey, _, _ in Formatter().parse(raw_template_body) if fkey]
+
+                key_value = {}
+                for key in format_keys:
+
+                    try:
+                        value = getattr(record, key)
+                    except AttributeError:
+                        value = None
+
+                    if value:
+                        try:
+                            if value.name:
+                                value = value.name
+                        except AttributeError:
+                            if isinstance(value, float):
+                                value = "\u20B1 {:,.2f}".format(value)
+                            else:
+                                pass
+
+                    raw_data = {key: value}
+                    key_value.update(raw_data)
+
+                template_body = raw_template_body.format_map(key_value)
+            else:
+                raise exceptions.ValidationError(
+                    ("Record should be in %s state.") % state
                 )
 
         sms = SendSMS(
@@ -120,10 +119,22 @@ class SMS(models.Model):
         sent_sms = sms.send()
         self.save_history(sent_sms)
 
-    def send_automated_sms(self, target_date, template_name=None, state=None):
+    def send_autoinvoice_sms(self, due_date_criteria=None, template_name=None, state=None):
+        if not state:
+            raise exceptions.ValidationError(
+                ("State parameter is required")
+            )
+
         invoices = self.env['account.move'].search(
-            [("invoice_date_due", "=", target_date),]
+            [("state", "=", state)]
         )
+        if due_date_criteria:
+            today = datetime.date.today()
+            due_date_criteria = today + datetime.timedelta(days=due_date_criteria)
+            invoices = invoices.search(
+                [("invoice_date_due", "=", due_date_criteria),]
+            )
+        
         for invoice in invoices:
             self.env['awb.sms.send'].send_now(
                 record=invoice,
@@ -131,32 +142,8 @@ class SMS(models.Model):
                 state=state
             )
 
-    def send_billing_reminder(self, template_name=None, state=None):
-        today = datetime.date.today()
-        target_date = today + datetime.timedelta(days=3)
-        self.send_automated_sms(
-            target_date=target_date,
-            template_name=template_name,
-            state=state,
-        )
-
-    def send_disconnection_notice(self, template_name=None, state=None):
-        today = datetime.date.today()
-        target_date = today - datetime.timedelta(days=3)
-        self.send_automated_sms(
-            target_date=target_date,
-            template_name=template_name,
-            state=state,
-        )
-
-    def send_actual_disconnection_notice(self, template_name=None, state=None):
-        today = datetime.date.today()
-        target_date = today - datetime.timedelta(days=7)
-        self.send_automated_sms(
-            target_date=target_date,
-            template_name=template_name,
-            state=state,
-        )
+    def send_autopayment_sms(self, due_date_criteria=None, template_name=None, state=None):
+        return None
 
 
 class SmsRecord(models.Model):
@@ -200,7 +187,8 @@ class SmsHistory(models.Model):
     _description = 'SMS History'
     _order = 'create_date desc'
 
-    name = fields.Char("Name", readonly=True)
+    name = fields.Char("Recipient", readonly=True)
+    recipient_id = fields.Many2one('res.partner', string='Name')
     sms_id = fields.Many2one('awb.sms.record', 'SMS Record', readonly=True)
     state = fields.Selection([
         ('failed', 'Failed'),
