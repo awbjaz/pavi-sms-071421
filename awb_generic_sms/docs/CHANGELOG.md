@@ -4,7 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [13.0.1.0.1] - 2021-04-14
+## [13.0.1.0.0-beta] - 2021-04-20
+   - SMS Templates Initialization [TextSOA, Payment Reminder, Payment Notif, Disconnection, Actual Disconnection]
+   - SMART API URL invalid URL catcher
+   - SMS History enhancements
+   - Scheduled action updates
+
+### Related User Stories
+   - User Story #59 - Payment Reminder
+   - User Story #60 - Payment Notification Notice
+   - User Story #61 - SMS: Name field value should be Receipients Name
+   - User Story #62 - SMS: Smart API URL should have validation if the url is correct
+   - User Story #73 - Remove Invoice Month in TEXT SOA, replace with Billing Period
+   - User Story #74 - Change the Trigger Template for Billing Reminder to Payment Reminder from TEXT SOA
+   - User Story #75 - As a system, I should be able to TEXT SOA upon Posting for the designated Billing period cutoffs of the accounts
+
+## [13.0.1.0.0-beta] - 2021-04-14
    - Configurable SMS Gateway API URL and Token
    - Security Access Rights, Roles, Groups ( Administrator, Account Officer )
    - SMS Template Fixes, Updates and remove Placeholders
@@ -22,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    - User Story #57 - Month of Billing : Based on Posting Date > New Month Field for Invoice
 
 
-## [13.0.1.0.1] - 2021-04-08
+## [13.0.1.0.0-beta] - 2021-04-08
    - Configure SMS Templates ( PAVI Requirements )
    - On-demand SMS
    - Schedule SMS
