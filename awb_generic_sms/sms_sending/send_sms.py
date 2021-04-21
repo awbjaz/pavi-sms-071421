@@ -1,5 +1,6 @@
 import json
 import requests
+from odoo import exceptions
 from ..models import models
 
 
@@ -26,23 +27,27 @@ class SendSMS(object):
 
     def send(self):
         sms_data = []
-        recipients_mobile = self.recipients.mapped('mobile')
-        for mobile_num in recipients_mobile:
+        for recipient in self.recipients:
             data = {
                 'messageType': 'sms',
-                'destination': mobile_num,
+                'destination': recipient.mobile,
                 'text': self.message,
             }
-            res = requests.post(
-                url=self.url,
-                headers=self.headers,
-                data=json.dumps(data)
-            )
+            try:
+                res = requests.post(
+                    url=self.url,
+                    headers=self.headers,
+                    data=json.dumps(data)
+                )
+            except requests.exceptions.MissingSchema as e:
+                raise exceptions.ValidationError(e)
+
             state = "sent" if res.status_code == 201 else "failed"
             sms_data.append(
                 {
+                    "recipient_id": recipient.id,
                     "name": "%s (%s)" % (
-                        mobile_num if mobile_num else "No mobile number", state.title()
+                        recipient.mobile if recipient.mobile else "No mobile number", state.title()
                     ),
                     "status_code": res.status_code,
                     "sms_id": self.sms_id,
