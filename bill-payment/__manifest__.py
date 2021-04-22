@@ -21,7 +21,7 @@
 
     'category': 'Localization',
 
-    'version': '13.0.1.1.0',
+    'version': '13.0.1.2.0',
 
     'depends': ['awb_subscriber_bill', 'awb_subscriber_bill_automation'],
 
