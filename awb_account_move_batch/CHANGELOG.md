@@ -1,13 +1,5 @@
 Format in CHANGELOG.md
 
-## [13.0.1.3.3] - 2021-04-22
-
-- [FIX] duplicate and wrong company when generate invoices
-
-## [13.0.1.3.2] - 2021-04-22
-
-- [IMP] add journal
-
 ## [13.0.1.2.2] - 2021-04-16
 
 - [IMP] add rebates date and reset to draft button
