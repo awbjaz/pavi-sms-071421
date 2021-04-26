@@ -23,13 +23,13 @@
                 <group> 
                   <group>
                     <field name="invoice_type" readonly="1" />
-                    <field name="location_id" />
-                    <field name="days" />
+                    <field name="location_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                    <field name="days" attrs="{'readonly':[('state','!=','draft')]}"/>
                   </group>
                   <group>
                     <field name="rebate_date" attrs="{'readonly':[('state','!=','draft')]}"/>
                     <field name="journal_id" attrs="{'readonly':[('state','!=','draft')]}" />
-                    <field name="company_id" attrs="{'readonly':[('state','!=','draft')]}" />
+                    <field name="company_id"/>
                   </group>
                   <notebook colspan="4">
                     <page string="Invoice Lines">
@@ -40,6 +40,7 @@
                             <field name="subscription_line_id" invisible="1"/>
                             <field name="partner_id"  />
                             <field name="product_id" string="Subscription Product"/>
+                            <field name="company_id" invisible="0"/>
                             <field name="description" />
                             <!--<field name="account_id" domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '=', 'other')]"  />-->
                             <field name="account_id" domain="[('company_id', '=', parent.company_id), ('user_type_id', '=', 'other')]"  invisible="1"/>
@@ -51,7 +52,7 @@
                     </page>
                     <page string="Credit Notes">
                       <group >
-                        <field name="account_move_ids" nolabel="1"/>
+                        <field name="account_move_ids" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
                       </group>
                     </page>
                   </notebook>
