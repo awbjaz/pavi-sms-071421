@@ -12,6 +12,8 @@ _logger = logging.getLogger(__name__)
 class SalesForceImporterOpportunities(models.Model):
     _inherit = 'salesforce.connector'
 
+    _DATE_CUT_OFF = '2021-01-01T00:00:00+0000'
+
     def import_opportunities(self, Auto):
         _logger.info('----------------- STREAMTECH import_opportunities')
         if not self.sales_force:
@@ -89,7 +91,7 @@ class SalesForceImporterOpportunities(models.Model):
                         opportunity.OpportunityLineItems),
                     {account_query}
                 FROM opportunity
-                WHERE  CreatedDate >= 2021-03-15T00:00:00+0000
+                WHERE  CreatedDate >= """ + self._DATE_CUT_OFF + """
                 AND ((StageName = 'Closed Won' AND Sub_Stages__c in ('Completed Activation'))
                 OR StageName = 'Closed Lost')
                 AND Opportunity_In_Effect__c = true

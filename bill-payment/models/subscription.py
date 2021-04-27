@@ -36,24 +36,6 @@ class SaleSubscription(models.Model):
                                 ((100 + t.amount) / 100)) * (t.amount/100)
                 total_vat += tot_vat
 
-            if product.product_tmpl_id.id != device_id:
-                _logger.debug(f'Invoice: {invoice}')
-
-                args = [('partner_id', '=', invoice['partner_id']),
-                        ('type', '=', 'out_refund'),
-                        ('state', '=', 'posted'),
-                        ('invoice_date', '>=', line['subscription_start_date']),
-                        ('invoice_date', '<=', line['subscription_end_date'])]
-
-                credit_note_id = self.env['account.move'].search(args, limit=1, order="invoice_date desc")
-
-                rebates = {
-                    'name': 'Rebates',
-                    'statement_type': 'adjust',
-                    'amount': credit_note_id.amount_total * -1,
-                }
-                lines.append((0, 0, rebates))
-
             if product.product_tmpl_id.id == device_id:
                 data = {
                     'name': line['name'],
@@ -102,5 +84,26 @@ class SaleSubscription(models.Model):
                 'amount': total_payment * -1,
             }
             lines.append((0, 0, prev_payment))
+
+        #Rebates
+        args_rebates = [('partner_id', '=', invoice['partner_id']),
+                ('type', '=', 'out_refund'),
+                ('state', '=', 'posted'),
+                ('invoice_date', '>=', invoice['start_date']),
+                ('invoice_date', '<=', invoice['end_date'])]
+
+        credit_note_id = self.env['account.move'].search(args_rebates, order="invoice_date desc")
+        
+        if credit_note_id:
+            total_rebates = 0.0
+            for rebates in credit_note_id:
+                total_rebates += rebates.amount_total
+
+            rebates = {
+                'name': 'Rebates',
+                'statement_type': 'adjust',
+                'amount': total_rebates * -1,
+            }
+            lines.append((0, 0, rebates))
 
         return lines

@@ -82,13 +82,17 @@ class AccountMove(models.Model):
                         ('invoice_date', '>=', self.start_date),
                         ('invoice_date', '<=', self.end_date)]
 
-        credit_note_id = self.env['account.move'].search(args_rebates, limit=1, order="invoice_date desc")
+        credit_note_id = self.env['account.move'].search(args_rebates, order="invoice_date desc")
 
         if credit_note_id:
+            total_rebates = 0.0
+            for rebates in credit_note_id:
+                total_rebates += rebates.amount_total
+
             rebates = {
                 'name': 'Rebates',
                 'statement_type': 'adjust',
-                'amount': credit_note_id.amount_total * -1,
+                'amount': total_rebates * -1,
             }
             lines.append((0, 0, rebates))
 
