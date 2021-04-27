@@ -34,7 +34,7 @@
           <xpath expr="//page[@name='other_info']" position="after">
             <page string="Approvals">
               <field name="index_seq" readonly="1" invisible="1"/>
-              <field name="approval_lines">
+              <field name="approval_lines" readonly="1">
                 <tree editable="bottom">
                   <field name="rule_id" invisible="1" readonly="True"/>
                   <field name="sequence" attrs="{'readonly': [('state', 'not in', ('pending'))]}"/>
