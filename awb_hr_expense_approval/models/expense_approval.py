@@ -14,7 +14,8 @@ class HRExpenseApproval(models.Model):
     max_amount = fields.Float('Maximum Amount', required=True, tracking=True)
     active = fields.Boolean('Active', index=True, default=True, tracking=True)
     approval_type = fields.Selection([('amount', 'Amount')], string='Approval Type', default='amount', tracking=True)
-    employee_manager = fields.Boolean(string="Employee Manager")
+    employee_manager = fields.Boolean(string="Employee's Manager")
+    department_manager = fields.Boolean(string="Department's Manager")
 
     approver_ids = fields.One2many('hr.expense.approver.line', 'approval_id', string='Approvers')
     company_id = fields.Many2one('res.company', 'Company', index=True, default=lambda self: self.env.company)
