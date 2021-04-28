@@ -11,6 +11,7 @@
           
             <xpath expr="//field[@name='date_start']" position="before">
                 <field name="subscription_status"/>
+                <field name="subscription_status_subtype"/>
             </xpath>
 
             <xpath expr="//field[@name='code']" position="after">

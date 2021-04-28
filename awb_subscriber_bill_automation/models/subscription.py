@@ -28,6 +28,8 @@ class SaleSubscription(models.Model):
                                             ('pre-termination', 'Pre-Termination'),
                                             ('disconnection', 'Disconnection'),
                                             ('reconnection', 'Reconnection')], default='new', string="Subscription Status")
+    subscription_status_subtype = fields.Selection([('disconnection-permanent', 'Permanent Discon'),
+                                            ('disconnection-temporary', 'Temporary Discon')], string="Subscription Status Subtype")
 
     def _prepare_renewal_values(self, product_lines, opportunity_id):
         res = dict()
