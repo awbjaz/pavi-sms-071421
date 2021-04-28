@@ -10,6 +10,7 @@
                 <group name="status">
                     <field name="job_order_status"/>
                     <field name="subscription_status"/>
+                    <field name="subscription_status_subtype"/>
                     <field name="outside_source" invisible="1"/>
                 </group>
             </xpath>
