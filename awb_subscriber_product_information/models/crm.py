@@ -65,6 +65,8 @@ class CRMLead(models.Model):
                                             ('pre-termination', 'Pre-Termination'),
                                             ('disconnection', 'Disconnection'),
                                             ('reconnection', 'Reconnection')], default='new', string="Subscription Status")
+    subscription_status_subtype = fields.Selection([('disconnection-permanent', 'Permanent Discon'),
+                                            ('disconnection-temporary', 'Temporary Discon')], string="Subscription Status Subtype")
     product_lines = fields.One2many('crm.lead.productline', 'opportunity_id', string='Products')
     zone = fields.Many2one('subscriber.location', domain=[('location_type', '=', 'zone')], string="Zone")
     category = fields.Selection(related='zone.category', string="Category")
