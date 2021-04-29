@@ -1,3 +1,6 @@
+## [13.0.1.4.1] - 2021-04-29
+
+- [IMP] Add Corporate Logo in Module and Update Summary
 
 ## [13.0.1.3.1] - 2021-04-27
 
