@@ -1,6 +1,11 @@
+# [13.0.1.3.1] - 2021-04-29
+
+- [FIX] only 1 vendor in draft PO process
+
 # [13.0.1.3.0] - 2021-03-29
- - add default application type purchase
- - set default user on created related record to OdooBot
+
+- add default application type purchase
+- set default user on created related record to OdooBot
 
 # v1.2.1 - 2021-03-29
 

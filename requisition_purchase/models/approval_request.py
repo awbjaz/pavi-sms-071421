@@ -223,8 +223,10 @@ class PrApprovalRequest(models.Model):
         transactions = {}
         if request.product_line_ids and request.application == 'purchase':
             for line in request.product_line_ids:
+                vendor = self.partner_id.id
                 if request.purchase_process == 'product':
                     requisition_type = line.product_id.purchase_requisition
+                    vendor = line.product_id.seller_ids[0].name.id if line.product_id.seller_ids else self.partner_id.id
                 elif request.purchase_process == 'draft_po':
                     requisition_type = 'rfq'
                 elif request.purchase_process == 'draft_pa':
@@ -233,7 +235,6 @@ class PrApprovalRequest(models.Model):
                 if requisition_type not in transactions:
                     transactions[requisition_type] = {}
 
-                vendor = line.product_id.seller_ids[0].name.id if line.product_id.seller_ids else self.partner_id.id
                 if vendor not in transactions[requisition_type]:
                     transactions[requisition_type][vendor] = []
 

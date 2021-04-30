@@ -7,7 +7,7 @@
 {
     'name': "AWB HR Expense Approval",
     'summary': """
-        AWB Hr Expense Approval
+        Multiple Approval in Expense Report
         """,
     'description': """
         AWB HR Expense Approval
@@ -15,7 +15,7 @@
     'author': "Achieve Without Borders, Inc",
     'website': "http://www.achievewithoutborders.com",
     'category': "Operations/Expense",
-    'version': '13.0.1.2.1',
+    'version': '13.0.1.4.1',
     'depends': ['hr_expense'],
     'data': [
         'security/ir.model.access.csv',
