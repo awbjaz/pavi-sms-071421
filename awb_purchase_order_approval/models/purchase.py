@@ -2,6 +2,7 @@
 
 from odoo import api, fields, models, SUPERUSER_ID, _
 from odoo.exceptions import UserError
+from dateutil.relativedelta import relativedelta
 import logging
 
 
@@ -32,6 +33,7 @@ class PurchaseOrder(models.Model):
         approval_rule = self.env['purchase.order.approval'].search(args, limit=1)
 
         approvers = []
+        date_due = date = fields.Date.today() + relativedelta(days=1)
         for record in approval_rule.approver_ids:
             for approver in record.approved_by:
                 data = {
@@ -42,6 +44,8 @@ class PurchaseOrder(models.Model):
                 }
                 approvers.append((0, 0, data))
 
+                self.activity_schedule('awb_purchase_order_approval.mail_act_purchase_order_approval',
+                user_id=approver.id, date_deadline=date_due, summary=f"{self.name}: Approval")
         self.sudo().update({'approval_lines': [(5, 0, 0)]})
         self.sudo().update({'approval_lines': approvers})
 
@@ -56,7 +60,6 @@ class PurchaseOrder(models.Model):
                 ('sequence', '=', self.index_seq)]
 
         approval_line_data = self.env['purchase.order.approval.line'].search(args)
-
         for approval in approval_line_data:
             approver = approval.approver_id.id
             approvers.append(approver)
@@ -64,6 +67,7 @@ class PurchaseOrder(models.Model):
                 approval_condition = approval.approval_condition
                 approval.state = 'approved'
                 approval.can_proceed = True
+                self.activity_feedback(['awb_purchase_order_approval.mail_act_purchase_order_approval'], user_id=self.env.user.id, feedback='Request has been Approved')
             approval_status.append(approval.state)
 
         if approval_condition == 'or':
@@ -98,9 +102,11 @@ class PurchaseOrder(models.Model):
         for approval in self.approval_lines:
             approver = approval.approver_id.id
             if approver == self.env.user.id:
+                self.activity_feedback(['awb_purchase_order_approval.mail_act_purchase_order_approval'], user_id=self.env.user.id, feedback='Request has been Rejected')
+                self.activity_unlink(['awb_purchase_order_approval.mail_act_purchase_order_approval'])
                 approval.sudo().update({'state': 'rejected'})
-        self.sudo().update({'state': 'draft'})
-
+        self.sudo().update({'state': 'draft', 'index_seq': 1})
+       
     @api.depends('state')
     def _compute_can_approve(self):
         for po in self:

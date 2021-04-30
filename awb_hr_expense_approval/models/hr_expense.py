@@ -14,51 +14,60 @@ class HrExpenseSheet(models.Model):
     approval_lines = fields.One2many('hr.expense.approval.line', 'expense_id',
                                      string='Approval Lines', tracking=True, copy=True)
     can_approve = fields.Boolean(compute='_compute_can_approve', default=False)
-
     index_seq = fields.Integer(string='Index Sequence', default=1)
+
+    def _get_data_approvers(self, rule_id, condition, sequence, approver_id, add_seq=0):
+        data = {
+            'rule_id': rule_id,
+            'approval_condition': condition,
+            'sequence': sequence + add_seq,
+            'approver_id': approver_id,
+        }
+        _logger.debug(f'data {data}')
+        return data
 
     def action_for_approval(self):
         self.state = 'for_approval'
         args = [('active', '=', True),
                 ('min_amount', '<=', self.total_amount),
-                ('max_amount', '>', self.total_amount),
-                ]
+                ('max_amount', '>', self.total_amount),]
         approval_rule = self.env['hr.expense.approval'].search(args, limit=1)
 
         approvers = []
+        add_seq =  0
         if approval_rule.employee_manager:
             if self.user_id:
-                approvers.append((0, 0, {
-                    'rule_id': approval_rule.id,
-                    'approval_condition': 'or',
-                    'sequence': 1,
-                    'approver_id': self.user_id.id,
-                }))
-                for record in approval_rule.approver_ids:
-                    for approver in record.approved_by:
-                        data = {
-                            'rule_id': approval_rule.id,
-                            'approval_condition': record.approval_condition,
-                            'sequence': record.sequence + 1,
-                            'approver_id': approver.id
-                        }
-                        approvers.append((0, 0, data))
+                data = self._get_data_approvers(approval_rule.id, 'or', 1, self.user_id.id)
+                approvers.append((0, 0, data))
+                add_seq = 1
             else: 
-                raise UserError(_('You need to set manager to proceed.'))
-        else:
-            for record in approval_rule.approver_ids:
-                for approver in record.approved_by:
-                    data = {
-                        'rule_id': approval_rule.id,
-                        'approval_condition': record.approval_condition,
-                        'sequence': record.sequence,
-                        'approver_id': approver.id
-                    }
+                raise UserError(_('You need to set First Approver Manager to proceed.'))
+
+        if approval_rule.department_manager:
+            if approval_rule.employee_manager:
+                if self.department_id.manager_id.user_id:
+                    data = self._get_data_approvers(approval_rule.id, 'and', 2, self.department_id.manager_id.user_id.id)
                     approvers.append((0, 0, data))
+                else: 
+                    raise UserError(_('You need to set Department Manager to proceed.'))
+
+            else:
+                if self.department_id.manager_id.user_id:
+                    data = self._get_data_approvers(approval_rule.id, 'and', 1, self.department_id.manager_id.user_id.id)
+                    approvers.append((0, 0, data))
+                    add_seq = 1
+                else: 
+                    raise UserError(_('You need to set Department Manager to proceed.'))
+
+        for record in approval_rule.approver_ids:
+            for approver in record.approved_by:
+                data = self._get_data_approvers(approval_rule.id, record.approval_condition, record.sequence, approver.id, add_seq=add_seq)
+                approvers.append((0, 0, data))
+                
         _logger.debug(f'APPROVERS {approvers}')
-      
         self.sudo().update({'approval_lines': [(5, 0, 0)]})
         self.sudo().update({'approval_lines': approvers})
+
 
     def action_approve(self):
         is_approved = False
