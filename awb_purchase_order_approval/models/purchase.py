@@ -24,6 +24,21 @@ class PurchaseOrder(models.Model):
 
     index_seq = fields.Integer(string='Index Sequence', default=1)
 
+    def activity_update(self):
+        date_due = date = fields.Date.today() + relativedelta(days=1)
+        for order in self:
+            args = [('state', '=', 'pending'),
+                    ('order_id', '=', order.id),
+                    ('sequence', '=', order.index_seq)]
+
+            approval_line_data = self.env['purchase.order.approval.line'].search(args)
+            _logger.debug(f"approval_line_data {approval_line_data}")
+            for approval in approval_line_data:
+                _logger.debug(f"approval {approval.approver_id.id}")
+                approver = approval.approver_id.id
+                order.activity_schedule('awb_purchase_order_approval.mail_act_purchase_order_approval',
+                    user_id=approver, date_deadline=date_due, summary=f"{self.name}: Approval")
+
     def action_for_approval(self):
         self.state = 'for_approval'
         args = [('active', '=', True),
@@ -33,7 +48,6 @@ class PurchaseOrder(models.Model):
         approval_rule = self.env['purchase.order.approval'].search(args, limit=1)
 
         approvers = []
-        date_due = date = fields.Date.today() + relativedelta(days=1)
         for record in approval_rule.approver_ids:
             for approver in record.approved_by:
                 data = {
@@ -43,11 +57,10 @@ class PurchaseOrder(models.Model):
                     'approver_id': approver.id
                 }
                 approvers.append((0, 0, data))
-
-                self.activity_schedule('awb_purchase_order_approval.mail_act_purchase_order_approval',
-                user_id=approver.id, date_deadline=date_due, summary=f"{self.name}: Approval")
+                       
         self.sudo().update({'approval_lines': [(5, 0, 0)]})
         self.sudo().update({'approval_lines': approvers})
+        self.activity_update()
 
     def action_approve(self):
         is_approved = False
@@ -88,6 +101,7 @@ class PurchaseOrder(models.Model):
         _logger.debug(f'IS VALIDATED: {is_validate}')
         if is_approved:
             self.index_seq += 1
+            self.activity_update()
 
             if approval_line_data:
                 is_approved = False
