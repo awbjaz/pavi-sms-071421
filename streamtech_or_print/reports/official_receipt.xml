@@ -52,7 +52,6 @@
                                     <span class="left-part-field" t-esc="'{0:,.2f}'.format(detail['tax_withholding'])"></span>
                                     <span class="left-part-field" t-esc="'{0:,.2f}'.format(detail['vat'])"></span>
                                     <span class="left-part-field" t-esc="'{0:,.2f}'.format(detail['total_amount'])"></span>
-                                    <span class="left-part-field" t-field="doc.payment_date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'></span>
                                 </td>
                                 <td class="right-part">
                                     <span class="right-part-field" style="padding-left: 64mm;" t-field="doc.payment_date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'></span>
