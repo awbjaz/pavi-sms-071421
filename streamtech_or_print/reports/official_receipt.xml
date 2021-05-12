@@ -115,7 +115,7 @@
 
                                     <span class="right-part-field-amount-numeric" t-field="doc.amount" t-field-options='{"widget": False}'></span>
 
-                                    <span class="right-part-field-communication" t-field="doc.communication">dummy</span>
+                                    <span class="right-part-field-communication" t-field="doc.communication"></span>
                                 </td>
 
                             </tr>
