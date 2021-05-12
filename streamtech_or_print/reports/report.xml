@@ -13,7 +13,7 @@
         <field name="margin_right">0</field>
         <field name="header_line" eval="False"/>
         <field name="header_spacing">0</field>
-        <field name="dpi">60</field>
+        <field name="dpi">90</field>
     </record>
 
     <record id="report_account_payment_official_receipt" model="ir.actions.report">

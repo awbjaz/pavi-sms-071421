@@ -8,10 +8,10 @@
                     <style>
                         .left-part {
                             border: 1 solid black;
-                            width: 35mm !important; 
+                            width: 25mm !important; 
                             margin: 0; 
-                            padding: 13mm 0 0 0; 
-                            font-size: 2.5mm; 
+                            padding: 0 0 0 12mm; 
+                            font-size: 1.8mm;
                             text-align: right; 
                             vertical-align: top;        
                         }
@@ -23,8 +23,8 @@
                         .right-part {
                             border: 1 solid black;
                             margin: 0;  
-                            padding: 20mm 0 0 0; 
-                            font-size: 2.5mm;
+                            padding: 15mm 0 0 0; 
+                            font-size: 2mm;
                             vertical-align: top;        
                         }
 
@@ -32,13 +32,44 @@
                             display: block;
                             padding-bottom: 1mm;
                         }
+
+                        .right-part-field-date {
+                            padding-left: 50mm;
+                        }
+
+                        .right-part-field-name {
+                            padding-left: 20mm;
+                        }
+
+                        .right-part-field-address {
+                            padding-left: 15mm
+                        }
+
+                        .right-part-field-amount-words {
+                            padding-left: 15mm;
+                        }
+
+                        .right-part-field-amount-numeric {
+                            position: absolute; 
+                            left: 104mm; 
+                            top: 30mm;
+                        }
+
+                        .right-part-field-communication {
+                            position: absolute; 
+                            left: 35mm; 
+                            top: 52mm;
+                        }
                     </style>
                     <table cellpadding="0" cellspacing="0">
                         <tbody>
                             <tr>
                                 <td class="left-part">
-                                    <span class="left-part-field" >&amp;nbsp; 0.00<!-- installation fee --></span>
-                                    <span class="left-part-field" >&amp;nbsp; 0.00<!-- subscription fee --></span>
+                                    <span class="left-part-field" >&amp;nbsp;</span>
+                                    <span class="left-part-field" >&amp;nbsp;</span>
+
+                                    <span class="left-part-field" >&amp;nbsp; <!-- installation fee --></span>
+                                    <span class="left-part-field" >&amp;nbsp; <!-- subscription fee --></span>
                                     <span class="left-part-field" >&amp;nbsp; <!-- deposit --></span>
                                     <span class="left-part-field" >&amp;nbsp; <!-- extension tv --></span>
                                     <span class="left-part-field" >&amp;nbsp; <!-- modem --></span>
@@ -54,9 +85,9 @@
                                     <span class="left-part-field" t-esc="'{0:,.2f}'.format(detail['total_amount'])"></span>
                                 </td>
                                 <td class="right-part">
-                                    <span class="right-part-field" style="padding-left: 64mm;" t-field="doc.payment_date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'></span>
-                                    <span class="right-part-field" style="padding-left: 30mm;" t-field="doc.partner_id.name"></span>
-                                    <div class="right-part-field" style="padding-left: 20mm">
+                                    <span class="right-part-field right-part-field-date" t-field="doc.payment_date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'></span>
+                                    <span class="right-part-field right-part-field-name" t-field="doc.partner_id.name"></span>
+                                    <div class="right-part-field right-part-field-address">
                                         <span t-field="doc.partner_id.street"></span>
                                         <span t-field="doc.partner_id.street2"></span>
                                         <span t-field="doc.partner_id.city"></span>
@@ -70,11 +101,11 @@
 
                                     <span class="right-part-field" >&amp;nbsp;</span>
 
-                                    <span class="right-part-field" style="padding-left: 35mm" t-esc="doc.amount_to_text(doc.amount, doc.currency_id)"></span>
+                                    <span class="right-part-field right-part-field-amount-words" t-esc="doc.amount_to_text(doc.amount, doc.currency_id)"></span>
 
-                                    <span style="position: absolute; left: 124mm; top: 47mm;" t-field="doc.amount" t-field-options='{"widget": False}'></span>
+                                    <span class="right-part-field-amount-numeric" t-field="doc.amount" t-field-options='{"widget": False}'></span>
 
-                                    <span style="position: absolute; left: 85mm; top: 52mm;" t-field="doc.communication"></span>
+                                    <span class="right-part-field-communication" t-field="doc.communication">dummy</span>
                                 </td>
 
                             </tr>
