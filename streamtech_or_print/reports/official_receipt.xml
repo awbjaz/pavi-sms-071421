@@ -38,16 +38,22 @@
                         }
 
                         .right-part-field-name {
+                            border: 1 solid white;
+                            max-width: 80mm;
                             padding-left: 20mm;
                         }
 
                         .right-part-field-address {
+                            border: 1 solid white;
+                            max-width: 60mm;
                             position: absolute; 
                             left: 55mm; 
                             top: 23mm;
                         }
 
                         .right-part-field-amount-words {
+                            border: 1 solid white;
+                            max-width: 60mm;
                             position: absolute; 
                             left: 55mm; 
                             top: 28mm;
