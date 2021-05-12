@@ -7,10 +7,10 @@
                 <div class="page mt32" style="font-size: 3mm;">
                     <style>
                         .left-part {
-                            background-color: blue; 
-                            min-width: 55mm !important; 
+                            border: 1 solid black;
+                            width: 35mm !important; 
                             margin: 0; 
-                            padding: 18mm 0 0 0; 
+                            padding: 13mm 0 0 0; 
                             font-size: 2.5mm; 
                             text-align: right; 
                             vertical-align: top;        
@@ -21,9 +21,9 @@
                         }
 
                         .right-part {
-                            background-color: teal; 
+                            border: 1 solid black;
                             margin: 0;  
-                            padding: 27mm 0 0 0; 
+                            padding: 20mm 0 0 0; 
                             font-size: 2.5mm;
                             vertical-align: top;        
                         }
@@ -72,9 +72,9 @@
 
                                     <span class="right-part-field" style="padding-left: 35mm" t-esc="doc.amount_to_text(doc.amount, doc.currency_id)"></span>
 
-                                    <span style="position: absolute; left: 124mm; top: 52mm;" t-field="doc.amount" t-field-options='{"widget": False}'></span>
+                                    <span style="position: absolute; left: 124mm; top: 47mm;" t-field="doc.amount" t-field-options='{"widget": False}'></span>
 
-                                    <span style="position: absolute; left: 85mm; top: 58mm;" t-field="doc.communication"></span>
+                                    <span style="position: absolute; left: 85mm; top: 52mm;" t-field="doc.communication"></span>
                                 </td>
 
                             </tr>
