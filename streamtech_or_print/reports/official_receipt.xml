@@ -7,7 +7,7 @@
                 <div class="page mt32" style="font-size: 3mm;">
                     <style>
                         .left-part {
-                            border: 1 solid black;
+                            border: 1 solid white;
                             width: 25mm !important; 
                             margin: 0; 
                             padding: 0 0 0 12mm; 
@@ -21,7 +21,7 @@
                         }
 
                         .right-part {
-                            border: 1 solid black;
+                            border: 1 solid white;
                             margin: 0;  
                             padding: 15mm 0 0 0; 
                             font-size: 2mm;
@@ -42,23 +42,27 @@
                         }
 
                         .right-part-field-address {
-                            padding-left: 15mm
+                            position: absolute; 
+                            left: 55mm; 
+                            top: 23mm;
                         }
 
                         .right-part-field-amount-words {
-                            padding-left: 15mm;
+                            position: absolute; 
+                            left: 55mm; 
+                            top: 28mm;
                         }
 
                         .right-part-field-amount-numeric {
                             position: absolute; 
-                            left: 104mm; 
-                            top: 30mm;
+                            left: 90mm; 
+                            top: 34mm;
                         }
 
                         .right-part-field-communication {
                             position: absolute; 
-                            left: 35mm; 
-                            top: 52mm;
+                            left: 55mm; 
+                            top: 38mm;
                         }
                     </style>
                     <table cellpadding="0" cellspacing="0">
@@ -87,7 +91,7 @@
                                 <td class="right-part">
                                     <span class="right-part-field right-part-field-date" t-field="doc.payment_date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'></span>
                                     <span class="right-part-field right-part-field-name" t-field="doc.partner_id.name"></span>
-                                    <div class="right-part-field right-part-field-address">
+                                    <div class="right-part-field-address">
                                         <span t-field="doc.partner_id.street"></span>
                                         <span t-field="doc.partner_id.street2"></span>
                                         <span t-field="doc.partner_id.city"></span>
@@ -101,7 +105,7 @@
 
                                     <span class="right-part-field" >&amp;nbsp;</span>
 
-                                    <span class="right-part-field right-part-field-amount-words" t-esc="doc.amount_to_text(doc.amount, doc.currency_id)"></span>
+                                    <span class="right-part-field-amount-words" t-esc="doc.amount_to_text(doc.amount, doc.currency_id)"></span>
 
                                     <span class="right-part-field-amount-numeric" t-field="doc.amount" t-field-options='{"widget": False}'></span>
 
