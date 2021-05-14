@@ -31,8 +31,11 @@
         'views/send_sms_view.xml',
         'views/menuitem.xml',
         'views/res_config_settings.xml',
-        # 'views/sms_invoice_view.xml',
-        'data/sms_template_data.xml',
+        'views/sms_invoice_view.xml',
+        'views/sms_payment_view.xml',
+        'data/account_move_data.xml',
+        'data/account_payment_data.xml',
+        'data/awb_sms_template_data.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
