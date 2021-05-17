@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Server actions -->
+    <record id="server_action_actual_disconnection_sms" model="ir.actions.server">
+      <field name="name">Send Actual Disconnection Notice SMS</field>
+      <field name="type">ir.actions.server</field>
+      <field name="model_id" ref="account_accountant.model_account_move" />
+      <field name="state">code</field>
+      <field name="code">
+skip_records = records.filtered(lambda rec: rec.receive_sms == False)
+records = records.filtered(
+    lambda record: record.receive_sms == True
+    and record.invoice_origin is not False
+    and record.invoice_origin in env['sale.subscription'].search([]).mapped("code")
+)
+env['awb.sms.send'].send_now(recordset=records, template_name="Actual Disconnection Notice", state="posted")
+if skip_records:
+    model.show_skip_sms(skip_records)
+      </field>
+      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
+    </record>
+
+    <record id="server_action_billing_sms" model="ir.actions.server">
+      <field name="name">Send Billing SMS</field>
+      <field name="type">ir.actions.server</field>
+      <field name="model_id" ref="account_accountant.model_account_move" />
+      <field name="state">code</field>
+      <field name="code">
+skip_records = records.filtered(lambda rec: rec.receive_sms == False)
+records = records.filtered(
+    lambda record: record.receive_sms == True
+    and record.invoice_origin is not False
+    and record.invoice_origin in env['sale.subscription'].search([]).mapped("code")
+)
+env['awb.sms.send'].send_now(recordset=records, template_name="TEXT SOA", state="posted")
+if skip_records:
+    model.show_skip_sms(skip_records)
+      </field>
+      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
+    </record>
+
+    <record id="server_action_disconnection_sms" model="ir.actions.server">
+      <field name="name">Send Disconnection SMS</field>
+      <field name="type">ir.actions.server</field>
+      <field name="model_id" ref="account_accountant.model_account_move" />
+      <field name="state">code</field>
+      <field name="code">
+skip_records = records.filtered(lambda rec: rec.receive_sms == False)
+records = records.filtered(
+    lambda record: record.receive_sms == True
+    and record.invoice_origin is not False
+    and record.invoice_origin in env['sale.subscription'].search([]).mapped("code")
+)
+env['awb.sms.send'].send_now(recordset=records, template_name="Disconnection Notice", state="posted")
+if skip_records:
+    model.show_skip_sms(skip_records)
+      </field>
+      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
+    </record>
+
+    <record id="server_action_payment_reminder_sms" model="ir.actions.server">
+      <field name="name">Send Payment Reminder SMS</field>
+      <field name="type">ir.actions.server</field>
+      <field name="model_id" ref="account_accountant.model_account_move" />
+      <field name="state">code</field>
+      <field name="code">
+skip_records = records.filtered(lambda rec: rec.receive_sms == False)
+records = records.filtered(
+    lambda record: record.receive_sms == True
+    and record.invoice_origin is not False
+    and record.invoice_origin in env['sale.subscription'].search([]).mapped("code")
+)
+env['awb.sms.send'].send_now(recordset=records, template_name="Payment Reminder", state="posted")
+if skip_records:
+    model.show_skip_sms(skip_records)
+      </field>
+      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
+    </record>
+
+    <!-- SMS Sending Activate/ Deactivate -->
+    <record id="server_action_active_sms_move" model="ir.actions.server">
+      <field name="name">Activate SMS Sending</field>
+      <field name="type">ir.actions.server</field>
+      <field name="model_id" ref="account_accountant.model_account_move" />
+      <field name="state">code</field>
+      <field name="code">model.activate_sms_sending(records)</field>
+      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
+    </record>
+
+    <record id="server_action_deactive_sms_move" model="ir.actions.server">
+      <field name="name">Deactivate SMS Sending</field>
+      <field name="type">ir.actions.server</field>
+      <field name="model_id" ref="account_accountant.model_account_move" />
+      <field name="state">code</field>
+      <field name="code">model.deactivate_sms_sending(records)</field>
+      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
+    </record>
+
+    <!-- Scheduled actions -->
+    <record id="awb_scheduled_action_disconnection_sms" model="ir.cron">
+        <field name="name">Send Automated Disconnection SMS</field>
+        <field name="active">False</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="model_id" ref="model_account_move"></field>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="code">model.send_autoinvoice_sms(due_date_criteria=-3, template_name="Disconnection Notice", state="posted", allow_partial_payment=True, send_only_to_active=True, limit=1000)</field>
+        <field name="interval_number">10</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">0</field>
+    </record>
+
+    <record id="awb_scheduled_action_payment_reminder_sms" model="ir.cron">
+        <field name="name">Send Automated Payment Reminder SMS</field>
+        <field name="active">False</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="model_id" ref="model_account_move"></field>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="code">model.send_autoinvoice_sms(due_date_criteria=3, template_name="Payment Reminder", state="posted", invoice_payment_state="not_paid", allow_partial_payment=True, send_only_to_active=True, limit=1000)</field>
+        <field name="interval_number">10</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">0</field>
+    </record>
+
+    <record id="awb_scheduled_action_perma_discon_sms" model="ir.cron">
+        <field name="name">Send Automated Permanent Discon SMS</field>
+        <field name="active">False</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="model_id" ref="model_account_move"></field>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="code">model.send_autoinvoice_sms(template_name="Actual Disconnection Notice", state="posted", send_only_to_active=True, limit=1000, disconnection_subtype='disconnection-permanent')</field>
+        <field name="interval_number">10</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">0</field>
+    </record>
+
+    <record id="awb_scheduled_action_tempo_discon_sms" model="ir.cron">
+        <field name="name">Send Automated Temporary Discon SMS</field>
+        <field name="active">False</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="model_id" ref="model_account_move"></field>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="code">model.send_autoinvoice_sms(template_name="Actual Disconnection Notice", state="posted", send_only_to_active=True, limit=1000, disconnection_subtype='disconnection-temporary')</field>
+        <field name="interval_number">10</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">0</field>
+    </record>
+
+    <record id="awb_scheduled_action_text_soa_sms" model="ir.cron">
+        <field name="name">Send Automated Text SOA SMS</field>
+        <field name="active">False</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="model_id" ref="model_account_move"></field>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="code">model.send_autoinvoice_sms(template_name="TEXT SOA", state="posted", send_only_to_active=True, limit=1000)</field>
+        <field name="interval_number">10</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">0</field>
+    </record>
+
+</odoo>
