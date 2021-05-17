@@ -11,7 +11,25 @@ class account_payment(models.Model):
     def amount_to_text(self, amount, currency):
         convert_amount_in_words = currency.amount_to_text(amount)
         convert_amount_in_words = convert_amount_in_words.replace(' and Zero Cent', ' Only ')
+        convert_amount_in_words = convert_amount_in_words.replace(',','').replace('Peso', 'Pesos Only').replace('\n', '')
         return convert_amount_in_words
+
+    def __get_address_field(self, field, is_comma_needed):
+        address = ''
+        if field and len(field) > 0:
+            address +=  field
+            if is_comma_needed:
+                address += ', '
+        return address
+
+    @api.model
+    def get_full_address_text(self):
+        address = '' 
+        address += self.__get_address_field(self.partner_id.street, True) 
+        address += self.__get_address_field(self.partner_id.street2, True) 
+        address += self.__get_address_field(self.partner_id.city, True) 
+        address += self.__get_address_field(self.partner_id.state_id.name, False)
+        return address
 
     @api.model
     def get_details(self):
