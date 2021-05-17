@@ -1,4 +1,4 @@
-from ..lib.gateway_smart import SmartAPIGateway
+from ..helpers.gateway_smart import SmartAPIGateway
 from odoo import api, fields, models, exceptions, _
 from psycopg2.extensions import AsIs
 import datetime
