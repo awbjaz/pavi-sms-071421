@@ -8,7 +8,7 @@
         <field name="model_id" ref="model_account_payment"></field>
         <field name="type">ir.actions.server</field>
         <field name="state">code</field>
-        <field name="code">model.send_autopayment_sms(payment_date_criteria=-1, template_name="Payment Notification Notice", state="posted", limit=1000)</field>
+        <field name="code">model.send_autopayment_sms(payment_date_criteria=1, template_name="Payment Notification Notice", state="posted", limit=1000)</field>
         <field name="interval_number">10</field>
         <field name="interval_type">minutes</field>
         <field name="numbercall">0</field>
@@ -29,7 +29,7 @@ env['awb.sms.send'].send_now(recordset=records, template_name="Payment Notificat
 if skip_records:
     model.show_skip_sms(skip_records)
       </field>
-      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central')), (4, ref('base.group_system'))]"/>
+      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
     </record>
 
     <!-- SMS Sending Activate/ Deactivate -->

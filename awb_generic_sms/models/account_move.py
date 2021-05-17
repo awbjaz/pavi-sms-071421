@@ -7,14 +7,15 @@ class InheritAccountMove(models.Model):
     _inherit = "account.move"
 
     receive_sms = fields.Boolean(string="Active", default=True)
+    total_balance = fields.Monetary(string="Total Balance", compute='_compute_balance_inv', stored=True)
 
     @api.model
     def show_skip_sms(self, records):
         if records:
-        	rec_msg = '- ' + ' \n - '.join(
-        		records.mapped('display_name')
-        	)
-        	raise exceptions.Warning(
+            rec_msg = '- ' + ' \n - '.join(
+                records.mapped('display_name')
+            )
+            raise exceptions.Warning(
                 """Sending SMS to these invoices is/are disabled:
                 \n %s \n\n You can set SMS Sending to Active on Record > Other Info tab"""
                 % rec_msg
@@ -52,3 +53,11 @@ class InheritAccountMove(models.Model):
             disconnection_subtype=disconnection_subtype,
             **kwargs,
         )
+
+    @api.onchange('statement_line_ids')
+    def _compute_balance_inv(self):
+        for rec in self:
+            rec.total_balance = sum(
+                rec.statement_line_ids.mapped('amount')
+            )
+

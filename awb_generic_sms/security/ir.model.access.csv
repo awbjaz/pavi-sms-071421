@@ -1,17 +1,13 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 
-awb_sms_sending_admin,awb_sms_sending sett_admin,model_awb_sms_send,base.group_system,1,1,1,1
 awb_sms_sending_manager,awb_sms_sending manager,model_awb_sms_send,awb_sms_central,1,1,1,1
 awb_sms_sending_user,awb_sms_sending user,model_awb_sms_send,awb_sms_sender,1,0,1,0
 
-awb_sms_admin,awb_sms sett_admin,model_awb_sms_record,base.group_system,1,1,1,0
 awb_sms_manager,awb_sms manager,model_awb_sms_record,awb_sms_central,1,1,1,0
 awb_sms_sender,sms awb_user,model_awb_sms_record,awb_sms_sender,1,1,1,0
 
-awb_history_admin,awb_history sett_admin,model_awb_sms_history,base.group_system,1,0,1,0
 awb_history_manager,awb_history manager,model_awb_sms_history,awb_sms_central,1,0,1,0
 awb_history_user,awb_history user,model_awb_sms_history,awb_sms_sender,1,0,1,0
 
-awb_template_admin,awb_template sett_admin,model_awb_sms_template,base.group_system,1,1,1,1
 awb_template_manager,awb_template manager,model_awb_sms_template,awb_sms_central,1,1,1,1
 awb_template_user,awb_template user,model_awb_sms_template,awb_sms_sender,1,0,0,0

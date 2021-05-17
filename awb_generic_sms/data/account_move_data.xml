@@ -18,7 +18,7 @@ env['awb.sms.send'].send_now(recordset=records, template_name="Actual Disconnect
 if skip_records:
     model.show_skip_sms(skip_records)
       </field>
-      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central')), (4, ref('base.group_system'))]"/>
+      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
     </record>
 
     <record id="server_action_billing_sms" model="ir.actions.server">
@@ -37,7 +37,7 @@ env['awb.sms.send'].send_now(recordset=records, template_name="TEXT SOA", state=
 if skip_records:
     model.show_skip_sms(skip_records)
       </field>
-      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central')), (4, ref('base.group_system'))]"/>
+      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
     </record>
 
     <record id="server_action_disconnection_sms" model="ir.actions.server">
@@ -56,7 +56,7 @@ env['awb.sms.send'].send_now(recordset=records, template_name="Disconnection Not
 if skip_records:
     model.show_skip_sms(skip_records)
       </field>
-      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central')), (4, ref('base.group_system'))]"/>
+      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
     </record>
 
     <record id="server_action_payment_reminder_sms" model="ir.actions.server">
@@ -75,7 +75,7 @@ env['awb.sms.send'].send_now(recordset=records, template_name="Payment Reminder"
 if skip_records:
     model.show_skip_sms(skip_records)
       </field>
-      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central')), (4, ref('base.group_system'))]"/>
+      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
     </record>
 
     <!-- SMS Sending Activate/ Deactivate -->

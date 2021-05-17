@@ -211,6 +211,11 @@ class SMS(models.Model):
                 AND rec.invoice_origin = subs.code
             """
 
+        if allow_partial_payment:
+            sql += """
+                AND rec.total_balance > (subs.recurring_total / 2)
+            """
+
         if send_only_to_active:
             subscription_active_status = [
                 'new', 'upgrade',
@@ -226,11 +231,6 @@ class SMS(models.Model):
                 AND subs.subscription_status_subtype = '%s'
             """ % disconnection_subtype
 
-        if allow_partial_payment:
-            sql += """
-                AND rec.amount_total > (subs.recurring_total / 2)
-            """
-
         sql += """
             LIMIT %s
         """ % limit
@@ -244,13 +244,13 @@ class SMS(models.Model):
 
         self.env.cr.execute(sql)
 
-        _logger.debug(domain)
-        _logger.debug(sql)
+        _logger.info(domain)
+        _logger.info(sql)
 
         results = self.env.cr.fetchall()
         # Converts result ids to a model object
         records = model.browse([rec[0] for rec in results])
-        _logger.debug(len(records))
+        _logger.info(len(records))
 
         if records:
             self.env['awb.sms.send'].send_now(

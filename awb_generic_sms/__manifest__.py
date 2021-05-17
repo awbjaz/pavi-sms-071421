@@ -23,7 +23,12 @@
 
     'version': '13.0.1.0.0',
 
-    'depends': ['account_accountant'],
+    'depends': [
+        'base',
+        'account_accountant',
+        'sale_subscription',
+        'awb_subscriber_bill'
+    ],
 
     'data': [
         'security/security.xml',
@@ -33,6 +38,7 @@
         'views/res_config_settings.xml',
         'views/sms_invoice_view.xml',
         'views/sms_payment_view.xml',
+        'data/set_access_rights.xml',
         'data/account_move_data.xml',
         'data/account_payment_data.xml',
         'data/awb_sms_template_data.xml',
