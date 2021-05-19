@@ -21,7 +21,7 @@
 
     'category': 'Localization',
 
-    'version': '13.0.1.5.0',
+    'version': '13.0.1.6.0',
 
     'depends': ['account_accountant', 'sale_subscription'],
 
