@@ -105,7 +105,7 @@ if skip_records:
         <field name="model_id" ref="model_account_move"></field>
         <field name="type">ir.actions.server</field>
         <field name="state">code</field>
-        <field name="code">model.send_autoinvoice_sms(due_date_criteria=-3, template_name="Disconnection Notice", state="posted", allow_partial_payment=True, send_only_to_active=True, limit=1000)</field>
+        <field name="code">model.send_autoinvoice_sms(due_date_criteria=3, template_name="Disconnection Notice", state="posted", allow_partial_payment=True, send_only_to_active=True, limit=1000)</field>
         <field name="interval_number">10</field>
         <field name="interval_type">minutes</field>
         <field name="numbercall">0</field>
@@ -118,7 +118,7 @@ if skip_records:
         <field name="model_id" ref="model_account_move"></field>
         <field name="type">ir.actions.server</field>
         <field name="state">code</field>
-        <field name="code">model.send_autoinvoice_sms(due_date_criteria=3, template_name="Payment Reminder", state="posted", invoice_payment_state="not_paid", allow_partial_payment=True, send_only_to_active=True, limit=1000)</field>
+        <field name="code">model.send_autoinvoice_sms(due_date_criteria=-3, template_name="Payment Reminder", state="posted", invoice_payment_state="not_paid", allow_partial_payment=True, send_only_to_active=True, limit=1000)</field>
         <field name="interval_number">10</field>
         <field name="interval_type">minutes</field>
         <field name="numbercall">0</field>
@@ -131,7 +131,7 @@ if skip_records:
         <field name="model_id" ref="model_account_move"></field>
         <field name="type">ir.actions.server</field>
         <field name="state">code</field>
-        <field name="code">model.send_autoinvoice_sms(template_name="Actual Disconnection Notice", state="posted", send_only_to_active=True, limit=1000, disconnection_subtype='disconnection-permanent')</field>
+        <field name="code">model.send_autoinvoice_sms(template_name="Actual Disconnection Notice", state="posted", limit=1000, disconnection_subtype='disconnection-permanent')</field>
         <field name="interval_number">10</field>
         <field name="interval_type">minutes</field>
         <field name="numbercall">0</field>
@@ -144,7 +144,7 @@ if skip_records:
         <field name="model_id" ref="model_account_move"></field>
         <field name="type">ir.actions.server</field>
         <field name="state">code</field>
-        <field name="code">model.send_autoinvoice_sms(template_name="Actual Disconnection Notice", state="posted", send_only_to_active=True, limit=1000, disconnection_subtype='disconnection-temporary')</field>
+        <field name="code">model.send_autoinvoice_sms(template_name="Actual Disconnection Notice", state="posted", limit=1000, disconnection_subtype='disconnection-temporary')</field>
         <field name="interval_number">10</field>
         <field name="interval_type">minutes</field>
         <field name="numbercall">0</field>
