@@ -15,7 +15,7 @@
     'author': "Achieve Without Borders, Inc",
     'website': "http://www.achievewithoutborders.com",
     'category': "Operations/Purchase",
-    'version': '13.0.1.5.0',
+    'version': '13.0.1.6.0',
     'depends': ['web', 'purchase'],
     'data': [
         'security/ir.model.access.csv',
