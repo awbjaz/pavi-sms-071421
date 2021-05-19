@@ -155,10 +155,10 @@ class SMS(models.Model):
         today = datetime.date.today()
         if due_date_criteria:
             due_date_criteria = today + datetime.timedelta(days=due_date_criteria)
-            domain.append(("invoice_date_due", "=", due_date_criteria))
+            domain.append(("invoice_date_due", "<=", due_date_criteria))
         elif payment_date_criteria:
             payment_date_criteria = today + datetime.timedelta(days=payment_date_criteria)
-            domain.append(("payment_date", "=", payment_date_criteria))
+            domain.append(("payment_date", "<=", payment_date_criteria))
 
         try:
             model = self.env[model]
@@ -185,9 +185,15 @@ class SMS(models.Model):
 
         sql = """
             SELECT DISTINCT rec.id
-            FROM {sql_model} as rec, sale_subscription as subs
+            FROM {sql_model} as rec,
+            sale_subscription as subs
             WHERE
-                rec.state = '{state}'
+                rec.partner_id IN (
+                    SELECT partner.id
+                    FROM res_partner as partner
+                    WHERE partner.mobile IS NOT NULL
+                )
+                AND rec.state = '{state}'
                 AND rec.id NOT IN (
                     SELECT sms_history.record_id
                     FROM awb_sms_history as sms_history
@@ -202,8 +208,8 @@ class SMS(models.Model):
         """
         for item in domain:
             sql += """
-                AND rec.%s = '%s'
-            """ % (item[0], item[2])
+                AND rec.%s %s '%s'
+            """ % (item[0], item[1], item[2])
 
         if model._name == 'account.move':
             sql += """
@@ -216,20 +222,21 @@ class SMS(models.Model):
                 AND rec.total_balance > (subs.recurring_total / 2)
             """
 
+        subscription_active_status = [
+            'new', 'upgrade',
+            'convert', 'downgrade',
+            're-contract', 'pre-termination'
+        ]
         if send_only_to_active:
-            subscription_active_status = [
-                'new', 'upgrade',
-                'convert', 'downgrade',
-                're-contract', 'pre-termination'
-            ]
             sql += """
                 AND subs.subscription_status in %s
             """ % (tuple(subscription_active_status),)
 
         if disconnection_subtype:
             sql += """
+                AND subs.subscription_status NOT IN %s
                 AND subs.subscription_status_subtype = '%s'
-            """ % disconnection_subtype
+            """ % (tuple(subscription_active_status), disconnection_subtype)
 
         sql += """
             LIMIT %s
@@ -250,7 +257,9 @@ class SMS(models.Model):
         results = self.env.cr.fetchall()
         # Converts result ids to a model object
         records = model.browse([rec[0] for rec in results])
-        _logger.info(len(records))
+        _logger.info("Sending SMS to:")
+        _logger.info(records)
+        _logger.info(("Records Count: %s") % len(records))
 
         if records:
             self.env['awb.sms.send'].send_now(

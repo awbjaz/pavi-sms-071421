@@ -7,7 +7,7 @@ class InheritAccountMove(models.Model):
     _inherit = "account.move"
 
     receive_sms = fields.Boolean(string="Active", default=True)
-    total_balance = fields.Monetary(string="Total Balance", compute='_compute_balance_inv', stored=True)
+    total_balance = fields.Monetary(string="Total Balance", readonly=True, store=True)
 
     @api.model
     def show_skip_sms(self, records):
@@ -54,10 +54,10 @@ class InheritAccountMove(models.Model):
             **kwargs,
         )
 
-    @api.onchange('statement_line_ids')
-    def _compute_balance_inv(self):
+    def write(self, vals):
+        res = super(InheritAccountMove, self).write(vals)
         for rec in self:
-            rec.total_balance = sum(
-                rec.statement_line_ids.mapped('amount')
-            )
-
+            total_statement_balance = rec.total_statement_balance
+            _logger.info("Updating total_balance value as total_statement_balance: %s" % total_statement_balance)
+            super(InheritAccountMove, self).write({"total_balance": total_statement_balance})
+        return res
