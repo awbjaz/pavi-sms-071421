@@ -4,7 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [13.0.1.0.0-beta] - 2021-05-17
+## [13.0.1.1.0-beta] - 2021-05-19
+   - Payment Notification Template(Account No -> Account Name)
+   - Scheduled Actions Fixes
+   - Handles Record with No Mobile Number
+
+### Related User Stories
+   - User Story #87: As a System, canned Text Blast for Payment Reminders must be sent to Subscribers 3 days before Bill’s due date
+   - User Story #90: Scheduled Action Special Conditions
+   - User Story #116: As a SMS Sender, I should be able to see if the SMS has been successfully sent for Scheduled SMS in Invoice
+   - User Story #121: As a system, I should be able to TEXT SOA upon Posting for the designated Billing period cutoffs of the accounts
+   - User Story #194 - Update Payment Notification SMS Template (Work around)
+
+### Related Technical Stories
+   - #195 - Handles Bad Data (Records with No Mobile)
+   - #196 - Scheduled Actions Improvements and Testing
+
+## [13.0.1.1.0-beta] - 2021-05-17
    - SMS Activity Logs
    - Full Modular Server Actions
    - Full Modular Scheduled Actions
