@@ -11,7 +11,7 @@ from odoo import api, fields, models
 class HrExpense(models.Model):
     _inherit = "hr.expense"
 
-    generated_num = fields.Char(string="Generated Number", stored=True, readonly=True, required=False, copy=False, default='')
+    generated_num = fields.Char(string="Number", stored=True, readonly=True, required=False, copy=False, default='')
     generated_num_plus_name = fields.Char(string="Description", stored=True, readonly=True, required=False, copy=False, default='')
  
     @api.model   
