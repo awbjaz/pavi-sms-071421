@@ -21,6 +21,7 @@ class PurchaseOrder(models.Model):
                                  compute='_compute_can_approve',
                                  search='_search_for_approval',
                                  default=False)
+    is_rejected = fields.Boolean(string='Is Rejected', compute='_compute_is_reject', default=False)
 
     index_seq = fields.Integer(string='Index Sequence', default=1)
 
@@ -66,23 +67,31 @@ class PurchaseOrder(models.Model):
         is_approved = False
         is_validate = False
         approval_condition = 'and'
-        approval_status = []
+
         approvers = []
-        args = [('state', '=', 'pending'),
+        args = [('state', 'in', ['pending','rejected']),
                 ('order_id', '=', self.id),
                 ('sequence', '=', self.index_seq)]
 
         approval_line_data = self.env['purchase.order.approval.line'].search(args)
-        for approval in approval_line_data:
-            approver = approval.approver_id.id
-            approvers.append(approver)
-            if approver == self.env.user.id:
-                approval_condition = approval.approval_condition
-                approval.state = 'approved'
-                approval.can_proceed = True
-                self.activity_feedback(['awb_purchase_order_approval.mail_act_purchase_order_approval'], user_id=self.env.user.id, feedback='Request has been Approved')
-            approval_status.append(approval.state)
 
+        if approval_line_data:
+            for approval in approval_line_data:
+                approver = approval.approver_id.id
+                approvers.append(approver)
+                if approver == self.env.user.id:
+                    approval_condition = approval.approval_condition
+                    approval.state = 'approved'
+                    approval.can_proceed = True
+                    self.activity_feedback(['awb_purchase_order_approval.mail_act_purchase_order_approval'], user_id=self.env.user.id, feedback='Request has been Approved')
+
+        if self.is_rejected:
+            for line in self.approval_lines:
+                approver = line.approver_id.id
+                if approver == self.env.user.id and line.state == 'rejected':
+                    line.state = 'approved'
+                    line.can_proceed = True
+            
         if approval_condition == 'or':
             is_approved = True
             for rec in approval_line_data:
@@ -92,11 +101,11 @@ class PurchaseOrder(models.Model):
             _logger.debug(f'IS APPROVED IN CONDITION: {is_approved}')
             
         elif approval_condition == 'and':
-            is_approved = all([state == 'approved' for state in approval_status])
+            is_approved = all([line.state == 'approved' for line in approval_line_data])
+            _logger.debug(f'IS APPROVED: {is_approved}')
             is_validate = all([line.can_proceed == True for line in self.approval_lines])
 
         _logger.debug(f'IS APPROVED: {is_approved}')
-        _logger.debug(f'IS APPROVED Status: {approval_status}')
         _logger.debug(f'IS APPROVED COnditon: {approval_condition}')
         _logger.debug(f'IS VALIDATED: {is_validate}')
         if is_approved:
@@ -105,22 +114,40 @@ class PurchaseOrder(models.Model):
 
             if approval_line_data:
                 is_approved = False
-                approval_status.clear()
 
         if is_validate:
             self.state = 'sent'
             self.reviewed_by = self.env.user.partner_id.id
             self.button_confirm()
 
-    def action_reject(self):
+    def _action_rejected(self):
         for approval in self.approval_lines:
             approver = approval.approver_id.id
             if approver == self.env.user.id:
                 self.activity_feedback(['awb_purchase_order_approval.mail_act_purchase_order_approval'], user_id=self.env.user.id, feedback='Request has been Rejected')
-                self.activity_unlink(['awb_purchase_order_approval.mail_act_purchase_order_approval'])
+                # self.activity_unlink(['awb_purchase_order_approval.mail_act_purchase_order_approval'])
                 approval.sudo().update({'state': 'rejected'})
-        self.sudo().update({'state': 'draft', 'index_seq': 1})
-       
+
+    def action_reject(self):
+        if len(self.approval_lines) == 1:
+            self._action_rejected()
+            self.sudo().update({'state': 'draft'})
+        else:
+            self._action_rejected()
+    
+    @api.depends('approval_lines.state')
+    def _compute_is_reject(self):
+        is_reject = False
+        for line in self.approval_lines:
+            approver = line.approver_id.id
+
+            if self.state == 'draft':
+                is_reject = False
+            elif approver == self.env.user.id and line.state == 'rejected':
+                is_reject = True
+
+        self.is_rejected = is_reject
+
     @api.depends('state')
     def _compute_can_approve(self):
         for po in self:
