@@ -8,7 +8,7 @@
     'name': "AWB HR Expense",
 
     'summary': """
-        HR Expense.
+        Enhancements on Expense and Expense Reports
         """,
 
     'description': """
