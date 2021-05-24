@@ -1,16 +1,17 @@
  <odoo>
-	 <record model="ir.module.category" id="sms_management">
-	     <field name="name">SMS Integration</field>
-	     <field name="description">User access level for SMS Gateway module</field>
-	     <field name="sequence">20</field>
-	</record>
+     <record model="ir.module.category" id="sms_management">
+         <field name="name">SMS Integration</field>
+         <field name="description">User access level for SMS Gateway module</field>
+         <field name="sequence">20</field>
+    </record>
 
-	<record id="sms_user" model="res.groups">
+    <record id="awb_sms_sender" model="res.groups">
         <field name="name">Account Officer</field>
         <field name="category_id" ref="sms_management"/>
     </record>
-    <record id="sms_admin" model="res.groups">
-        <field name="name">Administrator</field>
+    <record id="awb_sms_central" model="res.groups">
+        <field name="name">Account Officer Central</field>
         <field name="category_id" ref="sms_management"/>
+        <field name="implied_ids" eval="[(4, ref('awb_sms_sender'))]"/>
     </record>
 </odoo>

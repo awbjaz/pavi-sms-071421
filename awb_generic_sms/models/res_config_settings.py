@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, _
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class AWBResConfigSettings(models.TransientModel):  
@@ -36,3 +38,13 @@ class AWBResConfigSettings(models.TransientModel):
         params.set_param('smart_gateway', self.smart_gateway)
         params.set_param('smart_gateway_url', self.smart_gateway_url)
         params.set_param('smart_gateway_token', self.smart_gateway_token)
+
+    @api.model
+    def set_sms_admin_access(self):
+      users = self.env['res.users'].search([])
+      users_with_settings = users.filtered(lambda user: user.has_group("base.group_system"))
+      _logger.info("User/s with settings permission, Assigning as Account Officer Central")
+      _logger.info(users_with_settings.name_get())
+      if users_with_settings:
+        group = self.env.ref("awb_generic_sms.awb_sms_central")
+        group.users = [(4, user.id) for user in users_with_settings]

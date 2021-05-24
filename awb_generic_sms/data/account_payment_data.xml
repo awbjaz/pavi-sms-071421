@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Scheduled actions -->
+    <record id="awb_scheduled_action_payment_notif_sms" model="ir.cron">
+        <field name="name">Send Automated Payment Notification SMS</field>
+        <field name="active">False</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="model_id" ref="model_account_payment"></field>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="code">model.send_autopayment_sms(payment_date_criteria=1, template_name="Payment Notification Notice", state="posted", limit=1000)</field>
+        <field name="interval_number">10</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">0</field>
+    </record>
+
+    <!-- Server actions -->
+    <record id="server_action_payment_notification_sms" model="ir.actions.server">
+      <field name="name">Send Payment Notification SMS</field>
+      <field name="type">ir.actions.server</field>
+      <field name="model_id" ref="account_accountant.model_account_payment" />
+      <field name="state">code</field>
+      <field name="code">
+skip_records = records.filtered(lambda rec: rec.receive_sms == False)
+records = records.filtered(
+    lambda record: record.receive_sms == True
+)
+env['awb.sms.send'].send_now(recordset=records, template_name="Payment Notification Notice", state="posted")
+if skip_records:
+    model.show_skip_sms(skip_records)
+      </field>
+      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
+    </record>
+
+    <!-- SMS Sending Activate/ Deactivate -->
+    <record id="server_action_active_sms_payment" model="ir.actions.server">
+      <field name="name">Activate SMS Sending</field>
+      <field name="type">ir.actions.server</field>
+      <field name="model_id" ref="account_accountant.model_account_payment" />
+      <field name="state">code</field>
+      <field name="code">model.activate_sms_sending(records)</field>
+      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
+    </record>
+
+    <record id="server_action_deactive_sms_payment" model="ir.actions.server">
+      <field name="name">Deactivate SMS Sending</field>
+      <field name="type">ir.actions.server</field>
+      <field name="model_id" ref="account_accountant.model_account_payment" />
+      <field name="state">code</field>
+      <field name="code">model.deactivate_sms_sending(records)</field>
+      <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
+    </record>
+
+</odoo>

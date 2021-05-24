@@ -31,7 +31,7 @@ Your balance amounting to ${total_statement_balance} is due on ${invoice_date_du
     	<record id="sms_template_paymentnotif" model="awb.sms.template">
             <field name="name">Payment Notification Notice</field>
             <field name="template_body">
-Your payment dated ${payment_date} of ${amount} via ${x_studio_payment_channel} for Account No. ${partner_id} has been received by ${company_id}. Thank you!            
+Your payment dated ${payment_date} of ${amount} via ${x_studio_payment_channel} for Account Name. ${partner_id} has been received by ${company_id}. Thank you!
             </field>
         </record>
     	<record id="sms_template_disconnection" model="awb.sms.template">
