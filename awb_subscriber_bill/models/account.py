@@ -25,7 +25,7 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     statement_line_ids = fields.One2many('account.statement.line', 'move_id', string="Statement Line")
-    atm_ref = fields.Char(string="ATM Reference", compute="_compute_atm_reference_number", stored=True)
+    atm_ref = fields.Char(string="ATM Reference", compute="_compute_atm_reference_number", store=True)
     atm_ref_sequence = fields.Char(string="ATM Reference Sequence", stored=True)
     start_date = fields.Date(string="Start Date")
     end_date = fields.Date(string="End Date")
