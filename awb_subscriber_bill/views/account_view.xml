@@ -69,7 +69,7 @@
             </xpath>
         </field>
     </record>
-
+<!--
     <record id="view_account_invoice_filter_ext" model="ir.ui.view">
         <field name="name">view.account.invoice.filter.ext</field>
         <field name="model">account.move</field>
@@ -80,7 +80,7 @@
             </xpath>
         </field>
     </record>
-
+-->
 <!--
     <act_window id="id_for_record"
         name="Test"
