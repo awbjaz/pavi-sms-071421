@@ -19,8 +19,8 @@
             </xpath>
 
             <xpath expr="//field[@name='price_subtotal']" position="after">
-                <field name="date_start" optional="show" attrs="{}"/>
-                <field name="date_end" optional="show" attrs="{}"/>
+                <field name="date_start" optional="show" options="{'related_end_date': 'date_end'}" widget="daterange"/>
+                <field name="date_end" optional="show" options="{'related_start_date': 'date_start'}" widget="daterange"/>
             </xpath>
             <xpath expr="//form[1]/sheet[1]/div[not(@name)][3]/notebook[1]/page[1]/div[1]/field[@name='recurring_invoice_line_ids']/form[1]/group[1]/group[1]/field[@name='price_unit']" position="after">
                 <field name="date_start" attrs="{}"/>

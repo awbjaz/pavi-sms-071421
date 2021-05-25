@@ -8,7 +8,7 @@
     'name': "AWB HR Expense",
 
     'summary': """
-        HR Expense.
+        Enhancements on Expense and Expense Reports
         """,
 
     'description': """
@@ -21,7 +21,7 @@
 
     'category': 'Localization',
 
-    'version': '13.0.1.1.0',
+    'version': '13.0.1.2.0',
 
     'depends': ['hr_expense'],
 

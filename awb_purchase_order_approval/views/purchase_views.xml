@@ -7,8 +7,9 @@
       <field name="arch" type="xml">
           <xpath expr="//header" position="inside">
             <field name="can_approve" invisible="1"/>
+            <field name="is_rejected" invisible="1"/>
             <button name="action_for_approval" states="draft" string="For Approval" type="object" class="oe_highlight"/>
-            <button name="action_approve" type="object" string="Approve" class="oe_highlight" attrs="{'invisible': [('can_approve', '!=', True)]}"/>
+            <button name="action_approve" type="object" string="Approve" class="oe_highlight" attrs="{'invisible': [('can_approve', '!=', True),('is_rejected','!=', True)]}"/>
             <button name="action_reject" type="object" string="Reject" attrs="{'invisible': [('can_approve', '!=', True)]}"/>
           </xpath>
           <xpath expr="//button[@id='bid_confirm']" position="attributes">
