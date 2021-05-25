@@ -70,6 +70,17 @@
         </field>
     </record>
 
+    <record id="view_account_invoice_filter_ext" model="ir.ui.view">
+        <field name="name">view.account.invoice.filter.ext</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="atm_ref"/>
+            </xpath>
+        </field>
+    </record>
+
 <!--
     <act_window id="id_for_record"
         name="Test"

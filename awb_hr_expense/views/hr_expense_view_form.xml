@@ -34,21 +34,42 @@
         <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_tree"/>
         <field name="arch" type= "xml">
             <xpath expr="//field[@name='name']" position="before">
-                <field name="generated_num_plus_name"/>
+                <field name="generated_num"/>
             </xpath>
         </field>
     </record>
 
-<!--     
+    <record id="view_hr_expense_search" model= "ir.ui.view">
+        <field name="name">view.hr.expense.search</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_search"/>
+        <field name="arch" type= "xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="generated_num"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_hr_expense_sheet_search" model= "ir.ui.view">
+        <field name="name">view.hr.expense.sheet.search</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_sheet_view_search"/>
+        <field name="arch" type= "xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="generated_num"/>
+            </xpath>
+        </field>
+    </record>
+    
     <record id="view_expenses_tree" model= "ir.ui.view">
         <field name="name">view_expenses_tree</field>
         <field name="model">hr.expense</field>
         <field name="inherit_id" ref="hr_expense.view_expenses_tree"/>
         <field name="arch" type= "xml">
             <xpath expr="//field[@name='name']" position="replace">
-                <field name="generated_num_plus_name"/>
+                <field name="generated_num"/>
             </xpath>
         </field>
     </record>
- -->
+
 </odoo>

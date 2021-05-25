@@ -3,80 +3,128 @@
     <template id="report_official_receipt">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
+                <t t-set="detail" t-value="doc.get_details()"/>
                 <div class="page mt32" style="font-size: 3mm;">
-                    <table>
-                        <tr>
-                            <td style="width: 25%;">
-                                <t t-set="detail" t-value="doc.get_details()"/>
-                                <div style="margin: 5mm 0 0 15mm;font-size: 2.5mm;text-align:right;">
-                                    <div style="margin: 2mm 0 0 0;">
-                                        <!-- <span t-esc="detail['service_fee']"/> -->
-                                    </div>
-                                    <div style="margin: 4mm 0 0 0;">
-                                        <!-- <span t-esc="detail['device_fee']"/> -->
-                                    </div>
-                                    <div style="margin: 8mm 0 0 0;"> 
-                                        <span t-esc="'{0:,.2f}'.format(detail['total_sales'])"/>
-                                    </div>
-                                    <div style="margin: 2mm 0 0 0;">
-                                        <span t-esc="'{0:,.2f}'.format(detail['vat'])"/>
-                                    </div>
-                                    <div style="margin: 2mm 0 0 0;">
-                                        <span t-esc="'{0:,.2f}'.format(detail['untaxed_amount'])"/>
-                                    </div>
-                                    <div style="margin: 2mm 0 0 0;">
-                                        <span t-esc="'{0:,.2f}'.format(detail['tax_withholding'])"/>
-                                    </div>
-                                    <div style="margin: 2mm 0 0 0;">
-                                        <span t-esc="'{0:,.2f}'.format(detail['vat'])"/>
-                                    </div>
-                                    <div style="margin: 2mm 0 0 0;">
-                                        <span t-esc="'{0:,.2f}'.format(detail['total_amount'])"/>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div style="margin: 25mm 0 0 0;font-size: 3.5mm;">
-                                    <div style="margin-left: 80mm;">
-                                        <span t-field="doc.payment_date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'/>
-                                        <span>&amp;nbsp;</span>
-                                    </div>
-                                    <div style="margin: 5mm 0 0 27mm;">
-                                        <span>&amp;nbsp;</span>
-                                        <span t-field="doc.partner_id.name"/>
-                                    </div>
-                                    <div style="margin: 5mm 0 0 20mm;">
-                                        <span>&amp;nbsp;</span>
-                                        <span t-field="doc.partner_id.street"/>
-                                        <span t-field="doc.partner_id.street2"/>
-                                        <span t-field="doc.partner_id.city"/>
-                                        <span t-field="doc.partner_id.state_id.name"/>
-                                    </div>
-                                    <div style="margin: 5mm 0 0 40mm;">
-                                        <span>&amp;nbsp;</span>
-                                        <div style="display: inline;">
-                                            <span t-field="doc.partner_id.industry_id.name"/>
-                                        </div>
-                                        <div style="display: inline; position: fixed; right: 10mm;">
-                                            <span t-field="doc.partner_id.vat"/>
-                                        </div>
-                                    </div>
-                                    <div style="margin: 5mm 0 0 20mm; height: 10mm;">
-                                        <div>
-                                            <span>&amp;nbsp;</span>
-                                            <span t-esc="doc.amount_to_text(doc.amount, doc.currency_id)"/>
-                                        </div>
-                                        <div style="position: fixed; right: 10mm; top: 70mm;">
-                                            <span t-field="doc.amount" t-field-options='{"widget": False}'/>
-                                        </div>
-                                    </div>
-                                    <div style="margin: 5mm 0 0 27mm;">
-                                        <span>&amp;nbsp;</span>
-                                        <span t-field="doc.communication"/>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                    <style>
+                        .left-part {
+                            border: 1 solid white;
+                            width: 25mm !important; 
+                            margin: 0; 
+                            padding: 10 0 0 12mm; 
+                            font-size: 1.8mm;
+                            text-align: right; 
+                            vertical-align: top;        
+                        }
+
+                        .left-part-field {
+                            display: block;
+                        }
+
+                        .right-part {
+                            border: 1 solid white;
+                            margin: 0;  
+                            padding: 25mm 0 0 0; 
+                            font-size: 2mm;
+                            vertical-align: top;        
+                        }
+
+                        .right-part-field {
+                            display: block;
+                            padding-bottom: 1mm;
+                        }
+
+                        .right-part-field-date {
+                            border: 1 solid white;
+                            position: absolute; 
+                            left: 90mm; 
+                            top: 15mm;
+                        }
+
+                        .right-part-field-name {
+                            border: 1 solid white;
+                            max-width: 80mm;
+                            position: absolute; 
+                            left: 60mm; 
+                            top: 20mm;
+                        }
+
+                        .right-part-field-address {
+                            border: 1 solid white;
+                            max-width: 79mm;
+                            position: absolute; 
+                            left: 55mm; 
+                            top: 23mm;
+                        }
+
+                        .right-part-field-amount-words {
+                            border: 1 solid white;
+                            max-width: 90mm;
+                            position: absolute; 
+                            left: 55mm; 
+                            top: 30mm;
+                        }
+
+                        .right-part-field-amount-numeric {
+                            position: absolute; 
+                            left: 90mm; 
+                            top: 34mm;
+                        }
+
+                        .right-part-field-communication {
+                            position: absolute; 
+                            left: 55mm; 
+                            top: 38mm;
+                        }
+
+                        .right-part-field-cashier {
+                            position: fixed; 
+                            left: 88mm; 
+                            top: 64mm;
+                        }
+                    </style>
+                    <table cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td class="left-part">
+                                    <span class="left-part-field" >&amp;nbsp;</span>
+                                    <span class="left-part-field" >&amp;nbsp;</span>
+
+                                    <span class="left-part-field" >&amp;nbsp; <!-- installation fee --></span>
+                                    <span class="left-part-field" >&amp;nbsp; <!-- subscription fee --></span>
+                                    <span class="left-part-field" >&amp;nbsp; <!-- deposit --></span>
+                                    <span class="left-part-field" >&amp;nbsp; <!-- extension tv --></span>
+                                    <span class="left-part-field" >&amp;nbsp; <!-- modem --></span>
+
+                                    <span class="left-part-field" >&amp;nbsp;</span>
+                                    <span class="left-part-field" >&amp;nbsp;</span>
+
+                                    <span class="left-part-field" t-esc="'{0:,.2f}'.format(detail['total_sales'])"></span>
+                                    <span class="left-part-field" t-esc="'{0:,.2f}'.format(detail['vat'])"></span>
+                                    <span class="left-part-field" t-esc="'{0:,.2f}'.format(detail['untaxed_amount'])"></span>
+                                    <span class="left-part-field" t-esc="'{0:,.2f}'.format(detail['tax_withholding'])"></span>
+                                    <span class="left-part-field" t-esc="'{0:,.2f}'.format(detail['vat'])"></span>
+                                    <span class="left-part-field" t-esc="'{0:,.2f}'.format(detail['total_amount'])"></span>
+                                </td>
+                                <td class="right-part">
+                                    <span class="right-part-field right-part-field-date" t-field="doc.payment_date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'></span>
+                                    <span class="right-part-field right-part-field-name" t-field="doc.partner_id.name"></span>
+                                    <span class="right-part-field-address" t-esc="doc.get_full_address_text()"></span>
+
+                                    <!--
+                                    <span t-field="doc.partner_id.industry_id.name"></span>
+                                    <span t-field="doc.partner_id.vat"></span>
+                                    -->
+
+                                    <span class="right-part-field" >&amp;nbsp;</span>
+                                    <span class="right-part-field-amount-words" 
+                                        t-esc="doc.amount_to_text(doc.amount, doc.currency_id)"></span>
+                                    <span class="right-part-field-amount-numeric" t-field="doc.amount" t-field-options='{"widget": False}'></span>
+                                    <span class="right-part-field-communication" t-field="doc.communication"></span>
+                                    <span class="right-part-field-cashier" t-field="request.env.user.name"></span>
+                                </td>
+
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </t>

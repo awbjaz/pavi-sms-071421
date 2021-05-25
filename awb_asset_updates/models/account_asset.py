@@ -20,8 +20,8 @@ class AccountAsset(models.Model):
     def name_get(self):
         data = []
         for rec in self:
-            asset_number = rec.asset_number
+            asset_number = f"[{rec.asset_number}]" if rec.asset_number else ""
             name = rec.name
-            display_value = f"[{asset_number}] {name}"
+            display_value = f"{asset_number} {name}"
             data.append((rec.id, display_value))
         return data
