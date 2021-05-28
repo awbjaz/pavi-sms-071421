@@ -10,7 +10,7 @@
                             border: 1 solid white;
                             width: 25mm !important; 
                             margin: 0; 
-                            padding: 10 0 0 12mm; 
+                            padding: 4mm 0 0 12mm; 
                             font-size: 1.8mm;
                             text-align: right; 
                             vertical-align: top;        
