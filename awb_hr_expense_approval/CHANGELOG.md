@@ -1,3 +1,7 @@
+## [13.0.1.5.1] - 2021-05-28
+
+- [IMP] Allow clicking of For Approval button for Expense User
+
 ## [13.0.1.4.1] - 2021-04-29
 
 - [IMP] Add Corporate Logo in Module and Update Summary

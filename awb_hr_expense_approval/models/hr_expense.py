@@ -31,7 +31,7 @@ class HrExpenseSheet(models.Model):
         args = [('active', '=', True),
                 ('min_amount', '<=', self.total_amount),
                 ('max_amount', '>', self.total_amount),]
-        approval_rule = self.env['hr.expense.approval'].search(args, limit=1)
+        approval_rule = self.sudo().env['hr.expense.approval'].search(args, limit=1)
 
         approvers = []
         add_seq =  0
