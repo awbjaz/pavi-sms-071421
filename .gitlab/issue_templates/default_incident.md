@@ -1,12 +1,11 @@
 # Definition of Ready
 
-**FC/QA Tasks**
+**FC/QA Checklist**
 - [ ] Incident Summary
 - [ ] Test Data
 - [ ] Screenshots
 - [ ] Steps to Replicate
 - [ ] Actual & Expected Result
-- [ ] Steps to Replicate
 - [ ] Tag Severity : Critical , Major , Minor
 - [ ] Tag Incident Type : SIT Incident, SAT Incident, UAT Incident, PROD Incident
 - [ ] Tag Environment
