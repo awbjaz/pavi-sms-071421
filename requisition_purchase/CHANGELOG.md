@@ -1,3 +1,7 @@
+# [13.0.1.4.1] - 2021-06-03
+
+- [IMP] Filter values in Warehouse field based on the selected value in Company field
+
 # [13.0.1.3.1] - 2021-04-29
 
 - [FIX] only 1 vendor in draft PO process

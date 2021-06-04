@@ -15,7 +15,7 @@
     'author': "Achieve Without Borders, Inc",
     'website': "http://www.achievewithoutborders.com",
     'category': "Operations/Expense",
-    'version': '13.0.1.5.1',
+    'version': '13.0.1.6.1',
     'depends': ['hr_expense'],
     'data': [
         'security/ir.model.access.csv',

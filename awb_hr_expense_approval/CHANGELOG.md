@@ -1,3 +1,6 @@
+## [13.0.1.6.1] - 2021-05-28
+
+- [IMP] Add Admin Groups in Expense Configuration Menu
 ## [13.0.1.5.1] - 2021-05-28
 
 - [IMP] Allow clicking of For Approval button for Expense User
