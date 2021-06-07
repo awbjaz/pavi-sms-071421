@@ -17,7 +17,7 @@ class PrApprovalRequest(models.Model):
     _inherit = "approval.request"
 
     has_warehouse = fields.Selection(related="category_id.has_warehouse")
-    warehouse_id = fields.Many2one('stock.warehouse', string="Warehouse")
+    warehouse_id = fields.Many2one('stock.warehouse', string="Warehouse", domain="[('company_id', '=', company_id)]")
     picking_type_id = fields.Many2one(
         'stock.picking.type', string="Deliver To")
 
@@ -179,6 +179,7 @@ class PrApprovalRequest(models.Model):
             'order_line': order_line,
             'picking_type_id': self.picking_type_id.id,
             'approval_id': self.id,
+            'company_id': self.company_id.id,
             'origin': self.reference_number,
             'discount': 0
         }
@@ -209,6 +210,7 @@ class PrApprovalRequest(models.Model):
             'line_ids': order_line,
             'approval_id': self.id,
             'origin': self.reference_number,
+            'company_id': self.company_id.id,
         }
         _logger.debug(f'User 2: {self.env.ref("base.user_root")}')
 

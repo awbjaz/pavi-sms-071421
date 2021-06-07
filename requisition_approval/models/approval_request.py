@@ -32,6 +32,7 @@ class AwbApprovalRequest(models.Model):
     has_products = fields.Selection(related="category_id.has_products")
     has_application = fields.Selection(related="category_id.has_application")
     has_analytic_account = fields.Selection(related="category_id.has_analytic_account")
+    company_id = fields.Many2one('res.company', string="Company", required=True, index=True, default=lambda self: self.env.company)
 
     product_line_ids = fields.One2many(
         'approval.product.line', 'approval_id', string="Products")

@@ -1,0 +1,2 @@
+id,active,perm_create,perm_unlink,perm_read,perm_write,domain_force,id,groups,name,model_id
+approvals.requisition_approval,TRUE,TRUE,TRUE,TRUE,TRUE,"[('company_id','in',company_ids)]",approvals.requisition_approval,,Approval Request multi-company,Approval Request
