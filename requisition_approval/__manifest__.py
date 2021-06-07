@@ -21,12 +21,13 @@
 
     'category': 'Approval',
 
-    'version': '13.0.1.3.0',
+    'version': '13.0.1.5.0',
 
     'depends': ['approvals', 'product'],
 
     'data': [
         'security/ir.model.access.csv',
+        'security/ir.rule.csv',
         'views/approval_view.xml',
     ],
 }

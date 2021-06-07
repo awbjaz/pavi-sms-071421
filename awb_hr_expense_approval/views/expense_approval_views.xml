@@ -65,7 +65,7 @@
   <menuitem 
             id="menu_approval_in_config_expense_form" name="Expense Approval"
             action="approval_hr_expense_action"
-            parent="menu_approval_in_config_expense" sequence="10"/>
+            parent="menu_approval_in_config_expense" sequence="10" groups="hr_expense.group_hr_expense_manager"/>
 
  
 </odoo>

@@ -14,6 +14,10 @@
                 <field name="has_analytic_account" invisible="1"/>
             </xpath>
 
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" attrs="{'readonly': [('request_status','not in',('new'))]}"/>
+            </xpath>
+
             <xpath expr="//notebook/page[@name='approvers']" position="after">
                 <page string="Products" name="products" attrs="{'invisible':[('has_products','==','no')]}">
                     <field name="product_line_ids" string="Products" attrs="{'readonly': [('request_status','not in',('new', 'pending'))]}">
@@ -26,6 +30,18 @@
                         </tree>
                     </field>
                 </page>
+            </xpath>
+        </field>
+    </record>
+
+    
+    <record id="awb_approval_request_tree" model="ir.ui.view">
+        <field name="name">awb.approval.request.tree</field>
+        <field name="model">approval.request</field>
+        <field name="inherit_id" ref="approvals.approval_request_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='request_status']" position="after">
+               <field name="company_id" readonly="1" options="{'no_create': True}" groups="base.group_multi_company" optional="show"/>
             </xpath>
         </field>
     </record>
