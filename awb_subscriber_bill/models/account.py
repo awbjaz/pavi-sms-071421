@@ -33,6 +33,7 @@ class AccountMove(models.Model):
     total_prev_charges = fields.Monetary(string="Total Previous Charges", compute='_compute_statement_balance')
     is_subscription = fields.Boolean(string="Is Subscription", compute="_compute_is_subscription")
     total_vat = fields.Float(string="Total Vat", compute='_compute_statement_balance')
+    is_for_payment = fields.Boolean("For Payment")
 
     @api.depends('invoice_line_ids')
     def _compute_is_subscription(self):

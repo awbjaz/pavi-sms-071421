@@ -14,3 +14,5 @@ class PrPurchaseOrder(models.Model):
 
     approval_id = fields.Many2one(
         'approval.request', string="Approval Request")
+
+    discount = fields.Float(string="Discount")
