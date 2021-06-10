@@ -32,6 +32,7 @@
             <xpath expr="//field[@name='currency_id']" position="after">
                 <field name="atm_ref" attrs="{'invisible': [('type', 'not in', ('out_invoice'))]}"/>
                 <field name="atm_ref_sequence" invisible="1"/>
+                 <field name="atm_subscription_ref"/>
                 <field name="is_for_payment" attrs="{'invisible': [('type', 'not in', ('out_invoice'))]}" groups="account.group_account_user"/>
                 <field name="start_date" invisible="1"/>
                 <field name="end_date" invisible="1"/>
