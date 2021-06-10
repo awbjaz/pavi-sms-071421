@@ -73,11 +73,7 @@ class AccountMove(models.Model):
             if rec.atm_subscription_ref:
                 rec.atm_ref = rec.atm_subscription_ref
 
-    def print_atm_ref(self, atm_ref):
-        return atm_ref[2:]
-
     def action_generate_barcode(self, number):
-        number = self.print_atm_ref(number)
         _logger.debug(f'Generating Barcode: {number}')
         img_writer = ImageWriter()
         img_writer.text_distance = 0.1
