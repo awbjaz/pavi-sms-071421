@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="account.view_account_payment_form"/>
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
-                <button name="action_load_invoices" type="object"  string="Load Invoices" class="oe_highlight"/> 
+                <button name="action_load_invoices" type="object"  string="Load Invoices" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/> 
             </xpath>
             <xpath expr="//field[@name='payment_method_code']" position="after">
                 <field name="allocation_mode"/>

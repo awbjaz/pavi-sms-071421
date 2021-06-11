@@ -17,7 +17,8 @@ class AccountPayment(models.Model):
     allocation_mode = fields.Selection([('old_invoice','Oldest Invoice first'),
                                         ('high_amount','Highest Amount first'),
                                         ('low_amount','Lowest Amount first'),
-                                        ('manual','Manual')], string='Allocation Mode')
+                                        ('manual','Manual')], string='Allocation Mode',
+                                        default='old_invoice')
 
     invoice_line = fields.One2many('payment.allocation.line', 'payment_id', string="Invoices")
 
@@ -34,19 +35,37 @@ class AccountPayment(models.Model):
         elif self.allocation_mode == 'low_amount':
             order = 'amount_residual asc'
 
-        invoices = self.env['account.move'].search([('type', '=', 'out_invoice'),('state','=','posted')], order=order)
+        invoices = self.env['account.move'].search([
+            ('type', '=', 'out_invoice'),
+            ('state','=','posted'),
+            ('invoice_payment_state', '!=', 'paid'),
+            ('partner_id', "=", self.partner_id.id),
+            ('amount_residual', ">", 0)
+        ], order=order)
         _logger.debug(f'Invoices {invoices}')
 
         invoice_line = []
+        payment_amount = self.amount
         for inv in invoices:
+            # Origin Code
+            # Will comment for now
+            # full_reconcile = False
+            # paid_amount = 0.0
+            # if inv.amount_residual <= self.amount:
+            #     full_reconcile = True
+            #     paid_amount = inv.amount_residual
+            # elif inv.amount_residual > self.amount:
+            #     paid_amount = inv.amount_residual
+
             full_reconcile = False
-            paid_amount = 0.0
-            if inv.amount_residual <= self.amount:
+            if payment_amount >= inv.amount_residual:
                 full_reconcile = True
                 paid_amount = inv.amount_residual
-            elif inv.amount_residual > self.amount:
-                paid_amount = inv.amount_residual
-                
+            else:
+                paid_amount = payment_amount
+
+            payment_amount = payment_amount - paid_amount
+
             data = {
                 'invoice': inv.id,
                 'full_reconcile': full_reconcile,
@@ -76,8 +95,8 @@ class PaymentAllocationLine(models.Model):
 
     @api.depends('invoice', 'paid_amount')
     def _compute_reconcile(self):
-        full_reconcile = False
         for rec in self:
+            full_reconcile = False
             if round(rec.invoice_amount, 2) == rec.paid_amount:
                 full_reconcile = True
             rec.full_reconcile = full_reconcile
