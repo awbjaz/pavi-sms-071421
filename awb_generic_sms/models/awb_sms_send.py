@@ -92,10 +92,6 @@ class SMS(models.Model):
                             # Converts value into currency format
                             if isinstance(value, float):
                                 value = "\u20B1 {:,.2f}".format(value)
-                            else:
-                                # Remove initial 2 digits from atm_ref
-                                if key == 'atm_ref':
-                                    value = value[2:]
 
                     raw_data = {key: value or ''}
                     key_value.update(raw_data)
