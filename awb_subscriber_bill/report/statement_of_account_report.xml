@@ -73,7 +73,7 @@
                                     <!-- <span>xxxxxx</span> -->
                                 </td>
                                 <td style="border: 2px solid black;text-align: center; font-size: 12px; padding: 2px;">
-                                    <span t-esc="doc.atm_ref"/>
+                                    <span t-esc="doc.print_atm_ref(doc.atm_ref)"/>
                                 </td>
                             </tr>
                             <tr style="height:15px;">
@@ -335,7 +335,7 @@
                                    <strong><span>ATM Ref. Number:</span></strong>
                                 </td>
                                 <td style="width:26%; text-align:right">
-                                    <span t-esc="doc.atm_ref"/>
+                                    <span t-esc="doc.print_atm_ref(doc.atm_ref)"/>
                                 </td>
                             </tr>
                             <tr>
@@ -377,7 +377,7 @@
                                     <strong><span>ATM Ref. Number:</span></strong>
                                 </td>
                                 <td style="width:35%;">
-                                    <span t-esc="doc.atm_ref"/>
+                                    <span t-esc="doc.print_atm_ref(doc.atm_ref)"/>
                                 </td>
                                 <td style="width:20%;">
                                     <strong><span>Due Date:</span></strong>
