@@ -25,17 +25,6 @@
                         
                     </group>
                 </page>
-                <page string="Company Code">
-                    <group>
-                        <field name="company_code">
-                            <tree editable="top">
-                                <field name="name"/>
-                                <field name="count"/>
-                                <field name="is_active"/>
-                            </tree>
-                        </field>
-                    </group>
-                </page>
             </xpath>
             
         </field>
