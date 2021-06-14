@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
@@ -24,8 +25,9 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     statement_line_ids = fields.One2many('account.statement.line', 'move_id', string="Statement Line")
-    atm_ref = fields.Char(string="ATM Reference", compute="_compute_atm_reference_number", stored=True)
+    atm_ref = fields.Char(string="ATM Reference", compute="_compute_atm_reference_number", store=True)
     atm_ref_sequence = fields.Char(string="ATM Reference Sequence", stored=True)
+    atm_subscription_ref = fields.Char(string="ATM Subscription Reference", stored=True)
     start_date = fields.Date(string="Start Date")
     end_date = fields.Date(string="End Date")
     period_covered = fields.Date(string="Period Covered")
@@ -64,23 +66,14 @@ class AccountMove(models.Model):
         res = super(AccountMove, self).create(vals)
         return res
 
-    @api.depends("atm_ref_sequence")
+    @api.depends("atm_subscription_ref")
     def _compute_atm_reference_number(self):
         for rec in self:
             rec.atm_ref = ''
-            if rec.atm_ref_sequence:
-                today = date.today()
-                year = str(today.year)[2:4]
-                sequence = rec.atm_ref_sequence
-                company_code = rec.company_id.zone_code
-                value = f'{year}{company_code}{sequence}1231'
-                rec.atm_ref = value
-
-    def print_atm_ref(self, atm_ref):
-        return atm_ref[2:]
+            if rec.atm_subscription_ref:
+                rec.atm_ref = rec.atm_subscription_ref
 
     def action_generate_barcode(self, number):
-        number = self.print_atm_ref(number)
         _logger.debug(f'Generating Barcode: {number}')
         img_writer = ImageWriter()
         img_writer.text_distance = 0.1

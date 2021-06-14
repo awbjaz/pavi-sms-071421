@@ -43,8 +43,9 @@ class PrinterDataUtil(PrinterDataUtil):
         # Account Number
         account_number = record.partner_id.customer_number
         fields.append(account_number)
+
         # ATM Reference Number
-        atm_ref = record.print_atm_ref(record.atm_ref)
+        atm_ref = record.atm_ref
         fields.append(atm_ref)
 
         # Bill Number
