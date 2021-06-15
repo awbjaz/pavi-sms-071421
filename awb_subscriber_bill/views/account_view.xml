@@ -32,6 +32,7 @@
             <xpath expr="//field[@name='currency_id']" position="after">
                 <field name="atm_ref" attrs="{'invisible': [('type', 'not in', ('out_invoice'))]}"/>
                 <field name="atm_ref_sequence" invisible="1"/>
+                 <field name="atm_subscription_ref"/>
                 <field name="is_for_payment" attrs="{'invisible': [('type', 'not in', ('out_invoice'))]}" groups="account.group_account_user"/>
                 <field name="start_date" invisible="1"/>
                 <field name="end_date" invisible="1"/>
@@ -70,7 +71,7 @@
             </xpath>
         </field>
     </record>
-<!--
+
     <record id="view_account_invoice_filter_ext" model="ir.ui.view">
         <field name="name">view.account.invoice.filter.ext</field>
         <field name="model">account.move</field>
@@ -81,7 +82,7 @@
             </xpath>
         </field>
     </record>
--->
+
 <!--
     <act_window id="id_for_record"
         name="Test"

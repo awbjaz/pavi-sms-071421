@@ -16,6 +16,8 @@
 
             <xpath expr="//field[@name='code']" position="after">
                 <field name="opportunity_id" readonly="1"/>
+                <field name="atm_ref"/>
+                <field name="atm_ref_sequence"/>
             </xpath>
 
             <xpath expr="//field[@name='price_subtotal']" position="after">
