@@ -31,6 +31,71 @@ class SaleSubscription(models.Model):
     subscription_status_subtype = fields.Selection([('disconnection-permanent', 'Permanent Discon'),
                                             ('disconnection-temporary', 'Temporary Discon')], string="Subscription Status Subtype")
 
+    atm_ref = fields.Char(string="ATM Reference", store=True, compute='_compute_atm_reference_number')
+    atm_ref_sequence = fields.Char(string="ATM Reference Sequence", store=True)
+
+    @api.model
+    def create(self, vals):
+        # Commenting this for now
+        # Origin code
+        # vals['atm_ref_sequence'] = self.env['ir.sequence'].next_by_code('subscription.atm.reference.seq.code')
+
+        company_id = vals.get('company_id')
+        company = self.env['res.company'].browse([company_id])
+
+        code_seq = company.company_code.filtered(
+            lambda code: code.is_active == True
+        )
+
+        if not code_seq:
+            raise UserError("No Active company code, Please check your company code settings")
+
+        vals['atm_ref_sequence'] = code_seq[0]._get_seq_count()
+
+        res = super(SaleSubscription, self).create(vals)
+        return res
+
+    @api.depends("atm_ref_sequence")
+    def _compute_atm_reference_number(self):
+        for rec in self:
+            rec.atm_ref = ''
+            if rec.atm_ref_sequence:
+                company_code = self.company_id.company_code.filtered(
+                    lambda code: code.is_active == True
+                )
+                if company_code.exists():
+                    company_code = company_code[0]
+                    sequence = rec.atm_ref_sequence
+                    to_compute = company_code.name + sequence
+                    _logger.debug(f"to_compute {to_compute}")
+
+                    computables = str(to_compute)[2:9]
+                    num_list = [8,7,6,5,4,3,2]
+
+                    total = 0
+                    for i, digit in enumerate(str(computables)):
+                        product = int(digit) * num_list[i]
+                        total += product
+
+                    remainder = total % 11
+                    if(
+                        (
+                            len(str(remainder)) > 1
+                            and str(remainder)[1] == '0'
+                        )
+                        or str(remainder) == '0'
+                    ):
+                        remainder = str(remainder)[0]
+                    else:
+                        remainder = 11 - int(remainder)
+
+                    _logger.debug(f"remainder {remainder}")
+                    remainder = str(remainder)[0]
+                    value = f'{to_compute}{remainder}1231'
+                    rec.atm_ref = value
+
+                    company_code._update_active_code()
+
     def _prepare_renewal_values(self, product_lines, opportunity_id):
         res = dict()
         for subscription in self:
@@ -248,6 +313,7 @@ class SaleSubscription(models.Model):
 
     def _prepare_invoice(self):
         invoice = super(SaleSubscription, self)._prepare_invoice()
+        invoice['atm_subscription_ref'] = self.atm_ref
         invoice['statement_line_ids'] = self._prepare_invoice_statement(invoice)
         return invoice
 
