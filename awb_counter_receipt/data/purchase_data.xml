@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequences for Counter Receipt -->
+        <record id="seq_counter_receipt" model="ir.sequence">
+            <field name="name">Counter Receipt</field>
+            <field name="code">counter.receipt</field>
+            <field name="prefix">CR-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

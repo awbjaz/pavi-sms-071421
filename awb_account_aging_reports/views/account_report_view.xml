@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <template id="assets_backend" name="petstore_assets" inherit_id="web.assets_backend">
+      <xpath expr="." position="inside">
+        <script type="text/javascript" src="/awb_account_aging_reports/static/src/js/account_reports.js"/>
+      </xpath>
+    </template>
+  </data>
+</odoo>

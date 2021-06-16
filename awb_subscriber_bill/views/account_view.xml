@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!--     <act_window id="action_export_printer_agency_format"
+        name="Export to Printer Agency Data File"
+        src_model="account.move"
+        res_model="wizard model"
+        view_type="form" view_mode="form"
+        key2="client_action_multi" target="new"
+    />
+ -->
+
+
+<!--
+    <record id="account.invoice.tree_ext" model="ir.ui.view">
+        <field name="name">view.account.form.ext2</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+           <button name="action_move_switch_invoice_to_credit_note" position="after">
+            <button name="button_draft" position="after">
+            <button name="export_printer_agency_format" string="Export to Printer Agency Data File" type="object"/>
+          </button>
+        </field>
+    </record>
+-->
+    <record id="view_account_form_ext" model="ir.ui.view">
+        <field name="name">view.account.form.ext</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="atm_ref" attrs="{'invisible': [('type', 'not in', ('out_invoice'))]}"/>
+                <field name="atm_ref_sequence" invisible="1"/>
+                 <field name="atm_subscription_ref"/>
+                <field name="is_for_payment" attrs="{'invisible': [('type', 'not in', ('out_invoice'))]}" groups="account.group_account_user"/>
+                <field name="start_date" invisible="1"/>
+                <field name="end_date" invisible="1"/>
+                <label for="start_date" string="Period Covered" attrs="{'invisible': [('type', 'not in', ('out_invoice'))]}"/>
+                <div class="o_row" attrs="{'invisible': [('type', 'not in', ('out_invoice'))]}">
+                    <field name="start_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'end_date'}"/>
+                    <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                    <field name="end_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'start_date'}"/>
+                </div>
+
+
+                <field name="total_statement_balance" invisible="1"/>
+                <field name="total_prev_charges" invisible="1"/>
+                <field name="total_vat" invisible="1"/>
+            </xpath>
+            <xpath expr="//page[@name='other_info']" position="after">
+                <page name="statement_line" string="Statement Lines" attrs="{'invisible': ['|', ('type', 'not in', ('out_invoice', 'in_invoice')), ('is_subscription', '!=', True)]}">
+                    <field name="is_subscription" invisible="1"/>
+                    <field name="statement_line_ids" readonly="1">
+                        <tree>
+                            <field name="name"/>
+                            <field name="statement_type" invisible="1"/>
+                            <field name="amount"/>
+                        </tree>
+                    </field>
+                     <group class="oe_subtotal_footer" attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))]}">
+                        <field name="total_prev_charges" string="Previous Charges"/>
+                        <field name="amount_total" string="Current Charges"/>
+                        
+                        <field name="total_statement_balance" class="oe_subtotal_footer_separator"/>
+                    </group>
+                    <group class="oe_subtotal_footer">
+                        <button name="recompute_statement" string="Update Statement Line" type="object" class="oe_highlight" attrs="{'invisible': [('state', 'not in', ('draft'))]}"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_invoice_filter_ext" model="ir.ui.view">
+        <field name="name">view.account.invoice.filter.ext</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="atm_ref"/>
+            </xpath>
+        </field>
+    </record>
+
+<!--
+    <act_window id="id_for_record"
+        name="Test"
+        src_model="account.invoice.tree"
+        res_model="model_b"
+        view_type="form" view_mode="form"
+        key2="client_action_multi" target="new"/>
+
+    <record id="wizard_view" model="ir.ui.view">
+        <field name="name">Test</field>
+        <field name="model">model_b</field>
+        <field name="arch" type="xml">
+            <form string="Test">
+                # Define the View
+                <footer>
+                    <button string="Apply" name="action_apply" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+-->
+
+</odoo>

@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_approval_expense_manager,approval expense manager,model_hr_expense_approval,hr_expense.group_hr_expense_manager,1,1,1,1
+access_approval_expense_user,approval expense user,model_hr_expense_approval,hr_expense.group_hr_expense_user,1,1,1,0
+access_approval_expense_team,approval expense team,model_hr_expense_approval,hr_expense.group_hr_expense_team_approver,1,1,1,0
+
+access_approver_line_expense_manager,approver line expense manager,model_hr_expense_approver_line,hr_expense.group_hr_expense_manager,1,1,1,1
+access_approver_line_expense_user,approver line expense user,model_hr_expense_approver_line,hr_expense.group_hr_expense_user,1,1,1,0
+access_approver_line_expense_team,approver line expense team,model_hr_expense_approver_line,hr_expense.group_hr_expense_team_approver,1,1,1,0
+
+
+access_approval_line_expense_manager,approval line expense manager,model_hr_expense_approval_line,hr_expense.group_hr_expense_manager,1,1,1,1
+access_approval_line_expense_user,approval line expense user,model_hr_expense_approval_line,hr_expense.group_hr_expense_user,1,1,1,1
+access_approval_line_expense_team,approval line expense team,model_hr_expense_approval_line,hr_expense.group_hr_expense_team_approver,1,1,1,1
+access_approval_line_expense_employee,approval line expense employee,model_hr_expense_approval_line,base.group_user,1,1,1,0
+

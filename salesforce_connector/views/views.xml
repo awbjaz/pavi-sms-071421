@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="my_record_01" model="salesforce.connector">
+            <field name="field_name">Salesforce</field>
+        </record>
+    </data>
+    <data>
+        <record model="ir.ui.view" id="salesforce_setting">
+            <field name="name">res.config.settings.salesforce_settings</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Salesforce" string="Salesforce" data-key="salesforce_connector" groups="sales_team.group_sale_manager">
+                        <div id="salesforce_Settings">
+                            <h2>Salesforce Settings</h2>
+                            <div class="row mt16 o_settings_container">
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="sf_salesforce_enable"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="sf_salesforce_enable"/>
+                                        <div class="text-muted">
+                                            If you want to sync data with Salesforce.
+                                        </div>
+                                        <div class="content-group" attrs="{'invisible':[('sf_salesforce_enable','=',False)]}">
+                                            <div class="mt8">
+                                                <button name="12" icon="fa-arrow-right" type="action" string="Manage Auto Syncing" class="btn-link"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box" attrs="{'invisible':[('sf_salesforce_enable','=',False)]}">
+                                    <div class="o_setting_left_pane"/>
+                                    <div class="o_setting_right_pane">
+                                        <span class="o_form_label">Salesforce Credentials</span>
+                                        <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                                        <div class="text-muted">
+                                            Please fill following credentials to get connected.
+                                        </div>
+                                        <div class="content-group">
+                                            <div class="row mt16">
+                                                <label for="external_report_layout_id" string="Username" class="col-lg-4 o_light_label"/>
+                                                <field name="sf_username"/>
+                                            </div>
+                                            <div class="row mt8">
+                                                <label for="external_report_layout_id" string="Password" class="col-lg-4 o_light_label"/>
+                                                <field name="sf_password" password="True"/>
+                                            </div>
+                                            <div class="row mt8">
+                                                <label for="external_report_layout_id" string="Security Token" class="col-lg-4 o_light_label"/>
+                                                <field name="sf_security_token"/>
+                                            </div>
+                                            <div class="row mt8 ml0">
+                                                <button name="test_credentials" icon="" type="object" string="Test Credentials" class="oe_highlight"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="salesforce_CRM" attrs="{'invisible':[('sf_salesforce_enable','=',False)]}">
+                            <h2>Salesforce CRM</h2>
+                            <div class="row mt16 o_settings_container">
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="sf_lead"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="sf_lead"/>
+                                        <div class="text-muted">
+                                            Synchronize upcoming leads with Salesforce.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="sf_opportunity"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="sf_opportunity"/>
+                                        <div class="text-muted">
+                                            Synchronize upcoming opportunities with Salesforce.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="salesforce_Sales" attrs="{'invisible':[('sf_salesforce_enable','=',False)]}">
+                            <h2>Salesforce Sales</h2>
+                            <div class="row mt16 o_settings_container">
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="sf_saleorder"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="sf_saleorder"/>
+                                        <div class="text-muted">
+                                            Synchronize orders with Salesforce(Deletion).
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="sf_quote"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="sf_quote"/>
+                                        <div class="text-muted">
+                                            Synchronize quotes with Salesforce(Deletion).
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="sf_product"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="sf_product"/>
+                                        <div class="text-muted">
+                                            Synchronize upcoming products with Salesforce.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="sf_account"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="sf_account"/>
+                                        <div class="text-muted">
+                                            Synchronize upcoming customers with Salesforce.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="sf_contract"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="sf_contract"/>
+                                        <div class="text-muted">
+                                            Synchronize upcoming contracts with Salesforce.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="salesforce_Contacts" attrs="{'invisible':[('sf_salesforce_enable','=',False)]}">
+                            <h2>Salesforce Contacts</h2>
+                            <div class="row mt16 o_settings_container">
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="sf_contact"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="sf_contact"/>
+                                        <div class="text-muted">
+                                            Synchronize upcoming contacts with Salesforce.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="salesforce_Event" attrs="{'invisible':[('sf_salesforce_enable','=',False)]}">
+                            <h2>Salesforce Events</h2>
+                            <div class="row mt16 o_settings_container">
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="sf_event"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="sf_event"/>
+                                        <div class="text-muted">
+                                            Synchronize upcoming events with Salesforce.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="salesforce_Tasks" attrs="{'invisible':[('sf_salesforce_enable','=',False)]}">
+                            <h2>Salesforce Tasks</h2>
+                            <div class="row mt16 o_settings_container">
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="sf_task"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="sf_task"/>
+                                        <div class="text-muted">
+                                            Synchronize upcoming tasks with Salesforce.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="partner_user_kanban_view">
+            <field name="name">partner.salesforce</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban/templates/t/div/div/ul" position="inside">
+                    <li style="color:blue;" >
+                        <field name="location"/>
+                    </li>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="Lead_form_inherit">
+            <field name="name">lead.form.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+                <field name="mobile" position="after">
+                    <field name="sf_industry"/>
+                    <field name="sf_title"/>
+                    <field name="sf_status"/>
+                </field>
+                <field name="team_id" position="after">
+                    <field name="sf_type" attrs="{'invisible': [('type', '=', 'lead')]}"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="mail_activity_form_inherit">
+            <field name="name">mail.activity.form.inherit</field>
+            <field name="model">mail.activity</field>
+            <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
+            <field name="arch" type="xml">
+                <field name="summary" position="after">
+                    <field name="sf_status"/>
+                </field>
+                <field name="user_id" position="after">
+                    <field name="sf_priority"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_view_inherit">
+            <field name="name">product.view.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view" />
+            <field name="arch" type="xml">
+                <field name="barcode" position="after">
+                    <field name="sf_product_family" />
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="order_form_view_inherit">
+            <field name="name">order.form.view.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="contract_id" domain="['|',('name', '!=', False),('name', '!=', '')]" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    <field name="sf_status_so" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    <field name="sf_name" attrs="{'invisible': [('state', '=', 'sale')]}"/>
+                    <field name="sf_status_qo" attrs="{'invisible': [('state', '=', 'sale')]}"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_location_tree_view">
+            <field name="name">sale.order.location</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="location"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="event_location_tree_view">
+            <field name="name">event.location</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_tree" />
+            <field name="arch" type="xml">
+                <tree>
+                        <field name="sf_location"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_user_kanban_view">
+            <field name="name">product_view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban/templates/t/div/div/ul" position="inside">
+                    <li style="color:blue;" >
+                        <field name="location"/>
+                    </li>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="crm_location_tree_view">
+            <field name="name">crm.lead.location</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form" />
+            <field name="arch" type="xml">
+                <field name="tag_ids" position="after">
+                    <field name="location"></field>
+                </field>
+            </field>
+        </record>
+
+         <record model="ir.ui.view" id="contract_user_form_view">
+            <field name="name">partner.contracts</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" type="object" name="get_contracts"
+                            icon="fa-list" before="sale_order_count">
+                        <field name="contract_counter"  string="Contracts" widget="statinfo"/>
+                    </button>
+                </div>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sale_contract_action">
+            <field name="name">Contracts</field>
+            <field name="res_model">sale.contract</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_contract_tree_view">
+            <field name="name">sale.contract</field>
+            <field name="model">sale.contract</field>
+            <field name="arch" type="xml">
+                <tree string="Contracts">
+                    <field name="name"/>
+                    <field name="sf_status"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="term_months"/>
+                    <field name="location"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_contract_form_view">
+            <field name="name">sale.contract</field>
+            <field name="model">sale.contract</field>
+            <field name="arch" type="xml">
+                <form string="Contracts">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="customer_id" domain="[('customer_rank','>',0)]"/>
+                            </group>
+                            <group>
+                                <field name="sf_status"/>
+                                <field name="start_date"/>
+                                <field name="term_months"/>
+                            </group>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="salesforce_form_view">
+            <field name="name">salesforce.form</field>
+            <field name="model">salesforce.connector</field>
+            <field name="arch" type="xml">
+                <form string="Amazon Settings" create="false" edit="false">
+                    <sheet>
+                        <group>
+                            <group>
+                                <h1>Salesforce Operations</h1>
+                            </group>
+                            <group>
+                                <group>
+
+                                </group>
+                            </group>
+                        </group>
+                        <group col="4">
+                            <group><h2>Objects</h2></group>
+                            <group><h2>Import</h2></group>
+                            <group><h2>Export</h2></group>
+                        </group>
+                        <group col="4">
+                            <group><h5>Customers/Contacts</h5></group>
+                            <group><field name="customers" nolabel="1"/> </group>
+                            <group><field name="export_customers" nolabel="1"/> </group>
+                            <group></group>
+                        </group>
+                        <group col="4">
+                            <group><strong><h5>Sales Order</h5></strong></group>
+                            <group><field name="sales_orders" nolabel="1"/> </group>
+                            <group><field name="export_sales_orders" nolabel="1"/> </group>
+                            <group></group>
+                        </group>
+                        <group col="4">
+                            <group><strong><h5>Contracts</h5></strong></group>
+                            <group><field name="contracts" nolabel="1"/> </group>
+                        </group>
+                        <group col="4">
+                            <group><strong><h5>Quotes</h5></strong></group>
+                            <group><field name="quotes" nolabel="1"/> </group>
+                            <group><field name="export_quotes" nolabel="1"/> </group>
+                        </group>
+                        <group col="4">
+                            <group><strong><h5>Products</h5></strong></group>
+                            <group><field name="products" nolabel="1"/> </group>
+                            <group><field name="export_products" nolabel="1"/> </group>
+                        </group>
+                        <group col="4">
+                            <group><strong><h5>Tasks</h5></strong></group>
+                            <group><field name="tasks" nolabel="1"/> </group>
+                        </group>
+                        <group col="4">
+                            <group><strong><h5>Events</h5></strong></group>
+                            <group><field name="calendars" nolabel="1"/> </group>
+                        </group>
+                        <group col="4">
+                            <group><strong><h5>Opportunities</h5></strong></group>
+                            <group><field name="opportunities" nolabel="1"/> </group>
+                            <group><field name="export_opportunities" nolabel="1"/> </group>
+                        </group>
+                        <group col="4">
+                            <group><strong><h5>Leads</h5></strong></group>
+                            <group><field name="leads" nolabel="1"/> </group>
+                            <group><field name="export_leads" nolabel="1"/> </group>
+                        </group>
+                        <group col="3">
+                            <group>
+                                <field name="custom_sync" string="Custom Date Range"/>
+                            </group>
+                            <group>
+                                <field name="from_date" attrs="{'invisible':[('custom_sync','=',False)]}"/>
+                            </group>
+                            <group>
+                                <field name="to_date" attrs="{'invisible':[('custom_sync','=',False)]}"/>
+                            </group>
+                            <group>
+                                <span class="text-success">Dates are for importing data.</span>
+                            </group>
+                        </group>
+                        <group col="3">
+                            <group>
+                                <field name="auto_sync" string="Auto Scheduler"/>
+                            </group>
+                            <group>
+                                <field name="interval_number" attrs="{'invisible':[('auto_sync','=',False)]}"/>
+                            </group>
+                            <group>
+                                <field name="interval_unit" attrs="{'invisible':[('auto_sync','=',False)]}"/>
+                            </group>
+                            <group>
+                                <span class="text-success">Import and Export last day data.</span>
+                            </group>
+                        </group>
+                        <group>
+                            <button name="execute_operation" icon="" type="object" string="Execute" class="oe_highlight"/>
+                        </group>
+                        <notebook colspan="3">
+                            <page string="Connector History details" autofocus="autofocus">
+                                <group>
+                                    <field name="history_line" mode="tree">
+                                        <tree string="Sales Order Lines" class="my_class" create="false" delete="true" limit="15">
+                                            <field name="sync_date" width="100"/>
+                                            <field name="no_of_orders_sync" width="130"/>
+                                            <field name="no_of_products_sync" width="100"/>
+                                            <field name="no_of_customers_sync" width="100"/>
+                                            <field name="no_of_opportunities_sync" width="130"/>
+                                            <field name="no_of_leads_sync" width="100"/>
+                                            <field name="no_of_tasks_sync" width="100"/>
+                                            <field name="no_of_calendars_sync" width="100"/>
+                                            <field name="no_of_quotes_sync" width="100"/>
+                                            <field name="no_of_contracts_sync" width="100"/>
+                                            <field name="sync_nature" width="100"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="salesforce_tree_view">
+            <field name="name">salesforce.tree</field>
+            <field name="model">salesforce.connector</field>
+            <field name="arch" type="xml">
+                <tree string="salesforce Users" create="false" edit="false">
+                    <field name="field_name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="salesforce_action">
+            <field name="name">Salesforce Connector</field>
+            <field name="res_model">salesforce.connector</field>
+            <field name="view_mode">form,tree</field>
+            <field name="res_id" ref="salesforce_connector.my_record_01"/>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem id="main_salesforce_menu" parent="sale.sale_menu_root" name="Contracts" action="sale_contract_action" sequence="5"/>
+
+        <menuitem id="salesforce_root" web_icon="salesforce_connector,static/description/icon.png" name="Salesforce Connector"/>
+
+        <menuitem id="salesforce_connector" parent="salesforce_root" name="Salesforce Operations" action="salesforce_action"/>
+
+    </data>
+</odoo>

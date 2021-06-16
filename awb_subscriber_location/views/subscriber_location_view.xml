@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="subscriber_location_form" model="ir.ui.view">
+            <field name="name">subscriber.location.form</field>
+            <field name="model">subscriber.location</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Location">
+                    <sheet>
+                        <div class="oe_title">
+                            <span class="o_form_label oe_edit_only">Location Name</span>
+                            <h1>
+                                <field name="name" string="Name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="company_id"/>
+                                <field name="location_id"/>
+                                <field name="location_type" widget="radio" options="{'horizontal': true}"/>
+                                <field name="active"/>
+                            </group>
+
+                            <group>
+                                <field name="analytic_account_id" groups="account.group_account_manager"/>
+                                <field name="cluster_head"/>
+                                <field name="billing_day" readonly="1"/>
+                                <field name="posting_day" readonly="1"/>
+                                <field name="cutoff_day" readonly="1"/>
+                                <field name="billing_due_day" readonly="1"/>
+                            </group>
+                            
+                        </group>
+                        <notebook>
+                            <page name="child_locations" string="Child Locations">
+                                <field name="location_ids" widget="many2many">
+                                    <tree>
+                                        <field name="name" string="Name"/>
+                                        <field name="analytic_account_id" groups="account.group_account_manager"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Projects" groups="project.group_project_manager">
+                                <field name="project_ids" readonly="1" groups="project.group_project_manager"/>
+                            </page>
+                            <page string="Other Informations">
+                                <group>
+                                    <field name="date_started"/>
+                                    <field name="category" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="description"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+               </form>
+            </field>
+        </record>
+
+        <record id="subscriber_location_subscription_form" model="ir.ui.view">
+            <field name="name">subscriber.location.subscription.form</field>
+            <field name="model">subscriber.location</field>
+            <field name="inherit_id" ref="awb_subscriber_location.subscriber_location_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('sale_subscription.group_sale_subscription_view') ])]" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='billing_due_day']" position="after">
+                   <field name="subscription_count"/>
+                </xpath>
+                <xpath expr="//page[@name='child_locations']" position="after">
+                    <page string="Subscriptions" groups="sale_subscription.group_sale_subscription_view">
+                        <field name="subscription_ids" readonly="1"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="subscriber_location_manager_form" model="ir.ui.view">
+            <field name="name">subscriber.location.form</field>
+            <field name="model">subscriber.location</field>
+            <field name="inherit_id" ref="awb_subscriber_location.subscriber_location_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('sales_team.group_sale_manager') ])]" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="billing_day" position="attributes">
+                   <attribute name="readonly">0</attribute>
+                </field>
+                <field name="posting_day" position="attributes">
+                   <attribute name="readonly">0</attribute>
+                </field>
+                <field name="cutoff_day" position="attributes">
+                   <attribute name="readonly">0</attribute>
+                </field>
+                <field name="billing_due_day" position="attributes">
+                   <attribute name="readonly">0</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="subscriber_location_tree" model= "ir.ui.view">
+            <field name= "name">subscriber.location.tree</field>
+            <field name= "model">subscriber.location</field>
+            <field name="type">tree</field>
+            <field name= "arch" type= "xml">
+                <tree string="Location" >
+                    <field name="name" string="Name"/>
+                    <field name="location_type" string="Type"/>
+                    <field name="analytic_account_id" groups="account.group_account_manager"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- accounting -->
+        <record id="action_subscriber_location" model="ir.actions.act_window">
+            <field name="name">Locations</field>
+            <field name="res_model">subscriber.location</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="subscriber_location_tree"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a Location
+              </p><p>
+                Create location for subscriber.
+              </p>
+            </field>
+        </record>
+
+         <!-- accounting -->
+        <menuitem 
+            name="Segmentation"
+            id="menu_segmentation"
+            parent="account.menu_finance_configuration" 
+            groups="account.group_account_manager"
+            sequence="10"/>
+
+        <menuitem
+            name="Location"
+            action="action_subscriber_location"
+            id="menu_subscriber_location"
+            parent="menu_segmentation" sequence="10"/>
+
+        
+
+
+        <!-- sale -->
+        <record id="action_subscriber_location_sale" model="ir.actions.act_window">
+            <field name="name">Locations</field>
+            <field name="res_model">subscriber.location</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="subscriber_location_tree"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a Location
+              </p><p>
+                Create location for subscriber.
+              </p>
+            </field>
+        </record>
+
+        <!-- sale -->
+        <menuitem 
+            name="Segmentation"
+            id="menu_segmentation_sale"
+            parent="sale.menu_sale_config" sequence="20"/>
+
+        <menuitem
+            name="Location"
+            action="action_subscriber_location_sale"
+            id="menu_subscriber_location_sale"
+            parent="menu_segmentation_sale" 
+            groups="sales_team.group_sale_manager"
+            sequence="10"/>
+        
+        <!-- project -->
+        <record id="action_subscriber_location_project" model="ir.actions.act_window">
+            <field name="name">Locations</field>
+            <field name="res_model">subscriber.location</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="subscriber_location_tree"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a Location
+              </p><p>
+                Create location for subscriber.
+              </p>
+            </field>
+        </record>
+
+        <!-- project -->
+        <menuitem 
+            name="Segmentation"
+            id="menu_segmentation_project"
+            parent="project.menu_project_config" 
+            groups="project.group_project_manager"
+            sequence="20"/>
+
+        <menuitem
+            name="Location"
+            action="action_subscriber_location_project"
+            id="menu_subscriber_location_project"
+            parent="menu_segmentation_project" sequence="10"/>
+
+    </data>
+</odoo>

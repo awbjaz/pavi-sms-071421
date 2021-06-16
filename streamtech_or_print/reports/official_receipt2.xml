@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_official_receipt">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="detail" t-value="doc.get_details()"/>
+                <div class="page mt32" style="font-size: 3mm;">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style="background-color: #aa0000; min-width: 50mm !important; margin: 0 0 0 35mm; font-size: 2.5mm; text-align: right;">
+                                    <div>&amp;nbsp; <!-- installation fee --></div>
+                                    <div>&amp;nbsp; <!-- subscription fee --></div>
+                                    <div>&amp;nbsp; <!-- deposit --></div>
+                                    <div>&amp;nbsp; <!-- extension tv --></div>
+                                    <div>&amp;nbsp; <!-- modem --></div>
+
+                                    <div>&amp;nbsp;</div>
+                                    <div>&amp;nbsp;</div>
+
+                                    <div t-esc="'{0:,.2f}'.format(detail['total_sales'])"></div>
+                                    <div t-esc="'{0:,.2f}'.format(detail['vat'])"></div>
+                                    <div t-esc="'{0:,.2f}'.format(detail['untaxed_amount'])"></div>
+                                    <div t-esc="'{0:,.2f}'.format(detail['tax_withholding'])"></div>
+                                    <div t-esc="'{0:,.2f}'.format(detail['vat'])"></div>
+                                    <div t-esc="'{0:,.2f}'.format(detail['total_amount'])"></div>
+                                    <div t-field="doc.payment_date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'></div>
+                                </td>
+
+                                <td>
+                                    <div style="margin: 25mm 0 0 0; font-size: 3.5mm;">
+                                        <div style="margin-left: 80mm;">
+                                            <span t-field="doc.payment_date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'></span>
+                                            <span>&amp;nbsp;</span>
+                                        </div>
+                                        <div style="margin: 5mm 0 0 27mm;">
+                                            <span>&amp;nbsp;</span>
+                                            <span t-field="doc.partner_id.name"></span>
+                                        </div>
+                                        <div style="margin: 5mm 0 0 20mm;">
+                                            <span>&amp;nbsp;</span>
+                                            <span t-field="doc.partner_id.street"></span>
+                                            <span t-field="doc.partner_id.street2"></span>
+                                            <span t-field="doc.partner_id.city"></span>
+                                            <span t-field="doc.partner_id.state_id.name"></span>
+                                        </div>
+                                        <div style="margin: 5mm 0 0 40mm;">
+                                            <span>&amp;nbsp;</span>
+                                            <div style="display: inline;">
+                                                <span t-field="doc.partner_id.industry_id.name"></span>
+                                            </div>
+                                            <div style="display: inline; position: fixed; right: 10mm;">
+                                                <span t-field="doc.partner_id.vat"></span>
+                                            </div>
+                                        </div>
+                                        <div style="margin: 5mm 0 0 20mm; height: 10mm;">
+                                            <div>
+                                                <span>&amp;nbsp;</span>
+                                                <span t-esc="doc.amount_to_text(doc.amount, doc.currency_id)"></span>
+                                            </div>
+                                            <div style="position: fixed; right: 10mm; top: 70mm;">
+                                                <span t-field="doc.amount" t-field-options='{"widget": False}'></span>
+                                            </div>
+                                        </div>
+                                        <div style="margin: 5mm 0 0 27mm;">
+                                            <span>&amp;nbsp;</span>
+                                            <span t-field="doc.communication"></span>
+                                        </div>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

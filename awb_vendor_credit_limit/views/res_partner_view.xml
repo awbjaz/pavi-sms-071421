@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+        <record id="view_partner_form_vendorcreditlimit_ext" model="ir.ui.view">
+            <field name="name">view.partner.form.vendorcreditlimit.ext</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='property_supplier_payment_term_id']" position="after">
+                    <field name="check_limit" groups="purchase.group_purchase_manager"/>
+                    <field name="debit" attrs="{'invisible': [('check_limit', '=', False)]}" groups="purchase.group_purchase_manager"/>
+                    <field name="debit_limit" attrs="{'invisible': [('check_limit', '=', False)]}"  groups="purchase.group_purchase_manager"/>
+                    <field name="notification_type" widget="radio" attrs="{'invisible': [('check_limit', '=', False)]}" groups="purchase.group_purchase_manager"/>
+                    <field name="notification_message"  attrs="{'invisible': [('check_limit', '=', False)]}" groups="purchase.group_purchase_manager"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

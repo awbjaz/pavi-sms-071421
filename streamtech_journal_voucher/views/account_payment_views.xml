@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+      <record id="journal_voucher_view_account_payment_form_ext" model="ir.ui.view">
+        <field name="name">account.payment.form.inherit</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='communication']" position="after">
+            <field name="prepared_by" attrs="{'invisible': [('partner_type', '!=', 'supplier')]}"/>
+            <field name="entered_by" attrs="{'invisible': [('partner_type', '!=', 'supplier')]}"/>
+            <field name="posted_by" attrs="{'invisible': [('partner_type', '!=', 'supplier')]}"/>
+            <field name="audited_by" attrs="{'invisible': [('partner_type', '!=', 'supplier')]}"/>
+            <field name="approved_by" attrs="{'invisible': [('partner_type', '!=', 'supplier')]}"/>
+          </xpath>
+        </field>
+      </record>
+    </data>
+</odoo>

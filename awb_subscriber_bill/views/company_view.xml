@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_company_form_ext" model="ir.ui.view">
+        <field name="name">view.company.form.ext</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Others">
+                    <group>
+                        <group>
+                            <field name="zone_code"/>
+                        </group>
+                    </group>
+                    <group col="6">
+                        <group colspan="2">
+                            <div>
+                                <label for="soa_log" string="SOA Logo:" style="font-weight: bold;"/>
+                                <field name="soa_logo" widget="image" class="oe_avatar"/>
+                            </div>
+                        </group>
+
+                        <group cols="4">
+                        </group>
+                        
+                    </group>
+                </page>
+                <page string="Company Code">
+                    <group>
+                        <field name="company_code">
+                            <tree editable="top">
+                                <field name="name"/>
+                                <field name="count"/>
+                                <field name="is_active"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+
+</odoo>

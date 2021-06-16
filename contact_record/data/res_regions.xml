@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+        <record id="res_region_010000000" model="res.region">
+            <field name="name">Region I (Ilocos Region)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_020000000" model="res.region">
+            <field name="name">Region II (Cagayan Valley)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_030000000" model="res.region">
+            <field name="name">Region III (Central Luzon)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_040000000" model="res.region">
+            <field name="name">Region IV-A (CALABARZON)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_170000000" model="res.region">
+            <field name="name">MIMAROPA Region</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_050000000" model="res.region">
+            <field name="name">Region V (Bicol Region)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_060000000" model="res.region">
+            <field name="name">Region VI (Western Visayas)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_070000000" model="res.region">
+            <field name="name">Region VII (Central Visayas)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_080000000" model="res.region">
+            <field name="name">Region VIII (Eastern Visayas)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_090000000" model="res.region">
+            <field name="name">Region IX (Zamboanga Peninsula)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_100000000" model="res.region">
+            <field name="name">Region X (Northern Mindanao)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_110000000" model="res.region">
+            <field name="name">Region XI (Davao Region)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_120000000" model="res.region">
+            <field name="name">Region XII (SOCCSKSARGEN)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_130000000" model="res.region">
+            <field name="name">National Capital Region (NCR)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_140000000" model="res.region">
+            <field name="name">Cordillera Administrative Region (CAR)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_150000000" model="res.region">
+            <field name="name">Autonomous Region In Muslim Mindanao (ARMM)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+        <record id="res_region_160000000" model="res.region">
+            <field name="name">Region XIII (Caraga)</field>
+            <field name="country_id" ref="base.ph"/>    
+        </record>
+        
+</odoo>

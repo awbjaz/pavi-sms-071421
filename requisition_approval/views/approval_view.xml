@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="awb_approval_request_form" model="ir.ui.view">
+        <field name="name">awb.approval.request.form</field>
+        <field name="model">approval.request</field>
+        <field name="inherit_id" ref="approvals.approval_request_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='request_details']/field[@name='reference']" position="after">
+                <field name="application" attrs="{'invisible':[('has_application','!=','required')], 'required': [('has_application','==','required')], 'readonly': [('request_status','not in',('new', 'pending'))]}" widget="radio" options="{'horizontal': true}"/>
+                <field name="account_analytic_id" attrs="{'invisible':[('has_analytic_account','==','no')], 'required': [('has_analytic_account','==','required')], 'readonly': [('request_status','not in',('new', 'pending'))]}"/>
+                <field name="has_application" invisible="1"/>
+                <field name="has_products" invisible="1"/>
+                <field name="has_analytic_account" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" attrs="{'readonly': [('request_status','not in',('new'))]}"/>
+            </xpath>
+
+            <xpath expr="//notebook/page[@name='approvers']" position="after">
+                <page string="Products" name="products" attrs="{'invisible':[('has_products','==','no')]}">
+                    <field name="product_line_ids" string="Products" attrs="{'readonly': [('request_status','not in',('new', 'pending'))]}">
+                        <tree editable="bottom">
+                        <field name="product_id"/>
+                        <field name="product_description"/>
+                        <field name="quantity"/>
+                        <field name="product_uom_category_id" invisible="1"/>
+                        <field name="uom_id"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    
+    <record id="awb_approval_request_tree" model="ir.ui.view">
+        <field name="name">awb.approval.request.tree</field>
+        <field name="model">approval.request</field>
+        <field name="inherit_id" ref="approvals.approval_request_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='request_status']" position="after">
+               <field name="company_id" readonly="1" options="{'no_create': True}" groups="base.group_multi_company" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="awb_approval_category_form" model="ir.ui.view">
+        <field name="name">awb.approval.category.form</field>
+        <field name="model">approval.category</field>
+        <field name="inherit_id" ref="approvals.approval_category_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='description']" position="before">
+                <field name="prefix"/>
+            </xpath>
+            <xpath expr="//field[@name='has_location']" position="after">
+                <field name="has_products" string="Products" widget="radio" options="{'horizontal': true}"/>
+                <field name="has_application" string="Application" widget="radio" options="{'horizontal': true}"/>
+                <field name="application_type" attrs="{'invisible': [('has_application', '!=', 'default')]}"/>
+                <field name="has_analytic_account" string="Analytic Account" widget="radio" options="{'horizontal': true}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

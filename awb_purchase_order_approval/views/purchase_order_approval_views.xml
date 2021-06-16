@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="approval_purchase_order_tree" model="ir.ui.view">
+      <field name="name">purchase.order.approval.tree</field>
+      <field name="model">purchase.order.approval</field>
+      <field name="arch" type="xml">
+          <tree string="Purchase Order Approval">
+              <field name="name"/>
+              <field name="approval_type" />
+          </tree>
+      </field>
+  </record>
+
+  <record id="approval_purchase_order_form" model="ir.ui.view">
+      <field name="name">purchase.order.approval.form</field>
+      <field name="model">purchase.order.approval</field>
+      <field name="arch" type="xml">
+          <form string="Purchase Order Approval Rule">
+              <sheet>
+                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                  <h1>
+                    <label for="name" string="Amount: "/>
+                      <field name="name" class="oe_inline"/>
+                  </h1>
+                  <group>
+                      <group>
+                          <field name="approval_type" widget="radio"/>
+                          <field name="active" invisible="1"/>
+                          <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                      </group>
+                      <group>
+                          <field name="min_amount" />
+                          <field name="max_amount"/>
+                      </group>
+                  </group>
+
+                   <group>
+                        <field name="approver_ids">
+                            <tree editable="bottom">
+                                <field name="sequence"/>
+                                <field name="approval_condition" required="1"/>
+                                <field name="approved_by" widget="many2many_tags" options="{'no_create_edit': True}"/>
+                            </tree>
+                        </field>
+                  </group>
+              </sheet>
+          </form>
+      </field>
+  </record>
+
+  <menuitem
+            id="menu_approval_in_config_purchase" name="Approval"
+            parent="purchase.menu_purchase_config" sequence="20"/>
+
+  <record id="approval_purchase_order_action" model="ir.actions.act_window">
+      <field name="name">Purchase Order Approval</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">purchase.order.approval</field>
+      <field name="view_mode">tree,form</field>
+  </record>
+
+  <menuitem 
+            id="menu_approval_in_config_purchase_form" name="Purchase Order Approval"
+            action="approval_purchase_order_action"
+            parent="menu_approval_in_config_purchase" sequence="10"/>
+
+ 
+</odoo>

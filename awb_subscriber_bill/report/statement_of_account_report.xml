@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="report_subscriber_statement_of_account">
+            <t t-name="report_document">
+                <div class="page">
+                    <link rel="stylesheet" type="text/scss" href="/awb_subscriber_bill/static/src/css/soa.css"/>
+                    <div>
+                        <div class="float-left" style="padding-top: 22px; margin-left: -15px;">
+                             <img t-if="doc.company_id.soa_logo" t-att-src="image_data_uri(doc.company_id.soa_logo)" alt="Logo" style="max-height: 130px;"/>
+                        </div>
+                        <!-- <div style="padding-top: 40px;">
+                        </div> -->
+                        <div class="float-right" style="text-align: right; line-height: 95%; padding-top: 60px; word-wrap: break-word; width: 400px; margin-right: -15px;">           
+                            <span style="font-weight:900; font-size:20px;" t-field="doc.company_id.name"/> 
+                            <br/> 
+                            <span class="font-address">  
+                                <span t-field="doc.company_id.street"/>,  
+                                <span t-field="doc.company_id.street2"/><br/> 
+                                <span t-field="doc.company_id.city"/>,  <span t-field="doc.company_id.state_id"/>  
+                                <span t-field="doc.company_id.zip"/> </span>
+                            <br/> 
+                            <span class="font-address"> Hotlines: (02) 8808-2323 | 0919-057-8888 </span>
+                            <br/>
+                            <div class="font-address"> VAT Reg. TIN: <span t-field="doc.company_id.vat"/> </div>
+                            
+                        </div>
+                       
+                    </div>
+                   
+                   
+                    <div class="row" id="statement_of_account_body">
+                        <table style="width: 100%">
+                        <tr>
+                            <td><br/></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100%"><h4 style="text-align: center; font-weight:900; font-size:22px">STATEMENT OF ACCOUNT</h4></td>
+                        </tr>
+                        </table>
+                    </div>
+                    <div class="row" id="statement_of_account_body_1">
+                        <table style="border: 2px solid black; width:100%;">
+                            <tr style="border: 2px solid black; height:15px;">
+                                <td rowspan="4" style="border: 2px solid black;text-align: left; width:40%; font-size: 14px; padding: 5px;">                   
+                                    <div style="margin-left: 10px; line-height: 110%;">
+                                    <strong><span style="font-size: 20px;" t-field="doc.partner_id.name"/></strong> <br/>
+                                    <span t-field="doc.partner_id.street"/> <br/>
+                                    <span t-field="doc.partner_id.street2"/> <br/>
+                                    <span t-field="doc.partner_id.city_id"/> <span t-field="doc.partner_id.state_id"/> <span t-field="doc.partner_id.zip"/>
+                                    <span t-field="doc.partner_id.country_id"/>
+                                    </div>
+                                </td>
+                                <th style="border: 2px solid black; text-align: center;width:30%">
+                                    <span>Account Number</span>
+                                </th>
+                                <th style="border: 2px solid black; text-align: center; width:30%">
+                                    <span>ATM Ref. Number</span>
+                                </th>
+                            </tr>
+                            <tr style="height:15px;">
+                                <!-- account -->
+                                <t t-set="acc_num" t-value="doc.partner_id.customer_number"/>
+<!-- 
+                                <t t-foreach="doc.invoice_line_ids" t-as="line">
+                                    <t t-if="line.subscription_id">
+                                        <t t-set="acc_num" t-value="line.subscription_id.account_identification"/> 
+                                    </t>
+                                </t>
+-->
+                                <td style="border: 2px solid black;text-align: center; font-size: 12px; padding: 2px;">
+                                    <t t-esc="acc_num"/>
+                                    <!-- <span>xxxxxx</span> -->
+                                </td>
+                                <td style="border: 2px solid black;text-align: center; font-size: 12px; padding: 2px;">
+                                    <span t-esc="doc.atm_ref"/>
+                                </td>
+                            </tr>
+                            <tr style="height:15px;">
+                                <th style="border: 2px solid black;text-align: center;">
+                                    <span>Bill Number</span>
+                                </th>
+                                <th style="border: 2px solid black;text-align: center;">
+                                    <span>Billing Period</span>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="border: 2px solid black;text-align: center; font-size: 12px; padding: 2px;">
+                                    <span t-field="doc.name"/>
+                                </td>
+                                <td style="border: 2px solid black;text-align: center; font-size:12px; padding: 2px;">
+                                    <span t-field="doc.start_date"/> - <span t-field="doc.end_date"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br/>
+                    <div class="row" id="statement_of_account_body_2">
+                        <table width="100%">
+                            <tr>
+                                <th style="width:25%; border: 2px solid black; text-align: center;">
+                                    <span>Minimum Due</span>
+                                </th>
+                                <th style="width:25%; border: 2px solid black; text-align: center;">
+                                    <span>Total Amount</span>
+                                </th>
+                                <th style="width:25%; border: 2px solid black; text-align: center;">
+                                    <span>Due Date</span>
+                                </th>
+                                <th style="width:25%; border: 2px solid black; text-align: center;">
+                                    <span>Plan</span>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="width:25%; border: 2px solid black; text-align: center; font-size: 12px; padding: 2px;">
+                                     <t t-if="doc.total_statement_balance &gt;= 0">
+                                        <span t-field="doc.total_statement_balance"/>
+                                    </t>
+                                    <t t-else="">
+                                       $ 0.00
+                                    </t>
+                                </td>
+                                <td style="width:25%; border: 2px solid black; text-align: center; font-size: 12px; padding: 2px;">
+                                    <span t-field="doc.total_statement_balance"/>
+                                </td>
+                                <td style="width:25%; border: 2px solid black; text-align: center; font-size: 12px; padding: 2px;">
+                                    <span t-field="doc.invoice_date_due"/>
+                                </td>
+                                <td style="width:25%; border: 2px solid black; text-align: center; font-size: 12px; padding: 2px;">
+                                    <span t-field="doc.invoice_line_ids[0].product_id.name"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br/>
+
+                    <div class="row" id="statement_of_account_body_3">
+                        <table width="100%" style="font-size:14px">
+                            
+                            <tr>
+                                <th style="width:40%;">PREVIOUS CHARGES:</th>
+                                <td style="width:20%;"/>
+                                <td style="width:10%;"/>
+                                <td style="width:20%;"/>
+                                
+                                <!-- <td rowspan="5" class="rotate"> -->
+                                <!-- <td rowspan="10" style="white-space: nowrap; -webkit-transform: rotate(-90deg); position: absolute; top: 0; left: 0;">
+                                    NOT VALID AS RECEIPT
+                                </td> -->
+                            </tr>
+                            <tr>
+                                <t t-set="prev_bill_tot" t-value="0"/>
+                                <t t-foreach="doc.statement_line_ids" t-as="line">
+                                    <t t-if="line.statement_type == 'prev_bill'">
+                                        <t t-set="prev_bill_tot" t-value="prev_bill_tot+line.amount"/> 
+                                    </t>
+                                </t>
+                                <td>Previous Bill Balance</td>
+                                <td style="text-align:right;"> <t t-esc="'{0:,.2f}'.format(prev_bill_tot)"/></td>
+                                <td colspan="2"/>
+                            </tr>
+                            <tr>
+                                <t t-set="payment_tot" t-value="0"/>
+                                <t t-foreach="doc.statement_line_ids" t-as="line">
+                                    <t t-if="line.statement_type == 'payment'">
+                                        <t t-set="payment_tot" t-value="payment_tot+line.amount"/> 
+                                    </t>
+                                </t>
+                                <td>Payment Received</td>
+                                <td style="text-align:right;"><t t-esc="'{0:,.2f}'.format(payment_tot)"/></td>
+                                <td colspan="2"/>
+                            </tr>
+                            <tr>
+                                <t t-set="adjust_tot" t-value="0"/>
+                                <t t-foreach="doc.statement_line_ids" t-as="line">
+                                    <t t-if="line.statement_type == 'adjust'">
+                                        <t t-set="adjust_tot" t-value="adjust_tot+line.amount"/> 
+                                    </t>
+                                </t>
+                                <td>Add adjustment</td>
+                                <td style="text-align:right;"><t t-esc="'{0:,.2f}'.format(adjust_tot)"/></td>
+                                <td colspan="2"/>
+                            </tr>
+                            <tr>
+                                <td>Balance from Previous Charges</td>
+                                <td style="border-top: 2px solid black;"/>
+                                <td colspan="1"/>
+                                <td style="text-align:right;">
+                                    <span t-field="doc.total_prev_charges"/>
+                                    <!-- <span t-field="doc.total_statement_balance" t-esc-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/> -->
+                                </td>
+                                      
+                            </tr>
+                            <tr style="padding-top: 15px;">
+                                <th>CURRENT CHARGES:</th>
+                                <td/>
+                                <td colspan="3"/>
+                            </tr>
+                            <tr>
+                                <t t-set="subs_tot" t-value="0"/>
+                                <t t-foreach="doc.statement_line_ids" t-as="line">
+                                    <t t-if="line.statement_type == 'subs_fee'">
+                                        <t t-set="subs_tot" t-value="subs_tot+line.amount"/> 
+                                    </t>
+                                </t>
+                                <td>Monthly Subscription Fee</td>
+                                <td style="text-align:right;">
+                                    <t t-esc="'{0:,.2f}'.format(subs_tot)"/>
+                                </td>
+                                <td colspan="2"/>
+                            </tr>
+                            <tr>
+                                <td>Device Fee</td>
+                                <t t-set="device_tot" t-value="0"/>
+                                <t t-foreach="doc.statement_line_ids" t-as="line">
+                                    <t t-if="line.statement_type == 'device_fee'">
+                                        <t t-set="device_tot" t-value="device_tot+line.amount"/> 
+                                    </t>
+                                </t>
+                                <td style="text-align:right;">
+                                    <t t-esc="'{0:,.2f}'.format(device_tot)"/>
+                                </td>
+                                <td colspan="2"/>
+                            </tr>
+                            <tr>
+                                <td>Others</td>
+                                <t t-set="other_tot" t-value="0"/>
+                                <t t-foreach="doc.statement_line_ids" t-as="line">
+                                    <t t-if="line.statement_type == 'other'">
+                                        <t t-set="other_tot" t-value="other_tot+line.amount"/> 
+                                    </t>
+                                </t>
+                                <td style="text-align:right;">
+                                    <t t-esc="'{0:,.2f}'.format(other_tot)"/>
+                                </td>
+                                <td colspan="2"/>
+                            </tr>
+                            <tr>                                                         
+                                <td>VAT</td>
+                                   
+                                <td style="text-align:right;">                     
+                                    <t t-esc="'{0:,.2f}'.format(doc.total_vat)"/>
+                                </td>             
+                                <td colspan="2"/>
+                                <td rowspan="12">
+                                    <td style="width:10%; -webkit-transform: rotate(-90deg); position: absolute;">
+                                    <span style="float:left; color: grey; font-size: 20px; white-space: nowrap;">NOT VALID AS RECEIPT</span>
+                                    </td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Total Current Charges</td>
+                                <td style="border-top: 2px solid black;"/>
+                                <td colspan="1"/>
+                                <td style="text-align:right;">
+                                    <span t-field="doc.amount_total"/>
+                                    <!-- <span t-field="doc.total_statement_balance" t-esc-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/> -->
+                                </td>
+                                      
+                            </tr>
+                            <tr>
+                                <td colspan="4"/>
+                            </tr>
+                            <tr style="padding-top: 15px;">
+                                <th>TOTAL AMOUNT DUE:</th>
+                                <td colspan="2"/>
+                                <td style="text-align:right;"><span t-field="doc.total_statement_balance"/></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <br/>
+                    <div class="row" id="statement_of_account_body_4">
+                        <table width="100%">
+                            <tr>
+                                <th style="border: 1px solid black; text-align: left;">
+                                    <h3 style="font-weight:900; font-size:22px" class="pl-10">IMPORTANT REMINDERS</h3>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; text-align: left;">
+                                    <p class="pl-10" style="font-size: 12px;">
+                                        Thank you very much for settling your Streamtech monthly bill on time. We acknowledge your timely update, and would like you to know that this helps us at Streamtech to constantly provide you with quality internet service for your home. Please be reminded that any payments made on or after <span t-field="doc.posting_date"/> will be reflected on your next billing statement. Should there be any billing discrepancies in your statement of account, kindly coordinate with our Billing Department within 15 days from statement date, or this statement of account would be considered accurate.
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br/>
+                    <div class="text-center" id="statement_of_account_body_5">
+                        <p style="border-top: 2px dotted black;">
+                            Please attach this billing stub when making payments
+                        </p>
+                    </div>
+                    <table style="width :100%">
+                            <tr style="width :100%">
+                                <td style="width:22%;">
+                                    <strong><span>Account Number:</span></strong>
+                                </td>
+                                <td style="width:28%;">
+                                    <t t-esc="acc_num"/>
+                                </td>
+                                <td style="width:24%;">
+                                   <strong><span>Due Date:</span></strong>
+                                </td>
+                                <td style="width:26%; text-align:right">
+                                    <span t-field="doc.invoice_date_due"/>
+                                </td>
+                            </tr>
+                            <tr style="width :100%">
+                                <td style="width:20%; line-height: 95%;" colspan="2">
+                                    <strong><span>Name:</span></strong>
+                                    <span style="font-size:13px;" t-if="doc.partner_id.company_type=='person'">
+                                        <t t-esc="doc.partner_id.first_name"/>
+                                        <t t-if="doc.partner_id.middle_name" t-esc="doc.partner_id.middle_name[:1] + '.'"/>
+                                        <t t-esc="doc.partner_id.last_name"/>
+                                    </span>
+                                    <span style="font-size:13px;" t-else="doc.partner_id.is_company">
+                                        <t t-esc="doc.partner_id.name"/>
+                                    </span>
+                                </td>
+                                <td style="width:24%;">
+                                   <strong><span>Total Amount Due:</span></strong>
+                                </td>
+                                <td style="width:26%; text-align:right">
+                                    <span t-field="doc.total_statement_balance"/>
+                                </td>
+                            </tr>
+                            <tr style="width :100%">
+                                <td style="width:50%;" colspan="2" rowspan="2">
+                                    
+                                </td>
+                                
+                                <td style="width:24%;">
+                                   <strong><span>ATM Ref. Number:</span></strong>
+                                </td>
+                                <td style="width:26%; text-align:right">
+                                    <span t-esc="doc.atm_ref"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:24%;">
+                                    <strong><span>Contact Number:</span></strong>
+                                </td>
+                                <td style="width:26%; text-align:right">
+                                    <span t-field="doc.partner_id.phone"/>
+                                </td>
+                            </tr>
+                            <!-- <tr style="width:100%">
+                                <td colspan="2">
+                                    <img t-att-src="'data:image/png;base64,' + doc.action_generate_barcode(doc.atm_ref)" style="width:300px;height:100px;" />
+                                </td>
+                                <td colspan="2">
+                                    <img src="/awb_subscriber_bill/static/src/img/stream_qr_code.png" style="width:100px" />
+                                </td>
+                            </tr> -->
+                        </table>
+                        <table style="width :100%">
+                            <tr>
+                                <td style="width:50%">
+                                    <img t-att-src="'data:image/png;base64,' + doc.action_generate_barcode(doc.atm_ref)" style="width:300px;height:100px;" />
+                                </td>
+                                <td style="width:50%">
+                                    <img src="/awb_subscriber_bill/static/src/img/stream_qr_code.png" style="width:100px; margin-left: 20px;" />
+                                </td>
+                            </tr>
+                        </table>
+                    <br/>
+                    <div class="text-center" id="statement_of_account_body_7">
+                        <p style="border-top: 2px dotted black;">
+                        </p>
+                    </div>
+                    <div class="row" id="statement_of_account_body_8">
+                        <table width="100%" style="font-size: 14px">
+                            <tr>
+                                <td style="width:20%;">
+                                    <strong><span>ATM Ref. Number:</span></strong>
+                                </td>
+                                <td style="width:35%;">
+                                    <span t-esc="doc.atm_ref"/>
+                                </td>
+                                <td style="width:20%;">
+                                    <strong><span>Due Date:</span></strong>
+                                </td>
+                                <td style="width:25%;">
+                                    <span t-field="doc.invoice_date_due"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:20%;">
+                                    <strong><span>Customer Name:</span></strong>
+                                </td>
+                                <td colspan="3">
+                                    <span t-field="doc.partner_id.name"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br/>
+                    <div class="row" id="statement_of_account_body_9">
+                        <table width="100%" style="font-size: 14px">
+                            <tr>
+                                <td style="width:20%; text-align:left;">
+                                    <span>Received by:</span>
+                                </td>
+                                <td style="width:34%; border-bottom: 2px solid black;text-align:center; line-height: 95%;">
+                                    <span t-field="doc.partner_id.name"/>
+                                </td>
+                                <td style="width:5%;">
+                                </td>
+                                <td style="width:30%; border-bottom: 2px solid black;text-align:center;">
+                                </td>
+                                <td style="width:8%;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                </td>
+                                
+                                <td style="text-align:center;">
+                                    <span>
+                                        Signature over Printed Name
+                                    </span>
+                                </td>
+                                <td colspan="1">
+                                </td>
+                                
+                                <td style="text-align:center;">
+                                    <span>
+                                        Date and Time
+                                    </span>
+                                </td>
+
+                                <td colspan="1">
+                                </td>
+                            </tr>
+                            
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_invoice">
+            <t t-foreach="docs" t-as="doc">
+                <t t-if="doc.type == 'out_invoice'">
+                    <t t-call="web.basic_layout">
+                        <t t-call="awb_subscriber_bill.report_subscriber_statement_of_account"/>
+                    </t>
+                </t>
+                <t t-else="">
+                    <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-call="account.report_invoice_document" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+
+        <template id="report_soa_print">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="awb_subscriber_bill.report_subscriber_statement_of_account"/>
+                </t>
+            </t>
+        </template>
+
+        <report
+            id="action_report_subscriber_statement_of_account"
+            model="account.move"
+            string="(SOA) - Statement of Account"
+            report_type="qweb-pdf"
+            name="awb_subscriber_bill.report_soa_print"
+            file="awb_subscriber_bill.report_soa_print"
+        />
+        <report
+            id="account.account_invoices"
+            model="account.move"
+            string="Invoices"
+            report_type="qweb-pdf"
+            name="awb_subscriber_bill.report_invoice"
+            file="awb_subscriber_bill.report_invoice"
+            attachment="(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')"
+            print_report_name="(object._get_report_base_filename())"
+            groups="account.group_account_invoice"
+        />
+
+        <record id="subscriber_soa_template_paper" model="report.paperformat">
+            <field name="header_line" eval="False"/>
+            <field name="default" eval="False"/>
+            <field name="print_page_width">210</field>
+            <field name="dpi">90</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_right">25.4</field>
+            <field name="margin_left">25.4</field>
+            <field name="print_page_height">297</field>
+            <field name="page_height" eval="False"/>
+            <field name="header_spacing">15</field>
+            <field name="name">Subscriber SOA Template A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="format">A4</field>
+        </record>
+
+        <record id="action_report_subscriber_statement_of_account" model="ir.actions.report">
+            <field name="paperformat_id" ref="awb_subscriber_bill.subscriber_soa_template_paper" />
+        </record>
+
+        <record id="account.account_invoices" model="ir.actions.report">
+            <field name="paperformat_id" ref="awb_subscriber_bill.subscriber_soa_template_paper" />
+        </record>
+    </data>
+</odoo>

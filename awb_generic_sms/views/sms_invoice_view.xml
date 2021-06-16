@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_move_form" model="ir.ui.view">
+        <field name="name">view.account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="(//page[@name='other_info']/group[@id='other_tab_group'])[last()]" position="after">
+                <group string="SMS Sending" name="sms_sending_group">
+                    <field name="receive_sms" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

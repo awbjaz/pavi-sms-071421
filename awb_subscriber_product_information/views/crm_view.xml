@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_crm_stage_form" model="ir.ui.view">
+        <field name="name">view.crm.stage.info.form</field>
+        <field name="model">crm.stage</field>
+        <field name="inherit_id" ref="crm.crm_stage_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='is_won']" position="after">
+                <field name="is_auto_quotation"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_crm_lead_form" model="ir.ui.view">
+        <field name="name">view.crm.lead.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='country_id']" position="before">
+                <!-- <field name="region_id" placeholder="Region"/> -->
+            </xpath>
+            <xpath expr="//group[1]/group[2]/field[@name='partner_id']" position="before">
+                <field name="company_type" readonly="1"/>
+                <field name="account_identification" readonly="1"/>
+                <field name="customer_number" readonly="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='team_id']" position="after">
+                <field name="zone" required="1" attrs="{'invisbile': [('company_type', '=', 'company')]}"/>
+            </xpath>
+
+            <xpath expr="//group[@name='lead_priority']" position="after">
+                <group name="plan_package" string="Plan + Package Details">
+                    <field name ="contract_start_date" required="1"/>
+                    <field name ="contract_end_date" required="1"/>
+                    <field name ="contract_term"/>
+                    <field name ="plan"/>
+                    <field name ="promo"/>
+                    <field name ="device" widget="many2many_tags"/>
+                    <field name ="internet_speed"/>
+                    <field name ="cable"/>
+                    <field name ="no_tv"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//page[@name='lead']" position="after">
+                <page name="line_items" string="Items">
+                    <field name="product_lines">
+                        <tree editable="bottom">
+                            <field name="product_id"/>
+                            <field name="quantity"/>
+                            <field name="unit_price"/>
+                            <field name="total_price"/>
+                        </tree>
+                    </field>
+                </page>
+                <page name="other_info" string="Other Information">
+                    <group>
+                        <group string="Documents">
+                            <field name="has_id"/>
+                            <field name="has_proof_bill"/>
+                            <field name="has_lease_contract"/>
+                            <field name="others"/>
+                        </group>
+                        <group string="Payment">
+                            <field name="initial_payment"/>
+                            <field name="or_number"/>
+                            <field name="payment_date"/>
+                            <field name="billing_type"/>
+                        </group>
+                    </group>
+                    
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

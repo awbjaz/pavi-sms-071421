@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_approval_purchase_order_manager,approval purchase order manager,model_purchase_order_approval,purchase.group_purchase_manager,1,1,1,1
+access_approval_purchase_order_user,approval purchase order user,model_purchase_order_approval,purchase.group_purchase_user,1,0,0,0
+access_approval_line_purchase_order_user,approval line purchase order user,model_purchase_order_approval_line,purchase.group_purchase_user,1,0,1,0
+access_approval_line_purchase_order_manager,approval line purchase order manager,model_purchase_order_approval_line,purchase.group_purchase_manager,1,1,1,1
+access_approver_line_purchase_order_user,approver line purchase order user,model_purchase_order_approver_line,purchase.group_purchase_user,1,0,1,0
+access_approver_line_purchase_order_manager,approver line purchase order manager,model_purchase_order_approver_line,purchase.group_purchase_manager,1,1,1,1

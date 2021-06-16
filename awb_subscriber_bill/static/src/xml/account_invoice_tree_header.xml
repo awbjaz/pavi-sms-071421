@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<templates id="template" xml:space="preserve">
+  <t t-extend="ListView.buttons">
+    <t t-jquery="button.o_list_button_add" t-operation="after">
+      <t t-if="widget.modelName=='account.move'">
+        <button class="btn btn-primary o_list_button_generate" type="button" accesskey="g">Generate</button> 
+      </t>
+    </t> 
+  </t>
+</templates>

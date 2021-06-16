@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_city_extended_tree" model="ir.ui.view">
+        <field name="model">res.city</field>
+        <field name="inherit_id" ref="base_address_city.view_city_tree"/>
+    </record>
+
+    <record id="res_city_tree" model="ir.ui.view">
+        <field name="name">res.city.tree</field>
+        <field name="model">res.city</field>
+        <field name="arch" type="xml">
+            <tree string="City">
+                <field name="name"/>
+                <field name="state_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_city" model="ir.actions.act_window">
+        <field name="name">City</field>
+        <field name="res_model">res.city</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="res_city_tree"/>
+    </record>
+
+    <menuitem id="city_menu" 
+            name="Cities" 
+            parent="contacts.menu_localisation" 
+            action="action_city" 
+            sequence="0"/>
+
+</odoo>
