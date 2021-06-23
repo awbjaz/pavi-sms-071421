@@ -19,10 +19,14 @@ class SmsRecord(models.Model):
         ('sent','Sent'),
         ('cancel','Cancel'),
         ], string='State', default='draft')
-    account_id = fields.Many2one('sms.api.configuration', 'SMS Gateway')
     template_id = fields.Many2one('awb.sms.template', 'SMS Template')
     template_body = fields.Text('Message', translate=True, help="SMS Template")
     recipient_ids = fields.Many2many('res.partner', string='Recipients')
+
+    location_ids = fields.Many2many(
+        'subscriber.location',
+        string="Location",
+    )
 
     @api.depends('create_date')
     def _compute_sms_name(self):
@@ -30,6 +34,19 @@ class SmsRecord(models.Model):
             rec.name = "SMS %s" % rec.create_date.strftime(
                 "%b %d, %Y - %I:%M %p"
             )
+
+    @api.onchange('location_ids')
+    def _set_users_per_location(self):
+        for rec in self:
+            locations = [location._origin.id for location in rec.location_ids]
+            recipients = self.env['res.partner'].search(
+                [("subscriber_location_id", "in", locations),]
+            )
+            rec.recipient_ids += recipients
+
+    def clear_field_values(self):
+        self.recipient_ids = False
+        self.location_ids = False
 
     def send_now(self):
         # Generic SMS Sending
@@ -46,6 +63,6 @@ class SmsRecord(models.Model):
         self.env['awb.sms.send'].send_now(
             sms_id=self,
             recordset=data_recordset,
-            generic=True,
+            send_type="generic"
         )
         self.state = "sent"
