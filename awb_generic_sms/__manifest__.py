@@ -21,7 +21,7 @@
 
     'category': 'Sms Integration',
 
-    'version': '13.0.1.2.1',
+    'version': '13.0.1.2.2',
 
     'depends': [
         'base',
