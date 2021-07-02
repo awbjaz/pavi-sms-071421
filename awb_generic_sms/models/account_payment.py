@@ -7,6 +7,15 @@ class InheritAccountPayment(models.Model):
     _inherit = "account.payment"
 
     receive_sms = fields.Boolean(string="Active", default=True)
+    customer_id = fields.Char(
+        string="Customer Number for SMS",
+        compute="_compute_customer_number"
+    )
+
+    @api.depends("partner_id")
+    def _compute_customer_number(self):
+        for rec in self:
+            rec.customer_id = rec.partner_id.customer_number
 
     @api.model
     def show_skip_sms(self, records):
