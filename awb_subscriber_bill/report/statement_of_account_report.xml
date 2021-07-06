@@ -274,12 +274,12 @@
                         <table width="100%">
                             <tr>
                                 <th style="border: 1px solid black; text-align: left;">
-                                    <h3 style="font-weight:900; font-size:22px" class="pl-10">IMPORTANT REMINDERS</h3>
+                                    <h3 style="font-weight:900; font-size:22px" class="pl-10 no-pad-btm">IMPORTANT REMINDERS</h3>
                                 </th>
                             </tr>
                             <tr>
                                 <td style="border: 1px solid black; text-align: left;">
-                                    <p class="pl-10" style="font-size: 12px;">
+                                    <p class="pl-10 no-pad-btm" style="font-size: 12px;">
                                         Thank you very much for settling your Streamtech monthly bill on time. We acknowledge your timely update, and would like you to know that this helps us at Streamtech to constantly provide you with quality internet service for your home. Please be reminded that any payments made on or after <span t-field="doc.posting_date"/> will be reflected on your next billing statement. Should there be any billing discrepancies in your statement of account, kindly coordinate with our Billing Department within 15 days from statement date, or this statement of account would be considered accurate.
                                     </p>
                                 </td>
@@ -355,7 +355,7 @@
                                 </td>
                             </tr> -->
                         </table>
-                        <table style="width :100%">
+                        <table style="width :100%" class="sm-pad-btm">
                             <tr>
                                 <td style="width:50%">
                                     <img t-att-src="'data:image/png;base64,' + doc.action_generate_barcode(doc.atm_ref)" style="width:300px;height:100px;" />
@@ -365,9 +365,8 @@
                                 </td>
                             </tr>
                         </table>
-                    <br/>
                     <div class="text-center" id="statement_of_account_body_7">
-                        <p style="border-top: 2px dotted black;">
+                        <p style="border-top: 2px dotted black;" class="sm-pad-btm">
                         </p>
                     </div>
                     <div class="row" id="statement_of_account_body_8">
