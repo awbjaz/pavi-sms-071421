@@ -5,3 +5,12 @@
 .font-address {
   font-size: 14px;
 }
+
+.no-pad-btm {
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+}
+
+.sm-pad-btm {
+	margin-bottom: 4px;
+}
