@@ -40,7 +40,7 @@ class AradialAPIGateway(object):
                 url=self.url,
                 headers=self.headers,
                 data=json.dumps(self.data),
-                auth=HTTPBasicAuth(self.username, self.password))
+                auth=HTTPBasicAuth(self.username, self.password)
             )
         except requests.exceptions.MissingSchema as e:
             raise exceptions.ValidationError(e)
