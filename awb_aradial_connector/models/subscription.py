@@ -35,30 +35,13 @@ class Subscription(models.Model):
             self.data = {
                 'UserID': record.code,
                 'Password': 'password',         # TODO: call password generator
-                'Offer': products,
-                'ServiceType': '',
-                'FirstName': '',
-                'LastName': '',
-                'CustomInfo1': ''
-            }
+                'Offer': products            }
 
             _logger.info("User Details:")
             _logger.info("UserID: %s" % self.data['UserID'])
             _logger.info("Offer: %s" % self.data['Offer'])
 
             self.env['awb.aradial.connector'].create_user(self.data)
-
-# YAN: for testing
-        # self.data = {
-        #     'UserID': 'yan',
-        #     'Password': 'password',         # TODO: call password generator
-        #     'Offer': 'Unlimited'
-        # }
-        # _logger.info("User Details:")
-        # _logger.info("UserID: %s" % self.data['UserID'])
-        # _logger.info("Offer: %s" % self.data['Offer'])
-        # self.env['awb.aradial.connector'].create_user(self.data)
-
 
     def _validate_parameters(
         self,
@@ -68,9 +51,10 @@ class Subscription(models.Model):
     ):
         _logger.info("Validating Subcription")
 
-        if not location:
-            _logger.info("Location is required")
-            return False
+# YAN: commenting out the checking for location - for testing
+#         if not location:
+#             _logger.info("Location is required")
+#             return False
         if not atm_ref:
             _logger.info("atm_ref is required")
             return False
