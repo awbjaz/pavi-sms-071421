@@ -47,6 +47,8 @@ class Subscription(models.Model):
             _logger.info("User Details:")
             _logger.info("UserID: %s" % self.data['UserID'])
             _logger.info("Offer: %s" % self.data['Offer'])
+            _logger.info("First Name: %s" % self.data['FirstName'])
+            _logger.info("Last Name: %s" % self.data['LastName'])
 
             self.env['aradial.connector'].create_user(self.data)
 
