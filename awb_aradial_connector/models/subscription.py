@@ -35,13 +35,14 @@ class Subscription(models.Model):
             self.data = {
                 'UserID': record.code,
                 'Password': 'password',         # TODO: call password generator
-                'Offer': products            }
+                'Offer': products            
+            }
 
             _logger.info("User Details:")
             _logger.info("UserID: %s" % self.data['UserID'])
             _logger.info("Offer: %s" % self.data['Offer'])
 
-            self.env['awb.aradial.connector'].create_user(self.data)
+            self.env['aradial.connector'].create_user(self.data)
 
     def _validate_parameters(
         self,
