@@ -15,7 +15,7 @@ class AradialAPIGateway(object):
     ):
 
         _logger.info("URL [%s]" % url)
-        _logger.info("Token [%s]" % url)
+        _logger.info("Token [%s]" % token)
         _logger.info("data [%s]" % data)
 
         self.url = url
