@@ -35,12 +35,27 @@ class AradialAPIGateway(object):
 
     def create_user(self):
 
+        self.data = {
+            'UserID': 'Yan',
+            'Password': 'password',         # TODO: call password generator
+            'Offer': 'Unlimited',
+            'ServiceType': 'Internet',
+            'FirstName': 'Yan',
+            'LastName': 'Yan',
+            'CustomInfo1': 'VDH'
+        }
+
+        self.headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic QVBJVXNlcjpwYXNzd29yZA=='
+        }
+
+
         try:
             res = requests.post(
                 url=self.url,
                 headers=self.headers,
-                data=json.dumps(self.data, indent=4),
-                auth=HTTPBasicAuth(self.username, self.password)
+                data=json.dumps(self.data)
             )
         except requests.exceptions.MissingSchema as e:
             raise exceptions.ValidationError(e)
