@@ -2,6 +2,9 @@ import json
 import requests
 from odoo import exceptions
 
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class AradialAPIGateway(object):
     def __init__(
@@ -10,12 +13,18 @@ class AradialAPIGateway(object):
         token, 
         data
     ):
+
+        _logger.info("URL [%s]" % url)
+        _logger.info("Token [%s]" % url)
+        _logger.info("data [%s]" % data)
+
         self.url = url
 
         self.headers = {
             'Content-Type': 'application/json',
             'Authorization': token
         }
+        _logger.info("headers [%s]" % self.headers)
 
         self.data = data
 
