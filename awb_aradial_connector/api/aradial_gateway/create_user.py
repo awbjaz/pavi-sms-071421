@@ -26,7 +26,8 @@ class AradialAPIGateway(object):
         self.password = password
 
         self.headers = {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic QVBJVXNlcjpwYXNzd29yZA=='
         }
         _logger.info("headers [%s]" % self.headers)
 
@@ -39,8 +40,7 @@ class AradialAPIGateway(object):
             res = requests.post(
                 url=self.url,
                 headers=self.headers,
-                data=json.dumps(self.data),
-                auth=HTTPBasicAuth(self.username, self.password)
+                data=json.dumps(self.data)
             )
         except requests.exceptions.MissingSchema as e:
             raise exceptions.ValidationError(e)
