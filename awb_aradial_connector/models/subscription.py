@@ -37,7 +37,7 @@ class Subscription(models.Model):
             self.data = {
                 'UserID': record.code,
                 'Password': 'password',         # TODO: call password generator
-                'Offer': 'Unlimited',
+                'Offer': products,
 	      	    'ServiceType': 'Internet',
 	      	    'FirstName': first_name,
  	      	    'LastName': last_name,
