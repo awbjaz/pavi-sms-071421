@@ -46,5 +46,8 @@ class AradialAPIGateway(object):
             raise exceptions.ValidationError(e)
 
         state = "Success" if res.status_code == 201 else "Fail"
+        _logger.info("response [%s]" % res)
+
+
 
         return state
