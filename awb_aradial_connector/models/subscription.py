@@ -20,7 +20,7 @@ class Subscription(models.Model):
             )
         
         is_valid = self._validate_parameters(
-            record.subcriber_location_id,
+            record.subscriber_location_id,
             record.atm_ref,
             record.stage_id.name
         )
