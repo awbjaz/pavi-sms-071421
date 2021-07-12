@@ -31,8 +31,8 @@ class Subscription(models.Model):
 
             for line_id in record.recurring_invoice_line_ids:
                 products += line_id.name
-            first_name = record.partner_id.name.split()[0]
-            last_name = record.partner_id.name.split()[1]
+            first_name = record.partner_id.first_name
+            last_name = record.partner_id.last_name
 
             self.data = {
                 'UserID': record.code,
@@ -50,7 +50,15 @@ class Subscription(models.Model):
             _logger.info("First Name: %s" % self.data['FirstName'])
             _logger.info("Last Name: %s" % self.data['LastName'])
 
-            self.env['aradial.connector'].create_user(self.data)
+            isUserCreationSuccessful = self.env['aradial.connector'].create_user(self.data)
+
+            if isUserCreationSuccessful:
+                self.write({
+                    'stage_id.name': 'In Progress'
+                })
+            else:
+                raise Warning ("User Creation in Aradial: FAILED")
+        })
 
     def _validate_parameters(
         self,

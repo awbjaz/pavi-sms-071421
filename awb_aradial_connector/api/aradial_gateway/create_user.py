@@ -16,11 +16,6 @@ class AradialAPIGateway(object):
         data
     ):
 
-        _logger.info("URL [%s]" % url)
-        _logger.info("data [%s]" % data)
-        _logger.info("username [%s]" % username)
-        _logger.info("password [%s]" % password)
-
         self.url = url
         self.username = username
         self.password = password
@@ -28,7 +23,6 @@ class AradialAPIGateway(object):
         self.headers = {
             'Content-Type': 'application/json'
         }
-        _logger.info("headers [%s]" % self.headers)
 
         self.data = data
 

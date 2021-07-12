@@ -34,4 +34,9 @@ class AWBAradialConnector(models.Model):
         created_user = user.create_user()
 
         _logger.info("User Creation: %s" % created_user)
+
+        if created_user == "Success":
+            return True
+        else:
+            return False
     
