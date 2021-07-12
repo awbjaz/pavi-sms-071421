@@ -57,7 +57,7 @@ class Subscription(models.Model):
 
             if isUserCreationSuccessful:
                 self.record.write({
-                    'stage_id': 2,
+                    'stage_id': self.env['sale_subscription_stage'].search([("name", "=", "In Progress")]).id,
                     'in_progress': True
                 })
             else:
