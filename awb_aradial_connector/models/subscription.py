@@ -57,7 +57,7 @@ class Subscription(models.Model):
 
             if isUserCreationSuccessful:
                 self.record.write({
-                    'stage_id': self.env['sale.subscription.stage'].search([("name", "=", "In Progress")]).id,
+                    'stage_id': 2,
                     'in_progress': True
                 })
             else:
@@ -71,9 +71,10 @@ class Subscription(models.Model):
     ):
         _logger.info("Validating Subcription")
 
-        # if not location:
-        #     _logger.info("Location is required")
-        #     return False
+# YAN: commenting out the checking for location - for testing
+#         if not location:
+#             _logger.info("Location is required")
+#             return False
         if not atm_ref:
             _logger.info("atm_ref is required")
             return False
