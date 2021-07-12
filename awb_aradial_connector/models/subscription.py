@@ -1,4 +1,6 @@
 from odoo import api, fields, models, exceptions, _
+from openerp.exceptions import Warning
+
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -58,7 +60,7 @@ class Subscription(models.Model):
                 })
             else:
             # if isUserCreationSuccessful == False:
-                raise Warning ("User Creation in Aradial: FAILED")
+                raise Warning("User Creation in Aradial: FAILED")
 
     def _validate_parameters(
         self,
