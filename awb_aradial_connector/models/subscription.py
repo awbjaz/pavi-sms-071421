@@ -55,9 +55,9 @@ class Subscription(models.Model):
             isUserCreationSuccessful = self.env['aradial.connector'].create_user(self.data)
 
             if isUserCreationSuccessful:
-                self.write({
-                    'stage_id.name': 'In Progress',
-                    'in_progress': True
+                self.record.write({
+                    'stage_id': 2,
+                    'stage_id.in_progress': True
                 })
             else:
             # if isUserCreationSuccessful == False:
