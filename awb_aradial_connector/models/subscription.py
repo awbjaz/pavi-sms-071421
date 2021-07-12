@@ -58,8 +58,7 @@ class Subscription(models.Model):
             if isUserCreationSuccessful:
                 self.write({
                     'stage_id': 2,
-                    'in_progress': True,
-
+                    'in_progress': True
                 })
             else:
             # if isUserCreationSuccessful == False:
