@@ -20,6 +20,7 @@ class Subscription(models.Model):
             raise exceptions.ValidationError(
                 ("Record is required")
             )
+        self.record = record
         
         is_valid = self._validate_parameters(
             record.subscriber_location_id,
