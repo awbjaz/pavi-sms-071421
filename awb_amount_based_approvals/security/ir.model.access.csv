@@ -1,6 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_approval_rule_manager,approval rule manager,model_approval_rule,approvals.group_approval_manager,1,1,1,1
-access_approval_rule_user,approval rule user,model_approval_rule,approvals.group_approval_user,1,1,1,0
-
 access_approval_rule_line_manager,approval rule line manager,model_approval_rule_line,approvals.group_approval_manager,1,1,1,1
-access_approval_rule_line_user,approval rule line user,model_approval_rule_line,approvals.group_approval_user,1,1,1,0
+
