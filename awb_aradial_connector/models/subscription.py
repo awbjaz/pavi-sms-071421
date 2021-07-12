@@ -52,14 +52,13 @@ class Subscription(models.Model):
 
             isUserCreationSuccessful = self.env['aradial.connector'].create_user(self.data)
 
-            # if isUserCreationSuccessful:
-            #     self.write({
-            #         'stage_id.name': 'In Progress'
-            #     })
-            # else:
-            if isUserCreationSuccessful == False:
+            if isUserCreationSuccessful:
+                self.write({
+                    'stage_id.name': 'In Progress'
+                })
+            else:
+            # if isUserCreationSuccessful == False:
                 raise Warning ("User Creation in Aradial: FAILED")
-        })
 
     def _validate_parameters(
         self,
