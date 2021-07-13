@@ -33,7 +33,7 @@ class Subscription(models.Model):
             products = ""
 
             for line_id in record.recurring_invoice_line_ids:
-                products += line_id.id
+                products += line_id.display_name
             first_name = record.partner_id.first_name
             last_name = record.partner_id.last_name
 
