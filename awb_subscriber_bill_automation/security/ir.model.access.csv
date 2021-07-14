@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_auspost_service_users,delivery.carrier.auspost.service,model_delivery_carrier_auspost_service,,1,0,0,0
+access_auspost_service_manager,delivery.carrier.auspost.service,model_delivery_carrier_auspost_service,stock.group_stock_manager,1,1,1,1
+
+access_auspost_order_users,aupost.order.shipment,model_aupost_order_shipment,,1,0,0,0
+access_auspost_order_manager,aupost.order.shipment,model_aupost_order_shipment,stock.group_stock_manager,1,1,1,1

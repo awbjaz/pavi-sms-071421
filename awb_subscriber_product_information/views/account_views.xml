@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_account_form_ext" model="ir.ui.view">
+    <field name="name">view.account.form.ext</field>
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account.view_move_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='ref']" position="before">
+            <field name="customer_number" attr="{'invisible': [('customer_number', '=', False)]}"/>
+        </xpath>
+    </field>
+  </record>
+</odoo>

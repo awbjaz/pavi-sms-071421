@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="view_crm_lead_form_auto" model="ir.ui.view">
+      <field name="name">view.crm.lead.form</field>
+      <field name="model">crm.lead</field>
+      <field name="inherit_id" ref="awb_subscriber_bill_automation.view_crm_lead_form_auto"/>
+      <field name="arch" type="xml">
+        <xpath expr="//page[@name='other_info']//group" position="after">
+          <group>
+            <group string="Salesforce">
+              <field name="salesforce_id"/>
+              <field name="opportunity_number"/>
+            </group>
+          </group>
+        </xpath>
+          
+        <xpath expr="//field[@name='name']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='partner_id']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='partner_id']" position="replace">
+          <field name="partner_id" readonly="1"></field>
+        </xpath>
+        <xpath expr="//field[@name='planned_revenue']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='probability']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='priority']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='date_deadline']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='tag_ids']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='salesforce_id']" position="attributes">
+          <attribute name="attrs">{'readonly':True }</attribute>
+        </xpath>
+        <xpath expr="//field[@name='opportunity_number']" position="attributes">
+          <attribute name="attrs">{'readonly':True }</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='job_order_status']" position="attributes">
+          <attribute name="attrs">{'readonly':True }</attribute>
+        </xpath>
+        <xpath expr="//field[@name='subscription_status']" position="attributes">
+          <attribute name="attrs">{'readonly':True }</attribute>
+        </xpath>
+        <xpath expr="//field[@name='zone']" position="attributes">
+          <attribute name="attrs">{'readonly':True }</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='contract_start_date']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='contract_end_date']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='contract_term']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='plan']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='promo']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='device']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='internet_speed']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='cable']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='no_tv']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='has_id']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='has_proof_bill']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='has_lease_contract']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='others']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='initial_payment']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='or_number']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='payment_date']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='billing_type']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='product_lines']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='partner_name']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='street']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='city']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='state_id']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='zip']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='country_id']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='website']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+
+        <xpath expr="//page[@name='lead']//field[@name='partner_name']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='street']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='street2']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='city']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='state_id']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='zip']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='country_id']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='contact_name']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='function']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='title']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='lang_id']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='mobile']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='website']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='campaign_id']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='medium_id']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='source_id']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='lead']//field[@name='referred']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+
+      </field>
+  </record>
+
+  <record id="view_crm_lead_form_auto2" model="ir.ui.view" >
+      <field name="name">lead.form.inherit</field>
+      <field name="model">crm.lead</field>
+      <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='sf_type']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/field[@name='partner_id']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='location']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/group[1]/group[not(@name)][6]/field[@name='company_id']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/div[1]/field[@name='email_from']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/field[@name='phone']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+
+<!-- 
+        <xpath expr="//form[1]/sheet[1]/group[1]/group[4]/field[@name='priority']" position="attributes">
+          <attribute name="attrs">{'readonly':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+-->
+        <xpath expr="//field[@name='team_id']" position="attributes">
+            <attribute name="readonly">True</attribute>
+        </xpath>
+
+        <!--
+          Make other email field invisible
+        -->
+        <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/div[1]/field[@name='partner_address_email']" position="attributes">
+          <attribute name="attrs">{'invisible':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+
+        <!--
+          Make other phone field invisible
+        -->
+        <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/field[@name='partner_address_phone']" position="attributes">
+          <attribute name="attrs">{'invisible':[('salesforce_id','!=', False)]}</attribute>
+        </xpath>
+
+      </field>
+  </record>
+
+  <!--
+    NOTE: This is for admin group
+  -->
+  <record id="view_crm_lead_form_auto3" model="ir.ui.view" >
+      <field name="name">lead.form.inherit</field>
+      <field name="model">crm.lead</field>
+      <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+      <field name="groups_id" eval="[(4, ref('base.group_system'))]"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='team_id']" position="attributes">
+            <attribute name="readonly">False</attribute>
+        </xpath>
+      </field>
+  </record>
+</odoo>

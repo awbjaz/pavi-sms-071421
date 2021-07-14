@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- <record model="ir.actions.server" id="action_move_switch_invoice_to_credit_note">
+      <field name="name">Export to Printer Data File</field>
+      <field name="type">ir.actions.server</field>
+      <field name="model_id" ref="account.model_account_move"/>
+      <field name="state">code</field>
+      <field name="code">
+          if records:
+              # entries = env['account.move'].search([('id', '=', '2')])
+              action = records.export_printer_data_file_from_many(records.ids)
+      </field>
+  </record> -->
+
+   <record id="action_account_export_date_file" model="ir.actions.server">
+      <field name="name">Export to Printer Data File</field>
+      <field name="model_id" ref="account.model_account_move"/>
+      <field name="binding_model_id" ref="account.model_account_move"/>
+      <field name="binding_view_types">list</field>
+      <field name="binding_type">report</field>
+      <field name="state">code</field>
+      <field name="code">
+          if records:
+              # entries = env['account.move'].search([('id', '=', '2')])
+              action = records.export_printer_data_file_from_many(records.ids)
+      </field>
+  </record>
+
+<!--
+  <record id="view_account_form_ext_printer" model="ir.ui.view">
+      <field name="name">view.account.form.ext.printer</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_move_form"/>
+      <field name="arch" type="xml">
+         <button name="button_draft" position="after">
+          <button name="export_printer_data_file" string="Export to Printer Data File" type="object"/>
+        </button>
+      </field>
+  </record>
+-->
+</odoo>
+  

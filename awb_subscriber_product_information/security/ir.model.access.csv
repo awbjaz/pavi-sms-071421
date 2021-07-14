@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_partner_service_provider,partner.service.provider,model_partner_service_provider,sales_team.group_sale_salesman,1,0,0,0
+access_sale_partner_service_provider_manager,partner.service.provider manager,model_partner_service_provider,sales_team.group_sale_manager,1,1,1,1
+access_sale_expiration_notice,sale.expiration_notice,model_sale_expiration_notice,sales_team.group_sale_salesman,1,0,0,0
+access_sale_expiration_notice_manager,sale.expiration_notice manager,model_sale_expiration_notice,sales_team.group_sale_manager,1,1,1,1
+access_sale_partner_classification,sale.partner_classification,model_partner_classification,sales_team.group_sale_salesman,1,0,0,0
+access_sale_partner_classification_manager,sale.partner_classification manager,model_partner_classification,sales_team.group_sale_manager,1,1,1,1
+access_crm_lead_product,crm.lead.product,model_crm_lead_productline,sales_team.group_sale_salesman,1,1,1,1

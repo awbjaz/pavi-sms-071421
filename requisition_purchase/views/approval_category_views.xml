@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pr_approval_category_form" model="ir.ui.view">
+        <field name="name">pr.approval.category.form</field>
+        <field name="model">approval.category</field>
+        <field name="inherit_id" ref="approvals.approval_category_view_form"/>
+        <field name="arch" type="xml">
+        
+            <xpath expr="//field[@name='application_type']" position="after">
+                <field name="has_warehouse" string="Warehouse" widget="radio" options="{'horizontal': true}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

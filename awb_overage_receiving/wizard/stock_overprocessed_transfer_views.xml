@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_overprocessed_transfer_overage_receiving_ext" model="ir.ui.view">
+        <field name="name">stock.overprocessed.transfer.view.form.ext</field>
+        <field name="model">stock.overprocessed.transfer</field>
+        <field name="inherit_id" ref="stock.view_overprocessed_transfer"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/p[1]" position="replace">
+                <p>
+                    The received quantities are greater than the demand quantity.
+                </p>
+            </xpath>
+            <xpath expr="//form/p[2]" position="replace"/>
+            <xpath expr="//form/footer" position="replace">
+                <footer>
+                </footer>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

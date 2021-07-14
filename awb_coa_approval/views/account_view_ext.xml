@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_account_form_coa_approval_ext">
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="name">account.account.form.ext</field>
+            <field name="model">account.account</field>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet" position="before">
+                    <header>
+
+                        <button name="action_reset_to_draft"
+                                type="object"
+                                attrs="{'invisible': [('state', 'in', ['draft','approved'])]}"
+                                string="Reset to Draft"/>
+
+                        <button name="action_for_approval"
+                                type="object"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('state', 'not in', ['draft','approved'])]}"
+                                string="For Approval"/>
+
+                        <button name="action_approve"
+                                type="object"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('state', '!=', 'for_approval')]}"
+                                string="Approve"/>
+
+                        <button name="action_deprecated"
+                                type="object"
+                                attrs="{'invisible': [('state', '!=', 'approved')]}"
+                                string="Deprecated"/>
+                                
+                        <field name="state" widget="statusbar" statusbar_visible="draft,for_approval,approved,deprecated"/> 
+                    </header>
+                </xpath>
+                <xpath expr="//field[@name='deprecated']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.menu" id="account.account_account_menu">
+            <field name="groups_id" eval="[(6,0,[ref('account.group_account_manager'),
+                ref('account.group_account_user')])]"/>
+        </record>
+
+        <record model="ir.ui.view" id="view_account_list_coa_approval_ext">
+            <field name="name">account.account.list.ext</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_list"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_type_id']" position="after">
+                    <field name="state"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

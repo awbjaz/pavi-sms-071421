@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_crm_lead_extended_form" model="ir.ui.view">
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='country_id']" position="before">
+                <field name="region_id" placeholder="Region"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_crm_lead_extended_filter" model="ir.ui.view">
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='city']" position="after">
+                <field name="region_id" filter_domain="[('region_id.name', 'ilike', self)]"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='city']" position="after">
+                <filter name="group_region" string="Region" context="{'group_by': 'region_id'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_crm_lead_case_extended_filter" model="ir.ui.view">
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_leads_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='city']" position="after">
+                <field name="region_id" filter_domain="[('region_id.name', 'ilike', self)]"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='city']" position="after">
+                <filter name="group_region" string="Region" context="{'group_by': 'region_id'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

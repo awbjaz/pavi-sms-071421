@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_account_change_lock_date_ext">
+            <field name="inherit_id" ref="account_accountant.view_account_change_lock_date"/>
+            <field name="name">account.change.lock.date.form.ext</field>
+            <field name="model">account.change.lock.date</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='period_lock_date']" position="attributes">
+                    <attribute name="string">Lock Date for Non-Accountant</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

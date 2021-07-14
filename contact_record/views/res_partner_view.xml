@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_partner_extended_form" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state_id']" position="attributes">
+                <attribute name="required">True</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='country_id']" position="before">
+                <field name="region_id" required="1" placeholder="Region"/>
+            </xpath>
+            
+            <xpath expr="//field[@name='state_id']" position="attributes">
+                <attribute name="context">{'default_country_id': country_id, 'default_region_id': region_id}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='image_1920']" position="before">
+                <widget name="web_ribbon" 
+                    title="Validated" 
+                    bg_color="bg-success" 
+                    attrs="{'invisible': [('validated', '=', False)]}"/>
+
+                <widget name="web_ribbon" 
+                    title="Accredited" 
+                    bg_color="bg-success" 
+                    attrs="{'invisible': [('accredited', '=', False)]}"/>
+            </xpath>
+
+            <xpath expr="//notebook/page[@name='sales_purchases']/group[@name='container_row_2']/group[@name='sale']" 
+                position="inside">
+                <field name="validated"/>
+            </xpath>
+
+            <xpath expr="//notebook/page[@name='sales_purchases']/group[@name='container_row_2']/group[@name='purchase']" 
+                position="inside">
+                <field name="accredited"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_res_partner_extended_filter" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="region_id" filter_domain="[('region_id.name', 'ilike', self)]"/>
+                <field name="state_id" string="Region" filter_domain="[('state_id.name', 'ilike', self)]"/>
+                <field name="city_id" filter_domain="[('city_id.name', 'ilike', self)]"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='group_country']" position="after">
+                <filter name="group_region" string="Region" context="{'group_by': 'region_id'}"/>
+                <filter name="group_province" string="Province" context="{'group_by': 'state_id'}"/> 
+                <filter name="group_city" string="City" context="{'group_by': 'city_id'}"/> 
+            </xpath>
+        </field>
+    </record>
+</odoo>

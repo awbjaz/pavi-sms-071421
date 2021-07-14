@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Account Move -->
+    <record id="report_account_move_journal_voucher" model="ir.actions.report">
+        <field name="name">Journal Voucher</field>
+        <field name="model">account.move</field>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list,form</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">streamtech_journal_voucher.report_journal_voucher</field>
+        <field name="report_file">streamtech_journal_voucher.report_journal_voucher</field>
+        <field name="print_report_name">'Journal Voucher - %s' % object.name</field>
+    </record>
+    <record id="report_account_move_account_payable_voucher" model="ir.actions.report">
+        <field name="name">Accounts Payable Voucher</field>
+        <field name="model">account.move</field>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list,form</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">streamtech_journal_voucher.report_accounts_payable_voucher</field>
+        <field name="report_file">streamtech_journal_voucher.report_accounts_payable_voucher</field>
+        <field name="print_report_name">'Accounts Payable Voucher - %s' % object.name</field>
+    </record>
+    <!-- Account Payment -->
+    <record id="report_account_payment_payment_voucher" model="ir.actions.report">
+        <field name="name">Payment Voucher</field>
+        <field name="model">account.payment</field>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list,form</field>
+        <field name="binding_model_id" ref="account.model_account_payment"/>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">streamtech_journal_voucher.report_payment_voucher</field>
+        <field name="report_file">streamtech_journal_voucher.report_payment_voucher</field>
+        <field name="print_report_name">'Payment Voucher - %s' % object.name</field>
+    </record>
+</odoo>

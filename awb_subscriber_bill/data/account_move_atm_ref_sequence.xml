@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>  
+    <data noupdate="1">
+        <record id="atm_reference_sequence" model="ir.sequence">
+            <field name="name">ATM Reference</field>
+            <field name="code">account_move.atm.reference.seq.code</field>
+            <field name="implementation">no_gap</field>
+            <field name="use_date_range">True</field>
+            <field name="padding">6</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

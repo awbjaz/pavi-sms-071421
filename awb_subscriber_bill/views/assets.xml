@@ -1,0 +1,9 @@
+<odoo>
+  <data>
+    <template id="assets_backend" name="subscriber_bill_actions" inherit_id="web.assets_backend">
+      <xpath expr="." position="inside">
+         <script src="/awb_subscriber_bill/static/src/js/action_call.js" type="text/javascript"/>
+      </xpath>
+    </template>
+  </data>
+</odoo>

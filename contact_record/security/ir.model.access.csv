@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_res_region,access_res_region,model_res_region,base.group_partner_manager,1,1,1,1
+access_res_region_group_all,access_res_region_group_all,model_res_region,,1,0,0,0
+

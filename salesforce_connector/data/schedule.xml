@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="import_scheduler" model="ir.cron">
+        <field name="name">Import Scheduler</field>
+        <field name="model_id" ref="model_salesforce_connector" />
+        <field name="state">code</field>
+        <field name="active">0</field>
+        <field name="code">model.auto_import()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+    </record>
+
+    <record id="export_scheduler" model="ir.cron">
+        <field name="name">Export Scheduler</field>
+        <field name="model_id" ref="model_salesforce_connector" />
+        <field name="state">code</field>
+        <field name="active">0</field>
+        <field name="code">model.auto_export()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+    </record>
+
+</odoo>

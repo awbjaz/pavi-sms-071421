@@ -1,0 +1,172 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="view_cost_allocation_line_form">
+        <field name="name">view.cost.allocation.line.form</field>
+        <field name="model">cost.allocation.line</field>
+        <field name="arch" type="xml">
+            <form string="Cost Allocation Line">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="account_id"/>
+                            <field name="analytic_account_id"/>
+                            <field name="partner_id"/>
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="tax_ids" widget="many2many_tags" />
+                            <field name="tag_ids" widget="many2many_tags" />
+                        </group>
+                        <group>
+                            <field name="values"/>
+                            <field name="share"/>
+                            <field name="debit"/>
+                            <field name="credit"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_cost_allocation_line_action" model="ir.actions.act_window">
+        <field name="name">Cost Allocation Line</field>
+        <field name="res_model">cost.allocation.line</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- Form -->
+    <record model="ir.ui.view" id="view_cost_allocation_form">
+        <field name="name">view.cost.allocation.form</field>
+        <field name="model">cost.allocation</field>
+        <field name="arch" type="xml">
+            <form string="Cost Allocation">
+                <header>
+                    <!-- Compute -->                            
+                    <button name="action_compute_source_information"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            string="Generate"/>
+                            
+                    <!-- Allocate-->
+                    <button name="action_allocate_amount_and_share"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', 'not in', ['draft'])]}"
+                            string="Allocate"/>
+                            
+                    <!-- Post -->
+                    <button name="action_posting_journal_entries"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', '!=', 'allocated')]}"
+                            string="Post"/>
+
+                    <button name="action_reset_to_draft"
+                            type="object"
+                            attrs="{'invisible': [('state', 'not in', ['allocated', 'posted'])]}"
+                            string="Reset to Draft"/>
+                            
+                    <field name="state" widget="statusbar" statusbar_visible="draft,allocated,posted"/> 
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <span class="o_form_label oe_edit_only">Name</span>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="application" required="1"/>
+                            <field name="start_date" widget="daterange" options="{'related_end_date': 'end_date'}"/>
+                            <field name="end_date" widget="daterange" options="{'related_start_date': 'start_date'}"/>
+                            <field name="factor" 
+                                attrs="{'readonly': [('application', '!=', 'others')], 'required': [('application', '=', 'others')]}"/>
+                            <field name="basis"/>
+                            <field name="product_category_id" 
+                                widget="many2many_tags" 
+                                attrs="{'invisible': [('application', 'in', ['others','salaries'])], 'required': [('application', 'not in', ['others','salaries'])]}"/>
+                        </group>
+                        <group>
+                            <field name="accounting_date"/>
+                            <field name="posted_date" attrs="{'invisible': [('state', '!=', 'posted')]}"/>
+                            <field name="journal_id" domain="[('type', '=', 'general')]" widget="selection"/>
+                            <field name="debit_account_id" />
+                            <field name="debit_analytic_account_id" widget="many2many_tags"/>
+                            <field name="credit_account_id" />
+                            <field name="credit_other_analytic_account_id" 
+                                widget="many2many_tags" 
+                                attrs="{'invisible': [('application', '!=', 'others')]}"/>
+                            <field name="credit_analytic_account_id"
+                                attrs="{'invisible': [('application', '=', 'others')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Journal Items" id="cost_allocation_page_line">
+                            <field name="cost_allocation_line" attrs="{'readonly': [('application', '!=', 'others')]}">
+                                <tree editable="bottom">
+                                    <field name="date" width="0.5"/>
+                                    <field name="account_id"/>
+                                    <field name="analytic_account_id"/>
+                                    <field name="partner_id" optional="hide"/>
+                                    <field name="name" optional="show"/>
+                                    <field name="tax_ids" widget="many2many_tags" width="0.5" optional="hide"/>
+                                    <field name="tag_ids" widget="many2many_tags" width="0.5" optional="hide"
+                                        string="Tax Grids"
+                                        options="{'no_open': True, 'no_create': True}"
+                                        domain="[('applicability', '=', 'taxes')]"/>
+                                    <field name="values" width="0.5"/>
+                                    <field name="share" width="0.5" widget="percentage"/>
+                                    <field name="debit" width="0.5" sum="Total Debit"/>
+                                    <field name="credit" width="0.5" sum="Total Credit"/>
+                                    <field name="line_type" width="0.5" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Other Information">
+                            <field name="description" placeholder="Description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- List -->
+    <record model='ir.ui.view' id='view_cost_allocation_tree'>
+        <field name='name'>cost.allocation.tree</field>
+        <field name='model'>cost.allocation</field>
+        <field name='arch' type='xml'>
+            <tree string='Cost allocation'>
+                <field name='name'/>
+                <field name='application'/>
+                <field name='start_date'/>
+                <field name='end_date'/>
+                <field name='state'/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- action -->
+    <record id="view_cost_allocation_action" model="ir.actions.act_window">
+        <field name="name">Cost Allocation</field>
+        <field name="res_model">cost.allocation</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- MenuItem -->
+    <menuitem id="cost_allocation_menu" 
+        name="Cost Allocation"
+        parent="account.menu_finance_entries_management"
+        sequence="200"
+        action="view_cost_allocation_action"
+        groups="account.group_account_user"/>
+  </data>
+</odoo>

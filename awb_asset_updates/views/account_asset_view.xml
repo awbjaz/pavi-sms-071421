@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <!-- Assets -->
+
+    <record model="ir.ui.view" id="view_account_asset_form_asset_updates_ext">
+        <field name="name">account.asset.form.ext</field>
+        <field name="model">account.asset</field>
+        <field name="inherit_id" ref="account_asset.view_account_asset_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group[1]/field[@name='active']" position="after">
+                <group>
+                    <field name="asset_number" readonly="1" force_save="1"/>
+                </group>
+                <group>
+                    <field name="asset_category_id"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

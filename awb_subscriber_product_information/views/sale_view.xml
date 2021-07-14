@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sale_order_form" model="ir.ui.view">
+        <field name="name">view.sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="account_identification" readonly="1"/>
+                <field name="outside_sourced" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+     <record id="service_provider_form" model="ir.ui.view">
+        <field name="name">partner.service.provider.form</field>
+        <field name="model">partner.service.provider</field>
+        <field name="arch" type="xml">
+          <form string="Service Provider">
+            <sheet>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" placeholder="Name"/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="description"/>
+                </group>
+            </sheet>
+          </form>
+        </field>
+    </record>
+
+    <record id="service_provider_tree" model="ir.ui.view">
+        <field name="name">partner.service.provider.tree</field>
+        <field name="model">partner.service.provider</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Service Provider" >
+                <field name="name" string="Name"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- sale -->
+    <record id="action_service_provider_sale" model="ir.actions.act_window">
+        <field name="name">Service Provider</field>
+        <field name="res_model">partner.service.provider</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="service_provider_tree"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a Service Provider
+          </p><p>
+            Create Service Provider for subscriber.
+          </p>
+        </field>
+    </record>
+
+    <record id="sale_expiration_notice_tree" model="ir.ui.view">
+        <field name="name">sale.expiration_notice.tree</field>
+        <field name="model">sale.expiration_notice</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Expiration Notice" >
+                <field name="name" string="Name"/>
+                <field name="number_of_days"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_expiration_notice_sale" model="ir.actions.act_window">
+        <field name="name">Expiration Notice</field>
+        <field name="res_model">sale.expiration_notice</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="sale_expiration_notice_tree"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create an Expiration Notice
+          </p><p>
+            Create Expiration Notice for subscriber.
+          </p>
+        </field>
+    </record>
+
+    <record id="zone_subtype_form" model="ir.ui.view">
+        <field name="name">zone.subtype.form</field>
+        <field name="model">zone.subtype</field>
+        <field name="arch" type="xml">
+          <form string="Zone">
+            <sheet>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" placeholder="Name"/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="zone_type"/>
+                    <field name="description"/>
+                </group>
+            </sheet>
+          </form>
+        </field>
+    </record>
+
+    <record id="zone_subtype_tree" model="ir.ui.view">
+        <field name="name">zone.subtype.tree</field>
+        <field name="model">zone.subtype</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Zone" >
+                <field name="name" string="Name"/>
+                <field name="zone_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_zone_subtype_sale" model="ir.actions.act_window">
+        <field name="name">Zone</field>
+        <field name="res_model">zone.subtype</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="zone_subtype_tree"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a Zone Subtype
+          </p><p>
+            Create Zone Subtypes
+          </p>
+        </field>
+    </record>
+
+    <record id="partner_classification_form" model="ir.ui.view">
+        <field name="name">partner.classification.form</field>
+        <field name="model">partner.classification</field>
+        <field name="arch" type="xml">
+          <form string="Zone">
+            <sheet>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" placeholder="Name"/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="account_classification"/>
+                    <field name="description"/>
+                </group>
+            </sheet>
+          </form>
+        </field>
+    </record>
+
+    <record id="partner_classification_tree" model="ir.ui.view">
+        <field name="name">partner.classification.tree</field>
+        <field name="model">partner.classification</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Zone" >
+                <field name="name" string="Name"/>
+                <field name="account_classification"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_partner_classification_sale" model="ir.actions.act_window">
+        <field name="name">Classification</field>
+        <field name="res_model">partner.classification</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="partner_classification_tree"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a Partner Classification
+          </p><p>
+            Create Partner Classification
+          </p>
+        </field>
+    </record>
+
+    <!-- sale -->
+    <menuitem 
+        name="Services"
+        id="menu_services_sale"
+        parent="sale.menu_sale_config" sequence="30"/>
+
+    <menuitem
+        name="Service Provider"
+        action="action_service_provider_sale"
+        id="menu_service_provider_sale"
+        parent="menu_services_sale" 
+        groups="sales_team.group_sale_manager"
+        sequence="10"/>
+
+    <menuitem
+        name="Expiration Notice"
+        action="action_expiration_notice_sale"
+        id="menu_expiration_notice_sale"
+        parent="menu_services_sale" 
+        groups="sales_team.group_sale_manager"
+        sequence="20"/>
+
+    <!-- brand remove -->
+    <!-- <menuitem
+        name="Brand"
+        action="awb_subscriber_location.action_project_brand"
+        id="menu_service_brand_sale"
+        parent="menu_services_sale" 
+        groups="sales_team.group_sale_manager"
+        sequence="30"/> -->
+
+    <menuitem
+        name="Zones"
+        action="action_zone_subtype_sale"
+        id="menu_zone_subtype_sale"
+        parent="menu_services_sale" 
+        groups="sales_team.group_sale_manager"
+        sequence="40"/>
+
+    <menuitem
+        name="Classification"
+        action="action_partner_classification_sale"
+        id="menu_partner_classification_sale"
+        parent="menu_services_sale" 
+        groups="sales_team.group_sale_manager"
+        sequence="40"/>
+
+    
+</odoo>

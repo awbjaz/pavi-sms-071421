@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<record id="sms_template_textsoa" model="awb.sms.template">
+            <field name="name">TEXT SOA</field>
+            <field name="template_body">
+Good day! 
+
+This is your bill for the period of ${start_date} to  ${end_date}
+Acct Name: ${partner_id} 
+Acct No: ${customer_number}:
+Current Charges: ${amount_total} 
+Arrears: ${total_prev_charges}
+Total Amount Due: ${total_statement_balance}
+ATM Ref No: ${atm_ref}
+Bill No: ${name} 
+Due Date: ${invoice_date_due}
+
+You may now pay your bill via this link,  
+https://www.streamtech.com.ph/bills-payment/.
+Please use your ATM  Ref number and bill number. Thank you!
+            </field>
+        </record>
+        <record id="sms_template_paymentreminder" model="awb.sms.template">
+            <field name="name">Payment Reminder</field>
+            <field name="template_body">
+Hi ${partner_id} ${customer_number},
+Your balance amounting to ${total_statement_balance} is due on ${invoice_date_due}. You may now pay your bill via this link, https://www.streamtech.com.ph/bills-payment/. Please use your ATM Ref No. ${atm_ref} and Bill No. ${name}. Thank you!
+            </field>
+        </record>
+    	<record id="sms_template_paymentnotif" model="awb.sms.template">
+            <field name="name">Payment Notification Notice</field>
+            <field name="template_body">
+Your payment dated ${payment_date} of ${amount} via ${x_studio_payment_channel} for Account Name. ${partner_id} has been received by ${company_id}. Thank you!
+            </field>
+        </record>
+    	<record id="sms_template_disconnection" model="awb.sms.template">
+            <field name="name">Disconnection Notice</field>
+            <field name="template_body">
+Hi ${partner_id}. Your account number – ${customer_number}; has an outstanding bill of ${total_statement_balance}. Please settle your bill online or in any of our accredited payment centers to avoid service interruption. Please disregard this message if payment has been made. Thank you.
+            </field>
+        </record>
+    	<record id="sms_template_actualdisconnection" model="awb.sms.template">
+            <field name="name">Actual Disconnection Notice</field>
+            <field name="template_body">
+Hi ${partner_id} ${customer_number}. We've temporarily disconnected your account due to non-payment. Kindly settle your balance amounting to ${total_statement_balance} immediately via online or in any of our accredited payment centers to restore your service. Thank you!            
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_province_tree" model="ir.ui.view">
+        <field name="name">res.province.tree</field>
+        <field name="model">res.country.state</field>
+        <field name="inherit_id" ref="base.view_country_state_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attr name="string">Province</attr>
+            </xpath>
+            <xpath expr="//field[@name='country_id']" position="after">
+                <field name="region_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.menu" id="contacts.menu_country_state_partner">
+        <field name="name">Provinces</field>
+    </record>
+
+    <record id="base.action_country_state" model="ir.actions.act_window">
+        <field name="name">Provinces</field>
+    </record>
+</odoo>
