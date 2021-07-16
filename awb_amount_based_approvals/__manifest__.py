@@ -29,5 +29,7 @@
         'security/ir.model.access.csv',
         'views/approval_rules_view.xml',
         'views/approval_types_view.xml',
+        'views/approval_request_view.xml',
+        'views/hr_department_view.xml',
     ],
 }
