@@ -1,0 +1,21 @@
+<odoo>
+    <record id="view_approval_request_form_inherit" model="ir.ui.view">
+        <field name="name">approval.request.view.form.inherit</field>
+        <field name="model">approval.request</field>
+        <field name="inherit_id" ref="approvals.approval_request_view_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='request_main']/field[@name='category_id']" position="after">
+                <field name="department_id" 
+                       groups="approvals.group_approval_user" 
+                       required="1" 
+                       attrs="{'readonly':[('request_status','!=','new')]}" 
+                       force_save="1"/>
+                <field name="manager_id" 
+                       groups="approvals.group_approval_user" 
+                       required="1" 
+                       attrs="{'readonly':[('request_status','!=','new')]}" 
+                       force_save="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
