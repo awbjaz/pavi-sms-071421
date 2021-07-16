@@ -34,3 +34,8 @@ class ApprovalRuleLine(models.Model):
     approval_condition = fields.Selection([('and', 'AND'), ('or', 'OR')], string='Condition', default='and')
     approved_by = fields.Many2many('res.users', string='Approved By')
     approval_id = fields.Many2one('approval.rule', String="Approval")
+
+class ApprovalType(models.Model):
+    _inherit = 'approval.category'
+
+    rule_ids = fields.Many2many('approval.rule', String='Rules')
