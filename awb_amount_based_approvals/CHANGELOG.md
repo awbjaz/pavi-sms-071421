@@ -11,4 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [13.0.1.1.0] - 2021-07-16
 
-- [ADD] Rules in approval types
+- [ADD] Rules in approval types.
+- [ADD] Field Team Lead and Department in Approval Request form.
+- [ADD] Field Operation Head for Department form.
