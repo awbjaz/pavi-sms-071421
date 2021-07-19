@@ -1,3 +1,6 @@
+# [13.0.1.4.2] - 2021-06-28
+ - [FIX] User Access Issue when non Purchase User creates Purchase Requisition or Purchase Order record
+
 # [13.0.1.4.1] - 2021-06-03
 
 - [IMP] Filter values in Warehouse field based on the selected value in Company field
