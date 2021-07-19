@@ -1,3 +1,7 @@
+## [v13.0.1.7.2] - 2021-07-05
+
+    - [IMP] PDF Alignment and margin
+
 ## [v13.0.1.7.1] - 2021-06-10
 
     - [FIX] Remove atm ref prefix slicer and retain current atm ref

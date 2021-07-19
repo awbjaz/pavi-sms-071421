@@ -8,15 +8,7 @@
       <field name="model_id" ref="account_accountant.model_account_move" />
       <field name="state">code</field>
       <field name="code">
-skip_records = records.filtered(lambda rec: rec.receive_sms == False)
-records = records.filtered(
-    lambda record: record.receive_sms == True
-    and record.invoice_origin is not False
-    and record.invoice_origin in env['sale.subscription'].search([]).mapped("code")
-)
-env['awb.sms.send'].send_now(recordset=records, template_name="Actual Disconnection Notice", state="posted")
-if skip_records:
-    model.show_skip_sms(skip_records)
+env['awb.sms.send'].send_now(recordset=records, template_name="Actual Disconnection Notice", state="posted", send_type="on_demand", send_once=True, disconnection_subtype="disconnection-temporary")
       </field>
       <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
     </record>
@@ -27,15 +19,7 @@ if skip_records:
       <field name="model_id" ref="account_accountant.model_account_move" />
       <field name="state">code</field>
       <field name="code">
-skip_records = records.filtered(lambda rec: rec.receive_sms == False)
-records = records.filtered(
-    lambda record: record.receive_sms == True
-    and record.invoice_origin is not False
-    and record.invoice_origin in env['sale.subscription'].search([]).mapped("code")
-)
-env['awb.sms.send'].send_now(recordset=records, template_name="TEXT SOA", state="posted")
-if skip_records:
-    model.show_skip_sms(skip_records)
+env['awb.sms.send'].send_now(recordset=records, template_name="TEXT SOA", state="posted", send_only_to_active=True, send_once=True, send_type="on_demand")
       </field>
       <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
     </record>
@@ -46,15 +30,7 @@ if skip_records:
       <field name="model_id" ref="account_accountant.model_account_move" />
       <field name="state">code</field>
       <field name="code">
-skip_records = records.filtered(lambda rec: rec.receive_sms == False)
-records = records.filtered(
-    lambda record: record.receive_sms == True
-    and record.invoice_origin is not False
-    and record.invoice_origin in env['sale.subscription'].search([]).mapped("code")
-)
-env['awb.sms.send'].send_now(recordset=records, template_name="Disconnection Notice", state="posted")
-if skip_records:
-    model.show_skip_sms(skip_records)
+env['awb.sms.send'].send_now(recordset=records, template_name="Disconnection Notice", state="posted", allow_partial_payment=True, send_only_to_active=True, send_once=True, send_type="on_demand")
       </field>
       <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
     </record>
@@ -65,15 +41,7 @@ if skip_records:
       <field name="model_id" ref="account_accountant.model_account_move" />
       <field name="state">code</field>
       <field name="code">
-skip_records = records.filtered(lambda rec: rec.receive_sms == False)
-records = records.filtered(
-    lambda record: record.receive_sms == True
-    and record.invoice_origin is not False
-    and record.invoice_origin in env['sale.subscription'].search([]).mapped("code")
-)
-env['awb.sms.send'].send_now(recordset=records, template_name="Payment Reminder", state="posted")
-if skip_records:
-    model.show_skip_sms(skip_records)
+env['awb.sms.send'].send_now(recordset=records, template_name="Payment Reminder", state="posted", send_type="on_demand", send_only_to_active=True, invoice_payment_state="not_paid", send_once=True, allow_partial_payment=True)
       </field>
       <field name='groups_id' eval="[(4, ref('awb_generic_sms.awb_sms_sender')), (4, ref('awb_generic_sms.awb_sms_central'))]"/>
     </record>
@@ -105,7 +73,7 @@ if skip_records:
         <field name="model_id" ref="model_account_move"></field>
         <field name="type">ir.actions.server</field>
         <field name="state">code</field>
-        <field name="code">model.send_autoinvoice_sms(due_date_criteria=3, template_name="Disconnection Notice", state="posted", allow_partial_payment=True, send_only_to_active=True, limit=1000)</field>
+        <field name="code">model.send_autoinvoice_sms(due_date_criteria=-3, template_name="Disconnection Notice", state="posted", allow_partial_payment=True, send_only_to_active=True, limit=1000)</field>
         <field name="interval_number">10</field>
         <field name="interval_type">minutes</field>
         <field name="numbercall">0</field>
@@ -118,7 +86,7 @@ if skip_records:
         <field name="model_id" ref="model_account_move"></field>
         <field name="type">ir.actions.server</field>
         <field name="state">code</field>
-        <field name="code">model.send_autoinvoice_sms(due_date_criteria=-3, template_name="Payment Reminder", state="posted", invoice_payment_state="not_paid", allow_partial_payment=True, send_only_to_active=True, limit=1000)</field>
+        <field name="code">model.send_autoinvoice_sms(due_date_criteria=3, template_name="Payment Reminder", state="posted", invoice_payment_state="not_paid", allow_partial_payment=True, send_only_to_active=True, limit=1000)</field>
         <field name="interval_number">10</field>
         <field name="interval_type">minutes</field>
         <field name="numbercall">0</field>
