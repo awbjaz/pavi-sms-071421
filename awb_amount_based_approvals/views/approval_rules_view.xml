@@ -25,7 +25,9 @@
                     <group>
                         <group>
                             <field name="category" />
-                            <field name="approval_type" widget="radio" options="{'horizontal': true}"/>
+                            <field name="approval_type" string="Type" widget="radio" options="{'horizontal': true}"/>
+                            <field name="manager_id" />
+                            <field name="operation_head_id" />
                             <field name="department" />
                             <field name="active" invisible="1" />
                         </group>
@@ -52,7 +54,7 @@
         </record>
 
         <record id="approval_rules_action" model="ir.actions.act_window">
-            <field name="name">Approvals Rules</field>
+            <field name="name">Approval Rules</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">approval.rule</field>
             <field name="view_mode">tree,form</field>
