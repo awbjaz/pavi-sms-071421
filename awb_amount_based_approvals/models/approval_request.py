@@ -32,39 +32,41 @@ class ApprovalRequest(models.Model):
         rule_approvers = rule_id.mapped('approver_ids')
 
         category_id = res.mapped('category_id').rule_ids.filtered(lambda x: x.id == rule_id.id)
-        if category_id.manager_id:
-            if manager_id:
-                seq += 1    
-                manager_data = {
-                        'user_id': manager_id,
-                        'status': 'new',
-                        'request_id': res.id,
-                        'sequence': seq ,
+        if manager_id != head_id:
+            if category_id.manager_id:
+                if manager_id:
+                    seq += 1    
+                    manager_data = {
+                            'user_id': manager_id,
+                            'status': 'new',
+                            'request_id': res.id,
+                            'sequence': seq ,
+                        }
+                    data.append(manager_data)
+                else:
+                    raise UserError(_('No User Account Associated on this Manager.'))
+            if category_id.operation_head_id:
+                if head_id:
+                    seq += 1
+                    head_data = {
+                            'user_id': head_id,
+                            'status': 'new',
+                            'request_id': res.id,
+                            'sequence': seq ,
                     }
-                data.append(manager_data)
-            else:
-                raise UserError(_('No User Account Associated on this Manager.'))
-        if category_id.operation_head_id:
-            if head_id:
-                seq += 1
-                head_data = {
-                        'user_id': head_id,
-                        'status': 'new',
-                        'request_id': res.id,
-                        'sequence': seq ,
-                }
-                data.append(head_data)
-            else:
-                raise UserError(_('No User Account Associated on this Operation Head.'))
-        if rule_approvers:
-            for approver in rule_approvers.approved_by:
-                approver_data = {
-                        'user_id': approver.id,
-                        'status': 'new',
-                        'request_id': res.id,
-                }
-                data.append(approver_data)
-                
+                    data.append(head_data)
+                else:
+                    raise UserError(_('No User Account Associated on this Operation Head.'))
+            if rule_approvers:
+                for approver in rule_approvers.approved_by:
+                    approver_data = {
+                            'user_id': approver.id,
+                            'status': 'new',
+                            'request_id': res.id,
+                    }
+                    data.append(approver_data)
+        else:
+            raise UserError(_('Duplicate User found!. Try Again'))
         if len(data) > 0:
             approvers = self.env['approval.approver']
             approvers.create(data)
