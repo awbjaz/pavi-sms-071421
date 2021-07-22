@@ -22,6 +22,13 @@ class Picking(models.Model):
     si_num = fields.Char(string="SI Number")
     dr_num = fields.Char(string="DR Number")
     total_amount = fields.Float(string="Total Amount", compute='_compute_total_amount')
+    is_receipt = fields.Boolean(string="Is Receipt?", compute='_compute_is_receipt')
+
+    @api.depends('picking_type_id.code')
+    def _compute_is_receipt(self):
+        self.is_receipt = False
+        if self.picking_type_id.code == 'incoming':
+            self.is_receipt = True
 
     @api.depends('move_ids_without_package')
     def _compute_total_amount(self):
