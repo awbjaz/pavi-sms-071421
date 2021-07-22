@@ -16,6 +16,9 @@
                        attrs="{'readonly':[('request_status','!=','new')]}" 
                        force_save="1"/>
             </xpath>
+            <xpath expr="//page[@name='approvers']/field[@name='approver_ids']/tree/field[@name='user_id']" position="before">
+                <field name="sequence" string="Sequence"/>
+            </xpath>
         </field>
     </record>
 </odoo>
