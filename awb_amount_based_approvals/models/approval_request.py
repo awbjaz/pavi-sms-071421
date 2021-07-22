@@ -29,7 +29,7 @@ class ApprovalRequest(models.Model):
             ('max_amount', '>=', vals.get('amount')),
         ]
         rule_id = self.env['approval.rule'].search(rule_args, limit=1)
-        rule_approvers = rule_id.mapped('approver_ids')
+        # rule_approvers = rule_id.mapped('approver_ids')
 
         category_id = res.mapped('category_id').rule_ids.filtered(lambda x: x.id == rule_id.id)
         if manager_id != head_id:
@@ -57,14 +57,14 @@ class ApprovalRequest(models.Model):
                     data.append(head_data)
                 else:
                     raise UserError(_('No User Account Associated on this Operation Head.'))
-            if rule_approvers:
-                for approver in rule_approvers.approved_by:
-                    approver_data = {
-                            'user_id': approver.id,
-                            'status': 'new',
-                            'request_id': res.id,
-                    }
-                    data.append(approver_data)
+            # if rule_approvers:
+            #     for approver in rule_approvers.approved_by:
+            #         approver_data = {
+            #                 'user_id': approver.id,
+            #                 'status': 'new',
+            #                 'request_id': res.id,
+            #         }
+            #         data.append(approver_data)
         else:
             raise UserError(_('Duplicate User found!. Try Again'))
         if len(data) > 0:
