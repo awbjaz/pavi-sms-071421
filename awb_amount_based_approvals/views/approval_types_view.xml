@@ -1,0 +1,22 @@
+<odoo>
+    <record id="view_approval_category_form_inherit" model="ir.ui.view">
+        <field name="name">approval.category.view.form.inherit</field>
+        <field name="model">approval.category</field>
+        <field name="inherit_id" ref="approvals.approval_category_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='approvers']/field[@name='is_manager_approver']" position="after">
+                <field name="rule_ids"
+                       string="Rules" 
+                       domain="[('category.id','=', id)]" 
+                       widget="many2many_tags" 
+                       options="{'no_create_edit': True}" />
+            </xpath>
+            <xpath expr="//group[@name='approvers']/field[@name='user_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[@name='approvers']/field[@name='approval_minimum']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
