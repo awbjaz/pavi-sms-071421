@@ -1,3 +1,4 @@
+from ..helpers.salesforce_connector import SalesForceConnect
 import logging
 import datetime
 
@@ -103,8 +104,8 @@ class SalesForceImporterProducts(models.Model):
                 ", Product2.CreatedDate, LastMOdifiedDate " \
                 " from PriceBookEntry"
 
-        if not self.sales_force:
-            self.connect_to_salesforce()
+        connector = SalesForceConnect()
+        self.sales_force = connector.connect_salesforce(model=self)
 
         if id:
             query += " where Product2.Id ='" + id + "'"
