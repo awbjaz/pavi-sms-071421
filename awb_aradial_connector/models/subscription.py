@@ -71,16 +71,15 @@ class Subscription(models.Model):
     ):
         _logger.info("Validating Subcription")
 
-# YAN: commenting out the checking for location - for testing
-#         if not location:
-#             _logger.info("Location is required")
-#             return False
+        if not location:
+            _logger.info("Location is required")
+            return False
         if not atm_ref:
             _logger.info("atm_ref is required")
             return False
-        if stage != 'Draft':
-            _logger.info("Stage should be in Draft [%s]" % stage)
-            return False
+        # if stage != 'Draft':
+        #     _logger.info("Stage should be in Draft [%s]" % stage)
+        #     return False
 
         _logger.info("Valid Subscription")
         return True
