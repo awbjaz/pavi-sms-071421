@@ -79,7 +79,7 @@ class Subscription(models.Model):
             _logger.info("atm_ref is required")
             return False
         if stage != 'Draft':
-            _logger.info("Stage should be in Draft")
+            _logger.info("Stage should be in Draft [%s]" % stage)
             return False
 
         _logger.info("Valid Subscription")
