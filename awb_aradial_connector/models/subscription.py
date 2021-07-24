@@ -25,7 +25,8 @@ class Subscription(models.Model):
         is_valid = self._validate_parameters(
             record.subscriber_location_id,
             record.atm_ref,
-            record.stage_id.name
+            record.stage_id.name,
+            record.in_progress
         )
 
         if is_valid == True:
@@ -67,7 +68,7 @@ class Subscription(models.Model):
         self,
         location,
         atm_ref,
-        stage
+        stage, in_progress
     ):
         _logger.info("Validating Subcription")
 
@@ -77,9 +78,9 @@ class Subscription(models.Model):
         if not atm_ref:
             _logger.info("atm_ref is required")
             return False
-        # if stage != 'Draft':
-        #     _logger.info("Stage should be in Draft [%s]" % stage)
-        #     return False
+        if stage != 'Draft':
+            _logger.info("Stage should be in Draft [%s][%s]" % stage, in_progress)
+            return False
 
         _logger.info("Valid Subscription")
         return True
