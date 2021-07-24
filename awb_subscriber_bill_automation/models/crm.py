@@ -57,6 +57,8 @@ class CRMLead(models.Model):
                         # 'date_end': self.contract_end_date
                     }
                     product_lines.append((0, 0, data))
+                    _logger.info("============= line.product_id.product_variant_id.id [%s] ============= " % line.product_id.product_variant_id.id)
+                    _logger.info("============= line.product_id.id [%s] ============= " % line.product_id.id)
 
                 lines = []
                 data = {
