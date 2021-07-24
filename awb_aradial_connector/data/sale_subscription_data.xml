@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<odoo>
+  <record id="auto_action_subs_sms_welcome" model="base.automation">
+    <field name="name">Subscription Send Welcome SMS</field>
+    <field name="type">base.automation</field>
+    <field name="model_id" ref="awb_aradial_connector.model_sale_subscription" />
+    <field name="active">True</field>
+    <field name="trigger">on_write</field>
+    <field name="trigger_field_ids" eval="[(4, ref('sale_subscription.field_sale_subscription__stage_id'))]"/>
+    <field name="state">code</field>
+    <field name="code">model._send_welcome_message(recordset=records, template_name="Welcome Notification", state="In Progress")</field>
+  </record>
+</odoo>

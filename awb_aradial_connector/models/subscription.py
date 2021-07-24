@@ -1,3 +1,4 @@
+from ..helpers.password_generator import GeneratePassword
 from odoo import api, fields, models, exceptions, _
 from openerp.exceptions import Warning
 
@@ -8,6 +9,28 @@ _logger = logging.getLogger(__name__)
 class Subscription(models.Model):
     _inherit = 'sale.subscription'
 
+    state = fields.Char("State", compute='_get_stage_name')
+    product_names = fields.Char("Products", compute='_get_subs_product_names')
+    product_desc = fields.Char("Products Description", compute='_get_subs_product_names')
+
+    @api.depends('stage_id')
+    def _get_stage_name(self):
+        for rec in self:
+            rec.state = rec.stage_id.name
+
+    @api.depends('recurring_invoice_line_ids')
+    def _get_subs_product_names(self):
+        products = []
+        desc = []
+        for rec in self:
+            for line_item in rec.recurring_invoice_line_ids:
+                if line_item.product_id.type == 'service':
+                    products.append(line_item.display_name)
+                    desc.append(line_item.name)  # descrition
+                    desc.append(str(line_item.quantity))
+                    desc.append(line_item.date_start.strftime("%b %d, %Y"))
+            rec.product_names = ', '.join(products)
+            rec.product_desc = ', '.join(desc)
     
     def create_aradial_user(
         self,
@@ -25,8 +48,7 @@ class Subscription(models.Model):
         is_valid = self._validate_parameters(
             record.subscriber_location_id,
             record.atm_ref,
-            record.stage_id.name,
-            record.in_progress
+            record.stage_id.name
         )
 
         if is_valid == True:
@@ -38,9 +60,12 @@ class Subscription(models.Model):
             first_name = record.partner_id.first_name
             last_name = record.partner_id.last_name
 
+            pw = GeneratePassword()
+            password = pw.generate_password()
+
             self.data = {
                 'UserID': record.code,
-                'Password': 'password',         # TODO: call password generator
+                'Password': password,
                 'Offer': products,
 	      	    'ServiceType': 'Internet',
 	      	    'FirstName': first_name,
@@ -68,7 +93,7 @@ class Subscription(models.Model):
         self,
         location,
         atm_ref,
-        stage, in_progress
+        stage
     ):
         _logger.info("Validating Subcription")
 
@@ -79,11 +104,18 @@ class Subscription(models.Model):
             _logger.info("atm_ref is required")
             return False
         # if stage != 'Draft':
-        #     _logger.info("Stage should be in Draft [%s][%s]",stage, in_progress)
+        #     _logger.info("Stage should be in Draft: [%s]" % stage)
         #     return False
 
         _logger.info("Valid Subscription")
         return True
 
+    def _send_welcome_message(self, recordset, template_name, state):
+        self.env['awb.sms.send'].send_now(
+            recordset=recordset,
+            template_name=template_name,
+            state=state
+        )
+        _logger.info("----- SMS Sending Done -----")
 
 

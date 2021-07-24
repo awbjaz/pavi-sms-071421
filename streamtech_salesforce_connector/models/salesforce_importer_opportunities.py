@@ -215,21 +215,16 @@ class SalesForceImporterOpportunities(models.Model):
         if job_orders:
             for jo in job_orders.get('records', []):
                 contract_start_date = jo.get('SLA_Activation_Actual_End_Date__c', None)
-                _logger.info("============= UNA: contract_start_date [%s] ============= " % contract_start_date)
                 if contract_start_date and contract_term:
-                    _logger.info("============= contract_start and contract_time ============= ")
                     if isinstance(contract_start_date, int):
-                        _logger.info("============= isinstance(contract_start_date, int) ============= ")
                         contract_start_date = datetime.datetime.fromtimestamp(contract_start_date/1000)
                     else:
-                        _logger.info("============= else ============= ")
                         contract_start_date = datetime.datetime.strptime(contract_start_date, "%Y-%m-%dT%H:%M:%S.000+0000")
 
                     contract_end_date = contract_start_date + relativedelta(months=contract_term)
 
                     contract_start_date = contract_start_date.strftime("%Y-%m-%dT%H:%M:%S")
                     contract_end_date = contract_end_date.strftime("%Y-%m-%dT%H:%M:%S")
-                _logger.info("============= END: contract_start_date [%s] ============= " % contract_start_date)
 
         lead = {
             'salesforce_id': lead['Id'],
