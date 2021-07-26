@@ -12,6 +12,14 @@ class Subscription(models.Model):
     product_names = fields.Char("Products", compute='_get_subs_product_names')
     product_desc = fields.Char("Products Description", compute='_get_subs_product_names')
 
+    @api.model
+    def create(self, vals):
+        vals['stage_id'] = 1
+        vals['in_progress'] = False
+
+        res = super(SaleSubscription, self).create(vals)
+        return res
+
     @api.depends('stage_id')
     def _get_stage_name(self):
         for rec in self:
