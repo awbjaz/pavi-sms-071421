@@ -66,6 +66,9 @@ class Subscription(models.Model):
                 products += line_id.name
             first_name = record.partner_id.first_name
             last_name = record.partner_id.last_name
+            if not first_name:
+                first_name = record.partner_id.name
+                last_name = ''
 
             self.data = {
                 'UserID': record.code,
