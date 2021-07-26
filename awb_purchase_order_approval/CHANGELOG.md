@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [13.0.1.7.0] - 2021-07-22
+
+    - [FIX] Allow Administrator to Confirm Purchase Order
+
 ## [13.0.1.6.0] - 2021-05-19
 
     - [IMP] Visibility of Approve and Reject Button

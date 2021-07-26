@@ -14,7 +14,8 @@ class SmsHistory(models.Model):
     sms_id = fields.Many2one('awb.sms.record', 'SMS Record', readonly=True)
     state = fields.Selection([
         ('failed', 'Failed'),
-        ('sent','Sent'),
+        ('failed_invalid', 'Failed - Missing Required Template Parameters'),
+        ('sent', 'Sent'),
         ], string='Sending State', default='failed', readonly=True)
     status_code = fields.Char('Status Code', readonly=True)
     message = fields.Text('Message', translate=True, help="SMS Message", readonly=True)
@@ -22,6 +23,11 @@ class SmsHistory(models.Model):
     record_id = fields.Integer("Record Id", readonly=True)
     display_record = fields.Html("Record", compute='_get_display_record')
     message_type = fields.Char("Message Type", readonly=True)
+    source = fields.Selection([
+        ('generic', 'Generic'),
+        ('on_demand', 'On-Demand'),
+        ('scheduled', 'Scheduled'),
+        ], string='Source', readonly=True)
 
     @api.depends('record_model', 'record_id')
     def _get_display_record(self):

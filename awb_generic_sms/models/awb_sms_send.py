@@ -37,6 +37,86 @@ class SMS(models.Model):
                 "Inactive SMS Gateway, You can configure this on Settings > Smart SMS Gateway"
             )
 
+    def _check_sending_criteria(
+        self,
+        allow_partial_payment,
+        send_only_to_active,
+        invoice_payment_state,
+        send_once,
+        template_name,
+        disconnection_subtype,
+        record
+    ):
+        check_result = []
+
+        if record.receive_sms == False:
+            check_result.append("SMS Sending is inactive.")
+            return check_result
+
+        if send_once:
+            if self.env['awb.sms.history'].search([
+                ("record_id", "=", record.id),
+                ("record_model", "=", record._name),
+                ("message_type", "=", template_name),
+                ("state", "=", "sent")
+            ]).exists():
+                check_result.append("Already sent SMS Notification.")
+                return check_result
+
+        if record._name == "account.move":
+            subscription_active_status = [
+                'new', 'upgrade',
+                'convert', 'downgrade',
+                're-contract', 'reconnection'
+            ]
+            subscription = self.env['sale.subscription'].search(
+                [("code", "=", record.invoice_origin)]
+            )
+            if invoice_payment_state:
+                if record.invoice_payment_state != invoice_payment_state:
+                    check_result.append(
+                        "Payment State should be in %s state"
+                        % dict(record._fields['invoice_payment_state'].selection)[invoice_payment_state]
+                    )
+                    return check_result
+
+            if (
+                not record.invoice_origin
+                or not subscription.exists()
+            ):
+                check_result.append("Subscription is mandatory.")
+            else:  # If has subscription
+                if send_only_to_active:
+                    if subscription.subscription_status not in subscription_active_status:
+                        check_result.append("Subscription is inactive.")
+                        return check_result
+
+                # Needs to confirm to client about the subtype of subscription
+                # if disconnection_subtype:
+                #     if (
+                #         subscription.subscription_status
+                #         in subscription_active_status
+                #     ):
+                #         check_result.append(
+                #             "Subscription status is %s, must be in Inactive state"
+                #             % subscription.subscription_status.title()
+                #         )
+                #         return check_result
+                #     if subscription.subscription_status_subtype != disconnection_subtype:
+                #         check_result.append(
+                #             "Subscription subtype must be %s"
+                #             % dict(
+                #                 subscription._fields["subscription_status_subtype"].selection
+                #             )[disconnection_subtype]
+                #         )
+                #         return check_result
+
+                if allow_partial_payment:
+                    if record.total_balance < (record.amount_total / 2):
+                        check_result.append("Amount does not meet the required criteria for SMS Sending.")
+
+        return check_result
+
     def send_now(
         self,
         sms_id=None,
@@ -46,7 +126,12 @@ class SMS(models.Model):
         recordset=None,
         template_name=None,
         state=None,
-        generic=False,
+        send_type=None,
+        allow_partial_payment=False,
+        send_only_to_active=False,
+        invoice_payment_state=None,
+        disconnection_subtype=None,
+        send_once=False,
     ):
         params = self.env['ir.config_parameter'].sudo()
         sms_gateway = params.get_param('smart_gateway')
@@ -59,7 +144,8 @@ class SMS(models.Model):
             sms_gateway_token,
         )
 
-        if recordset and not generic:
+        record_validations = []
+        if recordset and send_type != "generic":
             if not state:
                 raise exceptions.ValidationError(
                     ("State parameter is required, Please check server actions")
@@ -72,8 +158,29 @@ class SMS(models.Model):
             # Get the raw template and keys for formatting
             raw_template_body, format_keys = self.env['awb.sms.template'].get_template_format(template_name)
 
+            recordset_count = len(recordset)
             data_recordset = []
             for record in recordset:
+                has_invalid_field = False
+
+                inc_data_params = []
+                if send_type == "on_demand":
+                    has_issues = self._check_sending_criteria(
+                        allow_partial_payment,
+                        send_only_to_active,
+                        invoice_payment_state,
+                        send_once,
+                        template_name,
+                        disconnection_subtype,
+                        record
+                    )
+                    if has_issues:
+                        if recordset_count > 1:
+                            record_validations.append(record.display_name)
+                        else:
+                            record_validations = has_issues
+                        continue
+
                 key_value = {}
                 # Get key and values of the record
                 # Keys is the template for e.g. ${partner_id}
@@ -92,13 +199,24 @@ class SMS(models.Model):
                             # Converts value into currency format
                             if isinstance(value, float):
                                 value = "\u20B1 {:,.2f}".format(value)
-                            else:
-                                # Remove initial 2 digits from atm_ref
-                                if key == 'atm_ref':
-                                    value = value[2:]
+                    else:
+                        try:
+                            key_str = record._fields[key].string
+                        except KeyError:
+                            key_str = key
+                        if key_str not in inc_data_params:
+                            inc_data_params.append(key_str)
 
                     raw_data = {key: value or ''}
                     key_value.update(raw_data)
+
+                if inc_data_params:
+                    if send_type == "on_demand":
+                        record_validations.append(record.display_name)
+                        continue
+                    else:
+                        # This is for scheduled SMS
+                        has_invalid_field = True
 
                 # Append the data to actual template message
                 template_body = raw_template_body.format_map(key_value)
@@ -108,6 +226,7 @@ class SMS(models.Model):
                         "mobile": record.partner_id.mobile,
                         "template_body": template_body,
                         "partner_id": record.partner_id.id,
+                        "has_invalid_field": has_invalid_field
                     }
                 )
         else:
@@ -120,10 +239,25 @@ class SMS(models.Model):
                 sms_id=sms_id,
                 recordset=data_recordset,
                 template_name=template_name,
+                source=send_type,
+                sms_history=self.env['awb.sms.history']
             )
             sent_sms = sms.send()
             self.save_history(sent_sms)
             self.env.cr.commit()
+
+        # Validations for On-Demand SMS Sending
+        # Handles single and multiple SMS Sending
+        if send_type == "on_demand" and record_validations:
+            if recordset_count > 1:
+                message_items =  ' - ' + ' \n - '.join(record_validations)
+                message = """Could not send SMS, mandatory parameters are missing.\nTotal %s records were unsuccessfully processed.
+                \n%s""" % (len(record_validations), message_items)
+            else:
+                validations = inc_data_params if inc_data_params else record_validations
+                message_items =  ' - ' + ' \n - '.join(validations)
+                message = "Could not send SMS, mandatory parameters are missing.\n%s" % message_items
+            raise exceptions.Warning(message)
 
     def send_auto_sms(
         self,
@@ -136,6 +270,7 @@ class SMS(models.Model):
         limit=None,
         send_only_to_active=None,
         disconnection_subtype=None,
+        send_type="scheduled",
         **kwargs
     ):
         if not state:
@@ -219,13 +354,13 @@ class SMS(models.Model):
 
         if allow_partial_payment:
             sql += """
-                AND rec.total_balance > (subs.recurring_total / 2)
+                AND rec.total_balance > (rec.amount_total / 2)
             """
 
         subscription_active_status = [
             'new', 'upgrade',
             'convert', 'downgrade',
-            're-contract', 'pre-termination'
+            're-contract', 'reconnection'
         ]
         if send_only_to_active:
             sql += """
@@ -234,9 +369,8 @@ class SMS(models.Model):
 
         if disconnection_subtype:
             sql += """
-                AND subs.subscription_status NOT IN %s
                 AND subs.subscription_status_subtype = '%s'
-            """ % (tuple(subscription_active_status), disconnection_subtype)
+            """ % (disconnection_subtype)
 
         sql += """
             LIMIT %s
@@ -265,5 +399,6 @@ class SMS(models.Model):
             self.env['awb.sms.send'].send_now(
                 recordset=records,
                 template_name=template_name,
-                state=state
+                state=state,
+                send_type=send_type,
             )

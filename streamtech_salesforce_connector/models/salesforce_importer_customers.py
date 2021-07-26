@@ -11,89 +11,101 @@ class SalesForceImporterCustomers(models.Model):
     _inherit = 'salesforce.connector'
 
     def import_customers(self, Auto):
-        _logger.info('----------------- STREAMTECH import_opportunities')
-        if not self.sales_force:
-            self.connect_to_salesforce()
+        _logger.info('----------------- STREAMTECH import_customers')
+        if not self.opportunities:
+            _logger.info('----------------- Import Opportunities checkbox was not checked')
+            raise osv.except_osv("Warning!", "It is required to import also the Opportunities when importing Customers/Contacts. " \
+                "Please check the Import Opportunities checkbox.")
+
+        # if not self.sales_force:
+        #     self.connect_to_salesforce()
+
+        # Added call to Import Opportunities instead of independently creating Accounts
+        customer_sf_ids = []
+        self.import_opportunities(Auto, customer_sf_ids)
+        return customer_sf_ids
 
         # Field/s removed due to errors found with usage with PAVI SalesForce:
-        query = f"""
-                SELECT
-                        Id,
-                        IsPersonAccount,
-                        Name,
-                        FirstName,
-                        MiddleName,
-                        LastName,
-                        Gender__c, Birth_Date__c, Civil_Status__c,
-                        Home_Ownership__c,
-                        Account_Classification__c, Account_Sub_Classification__c,
-                        Customer_Type__c,
-                        Type, Zone_Type_Acc__c, Zone_Sub_Type_Acc__c,
+        # query = f"""
+        #         SELECT
+        #                 Id,
+        #                 IsPersonAccount,
+        #                 Name,
+        #                 FirstName,
+        #                 MiddleName,
+        #                 LastName,
+        #                 Gender__c, Birth_Date__c, Civil_Status__c,
+        #                 Home_Ownership__c,
+        #                 Account_Classification__c, Account_Sub_Classification__c,
+        #                 Customer_Type__c,
+        #                 Type, Zone_Type_Acc__c, Zone_Sub_Type_Acc__c,
 
-                        PersonMobilePhone, Mobile_Phone__c,
-                        Person_Secondary_Mobile_Number__c, Secondary_Mobile_Number__pc,
-                        Phone, Person_Secondary_Phone__c, PersonOtherPhone,
+        #                 PersonMobilePhone, Mobile_Phone__c,
+        #                 Person_Secondary_Mobile_Number__c, Secondary_Mobile_Number__pc,
+        #                 Phone, Person_Secondary_Phone__c, PersonOtherPhone,
 
-                        Area_Code_BillingAddress__c,
-                        Barangay_BillingAddress__c,
-                        NameBldg_NoFloor_No_BillingAddress__c,
-                        Street_BillingAddress__c,
-                        City_BillingAddress__c,
-                        Province_BillingAddress__c,
-                        Region_BillingAddress__c,
+        #                 Area_Code_BillingAddress__c,
+        #                 Barangay_BillingAddress__c,
+        #                 NameBldg_NoFloor_No_BillingAddress__c,
+        #                 Street_BillingAddress__c,
+        #                 City_BillingAddress__c,
+        #                 Province_BillingAddress__c,
+        #                 Region_BillingAddress__c,
 
-                        Area_Code_BusinessAddress__c,
-                        Barangay_BusinessAddress__c,
-                        NameBldg_NoFloor_No_BusinessAddress__c,
-                        Street_BusinessAddress__c,
-                        City_BusinessAddress__c,
-                        Province_BusinessAddress__c,
-                        Region_BusinessAddress__c,
+        #                 Area_Code_BusinessAddress__c,
+        #                 Barangay_BusinessAddress__c,
+        #                 NameBldg_NoFloor_No_BusinessAddress__c,
+        #                 Street_BusinessAddress__c,
+        #                 City_BusinessAddress__c,
+        #                 Province_BusinessAddress__c,
+        #                 Region_BusinessAddress__c,
 
-                        House_No_BL_Phase__c,
-                        Barangay_Subdivision_Name__c,
-                        City__c,
-                        Province__c,
-                        Region__c,
-                        Person_Contact_Name__c,
+        #                 House_No_BL_Phase__c,
+        #                 Barangay_Subdivision_Name__c,
+        #                 City__c,
+        #                 Province__c,
+        #                 Region__c,
+        #                 Person_Contact_Name__c,
 
-                        PersonEmail,
-                        Person_Secondary_Email_Address__c,
-                        Secondary_Email_Address__pc
-                    FROM Account
-                    WHERE Id != null
-                """
+        #                 PersonEmail,
+        #                 Person_Secondary_Email_Address__c,
+        #                 Secondary_Email_Address__pc
+        #             FROM Account
+        #             WHERE Id != null 
+        #             AND IsDeleted = False 
+        #             AND Active_Disconnected__c = 'Active' 
+        #         """
 
-        if not Auto:
-            if not self.from_date and not self.to_date:
-                pass
+        # if not Auto:
+        #     if not self.from_date and not self.to_date:
+        #         pass
 
-            elif not self.from_date and self.to_date:
-                raise osv.except_osv("Warning!", "Sorry; invalid operation, please select From Date")
+        #     elif not self.from_date and self.to_date:
+        #         raise osv.except_osv("Warning!", "Sorry; invalid operation, please select From Date")
 
-            elif self.from_date and not self.to_date:
-                from_date_query = " AND LastModifiedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
-                query = query + from_date_query
+        #     elif self.from_date and not self.to_date:
+        #         from_date_query = " AND LastModifiedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+        #         query = query + from_date_query
 
-            elif self.from_date and self.to_date:
-                from_date_query = " AND LastModifiedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
-                to_date_query = " AND LastModifiedDate<=" + self.to_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+        #     elif self.from_date and self.to_date:
+        #         from_date_query = " AND LastModifiedDate>= " + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+        #         to_date_query = " AND LastModifiedDate<=" + self.to_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
 
-                query = query + from_date_query + to_date_query
+        #         query = query + from_date_query + to_date_query
 
-        else:
-            today = datetime.date.today()
-            yesterday = today - datetime.timedelta(days=1)
-            from_date_query = " AND LastModifiedDate>=" + yesterday.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
-            to_date_query = " AND LastModifiedDate<=" + today.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+        # else:
+        #     today = datetime.date.today()
+        #     yesterday = today - datetime.timedelta(days=1)
+        #     from_date_query = " AND LastModifiedDate>=" + yesterday.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+        #     to_date_query = " AND LastModifiedDate<=" + today.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
 
-            query = query + from_date_query + to_date_query
+        #     query = query + from_date_query + to_date_query
 
-        query += " LIMIT 10000 "
-        contacts = self.sales_force.bulk.Account.query(query)
-        return self.creating_contacts(contacts)
+        # query += " LIMIT 10000 "
+        # contacts = self.sales_force.bulk.Account.query(query)
+        # return self.creating_contacts(contacts)
 
-    def _create_customer(self, partner, lead_partner, zone=None):
+    def _create_customer(self, partner, lead_partner, zone=None, customer_sf_ids=[]):
         data = {
             'salesforce_id': partner['Id'],
             'name': partner['Name'],
@@ -259,6 +271,7 @@ class SalesForceImporterCustomers(models.Model):
             lead_partner = self.env['res.partner'].create(data)
 
         lead_partner.action_assign_customer_id()
+        customer_sf_ids.append(partner['Id'])
 
         return lead_partner
 

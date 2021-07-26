@@ -7,9 +7,10 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='origin']" position="after">
                 <field name="receipt_date_due"/>
-                <field name="si_date"/>
-                <field name="si_num" attrs="{'required': True}"/>
-                <field name="dr_num"/>
+                <field name="si_date" attrs="{'invisible': [('is_receipt', '!=', True)]}"/>
+                <field name="si_num" required="1" attrs="{'invisible': [('is_receipt', '!=', True)]}"/>
+                <field name="dr_num" attrs="{'invisible': [('is_receipt', '!=', True)]}"/>
+                <field name="is_receipt" invisible="1"/>
                 <field name="total_amount" invisible="1"/>
             </xpath>
         </field>

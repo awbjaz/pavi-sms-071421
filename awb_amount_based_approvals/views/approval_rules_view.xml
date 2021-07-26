@@ -1,0 +1,72 @@
+<odoo>
+    <data>
+
+        <record id="approval_rule_tree" model="ir.ui.view">
+            <field name="name">approval.rule.tree</field>
+            <field name="model">approval.rule</field>
+            <field name="arch" type="xml">
+                <tree string="Expense Approval">
+                    <field name="name"/>
+                    <field name="category"/>
+                    <field name="approval_type" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="approval_rule_form" model="ir.ui.view">
+            <field name="name">approval.rule.form</field>
+            <field name="model">approval.rule</field>
+            <field name="arch" type="xml">
+                <form string="Approval Rule">
+                    <sheet>
+                        <h1>
+                            <field name="name" class="oe_inline"/>
+                        </h1>
+                    <group>
+                        <group>
+                            <field name="category" />
+                            <field name="approval_type" string="Type" widget="radio" options="{'horizontal': true}"/>
+                            <field name="manager_id" />
+                            <field name="operation_head_id" />
+                            <field name="department" />
+                            <field name="active" invisible="1" />
+                        </group>
+                        <group>
+                            <field name="currency" />
+                            <field name="min_amount" widget="monetary" options="{'currency_field': 'currency'}"/>
+                            <field name="max_amount" widget="monetary" options="{'currency_field': 'currency'}"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <field name="approver_ids">
+                            <tree editable="bottom">
+                                <field name="sequence"/>
+                                <field name="approval_condition" required="1"/>
+                                <field name="approved_by" widget="many2many_tags" options="{'no_create_edit': True}"/>
+                            </tree>
+                        </field>                        
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+            
+        </record>
+
+        <record id="approval_rules_action" model="ir.actions.act_window">
+            <field name="name">Approval Rules</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">approval.rule</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem
+            id="approvals_rule_category_menu_config"
+            parent="approvals.approvals_menu_config"
+            name="Approval Rules"
+            action="approval_rules_action"
+            groups="approvals.group_approval_manager"
+            sequence="11"/>
+    </data>
+</odoo>
