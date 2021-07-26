@@ -1,3 +1,4 @@
+from ..helpers.password_generator import GeneratePassword
 from odoo import api, fields, models, exceptions, _
 from openerp.exceptions import Warning
 
@@ -14,7 +15,7 @@ class Subscription(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['stage_id'] = 1
+        vals['stage_id'] = self.env['sale.subscription.stage'].search([("name", "=", "Draft")]).id
         vals['in_progress'] = False
 
         res = super(Subscription, self).create(vals)
@@ -33,9 +34,10 @@ class Subscription(models.Model):
             for line_item in rec.recurring_invoice_line_ids:
                 if line_item.product_id.type == 'service':
                     products.append(line_item.display_name)
-                    desc.append(line_item.name)  # descrition
+                    desc.append(line_item.name)  # description
                     desc.append(str(line_item.quantity))
-                    desc.append(line_item.date_start.strftime("%b %d, %Y"))
+                    if line_item.date_start:
+                        desc.append(line_item.date_start.strftime("%b %d, %Y"))
             rec.product_names = ', '.join(products)
             rec.product_desc = ', '.join(desc)
 
@@ -63,21 +65,33 @@ class Subscription(models.Model):
             products = ""
 
             for line_id in record.recurring_invoice_line_ids:
-                products += line_id.name
+                products += line_id.product_id.display_name.upper()
             first_name = record.partner_id.first_name
             last_name = record.partner_id.last_name
             if not first_name:
                 first_name = record.partner_id.name
                 last_name = ''
 
+            pw = GeneratePassword()
+            password = pw.generate_password()
+
             self.data = {
                 'UserID': record.code,
-                'Password': 'password',         # TODO: call password generator
+                'Password': password,
+                'FirstName': first_name,
+                'LastName': last_name,
+                'Address1': record.partner_id.street,
+                'Address2': record.partner_id.street2,
+                'City': record.partner_id.state_id.city,
+                'State': record.partner_id.state_id.name,
+                'Country': record.partner_id.country_id.name,
+                'Zip': record.partner_id.zip,
                 'Offer': products,
-	      	    'ServiceType': 'Internet',
-	      	    'FirstName': first_name,
- 	      	    'LastName': last_name,
-	            'CustomInfo1': 'VDH'
+                'ServiceType': 'Internet',
+                'Start Date': record.date_start,
+                'CustomInfo1': 'VDH',
+                'CustomInfo2': 'Postpaid',
+                'CustomInfo3': record.partner_id.customer_number,
             }
 
             _logger.info("User Details:")
@@ -104,10 +118,9 @@ class Subscription(models.Model):
     ):
         _logger.info("Validating Subcription")
 
-# YAN: commenting out the checking for location - for testing
-#         if not location:
-#             _logger.info("Location is required")
-#             return False
+        if not location:
+            _logger.info("Location is required")
+            return False
         if not atm_ref:
             _logger.info("atm_ref is required")
             return False
