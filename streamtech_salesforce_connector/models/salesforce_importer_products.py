@@ -1,7 +1,8 @@
 import logging
 import datetime
 
-from odoo import models
+from odoo import models, _
+from openerp import _
 from openerp.osv import osv
 
 _logger = logging.getLogger(__name__)
@@ -15,12 +16,17 @@ class SalesForceImporterProducts(models.Model):
         salesforce_ids = []
         for idx, product in enumerate(products):
             _logger.debug(f'Processing Products: {idx} out of {len(products)}')
-            domain = [('salesforce_id', '=', product['Product2']['Id']),
+
+            if not product['Family'] or not product.get('Type__c') or not product.get('Facility_Type__c'): 
+                _logger.info(f'Products without Category: {product["Id"]}')
+                continue
+
+            domain = [('salesforce_id', '=', product['Id']),
                       ('active', 'in', (True, False))]
             odoo_product = self.env['product.template'].search(domain)
             all_category = self.env['product.category'].search([('name', '=', 'All')])
-            if product['Product2']['Family']:
-                category_name = product['Product2']['Family']
+            if product['Family']:
+                category_name = product['Family']
                 category = self.env['product.category'].search([('name', '=', category_name), ('parent_id', '=', all_category.id)])
                 if not category:
                     category = self.env['product.category'].create({
@@ -29,8 +35,8 @@ class SalesForceImporterProducts(models.Model):
                     })
                     self.env.cr.commit()
 
-            if product['Product2'].get('Type__c'):
-                category_name = product['Product2']['Type__c']
+            if product.get('Type__c'):
+                category_name = product['Type__c']
                 sub_category = self.env['product.category'].search([('name', '=', category_name), ('parent_id', '=', category.id)])
                 if not sub_category:
                     category = self.env['product.category'].create({
@@ -41,8 +47,8 @@ class SalesForceImporterProducts(models.Model):
                 else:
                     category = sub_category
 
-            if product['Product2'].get('Facility_Type__c'):
-                category_name = product['Product2']['Facility_Type__c']
+            if product.get('Facility_Type__c'):
+                category_name = product['Facility_Type__c']
                 sub_category = self.env['product.category'].search([('name', '=', category_name)])
                 if not sub_category:
                     category = self.env['product.category'].create({
@@ -53,24 +59,24 @@ class SalesForceImporterProducts(models.Model):
                 else:
                     category = sub_category
 
-            bandwidth = product['Product2'].get('Bandwidth__c', '0')
+            bandwidth = product.get('Bandwidth__c', '0')
             if bandwidth:
                 bandwidth = bandwidth.lower().replace(' mbps', '')
             else:
                 bandwidth = '0'
 
             data = {
-                'salesforce_id': product['Product2']['Id'],
-                'name': product['Product2']['Name'],
-                'description': product['Product2']['Description'],
-                'list_price': product['UnitPrice'] if product['UnitPrice'] else None,
+                'salesforce_id': product['Id'],
+                'name': product['Name'],
+                'description': product['Description'],
+                'list_price': product['Monthly_Subscription_Fee__c'] if product['Monthly_Subscription_Fee__c'] else None,
                 'internet_usage': bandwidth,
-                'default_code': product['Product2']['ProductCode'],
+                'default_code': product['ProductCode'],
                 'last_modified': product['LastModifiedDate'],
                 'categ_id': category.id,
-                'device_fee': product['Product2'].get('Device_Fee__c', 0),
+                'device_fee': product.get('Device_Fee__c', 0),
                 'type': 'service',
-                'active': product['Product2'].get('IsActive', True)
+                'active': product.get('IsActive', True)
             }
 
             if not odoo_product:
@@ -90,43 +96,49 @@ class SalesForceImporterProducts(models.Model):
             elif odoo_product.last_modified != product['LastModifiedDate']:
                 odoo_product.write(data)
                 self.env.cr.commit()
-            salesforce_ids.append(product['Product2']['Id'])
+            salesforce_ids.append(product['Id'])
 
         _logger.info(f'Completed Creating Products {len(products)}')
         return salesforce_ids
 
-    def import_products(self, Auto, id=None):
+    def import_products(self, Auto, id=None, fromOpportunity=False):
+        _logger.info('----------------- STREAMTECH import_products')
         _logger.info(f'Import Products {Auto}')
-        query = "SELECT Product2.Id, Product2.Name, Product2.ProductCode, Product2.Description" \
-                ", Product2.Family, Product2.IsActive, Product2.Type__c, Product2.Facility_Type__c, Product2.Bandwidth__c" \
-                ", UnitPrice " \
-                ", Product2.CreatedDate, LastMOdifiedDate " \
-                " from PriceBookEntry"
+        query = "SELECT Id, Name, ProductCode, Description" \
+                ", Family, IsActive, Type__c, Facility_Type__c, Bandwidth__c" \
+                ", Monthly_Subscription_Fee__c " \
+                ", CreatedDate, LastModifiedDate " \
+                " FROM Product2 " \
+                " WHERE IsActive = True"
 
         if not self.sales_force:
             self.connect_to_salesforce()
 
         if id:
-            query += " where Product2.Id ='" + id + "'"
-        elif not Auto:
+            query += " AND Id ='" + id + "'"
+        elif not Auto and not fromOpportunity:
             if not self.from_date and self.to_date:
                 raise osv.except_osv("Warning!", "Sorry; invalid operation, please select From Date")
 
             if self.from_date:
-                query += " where Product2.LastModifiedDate>=" + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+                query += " AND LastModifiedDate>=" + self.from_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
 
             if self.to_date:
-                to_date_query = " and Product2.LastModifiedDate<=" + self.to_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+                to_date_query = " AND LastModifiedDate<=" + self.to_date.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
                 query += to_date_query
-        else:
+        elif Auto and not fromOpportunity:
             today = datetime.date.today()
             yesterday = today - datetime.timedelta(days=1)
-            from_date_query = " where Product2.LastModifiedDate>= " + yesterday.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
-            to_date_query = " and Product2.LastModifiedDate<=" + today.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+            from_date_query = " AND LastModifiedDate>= " + yesterday.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
+            to_date_query = " AND LastModifiedDate<=" + today.strftime("%Y-%m-%dT%H:%M:%S") + "+0000"
             query += from_date_query + to_date_query
 
         query += " LIMIT 5000"
         _logger.info(f'Query {query}')
         # products = self.sales_force.query(query)['records']
-        products = self.sales_force.bulk.PriceBookEntry.query(query)
+        products = self.sales_force.bulk.Product2.query(query)
+
+        if not products and not fromOpportunity:
+            raise osv.except_osv(_("Sync Details!"), _("No active product records found."))
+
         return self.creating_products(products)
