@@ -70,7 +70,7 @@ class Subscription(models.Model):
             last_name = record.partner_id.last_name
             if not first_name:
                 first_name = record.partner_id.name
-                last_name = ''
+                last_name = 'company'
 
             pw = GeneratePassword()
             password = pw.generate_password()
