@@ -70,7 +70,7 @@ class Subscription(models.Model):
             last_name = record.partner_id.last_name
             if not first_name:
                 first_name = record.partner_id.name
-                last_name = 'company'
+                last_name = ''
 
             pw = GeneratePassword()
             password = pw.generate_password()
@@ -88,7 +88,7 @@ class Subscription(models.Model):
                 'Zip': record.partner_id.zip,
                 'Offer': products,
                 'ServiceType': 'Internet',
-                'Start Date': record.date_start,
+                # 'Start Date': str(record.date_start,
                 'CustomInfo1': 'VDH',
                 'CustomInfo2': 'Postpaid',
                 'CustomInfo3': record.partner_id.customer_number,
