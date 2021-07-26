@@ -17,7 +17,7 @@ class Subscription(models.Model):
         vals['stage_id'] = 1
         vals['in_progress'] = False
 
-        res = super(SaleSubscription, self).create(vals)
+        res = super(Subscription, self).create(vals)
         return res
 
     @api.depends('stage_id')
