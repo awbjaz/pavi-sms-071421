@@ -57,7 +57,11 @@ class SalesForceImporter(models.Model):
             username = IrConfigParameter.get_param('odoo_salesforce.sf_username')
             password = IrConfigParameter.get_param('odoo_salesforce.sf_password')
             security = IrConfigParameter.get_param('odoo_salesforce.sf_security_token')
-            self.sales_force = Salesforce(username=username, password=password, security_token=security)
+            domain = IrConfigParameter.get_param('odoo_salesforce.sf_domain')
+            if domain:
+                self.sales_force = Salesforce(username=username, password=password, security_token=security, domain=domain)
+            else:
+                self.sales_force = Salesforce(username=username, password=password, security_token=security)
         except Exception as e:
             Warning(_(str(e)))
 
