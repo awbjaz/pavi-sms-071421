@@ -8,7 +8,29 @@ _logger = logging.getLogger(__name__)
 class Subscription(models.Model):
     _inherit = 'sale.subscription'
 
-    
+    state = fields.Char("State", compute='_get_stage_name')
+    product_names = fields.Char("Products", compute='_get_subs_product_names')
+    product_desc = fields.Char("Products Description", compute='_get_subs_product_names')
+
+    @api.depends('stage_id')
+    def _get_stage_name(self):
+        for rec in self:
+            rec.state = rec.stage_id.name
+
+    @api.depends('recurring_invoice_line_ids')
+    def _get_subs_product_names(self):
+        products = []
+        desc = []
+        for rec in self:
+            for line_item in rec.recurring_invoice_line_ids:
+                if line_item.product_id.type == 'service':
+                    products.append(line_item.display_name)
+                    desc.append(line_item.name)  # descrition
+                    desc.append(str(line_item.quantity))
+                    desc.append(line_item.date_start.strftime("%b %d, %Y"))
+            rec.product_names = ', '.join(products)
+            rec.product_desc = ', '.join(desc)
+
     def create_aradial_user(
         self,
         record=None
@@ -33,7 +55,7 @@ class Subscription(models.Model):
             products = ""
 
             for line_id in record.recurring_invoice_line_ids:
-                products += line_id.product_id.display_name
+                products += line_id.name
             first_name = record.partner_id.first_name
             last_name = record.partner_id.last_name
 
@@ -85,5 +107,10 @@ class Subscription(models.Model):
         _logger.info("Valid Subscription")
         return True
 
-
-
+    def _send_welcome_message(self, recordset, template_name, state):
+        self.env['awb.sms.send'].send_now(
+            recordset=recordset,
+            template_name=template_name,
+            state=state
+        )
+        _logger.info("----- SMS Sending Done -----")
