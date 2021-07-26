@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<record id="sms_template_subs_welcome" model="awb.sms.template">
+            <field name="name">Subscription Welcome Notification</field>
+            <field name="template_body">
+Hi ${partner_id}. 
+Welcome to Streamtech, thank you for availing ${product_names} with ${product_desc}
+Our service team will be in contact for installation schedule.
+            </field>
+        </record>
+    </data>
+</odoo>
