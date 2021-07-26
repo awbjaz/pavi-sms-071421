@@ -82,7 +82,7 @@ class Subscription(models.Model):
                 'LastName': last_name,
                 'Address1': record.partner_id.street,
                 'Address2': record.partner_id.street2,
-                'City': record.partner_id.state_id.city,
+                'City': record.partner_id.city,
                 'State': record.partner_id.state_id.name,
                 'Country': record.partner_id.country_id.name,
                 'Zip': record.partner_id.zip,
