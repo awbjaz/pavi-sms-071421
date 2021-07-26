@@ -14,7 +14,7 @@ class SalesForceImporterOpportunities(models.Model):
 
     _DATE_START = '2021-05-11T00:00:00+0000'
 
-    def import_opportunities(self, Auto):
+    def import_opportunities(self, Auto, customer_sf_ids=[]):
         _logger.info('----------------- STREAMTECH import_opportunities')
         if not self.sales_force:
             self.connect_to_salesforce()
@@ -63,9 +63,9 @@ class SalesForceImporterOpportunities(models.Model):
                 """
         query = f"""
                 SELECT
-                    Id, Opportunity_Number__c, name, AccountId, Amount, CloseDate,  Description, LastMOdifiedDate,
+                    Id, Opportunity_Number__c, Name, AccountId, Amount, CloseDate,  Description, LastMOdifiedDate,
                     HasOpenActivity, IsDeleted, IsWon, OwnerId, Probability,
-                    LastActivityDate, StageName, Type, leadSource, CampaignId,
+                    LastActivityDate, StageName, Type, LeadSource, CampaignId,
                     Old_Customer_Number__c,
                     Preferred_Speed_Bandwidth__c,
                     Product_Type__c,
@@ -91,10 +91,12 @@ class SalesForceImporterOpportunities(models.Model):
                         opportunity.OpportunityLineItems),
                     {account_query}
                 FROM opportunity
-                WHERE  CreatedDate >= """ + self._DATE_START + """
+                WHERE CreatedDate >= """ + self._DATE_START + """
                 AND ((StageName = 'Closed Won' AND Sub_Stages__c in ('Completed Activation'))
                 OR StageName = 'Closed Lost')
-                AND Opportunity_In_Effect__c = true
+                AND Opportunity_In_Effect__c = True 
+                AND Account.IsDeleted = False 
+                AND Account.Active_Disconnected__c = 'Active'
                 """
 
         if not Auto:
@@ -124,7 +126,7 @@ class SalesForceImporterOpportunities(models.Model):
 
         query += " LIMIT 1000 "
         opportunities = self.sales_force.bulk.Opportunity.query(query)
-        return self.creating_opportunities(opportunities)
+        return self.creating_opportunities(opportunities, customer_sf_ids)
 
         # except Exception as e:
         #     _logger.error(e, exc_info=True)
@@ -283,7 +285,7 @@ class SalesForceImporterOpportunities(models.Model):
             odoo_product = self.env['product.template'].search(domain)
             if not odoo_product:
                 _logger.debug(f'Import Product: {product}')
-                self.import_products(False, product['Product2Id'])
+                self.import_products(False, product['Product2Id'], True)
                 odoo_product = self.env['product.template'].search([('salesforce_id', '=', product['Product2Id'])])
 
             total_cash_out = product['Total_Cash_Out__c']
@@ -315,11 +317,11 @@ class SalesForceImporterOpportunities(models.Model):
         if len(items):
             opportunity.update({'product_lines': items})
 
-    def _get_partner_data(self, lead):
+    def _get_partner_data(self, lead, customer_sf_ids):
         lead_partner = self.env['res.partner'].search([('salesforce_id', '=', lead['AccountId'])])
         partner = lead['Account']
         zone = self._find_zone(lead['Area_ODOO__c'])
-        lead_partner = self._create_customer(partner, lead_partner, zone)
+        lead_partner = self._create_customer(partner, lead_partner, zone, customer_sf_ids)
 
         return lead_partner
 
@@ -331,7 +333,7 @@ class SalesForceImporterOpportunities(models.Model):
         zone = self.env['subscriber.location'].search([('name', '=', zone)], limit=1)
         return zone
 
-    def creating_opportunities(self, opportunities):
+    def creating_opportunities(self, opportunities, customer_sf_ids):
         salesforce_ids = []
         campaign = None
         medium = None
@@ -384,7 +386,7 @@ class SalesForceImporterOpportunities(models.Model):
 
                 lead_data = self._create_lead_data(lead, lead_stage, campaign, medium, source)
                 if lead['AccountId']:
-                    lead_partner = self._get_partner_data(lead)
+                    lead_partner = self._get_partner_data(lead, customer_sf_ids)
                     lead_data['partner_id'] = lead_partner.id
                     _logger.debug(f'Subscriber Location {lead_partner.subscriber_location_id}')
                     if lead_partner.subscriber_location_id:
@@ -433,7 +435,7 @@ class SalesForceImporterOpportunities(models.Model):
                 lead_data['location'] = 'SalesForce'
 
                 if lead['AccountId']:
-                    lead_partner = self._get_partner_data(lead)
+                    lead_partner = self._get_partner_data(lead, customer_sf_ids)
                     lead_data['partner_id'] = lead_partner.id
 
                 # try:
